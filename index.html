@@ -584,7 +584,7 @@ body:not(.dark-mode) .snapshot-shell{background:#f4f7f5}
 
 
 /* ===== Overview v21: Dyeing comparison card ===== */
-.snap-dye-compare{width:64%;border-collapse:collapse;margin-top:2px;margin-right:auto;table-layout:fixed}
+.snap-dye-compare{width:54%;border-collapse:collapse;margin-top:2px;margin-right:auto;table-layout:fixed}
 .snap-dye-compare th{
   font-size:8.6px;color:var(--muted);font-weight:700;padding:3px 2px 5px;text-align:center
 }
@@ -593,10 +593,10 @@ body:not(.dark-mode) .snapshot-shell{background:#f4f7f5}
   padding:4px 2px;border-top:1px solid var(--line);text-align:center;font-size:9.3px
 }
 .snap-dye-compare td:first-child{
-  text-align:left;color:var(--muted);font-size:9.4px;width:25%
+  text-align:left;color:var(--muted);font-size:9.4px;width:20%
 }
-.snap-dye-compare th:first-child{width:25%}
-.snap-dye-compare th:nth-child(2),.snap-dye-compare th:nth-child(3){width:37.5%}
+.snap-dye-compare th:first-child{width:20%}
+.snap-dye-compare th:nth-child(2),.snap-dye-compare th:nth-child(3){width:40%}
 .snap-dye-compare .snap-pill{min-width:58px}
 .snap-pluvia{
   margin-top:7px;padding-top:5px;border-top:1px solid var(--line)
@@ -620,6 +620,13 @@ body:not(.dark-mode) .snapshot-shell{background:#f4f7f5}
 .snap-pluvia-track u.st-neutral{background:var(--snap-neutral)}
 body.dark-mode .snap-pluvia-head b{color:#d8ece3}
 body.dark-mode .snap-pluvia-track{background:#27372f}
+
+
+.snap-dye-compare{margin-left:0!important}
+.snap-dye-compare th:nth-child(2),
+.snap-dye-compare td:nth-child(2){padding-left:0;padding-right:2px}
+.snap-dye-compare th:nth-child(3),
+.snap-dye-compare td:nth-child(3){padding-left:1px;padding-right:0}
 
 </style></head><body><div id="app" class="hidden"><div class="app-sticky-header"><div class="top-accent"></div><header class="header"><div class="header-left"><div class="brand-mark">TP</div><div><div class="brand-title">Textile Planning Dashboard</div><div class="brand-sub">Planning, Monitoring & Control</div></div></div><div class="header-actions"><div class="utility-tools"><button class="tool-btn stopwatch-btn" id="stopwatchBtn" title="Click to start/pause • Double-click to reset">⏱ <span id="stopwatchText">00:00</span></button><button class="tool-btn" id="fullscreenBtn" title="Enter full screen">⛶ Full</button><button class="tool-btn" id="themeBtn" title="Switch dark/light mode">☾ Dark</button></div><span class="greeting" id="greeting">Good morning</span><button class="btn" id="exportBtn">Export CSV</button><button class="btn" id="signOutBtn">Sign out</button><button class="btn primary" id="refreshBtn">Refresh</button></div></header><nav class="nav"><button class="active" data-tab="overview">Overview</button><button data-tab="delivery">Delivery</button><button data-tab="yarn">Yarn Dyeing</button><button data-tab="knitting">Knitting</button><button data-tab="dyeing">Dyeing</button><button data-tab="finishing">Finishing</button><button data-tab="chemical">Chemical Lab</button><button data-tab="etl">ETL</button><button data-tab="buyers">Buyer Analysis</button><button data-tab="data">Data Management</button><button data-tab="users">User Management</button></nav></div><main class="page"><section class="toolbar"><div class="filters"><div class="filter-group"><span class="mini-label">Search</span><input id="search" placeholder="buyer, value..."></div><div class="filter-group"><span class="mini-label">Buyer</span><select id="buyerFilter"><option value="">All buyers</option></select></div><div class="filter-group"><span class="mini-label">From</span><input id="fromDate" type="date"></div><div class="filter-group"><span class="mini-label">To</span><input id="toDate" type="date"></div><div class="filter-group"><span class="mini-label">Filters</span><button class="btn" id="resetBtn">Reset all</button></div><div class="filter-group"><span class="mini-label">Dataset</span><span class="status-pill">Live data</span></div></div><div class="toolbar-bottom"><span id="countText"></span><span id="lastUpdated"></span></div></section><section class="kpis" id="kpis"></section><section class="grid" id="content"></section></main><div id="chartDataModal" class="chart-data-modal hidden" role="dialog" aria-modal="true" aria-labelledby="chartDataTitle"><div class="chart-data-dialog"><div class="chart-data-head"><div><h3 id="chartDataTitle">Chart Data</h3><div class="meta" id="chartDataMeta"></div></div><button class="chart-data-close" id="chartDataClose" type="button" title="Close">×</button></div><div class="chart-data-body" id="chartDataBody"></div></div></div></div><div id="login" class="login-shell"><div class="login-card"><div class="brand-row"><div class="brand-mark">TP</div><div><div class="brand-title">Textile Planning Dashboard</div><div class="brand-sub">Planning, Monitoring & Control</div></div></div><h2>Authorized access</h2><p>Sign in to view the shared planning dashboard.</p><div class="field"><label>Email</label><input id="email" type="email" autocomplete="username"></div><div class="field"><label>Password</label><input id="password" type="password" autocomplete="current-password"></div><button class="btn primary" id="loginBtn" style="width:100%">Sign in</button><div class="error" id="loginError"></div></div></div><script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script><script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="config.js"></script><script>const REQUIRED_SHEETS=['Dyeing','Knitting','Finishing','FFS','Buyer Wise data'];
 const DYEING_SHEETS=['Dyeing_Date_Buyer','Dyeing_Date'];
