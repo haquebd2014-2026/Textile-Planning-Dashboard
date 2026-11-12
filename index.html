@@ -472,6 +472,116 @@ body.dark-mode .snap-tile.st-ok{background:#17382b}.dark-mode .snap-tile.st-watc
 body.dark-mode .snap-tile.st-critical{background:#44231d}
 @media(max-width:900px){.snapshot-kp{grid-template-columns:repeat(4,minmax(0,1fr))}.snap-c3,.snap-c2{grid-column:span 6}}
 
+
+/* ===== Compact executive Overview v20 ===== */
+body:not(.dark-mode) .snapshot-shell{background:#f4f7f5}
+.snapshot-shell{
+  border-radius:9px;
+  max-width:100%;
+  margin:0 auto;
+  box-shadow:0 3px 14px rgba(16,61,46,.08)
+}
+.snapshot-head{display:none!important}
+.snapshot-kp{
+  grid-template-columns:repeat(7,minmax(0,1fr));
+  border-top:4px solid #075b43;
+  border-bottom:3px solid var(--snap-watch)
+}
+.snapshot-kp-item{
+  padding:7px 5px 6px;
+  min-height:68px
+}
+.snapshot-kp-item small{font-size:8.1px;letter-spacing:.35px}
+.snapshot-kp-item b{font-size:18px;margin:2px 0 1px}
+.snapshot-kp-item i{font-size:8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:block}
+.snapshot-grid{
+  gap:6px;
+  padding:7px;
+  align-items:stretch
+}
+.snap-card{
+  padding:6px 10px;
+  border-radius:8px;
+  box-shadow:0 1px 6px rgba(26,69,54,.055)
+}
+.snap-card-head{margin-bottom:2px}
+.snap-card-head b{font-size:14px}
+.snap-card-head span{font-size:13.5px}
+.snap-tiles{
+  gap:5px;
+  margin-top:2px
+}
+.snap-tile{
+  min-height:52px;
+  padding:5px 7px 14px;
+  border-radius:7px
+}
+.snap-tile small{font-size:8.7px;line-height:1.1}
+.snap-tile b{font-size:16px;margin-top:1px;line-height:1.05}
+.snap-tile em{font-size:7.9px;line-height:1.1;margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.snap-state{font-size:6.9px;bottom:2px}
+.snap-row{
+  min-height:22px;
+  padding:1.5px 0
+}
+.snap-row>span:first-child{font-size:9px}
+.snap-pill{
+  min-width:54px;
+  padding:1px 5px;
+  font-size:9.3px
+}
+.snap-dye-table th{font-size:7.8px;padding:1px}
+.snap-dye-table td{font-size:8.6px;padding:1.5px}
+.snap-chart.panel{
+  min-height:104px;
+  padding:5px 9px
+}
+.snap-chart.panel h3{
+  font-size:12.2px;
+  margin:0 0 1px
+}
+.snap-chart.panel .note{display:none}
+.snap-chart .chart-wrap{height:58px!important}
+.snap-chart .panel-chart-actions{top:3px;right:4px}
+.snapshot-footer{
+  padding:6px 12px;
+  font-size:8.4px;
+  min-height:30px
+}
+.snapshot-target-note{font-size:8.2px}
+.snapshot-legend span{margin-left:8px}
+.snapshot-legend i{width:7px;height:7px}
+
+/* Specific compact row proportions */
+.snap-card.snap-c3{min-height:0}
+.snap-card.snap-c2{min-height:0}
+
+/* Delivery + Knitting row */
+.snapshot-grid > .snap-card:nth-of-type(1),
+.snapshot-grid > .snap-card:nth-of-type(2){min-height:122px}
+
+/* Dyeing + Finishing row */
+.snapshot-grid > .snap-card:nth-of-type(3),
+.snapshot-grid > .snap-card:nth-of-type(4){min-height:176px}
+
+/* Yarn Dyeing + Chemical Lab + ETL row */
+.snapshot-grid > .snap-card:nth-of-type(5),
+.snapshot-grid > .snap-card:nth-of-type(6),
+.snapshot-grid > .snap-card:nth-of-type(7){min-height:112px}
+
+/* Give the screenshot-like soft compact feel */
+.snapshot-grid > .snap-card:nth-of-type(5) .snap-row,
+.snapshot-grid > .snap-card:nth-of-type(6) .snap-row,
+.snapshot-grid > .snap-card:nth-of-type(7) .snap-row{min-height:21px}
+
+@media(max-width:1100px){
+  .snapshot-kp{grid-template-columns:repeat(7,minmax(130px,1fr));overflow-x:auto}
+}
+@media(max-width:900px){
+  .snapshot-kp{grid-template-columns:repeat(4,minmax(0,1fr));overflow:visible}
+  .snap-c3,.snap-c2{grid-column:span 6}
+}
+
 </style></head><body><div id="app" class="hidden"><div class="app-sticky-header"><div class="top-accent"></div><header class="header"><div class="header-left"><div class="brand-mark">TP</div><div><div class="brand-title">Textile Planning Dashboard</div><div class="brand-sub">Planning, Monitoring & Control</div></div></div><div class="header-actions"><div class="utility-tools"><button class="tool-btn stopwatch-btn" id="stopwatchBtn" title="Click to start/pause • Double-click to reset">⏱ <span id="stopwatchText">00:00</span></button><button class="tool-btn" id="fullscreenBtn" title="Enter full screen">⛶ Full</button><button class="tool-btn" id="themeBtn" title="Switch dark/light mode">☾ Dark</button></div><span class="greeting" id="greeting">Good morning</span><button class="btn" id="exportBtn">Export CSV</button><button class="btn" id="signOutBtn">Sign out</button><button class="btn primary" id="refreshBtn">Refresh</button></div></header><nav class="nav"><button class="active" data-tab="overview">Overview</button><button data-tab="delivery">Delivery</button><button data-tab="yarn">Yarn Dyeing</button><button data-tab="knitting">Knitting</button><button data-tab="dyeing">Dyeing</button><button data-tab="finishing">Finishing</button><button data-tab="chemical">Chemical Lab</button><button data-tab="etl">ETL</button><button data-tab="buyers">Buyer Analysis</button><button data-tab="data">Data Management</button><button data-tab="users">User Management</button></nav></div><main class="page"><section class="toolbar"><div class="filters"><div class="filter-group"><span class="mini-label">Search</span><input id="search" placeholder="buyer, value..."></div><div class="filter-group"><span class="mini-label">Buyer</span><select id="buyerFilter"><option value="">All buyers</option></select></div><div class="filter-group"><span class="mini-label">From</span><input id="fromDate" type="date"></div><div class="filter-group"><span class="mini-label">To</span><input id="toDate" type="date"></div><div class="filter-group"><span class="mini-label">Filters</span><button class="btn" id="resetBtn">Reset all</button></div><div class="filter-group"><span class="mini-label">Dataset</span><span class="status-pill">Live data</span></div></div><div class="toolbar-bottom"><span id="countText"></span><span id="lastUpdated"></span></div></section><section class="kpis" id="kpis"></section><section class="grid" id="content"></section></main><div id="chartDataModal" class="chart-data-modal hidden" role="dialog" aria-modal="true" aria-labelledby="chartDataTitle"><div class="chart-data-dialog"><div class="chart-data-head"><div><h3 id="chartDataTitle">Chart Data</h3><div class="meta" id="chartDataMeta"></div></div><button class="chart-data-close" id="chartDataClose" type="button" title="Close">×</button></div><div class="chart-data-body" id="chartDataBody"></div></div></div></div><div id="login" class="login-shell"><div class="login-card"><div class="brand-row"><div class="brand-mark">TP</div><div><div class="brand-title">Textile Planning Dashboard</div><div class="brand-sub">Planning, Monitoring & Control</div></div></div><h2>Authorized access</h2><p>Sign in to view the shared planning dashboard.</p><div class="field"><label>Email</label><input id="email" type="email" autocomplete="username"></div><div class="field"><label>Password</label><input id="password" type="password" autocomplete="current-password"></div><button class="btn primary" id="loginBtn" style="width:100%">Sign in</button><div class="error" id="loginError"></div></div></div><script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script><script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="config.js"></script><script>const REQUIRED_SHEETS=['Dyeing','Knitting','Finishing','FFS','Buyer Wise data'];
 const DYEING_SHEETS=['Dyeing_Date_Buyer','Dyeing_Date'];
 const DYEING_BUYER_PERCENT=['Capacity Utilization (EFL)','Capacity Utilization (EKL+Ext)','On Time Target'];
@@ -1069,11 +1179,11 @@ function renderOverview(){
   metricCardSet([]);
 
   const kp=[
-    ['Delivered / Day',deliveryAvg===null?'—':`${fmt1(deliveryAvg)} T`,deliveryStats[0],`OTD ${pct(deliveryOTD)}`],
-    ['YD Prod / Day',ydOverallAvg===null?'—':`${fmt1(ydOverallAvg)} T`,yarnStats[0],`OTD ${pct(ydOtd)}`],
-    ['Knitting / Day',knAvg===null?'—':`${fmt1(knAvg)} T`,knitStats[0],`OTT ${pct(knOTT)}`],
-    ['Dyeing / Day',dyeAvg===null?'—':`${fmt1(dyeAvg)} T`,dyeStats[0],`RFT ${pct(dyeRft)}`],
-    ['Handed Over / Day',handAvg===null?'—':`${fmt1(handAvg)} T`,finStats[0],`MLT ${pct(finMLT)}`],
+    ['Delivered',deliveryAvg===null?'—':`${fmt1(deliveryAvg)} T`,deliveryStats[0],`OTD ${pct(deliveryOTD)}`],
+    ['YD Prod/Day',ydOverallAvg===null?'—':`${fmt1(ydOverallAvg)} T`,yarnStats[0],`OTD ${pct(ydOtd)}`],
+    ['Knitting',knAvg===null?'—':`${fmt1(knAvg)} T`,knitStats[0],`OTT ${pct(knOTT)}`],
+    ['Dyeing',dyeAvg===null?'—':`${fmt1(dyeAvg)} T`,dyeStats[0],`RFT ${pct(dyeRft)}`],
+    ['Handed Over',handAvg===null?'—':`${fmt1(handAvg)} T`,finStats[0],`MLT ${pct(finMLT)}`],
     ['Lab SLT',formatDuration(chemSLT,true),chemStats[0],'Overall SLT'],
     ['ETL OTD',pct(etlOTD),etlStats[1],`Reports/day ${fmt1(etlAvg)}`]
   ];
@@ -1135,33 +1245,35 @@ function renderOverview(){
   const chart=(title,note,id)=>`<section class="panel snap-chart zoomable-panel"><div class="panel-chart-actions"><button class="panel-data-btn" type="button" title="Show chart data" onclick="showPanelChartData(this)">▦</button><button class="panel-expand-btn" type="button" title="Open this chart full screen" onclick="togglePanelFullscreen(this)">⛶</button></div><h3>${esc(title)}</h3><div class="note">${esc(note)}</div><div class="chart-wrap"><canvas id="${id}"></canvas></div></section>`;
 
   $('#content').innerHTML=`<div class="snapshot-shell">
-    <div class="snapshot-head"><div><h2>Textile Daily KPI Snapshot</h2><small>PLANNING · MONITORING · CONTROL</small></div><div class="snapshot-period">Selected period<b>${esc(periodFrom)} → ${esc(periodTo)}</b></div></div>
     <div class="snapshot-kp">${kpHtml}</div>
     <div class="snapshot-grid">
       ${snapCard('snap-c3','Delivery',deliveryAvg===null?'—':`${fmt1(deliveryAvg)} T/day`,worstStatus(deliveryStats),deliveryBody,'green')}
       ${snapCard('snap-c3','Knitting',knAvg===null?'—':`${fmt1(knAvg)} T/day`,worstStatus(knitStats),knittingBody,'blue')}
+
       ${snapCard('snap-c3','Dyeing',dyeAvg===null?'—':`${fmt1(dyeAvg)} T/day`,worstStatus(dyeStats),dyeBody,'purple')}
       ${snapCard('snap-c3','Finishing',handAvg===null?'—':`${fmt1(handAvg)} T/day`,worstStatus(finStats),finishingBody,'orange')}
+
       ${snapCard('snap-c2','Yarn Dyeing',ydOverallAvg===null?'—':`${fmt1(ydOverallAvg)} T/day`,worstStatus(yarnStats),yarnBody,'teal')}
       ${snapCard('snap-c2','Chemical Lab',formatDuration(chemSLT,true),worstStatus(chemStats),chemBody,'rose')}
       ${snapCard('snap-c2','ETL',pct(etlOTD),worstStatus(etlStats),etlBody,'amber')}
-      ${chart('Delivery OTD · last 15 days','Daily On Time Delivery %','ovSnapDelivery')}
+
       ${chart('Knitting Prod/MC · last 15 days','Production per machine','ovSnapKnit')}
-      ${chart('Dyeing RFT · last 15 days','Overall EFL / EKL+Ext RFT','ovSnapDye')}
-      ${chart('ETL OTD · last 15 days','Daily report OTD %','ovSnapETL')}
+      ${chart('Chemical Lab RFT · last 15 days','Overall RFT','ovSnapChem')}
     </div>
-    <div class="snapshot-footer"><span class="snapshot-target-note">Targets: ${targetCount?`${targetCount} active KPI target${targetCount===1?'':'s'}`:'No target file uploaded — cards remain neutral until Dashboard_Target.xlsx is uploaded.'}</span><span class="snapshot-legend"><span><i style="background:var(--snap-ok)"></i>On target</span><span><i style="background:var(--snap-watch)"></i>Watch</span><span><i style="background:var(--snap-critical)"></i>Critical</span><span><i style="background:var(--snap-neutral)"></i>No target</span></span></div>
+    <div class="snapshot-footer">
+      <span class="snapshot-target-note">${esc(periodFrom)} → ${esc(periodTo)} • Targets: ${targetCount?`${targetCount} active`:'not uploaded'}</span>
+      <span class="snapshot-legend"><span><i style="background:var(--snap-ok)"></i>On target</span><span><i style="background:var(--snap-watch)"></i>Watch</span><span><i style="background:var(--snap-critical)"></i>Critical</span><span><i style="background:var(--snap-neutral)"></i>No target</span></span>
+    </div>
   </div>`;
 
   const last15=r=>r.slice(Math.max(0,r.length-15));
-  const d15=last15(del),k15=last15(kn),dd15=last15(dyeDate),e15=last15(etl);
-  lineChartPct('ovSnapDelivery',d15.map(r=>r.Date?.slice(5)||r.Date),[{label:'Delivery OTD',data:d15.map(r=>safeNum(r['On Time Delivery']))}]);
-  lineChart('ovSnapKnit',k15.map(r=>r.Date?.slice(5)||r.Date),[{label:'Prod/MC',data:k15.map(r=>safeNum(r['Prod. /MC (kg)']))}]);
-  lineChartPct('ovSnapDye',dd15.map(r=>r.Date?.slice(5)||r.Date),[
-    {label:'RFT EFL',data:dd15.map(r=>safeNum(r['Dyeing RFT (EFL)']))},
-    {label:'RFT EKL+Ext',data:dd15.map(r=>safeNum(r['Dyeing RFT (EKL+Ext.)']))}
+  const k15=last15(kn),c15=last15(chem);
+  lineChart('ovSnapKnit',k15.map(r=>r.Date?.slice(5)||r.Date),[
+    {label:'Prod/MC',data:k15.map(r=>safeNum(r['Prod. /MC (kg)']))}
   ]);
-  lineChartPct('ovSnapETL',e15.map(r=>r.Date?.slice(5)||r.Date),[{label:'ETL OTD',data:e15.map(r=>safeNum(r['ETL OTD Pass %']))}]);
+  lineChartPct('ovSnapChem',c15.map(r=>r.Date?.slice(5)||r.Date),[
+    {label:'Overall RFT',data:c15.map(r=>safeNum(r['Overall RFT']))}
+  ]);
 }
 function renderDyeing(){const br=dyeingBuyerRows(),dr=dyeingDateRows(),buyer=$('#buyerFilter')?.value||'',daily=groupDyeingByDate(br);if(!br.length&&!dr.length){metricCardSet([]);$('#content').innerHTML='<div class="alert">No Dyeing data uploaded yet. Go to Data Management and upload the Dyeing_Dashboard workbook containing Dyeing_Date_Buyer and Dyeing_Date.</div>';return}
 const prodE=sum(br,'Prod. (EFL)'),prodX=sum(br,'Prod. (EKL+Ext)'),pluvia=sum(br,'Pluvia'),totalProd=prodE+prodX+pluvia;const activeDays=daily.length||dr.length||0;const perDay=n=>activeDays?n/activeDays:null;const capE=avg(daily,'Capacity Utilization (EFL)'),capX=avg(daily,'Capacity Utilization (EKL+Ext)');const ontime=buyer?avg(br,'On Time Target'):avg(dr,'On Time Target');const repE=sum(br,'Reprocess (EFL)'),repX=sum(br,'Reprocess (EKL+Ext)');const repEPct=prodE>0?repE/prodE:null,repXPct=prodX>0?repX/prodX:null;const rftE=avg(dr,'Dyeing RFT (EFL)'),rftX=avg(dr,'Dyeing RFT (EKL+Ext.)'),loadE=avg(dr,'Loading (EFL)'),loadX=avg(dr,'Loading (EKL+Ext)');const ontimeValue=ontime===null?'—':`<span class="kpi-inline-target"><span class="good">Pass ${pct(ontime)}</span><span class="slash">•</span><span class="bad">Fail ${pct(Math.max(0,1-ontime))}</span></span>`;
