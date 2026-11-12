@@ -420,23 +420,73 @@ for(const r of sheets['Delivery_Date'])for(const c of DELIVERY_PERCENT){const n=
 function normalizeETLWorkbook(wb){
   const sn='ETL_Date';
   if(!wb.SheetNames.includes(sn))throw new Error(`Missing sheet: ${sn}`);
-  const rows=XLSX.utils.sheet_to_json(wb.Sheets[sn],{defval:null,raw:true});
+
+  // Excel/SheetJS may return the same visible header with different line breaks,
+  // spacing or punctuation. Match headers by a stable alphanumeric signature.
+  const headerSig=v=>String(v??'')
+    .replace(/\r\n?/g,'\n')
+    .replace(/;/g,':')
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g,'');
+
   const required=['Date',...ETL_COUNT,...ETL_PERCENT,...ETL_DURATION];
-  const cols=rows.length?Object.keys(rows[0]):[];
-  const miss=required.filter(c=>!cols.includes(c));
-  if(miss.length)throw new Error(`${sn} missing column(s): ${miss.join(', ')}`);
+  const rawRows=XLSX.utils.sheet_to_json(wb.Sheets[sn],{defval:null,raw:true});
+  if(!rawRows.length)throw new Error(`${sn} has no data rows.`);
+
+  const actualHeaders=Object.keys(rawRows[0]);
+  const actualBySig=new Map(actualHeaders.map(h=>[headerSig(h),h]));
+  const canonicalToActual=new Map();
+
+  for(const canonical of required){
+    const actual=actualBySig.get(headerSig(canonical));
+    if(actual)canonicalToActual.set(canonical,actual);
+  }
+
+  const miss=required.filter(c=>!canonicalToActual.has(c));
+  if(miss.length){
+    throw new Error(`${sn} missing column(s): ${miss.join(', ')}`);
+  }
+
+  // Rebuild every row with stable canonical keys so all downstream ETL logic
+  // is independent of how Excel stores line breaks/spaces in the headers.
+  const rows=rawRows.map(raw=>{
+    const r={...raw};
+    for(const canonical of required){
+      r[canonical]=raw[canonicalToActual.get(canonical)];
+    }
+    return r;
+  });
+
   for(const r of rows){
     r.Date=parseDate(r.Date);
-    for(const c of ETL_COUNT){const n=safeNum(r[c]);r[c]=n===null?null:n}
-    for(const c of ETL_PERCENT){const n=safeNum(r[c]);r[c]=n===null?null:((Math.abs(n)>1.5&&Math.abs(n)<=100)?n/100:n)}
-    for(const c of ETL_DURATION){const sec=durationSeconds(r[c]);r[c]=sec===null?null:sec}
+    for(const c of ETL_COUNT){
+      const n=safeNum(r[c]);
+      r[c]=n===null?null:n;
+    }
+    for(const c of ETL_PERCENT){
+      const n=safeNum(r[c]);
+      r[c]=n===null?null:((Math.abs(n)>1.5&&Math.abs(n)<=100)?n/100:n);
+    }
+    for(const c of ETL_DURATION){
+      const sec=durationSeconds(r[c]);
+      r[c]=sec===null?null:sec;
+    }
   }
-  const usable=rows.filter(r=>r.Date&&[...ETL_COUNT,...ETL_PERCENT,...ETL_DURATION].some(c=>r[c]!==null&&r[c]!==undefined&&r[c]!==''));
+
+  const usable=rows.filter(r=>
+    r.Date&&[...ETL_COUNT,...ETL_PERCENT,...ETL_DURATION]
+      .some(c=>r[c]!==null&&r[c]!==undefined&&r[c]!=='')
+  );
+
   usable.sort((a,b)=>a.Date.localeCompare(b.Date));
   if(!usable.length)throw new Error('ETL_Date has no usable rows.');
+
   const seen=new Set();
-  for(const r of usable){if(seen.has(r.Date))throw new Error(`Duplicate Date found in ETL_Date: ${r.Date}`);seen.add(r.Date)}
-  return {[sn]:usable}
+  for(const r of usable){
+    if(seen.has(r.Date))throw new Error(`Duplicate Date found in ETL_Date: ${r.Date}`);
+    seen.add(r.Date);
+  }
+  return {[sn]:usable};
 }
 function etlRows(){return currentDateRows('ETL_Date')}
 function etlTableHTML(rows,limit=500){
@@ -823,7 +873,7 @@ async function handleETLUpload(){
   if(!f)return st.textContent='Choose the ETL Excel file first.';
   if(f.size>MAX_ETL_FILE_MB*1024*1024)return st.textContent=`File is larger than the recommended ${MAX_ETL_FILE_MB} MB limit.`;
   try{
-    st.textContent='Reading and validating ETL workbook...';
+    st.textContent='Reading ETL workbook and matching headers (line breaks / spacing are handled automatically)...';
     const wb=XLSX.read(await f.arrayBuffer(),{type:'array'}),etlSheets=normalizeETLWorkbook(wb),rows=etlSheets['ETL_Date'];
     const dateFrom=rows.length?rows[0].Date:null,dateTo=rows.length?rows[rows.length-1].Date:null,now=new Date().toISOString();
     const merged={...(state.data||{}),sheets:{...(state.data?.sheets||{}),...etlSheets},departmentFiles:{...(state.data?.departmentFiles||{}),etl:{fileName:f.name,uploadedAt:now,dateFrom,dateTo,dateRows:rows.length}},fileName:state.data?.fileName||'Department-wise data',uploadedAt:now};
