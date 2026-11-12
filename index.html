@@ -836,6 +836,82 @@ body.dark-mode .kpi-submenu button:hover,body.dark-mode .kpi-submenu button.acti
   .snapshot-grid .snap-chart{grid-column:span 6}
 }
 
+
+/* ===== Overview alignment + Finishing MLT chart v27 ===== */
+
+/* Dyeing: keep the EFL / EKL+Ext table left even when browser zoom
+   or responsive breakpoints would otherwise stretch it to 100%. */
+.snapshot-grid > .snap-card:nth-of-type(3) .snap-dye-compare{
+  width:48%!important;
+  max-width:48%!important;
+  margin-left:0!important;
+  margin-right:auto!important;
+  table-layout:fixed!important
+}
+.snapshot-grid > .snap-card:nth-of-type(3) .snap-dye-compare th:first-child,
+.snapshot-grid > .snap-card:nth-of-type(3) .snap-dye-compare td:first-child{
+  width:18%!important
+}
+.snapshot-grid > .snap-card:nth-of-type(3) .snap-dye-compare th:nth-child(2),
+.snapshot-grid > .snap-card:nth-of-type(3) .snap-dye-compare td:nth-child(2),
+.snapshot-grid > .snap-card:nth-of-type(3) .snap-dye-compare th:nth-child(3),
+.snapshot-grid > .snap-card:nth-of-type(3) .snap-dye-compare td:nth-child(3){
+  width:41%!important;
+  padding-left:0!important;
+  padding-right:1px!important
+}
+
+/* Yarn Dyeing, Chemical Lab, ETL: move values closer to the label side.
+   Do not distribute values to the far-right edge of the card. */
+.snapshot-grid > .snap-card:nth-of-type(5) .snap-row,
+.snapshot-grid > .snap-card:nth-of-type(6) .snap-row,
+.snapshot-grid > .snap-card:nth-of-type(7) .snap-row{
+  display:grid!important;
+  grid-template-columns:minmax(112px,42%) minmax(62px,92px)!important;
+  justify-content:start!important;
+  align-items:center!important;
+  column-gap:8px!important
+}
+.snapshot-grid > .snap-card:nth-of-type(5) .snap-row .snap-pill,
+.snapshot-grid > .snap-card:nth-of-type(6) .snap-row .snap-pill,
+.snapshot-grid > .snap-card:nth-of-type(7) .snap-row .snap-pill{
+  justify-self:start!important;
+  min-width:62px!important
+}
+
+/* Management Snapshot popup uses the same alignment. */
+.overview-snapshot-capture .snapshot-grid > .snap-card:nth-of-type(3) .snap-dye-compare{
+  width:46%!important;
+  max-width:46%!important;
+  margin-left:0!important;
+  margin-right:auto!important
+}
+.overview-snapshot-capture .snapshot-grid > .snap-card:nth-of-type(5) .snap-row,
+.overview-snapshot-capture .snapshot-grid > .snap-card:nth-of-type(6) .snap-row,
+.overview-snapshot-capture .snapshot-grid > .snap-card:nth-of-type(7) .snap-row{
+  display:grid!important;
+  grid-template-columns:40% 88px!important;
+  justify-content:start!important;
+  column-gap:8px!important
+}
+
+/* Keep Overview charts comfortably tall. */
+.snapshot-grid .snap-chart{
+  min-height:194px!important
+}
+.snapshot-grid .snap-chart .chart-wrap{
+  height:142px!important
+}
+
+/* Only on genuinely narrow phones should the Dyeing table use more width. */
+@media(max-width:600px){
+  .snapshot-grid > .snap-card:nth-of-type(3) .snap-dye-compare,
+  .overview-snapshot-capture .snapshot-grid > .snap-card:nth-of-type(3) .snap-dye-compare{
+    width:82%!important;
+    max-width:82%!important
+  }
+}
+
 </style></head><body><div id="app" class="hidden"><div class="app-sticky-header"><div class="top-accent"></div><header class="header"><div class="header-left"><div class="brand-mark">TP</div><div><div class="brand-title">Textile Planning Dashboard</div><div class="brand-sub">Planning, Monitoring & Control</div></div></div><div class="header-actions"><div class="utility-tools"><button class="tool-btn stopwatch-btn" id="stopwatchBtn" title="Click to start/pause • Double-click to reset">⏱ <span id="stopwatchText">00:00</span></button><button class="tool-btn" id="fullscreenBtn" title="Enter full screen">⛶ Full</button><button class="tool-btn" id="themeBtn" title="Switch dark/light mode">☾ Dark</button></div><span class="greeting" id="greeting">Good morning</span><button class="btn" id="exportBtn">Export CSV</button><button class="btn" id="signOutBtn">Sign out</button><button class="btn primary" id="refreshBtn">Refresh</button></div></header><nav class="nav">
   <div class="kpi-menu-wrap" id="kpiMenuWrap">
     <button class="kpi-menu-toggle active" id="kpiBoardBtn" type="button">KPI Board <span class="kpi-menu-arrow">⌄</span></button>
@@ -1603,6 +1679,7 @@ function renderOverview(){
       ${chart('Received · last 15 days','Daily received quantity','ovSnapReceived')}
       ${chart('On Time Delivery · last 15 days','Daily Delivery OTD','ovSnapOTD')}
       ${chart('Dyeing Production Trend · last 15 days','EFL / EKL+Ext / Pluvia','ovSnapDyeProd')}
+      ${chart('Finishing MLT · last 15 days','Daily Finishing MLT %','ovSnapFinMLT')}
       ${chart('Knitting Prod/MC · last 15 days','Production per machine','ovSnapKnit')}
       ${chart('Chemical Lab RFT · last 15 days','Overall RFT','ovSnapChem')}
     </div>
@@ -1613,7 +1690,7 @@ function renderOverview(){
   </div>`;
 
   const last15=r=>r.slice(Math.max(0,r.length-15));
-  const d15=last15(del),dp15=last15(dyeDaily),k15=last15(kn),c15=last15(chem);
+  const d15=last15(del),dp15=last15(dyeDaily),f15=last15(fin),k15=last15(kn),c15=last15(chem);
   lineChart('ovSnapReceived',d15.map(r=>r.Date?.slice(5)||r.Date),[
     {label:'Received',data:d15.map(r=>safeNum(r.Received))}
   ]);
@@ -1624,6 +1701,9 @@ function renderOverview(){
     {label:'EFL',data:dp15.map(r=>safeNum(r['Prod. (EFL)']))},
     {label:'EKL+Ext',data:dp15.map(r=>safeNum(r['Prod. (EKL+Ext)']))},
     {label:'Pluvia',data:dp15.map(r=>safeNum(r.Pluvia))}
+  ]);
+  lineChartPct('ovSnapFinMLT',f15.map(r=>r.Date?.slice(5)||r.Date),[
+    {label:'Finishing MLT',data:f15.map(r=>safeNum(r['MLT']))}
   ]);
   lineChart('ovSnapKnit',k15.map(r=>r.Date?.slice(5)||r.Date),[
     {label:'Prod/MC',data:k15.map(r=>safeNum(r['Prod. /MC (kg)']))}
