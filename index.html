@@ -977,6 +977,31 @@ body.dark-mode .kpi-submenu button:hover,body.dark-mode .kpi-submenu button.acti
   }
 }
 
+
+/* ===== Overview v29: full original page-width alignment ===== */
+/* The compact Overview previously had margin:auto, which allowed the grid item
+   to shrink and remain centered. Force it to stretch exactly to the same
+   content width as the filter toolbar. */
+#content{width:100%;max-width:none}
+#content > .snapshot-shell{
+  grid-column:1 / -1!important;
+  width:100%!important;
+  max-width:none!important;
+  min-width:0!important;
+  margin-left:0!important;
+  margin-right:0!important;
+  justify-self:stretch!important;
+  align-self:start!important
+}
+
+/* Keep the management popup/export sizing independent from the live page. */
+.overview-snapshot-capture #content > .snapshot-shell,
+.overview-snapshot-capture .snapshot-shell{
+  width:100%!important;
+  max-width:none!important;
+  margin:0!important
+}
+
 </style></head><body><div id="app" class="hidden"><div class="app-sticky-header"><div class="top-accent"></div><header class="header"><div class="header-left"><div class="brand-mark">TP</div><div><div class="brand-title">Textile Planning Dashboard</div><div class="brand-sub">Planning, Monitoring & Control</div></div></div><div class="header-actions"><div class="utility-tools"><button class="tool-btn stopwatch-btn" id="stopwatchBtn" title="Click to start/pause • Double-click to reset">⏱ <span id="stopwatchText">00:00</span></button><button class="tool-btn" id="fullscreenBtn" title="Enter full screen">⛶ Full</button><button class="tool-btn" id="themeBtn" title="Switch dark/light mode">☾ Dark</button></div><span class="greeting" id="greeting">Good morning</span><button class="btn" id="exportBtn">Export CSV</button><button class="btn" id="signOutBtn">Sign out</button><button class="btn primary" id="refreshBtn">Refresh</button></div></header><nav class="nav">
   <div class="kpi-menu-wrap" id="kpiMenuWrap">
     <button class="kpi-menu-toggle active" id="kpiBoardBtn" type="button">KPI Board <span class="kpi-menu-arrow">⌄</span></button>
