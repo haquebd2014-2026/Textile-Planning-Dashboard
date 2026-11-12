@@ -308,7 +308,85 @@ body.dark-mode .kpis.etl-kpis .tone-rose{
   .kpis.etl-kpis{grid-template-columns:repeat(9,minmax(155px,1fr));overflow-x:auto}
 }
 
-</style></head><body><div id="app" class="hidden"><div class="app-sticky-header"><div class="top-accent"></div><header class="header"><div class="header-left"><div class="brand-mark">TP</div><div><div class="brand-title">Textile Planning Dashboard</div><div class="brand-sub">Planning, Monitoring & Control</div></div></div><div class="header-actions"><div class="utility-tools"><button class="tool-btn stopwatch-btn" id="stopwatchBtn" title="Click to start/pause • Double-click to reset">⏱ <span id="stopwatchText">00:00</span></button><button class="tool-btn" id="fullscreenBtn" title="Enter full screen">⛶ Full</button><button class="tool-btn" id="themeBtn" title="Switch dark/light mode">☾ Dark</button></div><span class="greeting" id="greeting">Good morning</span><button class="btn" id="exportBtn">Export CSV</button><button class="btn" id="signOutBtn">Sign out</button><button class="btn primary" id="refreshBtn">Refresh</button></div></header><nav class="nav"><button class="active" data-tab="overview">Overview</button><button data-tab="dyeing">Dyeing</button><button data-tab="knitting">Knitting</button><button data-tab="finishing">Finishing</button><button data-tab="delivery">Delivery</button><button data-tab="yarn">Yarn Dyeing</button><button data-tab="chemical">Chemical Lab</button><button data-tab="etl">ETL</button><button data-tab="buyers">Buyer Analysis</button><button data-tab="data">Data Management</button><button data-tab="users">User Management</button></nav></div><main class="page"><section class="toolbar"><div class="filters"><div class="filter-group"><span class="mini-label">Search</span><input id="search" placeholder="buyer, value..."></div><div class="filter-group"><span class="mini-label">Buyer</span><select id="buyerFilter"><option value="">All buyers</option></select></div><div class="filter-group"><span class="mini-label">From</span><input id="fromDate" type="date"></div><div class="filter-group"><span class="mini-label">To</span><input id="toDate" type="date"></div><div class="filter-group"><span class="mini-label">Filters</span><button class="btn" id="resetBtn">Reset all</button></div><div class="filter-group"><span class="mini-label">Dataset</span><span class="status-pill">Live data</span></div></div><div class="toolbar-bottom"><span id="countText"></span><span id="lastUpdated"></span></div></section><section class="kpis" id="kpis"></section><section class="grid" id="content"></section></main><div id="chartDataModal" class="chart-data-modal hidden" role="dialog" aria-modal="true" aria-labelledby="chartDataTitle"><div class="chart-data-dialog"><div class="chart-data-head"><div><h3 id="chartDataTitle">Chart Data</h3><div class="meta" id="chartDataMeta"></div></div><button class="chart-data-close" id="chartDataClose" type="button" title="Close">×</button></div><div class="chart-data-body" id="chartDataBody"></div></div></div></div><div id="login" class="login-shell"><div class="login-card"><div class="brand-row"><div class="brand-mark">TP</div><div><div class="brand-title">Textile Planning Dashboard</div><div class="brand-sub">Planning, Monitoring & Control</div></div></div><h2>Authorized access</h2><p>Sign in to view the shared planning dashboard.</p><div class="field"><label>Email</label><input id="email" type="email" autocomplete="username"></div><div class="field"><label>Password</label><input id="password" type="password" autocomplete="current-password"></div><button class="btn primary" id="loginBtn" style="width:100%">Sign in</button><div class="error" id="loginError"></div></div></div><script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script><script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="config.js"></script><script>const REQUIRED_SHEETS=['Dyeing','Knitting','Finishing','FFS','Buyer Wise data'];
+
+.kpis.overview-kpis{
+  grid-template-columns:repeat(7,minmax(185px,1fr));
+  gap:10px;
+  background:transparent;
+  border:0;
+  overflow-x:auto;
+  padding:0 0 3px;
+  align-items:stretch
+}
+.overview-dept-card{
+  --accent:#0a7d5b;
+  background:var(--card);
+  border:1px solid var(--line);
+  border-top:4px solid var(--accent);
+  border-radius:8px;
+  min-width:185px;
+  min-height:255px;
+  padding:13px 13px 12px;
+  box-shadow:0 5px 16px rgba(27,71,56,.07);
+  display:flex;
+  flex-direction:column;
+  overflow:hidden
+}
+.overview-dept-card.tone-green{--accent:#13845f}
+.overview-dept-card.tone-teal{--accent:#188f99}
+.overview-dept-card.tone-blue{--accent:#367fb9}
+.overview-dept-card.tone-purple{--accent:#8669c7}
+.overview-dept-card.tone-orange{--accent:#e99335}
+.overview-dept-card.tone-rose{--accent:#d26183}
+.overview-dept-card.tone-amber{--accent:#d9aa24}
+.overview-dept-title{
+  display:flex;align-items:center;justify-content:space-between;gap:8px;
+  font-family:Georgia,serif;font-size:15px;font-weight:800;color:#124f3e;
+  margin-bottom:10px
+}
+.overview-dept-title:after{
+  content:'';width:24px;height:4px;border-radius:99px;background:var(--accent);opacity:.9;flex:none
+}
+.overview-hero-label{
+  font-size:9px;text-transform:uppercase;letter-spacing:.8px;color:#7b8681;font-weight:700
+}
+.overview-hero-value{
+  font-family:Georgia,serif;font-size:27px;line-height:1.05;color:#075d46;
+  font-weight:800;margin:4px 0 9px;white-space:nowrap
+}
+.overview-mini-list{display:grid;gap:5px;margin-top:auto}
+.overview-mini-row{
+  display:grid;grid-template-columns:minmax(72px,.9fr) minmax(0,1.3fr);gap:8px;align-items:start;
+  border-top:1px solid rgba(120,140,131,.13);padding-top:5px
+}
+.overview-mini-row span{font-size:8.9px;color:#78837e;line-height:1.25}
+.overview-mini-row b{
+  font-size:9.5px;color:#2d5144;text-align:right;white-space:normal;line-height:1.28;overflow-wrap:anywhere
+}
+.overview-note{
+  grid-column:1/-1;padding:10px 13px;border:1px solid #d9e7e0;border-left:4px solid var(--green);
+  background:linear-gradient(90deg,#f4faf7,#fbfdfc);border-radius:5px;color:#527066;font-size:10px
+}
+.overview-section{
+  grid-column:1/-1;display:flex;align-items:center;justify-content:space-between;gap:12px;
+  padding:11px 13px;background:linear-gradient(90deg,#eaf5f0,#f9fbfa);
+  border-left:4px solid var(--green);border-radius:0 6px 6px 0;color:#135c46;font-weight:800
+}
+.overview-section span{font-size:9px;font-weight:500;color:#74847c}
+body.dark-mode .overview-dept-card{background:#17231e;box-shadow:0 5px 16px rgba(0,0,0,.2)}
+body.dark-mode .overview-dept-title{color:#d9f3e8}
+body.dark-mode .overview-hero-label,body.dark-mode .overview-mini-row span{color:#9fb0a8}
+body.dark-mode .overview-hero-value{color:#c6f1df}
+body.dark-mode .overview-mini-row{border-color:rgba(190,220,207,.1)}
+body.dark-mode .overview-mini-row b{color:#d6ebe2}
+body.dark-mode .overview-note{background:linear-gradient(90deg,#1a2e26,#17231e);border-color:#355046;color:#a8c1b6}
+body.dark-mode .overview-section{background:linear-gradient(90deg,#1b332a,#17251f);color:#ccebdd}
+body.dark-mode .overview-section span{color:#9fb0a8}
+@media(max-width:1350px){
+  .kpis.overview-kpis{grid-template-columns:repeat(7,minmax(190px,1fr))}
+}
+
+</style></head><body><div id="app" class="hidden"><div class="app-sticky-header"><div class="top-accent"></div><header class="header"><div class="header-left"><div class="brand-mark">TP</div><div><div class="brand-title">Textile Planning Dashboard</div><div class="brand-sub">Planning, Monitoring & Control</div></div></div><div class="header-actions"><div class="utility-tools"><button class="tool-btn stopwatch-btn" id="stopwatchBtn" title="Click to start/pause • Double-click to reset">⏱ <span id="stopwatchText">00:00</span></button><button class="tool-btn" id="fullscreenBtn" title="Enter full screen">⛶ Full</button><button class="tool-btn" id="themeBtn" title="Switch dark/light mode">☾ Dark</button></div><span class="greeting" id="greeting">Good morning</span><button class="btn" id="exportBtn">Export CSV</button><button class="btn" id="signOutBtn">Sign out</button><button class="btn primary" id="refreshBtn">Refresh</button></div></header><nav class="nav"><button class="active" data-tab="overview">Overview</button><button data-tab="delivery">Delivery</button><button data-tab="yarn">Yarn Dyeing</button><button data-tab="knitting">Knitting</button><button data-tab="dyeing">Dyeing</button><button data-tab="finishing">Finishing</button><button data-tab="chemical">Chemical Lab</button><button data-tab="etl">ETL</button><button data-tab="buyers">Buyer Analysis</button><button data-tab="data">Data Management</button><button data-tab="users">User Management</button></nav></div><main class="page"><section class="toolbar"><div class="filters"><div class="filter-group"><span class="mini-label">Search</span><input id="search" placeholder="buyer, value..."></div><div class="filter-group"><span class="mini-label">Buyer</span><select id="buyerFilter"><option value="">All buyers</option></select></div><div class="filter-group"><span class="mini-label">From</span><input id="fromDate" type="date"></div><div class="filter-group"><span class="mini-label">To</span><input id="toDate" type="date"></div><div class="filter-group"><span class="mini-label">Filters</span><button class="btn" id="resetBtn">Reset all</button></div><div class="filter-group"><span class="mini-label">Dataset</span><span class="status-pill">Live data</span></div></div><div class="toolbar-bottom"><span id="countText"></span><span id="lastUpdated"></span></div></section><section class="kpis" id="kpis"></section><section class="grid" id="content"></section></main><div id="chartDataModal" class="chart-data-modal hidden" role="dialog" aria-modal="true" aria-labelledby="chartDataTitle"><div class="chart-data-dialog"><div class="chart-data-head"><div><h3 id="chartDataTitle">Chart Data</h3><div class="meta" id="chartDataMeta"></div></div><button class="chart-data-close" id="chartDataClose" type="button" title="Close">×</button></div><div class="chart-data-body" id="chartDataBody"></div></div></div></div><div id="login" class="login-shell"><div class="login-card"><div class="brand-row"><div class="brand-mark">TP</div><div><div class="brand-title">Textile Planning Dashboard</div><div class="brand-sub">Planning, Monitoring & Control</div></div></div><h2>Authorized access</h2><p>Sign in to view the shared planning dashboard.</p><div class="field"><label>Email</label><input id="email" type="email" autocomplete="username"></div><div class="field"><label>Password</label><input id="password" type="password" autocomplete="current-password"></div><button class="btn primary" id="loginBtn" style="width:100%">Sign in</button><div class="error" id="loginError"></div></div></div><script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script><script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="config.js"></script><script>const REQUIRED_SHEETS=['Dyeing','Knitting','Finishing','FFS','Buyer Wise data'];
 const DYEING_SHEETS=['Dyeing_Date_Buyer','Dyeing_Date'];
 const DYEING_BUYER_PERCENT=['Capacity Utilization (EFL)','Capacity Utilization (EKL+Ext)','On Time Target'];
 const DYEING_DATE_PERCENT=['Dyeing RFT (EFL)','Dyeing RFT (EKL+Ext.)','Loading (EFL)','Loading (EKL+Ext)','On Time Target','Reprocess (EFL)','Reprocess (EKL+Ext)'];
@@ -344,11 +422,11 @@ const ETL_DURATION=[
 const MAX_ETL_FILE_MB=20;
 const MENU_DEFS=[
   {key:'overview',label:'Overview'},
-  {key:'dyeing',label:'Dyeing'},
-  {key:'knitting',label:'Knitting'},
-  {key:'finishing',label:'Finishing'},
   {key:'delivery',label:'Delivery'},
   {key:'yarn',label:'Yarn Dyeing'},
+  {key:'knitting',label:'Knitting'},
+  {key:'dyeing',label:'Dyeing'},
+  {key:'finishing',label:'Finishing'},
   {key:'chemical',label:'Chemical Lab'},
   {key:'etl',label:'ETL'},
   {key:'buyers',label:'Buyer Analysis'},
@@ -394,6 +472,25 @@ function lineChartDuration(id,labels,sets){
 
 function destroyCharts(){state.charts.forEach(c=>c.destroy());state.charts=[]}
 function lineChart(id,labels,sets){const ctx=document.getElementById(id);if(!ctx)return;const dark=document.body.classList.contains('dark-mode'),grid=dark?'#31453c':'#eef1ef',txt=dark?'#b9c9c1':'#58635e';state.charts.push(new Chart(ctx,{type:'line',data:{labels,datasets:sets.map((s,i)=>({label:s.label,data:s.data,borderColor:color[i%color.length],backgroundColor:color[i%color.length],tension:.25,pointRadius:2,borderWidth:2}))},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{boxWidth:10,font:{size:10},color:txt}}},scales:{x:{ticks:{font:{size:9},maxRotation:0,color:txt},grid:{display:false}},y:{ticks:{font:{size:9},color:txt},grid:{color:grid}}}}}))}
+
+function barChartPct(id,labels,data,label='Value'){
+  const ctx=document.getElementById(id);if(!ctx)return;
+  const dark=document.body.classList.contains('dark-mode'),grid=dark?'#31453c':'#eef1ef',txt=dark?'#b9c9c1':'#58635e';
+  const c=new Chart(ctx,{
+    type:'bar',
+    data:{labels,datasets:[{label,data,backgroundColor:'#087252'}]},
+    options:{
+      indexAxis:'y',responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>`${label}: ${c.parsed.x===null?'—':(c.parsed.x*100).toFixed(1)+'%'}`}}},
+      scales:{
+        x:{min:0,max:1,grid:{color:grid},ticks:{font:{size:9},color:txt,callback:v=>(v*100).toFixed(0)+'%'}},
+        y:{grid:{display:false},ticks:{font:{size:9},color:txt}}
+      }
+    }
+  });
+  c.$tpPercent=true;state.charts.push(c)
+}
+
 function barChart(id,labels,data,label='Value'){const ctx=document.getElementById(id);if(!ctx)return;const dark=document.body.classList.contains('dark-mode'),grid=dark?'#31453c':'#eef1ef',txt=dark?'#b9c9c1':'#58635e';state.charts.push(new Chart(ctx,{type:'bar',data:{labels,datasets:[{label,data,backgroundColor:'#087252'}]},options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{color:grid},ticks:{font:{size:9},color:txt}},y:{grid:{display:false},ticks:{font:{size:9},color:txt}}}}}))}
 
 function lineChartPct(id,labels,sets){const ctx=document.getElementById(id);if(!ctx)return;const dark=document.body.classList.contains('dark-mode'),grid=dark?'#31453c':'#eef1ef',txt=dark?'#b9c9c1':'#58635e';const c=new Chart(ctx,{type:'line',data:{labels,datasets:sets.map((s,i)=>({label:s.label,data:s.data,borderColor:color[i%color.length],backgroundColor:color[i%color.length],tension:.25,pointRadius:2,borderWidth:2}))},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{boxWidth:10,font:{size:10},color:txt}},tooltip:{callbacks:{label:c=>`${c.dataset.label}: ${c.parsed.y===null?'—':(c.parsed.y*100).toFixed(1)+'%'}`}}},scales:{x:{ticks:{font:{size:9},maxRotation:0,color:txt},grid:{display:false}},y:{ticks:{font:{size:9},color:txt,callback:v=>(v*100).toFixed(0)+'%'},grid:{color:grid}}}}});c.$tpPercent=true;state.charts.push(c)}
@@ -579,20 +676,208 @@ function setFilterDefaults(){const dated=allDateValues();if(dated.length){$('#fr
 function groupDyeingByDate(rows){const map=new Map();for(const r of rows){if(!r.Date)continue;if(!map.has(r.Date))map.set(r.Date,[]);map.get(r.Date).push(r)}return [...map.entries()].sort((a,b)=>a[0].localeCompare(b[0])).map(([Date,rs])=>{const o={Date};for(const k of DYEING_DAILY_SUM_FIELDS)o[k]=sum(rs,k);o['On Time Target']=avg(rs,'On Time Target');return o})}
 function buyerDyeingSummary(rows){const map=new Map();for(const r of rows){const b=String(r.Buyer||'').trim();if(!b)continue;if(!map.has(b))map.set(b,[]);map.get(b).push(r)}return [...map.entries()].map(([Buyer,rs])=>({Buyer,'Total Production':sum(rs,'Prod. (EFL)')+sum(rs,'Prod. (EKL+Ext)')+sum(rs,'Pluvia'),'Prod. (EFL)':sum(rs,'Prod. (EFL)'),'Prod. (EKL+Ext)':sum(rs,'Prod. (EKL+Ext)'),Pluvia:sum(rs,'Pluvia'),'Capacity Utilization (EFL)':avg(rs,'Capacity Utilization (EFL)'),'Capacity Utilization (EKL+Ext)':avg(rs,'Capacity Utilization (EKL+Ext)'),'On Time Target':avg(rs,'On Time Target')})).sort((a,b)=>b['Total Production']-a['Total Production'])}
 const esc=s=>String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]));
+
+function overviewDeptCard(title,heroLabel,heroValue,rows=[],tone='green'){
+  return `<div class="overview-dept-card tone-${tone}">
+    <div class="overview-dept-title">${esc(title)}</div>
+    <div class="overview-hero-label">${esc(heroLabel)}</div>
+    <div class="overview-hero-value">${heroValue}</div>
+    <div class="overview-mini-list">${rows.map(r=>`<div class="overview-mini-row"><span>${esc(r.label)}</span><b>${esc(r.value??'—')}</b></div>`).join('')}</div>
+  </div>`
+}
+
 function kpi(label,value,sub='',tone='green'){const subClass=/^Avg\/day[: ]/i.test(String(sub))?'sub avgday':'sub';return`<div class="kpi tone-${tone}"><div class="label">${esc(label)}</div><div class="value">${value}</div><div class="${subClass}">${esc(sub)}</div></div>`}
 function kpiMulti(label,value,lines=[],tone='green'){return`<div class="kpi tone-${tone}"><div class="label">${esc(label)}</div><div class="value">${value}</div><div class="sub kpi-substack">${lines.map(x=>`<div>${x.label?`<b>${esc(x.label)}</b> `:''}${esc(x.value??'')}</div>`).join('')}</div></div>`}
 function tableHTML(rows,limit=500,percentCols=[]){if(!rows.length)return'<div class="alert">No records match the current filters.</div>';const cols=Object.keys(rows[0]);const pctSet=new Set(percentCols);return`<div class="table-wrap"><table><thead><tr>${cols.map(c=>`<th>${esc(c)}</th>`).join('')}</tr></thead><tbody>${rows.slice(0,limit).map(r=>`<tr>${cols.map(c=>{const v=r[c];const n=safeNum(v);let out=esc(v??'');if(c==='Date')out=esc(parseDate(v)||v||'');else if((pctSet.has(c)||/%|OTT|RFT|Util|uti|Efficiency|Loading|MLT|OTD|One Shot|Pass/i.test(c))&&n!==null)out=pct(n);else if(n!==null)out=n.toLocaleString(undefined,{maximumFractionDigits:2});return`<td class="${n!==null?'num':''}">${out}</td>`}).join('')}</tr>`).join('')}</tbody></table></div>`}
 function metricCardSet(items){$('#kpis').innerHTML=items.join('')}
 function panel(title,note,body,wide=false,zoomable=false){const controls=zoomable?`<div class="panel-chart-actions"><button class="panel-data-btn" type="button" title="Show chart data" aria-label="Show ${esc(title)} chart data" onclick="showPanelChartData(this)">▦</button><button class="panel-expand-btn" type="button" title="Open this chart full screen" aria-label="Open ${esc(title)} full screen" onclick="togglePanelFullscreen(this)">⛶</button></div>`:'';return`<section class="panel ${wide?'wide':''} ${zoomable?'zoomable-panel':''}">${controls}<h3>${esc(title)}</h3><div class="note">${esc(note)}</div>${body}</section>`}
-function renderOverview(){const db=dyeingBuyerRows(),legacyD=currentDateRows('Dyeing'),kn=currentDateRows('Knitting_Date'),legacyK=currentDateRows('Knitting'),finNew=finishingDateRows(),legacyF=currentDateRows('Finishing'),f=finNew.length?finNew:legacyF,delNew=deliveryDateRows(),legacyFF=currentDateRows('FFS'),ff=delNew.length?delNew:legacyFF,b=filteredBuyers();const dyeProd=db.length?sum(db,'Prod. (EFL)')+sum(db,'Prod. (EKL+Ext)')+sum(db,'Pluvia'):sum(legacyD,'Prod. (EFL)')+sum(legacyD,'Prod. (EKL+Ext)');const knitProd=kn.length?sum(kn,'Knitting In house Prod.')+sum(kn,'Knitting Subcontract Prod.'):sum(legacyK,'Daily Knitting Prod. (Overall)');metricCardSet([
-kpi('Dyeing production',ton(dyeProd),'EFL + EKL/Extension + Pluvia'),
-kpi('Knitting production',ton(knitProd),kn.length?'In-house + subcontract':'Overall'),
-kpi('Finishing handed over',ton(sum(f,'Handedover kg')),'Fabric handed over'),
-kpi('Fabric delivered',ton(sum(ff,'Delivered')),delNew.length?'Delivery_Date':'FFS delivery'),
-kpi('Delivery OTD',pct(avg(ff,delNew.length?'On Time Delivery':'OTD')),'Average of selected period'),
-kpi('Top buyer',b.length?b.slice().sort((a,z)=>(safeNum(z.Delivered)||0)-(safeNum(a.Delivered)||0))[0].Buyer:'—','By delivered quantity')]);
-$('#content').innerHTML=panel('Daily production & delivery','Selected date range','<div class="chart-wrap"><canvas id="trend"></canvas></div>',false,true)+panel('Top buyers','Delivered fabric quantity','<div class="chart-wrap"><canvas id="buyers"></canvas></div>',false,true)+panel('Buyer-wise summary','Based on Buyer Wise data',tableHTML(b),true);
-const dyeDaily=db.length?groupDyeingByDate(db):legacyD.map(r=>({Date:r.Date,'Total Production':(safeNum(r['Prod. (EFL)'])||0)+(safeNum(r['Prod. (EKL+Ext)'])||0)}));const kRows=kn.length?kn.map(r=>({Date:r.Date,Value:(safeNum(r['Knitting In house Prod.'])||0)+(safeNum(r['Knitting Subcontract Prod.'])||0)})):legacyK.map(r=>({Date:r.Date,Value:safeNum(r['Daily Knitting Prod. (Overall)'])||0}));const labels=[...new Set([...dyeDaily.map(r=>r.Date),...kRows.map(r=>r.Date),...f.map(r=>r.Date),...ff.map(r=>r.Date)].filter(Boolean))].sort();const toMap=(rows,fn)=>Object.fromEntries(rows.map(r=>[r.Date,fn(r)]));const md=toMap(dyeDaily,r=>safeNum(r['Total Production'])??((safeNum(r['Prod. (EFL)'])||0)+(safeNum(r['Prod. (EKL+Ext)'])||0)+(safeNum(r['Pluvia'])||0))),mk=toMap(kRows,r=>r.Value||0),mf=toMap(f,r=>safeNum(r['Handedover kg'])||0),mff=toMap(ff,r=>safeNum(r.Delivered)||0);lineChart('trend',labels.map(x=>x.slice(5)),[{label:'Dyeing',data:labels.map(x=>md[x]||0)},{label:'Knitting',data:labels.map(x=>mk[x]||0)},{label:'Finishing',data:labels.map(x=>mf[x]||0)},{label:'Delivery',data:labels.map(x=>mff[x]||0)}]);const top=b.slice().sort((a,z)=>(safeNum(z.Delivered)||0)-(safeNum(a.Delivered)||0)).slice(0,10);barChart('buyers',top.map(r=>r.Buyer),top.map(r=>safeNum(r.Delivered)||0));}
+function renderOverview(){
+  // Overview is intentionally a date-wise executive view so draft Buyer sheets do not distort management totals.
+  const del=deliveryDateRows(),ydDate=yarnDyeingDateRows(),ydBuyerAll=currentDateRows('YD_Date_Buyer'),
+        kn=knittingDateRows(),dyeBuyerAll=currentDateRows('Dyeing_Date_Buyer'),dyeDate=dyeingDateRows(),
+        fin=finishingDateRows(),chem=chemicalLabRows(),etl=etlRows();
+
+  const mean=a=>{const v=a.filter(x=>x!==null&&Number.isFinite(x));return v.length?v.reduce((p,c)=>p+c,0)/v.length:null};
+  const daysOf=rows=>new Set(rows.map(r=>r.Date).filter(Boolean)).size;
+  const perDay=(total,days)=>days?total/days:null;
+
+  // Delivery
+  const delDays=daysOf(del),received=sum(del,'Received'),delivered=sum(del,'Delivered'),
+        delRowsNoFri=del.filter(r=>!isFridayISO(r.Date)),delWorkDays=daysOf(delRowsNoFri),
+        deliveredNoFri=sum(delRowsNoFri,'Delivered'),deliveryAvg=perDay(deliveredNoFri,delWorkDays),
+        receivedAvg=perDay(received,delDays),deliveryOTD=avg(del,'On Time Delivery'),
+        totalExcess=sum(del,'Total Excess (Qty)'),excessAvg=perDay(totalExcess,delDays),
+        excessShare=delivered?totalExcess/delivered:null;
+
+  // Yarn Dyeing
+  const ydEven=yarnDyeingBuyerSourceEvenlyAllocated(ydBuyerAll),
+        ydDaily=yarnDyeingDailySummary(ydBuyerAll,ydEven),
+        ydDays=daysOf(ydDaily),
+        ydOverall=sum(ydDaily,'Overall Total Prod.'),
+        ydIn=sum(ydDaily,'Total In house Prod.'),
+        ydInShare=ydOverall?ydIn/ydOverall:null,
+        ydCapacity=avg(ydDate,'Capacity Utilization'),
+        ydBmd=avg(ydDate,'B/M/D'),
+        ydOtd=avg(ydDate,'YD OTD');
+
+  // Knitting
+  const knDays=daysOf(kn),knIn=sum(kn,'Knitting In house Prod.'),knSub=sum(kn,'Knitting Subcontract Prod.'),
+        knOverall=knIn+knSub,knInShare=knOverall?knIn/knOverall:null,knSubShare=knOverall?knSub/knOverall:null,
+        knProdMC=avg(kn,'Prod. /MC (kg)'),knMC=avg(kn,'MC Utilization'),
+        knOTT=avg(kn,'Overall OTT'),knYarn=avg(kn,'Yarn Booking (days)');
+
+  // Dyeing
+  const dyeDaily=groupDyeingByDate(dyeBuyerAll),dyeDays=daysOf(dyeDaily),
+        dyeE=sum(dyeBuyerAll,'Prod. (EFL)'),dyeX=sum(dyeBuyerAll,'Prod. (EKL+Ext)'),dyePl=sum(dyeBuyerAll,'Pluvia'),
+        dyeTotal=dyeE+dyeX+dyePl,dyeOT=avg(dyeDate,'On Time Target'),
+        dyeRepE=sum(dyeBuyerAll,'Reprocess (EFL)'),dyeRepX=sum(dyeBuyerAll,'Reprocess (EKL+Ext)'),
+        dyeRep=dyeRepE+dyeRepX,dyeRepPct=(dyeE+dyeX)?dyeRep/(dyeE+dyeX):null,
+        dyeRftE=avg(dyeDate,'Dyeing RFT (EFL)'),dyeRftX=avg(dyeDate,'Dyeing RFT (EKL+Ext.)'),
+        dyeRft=mean([dyeRftE,dyeRftX]),
+        dyeBmd=mean(dyeDaily.map(r=>(safeNum(r['Batch/MC/Day (EFL)'])||0)+(safeNum(r['Batch/MC/Day (EKL)'])||0)+(safeNum(r['Batch/MC/Day (Ext)'])||0)));
+
+  // Finishing
+  const finDays=daysOf(fin),hand=sum(fin,'Handedover kg'),finMLT=avg(fin,'MLT'),
+        stProd=sum(fin,'Stenter Prod. Kg'),stUtil=avg(fin,'Stenter utilization'),
+        drProd=sum(fin,'Dryer Prod. Kg'),drUtil=avg(fin,'Dryer utilization'),
+        coProd=sum(fin,'Compactor Prod. Kg'),coUtil=avg(fin,'Compactor utilization'),
+        stRef=avg(fin,'Stenter Refinish'),
+        firstSingle=avg(fin,'First Batch Finish – Single Process [day]'),
+        firstDouble=avg(fin,'First Batch Finish – Double Process [day]');
+
+  // Chemical Lab
+  const chemSLT=avgDuration(chem,'Overall SLT [Hr:Min:Sec]');
+
+  // ETL
+  const etlDays=daysOf(etl),etlTotal=sum(etl,'Total no of report Delivered'),
+        etlOn=sum(etl,'No of report delivered on time'),
+        etlOTD=etlTotal?etlOn/etlTotal:null;
+
+  metricCardSet([
+    overviewDeptCard('Delivery','Delivered',ton(delivered),[
+      {label:'Avg/day (Fri excl.)',value:ton(deliveryAvg)},
+      {label:'Received',value:`${ton(received)} • Avg ${ton(receivedAvg)}`},
+      {label:'On Time Delivery',value:pct(deliveryOTD)},
+      {label:'Total Excess',value:`${ton(totalExcess)} • Avg ${ton(excessAvg)} • ${pct(excessShare)}`}
+    ],'green'),
+    overviewDeptCard('Yarn Dyeing','Overall Total Prod.',ton(ydOverall),[
+      {label:'Avg/day',value:ton(perDay(ydOverall,ydDays))},
+      {label:'In-house',value:`${ton(ydIn)} • ${pct(ydInShare)}`},
+      {label:'Capacity Util.',value:pct(ydCapacity)},
+      {label:'B/M/D',value:fmt1(ydBmd)},
+      {label:'YD OTD',value:pct(ydOtd)}
+    ],'teal'),
+    overviewDeptCard('Knitting','Overall Prod.',ton(knOverall),[
+      {label:'Avg/day',value:ton(perDay(knOverall,knDays))},
+      {label:'In-house',value:`${ton(knIn)} • ${pct(knInShare)}`},
+      {label:'Subcontract',value:`${ton(knSub)} • ${pct(knSubShare)}`},
+      {label:'Prod./MC',value:`${fmt1(knProdMC)} kg`},
+      {label:'MC Util. / OTT',value:`${pct(knMC)} / ${pct(knOTT)}`},
+      {label:'Yarn Booking',value:`${fmt1(knYarn)} days`}
+    ],'blue'),
+    overviewDeptCard('Dyeing','Total Production',ton(dyeTotal),[
+      {label:'EFL / EKL+Ext / Pluvia',value:`${ton(dyeE)} / ${ton(dyeX)} / ${ton(dyePl)}`},
+      {label:'On Time Target',value:pct(dyeOT)},
+      {label:'Reprocess',value:`${ton(dyeRep)} • ${pct(dyeRepPct)}`},
+      {label:'Overall RFT',value:pct(dyeRft)},
+      {label:'Batch / MC / Day',value:fmt1(dyeBmd)}
+    ],'purple'),
+    overviewDeptCard('Finishing','Handedover',ton(hand),[
+      {label:'Avg/day',value:ton(perDay(hand,finDays))},
+      {label:'MLT',value:pct(finMLT)},
+      {label:'Stenter',value:`${ton(stProd)} • Avg ${ton(perDay(stProd,finDays))} • ${pct(stUtil)}`},
+      {label:'Dryer',value:`${ton(drProd)} • Avg ${ton(perDay(drProd,finDays))} • ${pct(drUtil)}`},
+      {label:'Compactor',value:`${ton(coProd)} • Avg ${ton(perDay(coProd,finDays))} • ${pct(coUtil)}`},
+      {label:'Stenter Refinish',value:pct(stRef)},
+      {label:'1st Batch S / D',value:`${fmt1(firstSingle)} / ${fmt1(firstDouble)} day`}
+    ],'orange'),
+    overviewDeptCard('Chemical Lab','Overall SLT',formatDuration(chemSLT,true),[
+      {label:'Average elapsed time',value:'HH:MM:SS'}
+    ],'rose'),
+    overviewDeptCard('ETL','Total Reports',fmt(etlTotal),[
+      {label:'Avg/day',value:fmt1(perDay(etlTotal,etlDays))},
+      {label:'ETL OTD Pass',value:pct(etlOTD)}
+    ],'amber')
+  ]);
+
+  const c=(title,note,id,wide=false)=>panel(title,note,`<div class="chart-wrap${wide?' tall':''}"><canvas id="${id}"></canvas></div>`,wide,true);
+  $('#content').innerHTML=
+    `<div class="overview-note"><b>Executive Overview:</b> date-wise department sources are used for management totals so current draft Buyer allocations in Knitting, Delivery and Yarn Dyeing do not distort the summary. The From/To date filter applies across all charts.</div>`+
+    `<div class="overview-section">Cross-Department Snapshot <span>Comparable metrics across the selected period</span></div>`+
+    c('Average Throughput (T/day)','Delivered uses Friday-excluded average • Production/Handover use active selected dates','ovThroughput')+
+    c('Performance Snapshot %','Delivery OTD • Yarn OTD • Knitting OTT • Dyeing On Time • Finishing MLT • ETL OTD','ovPerformance')+
+    `<div class="overview-section">Delivery <span>Received, Delivered, OTD and Total Excess</span></div>`+
+    c('Delivery — Received vs Delivered','Daily kg • Delivery Avg/day excludes Friday only','ovDelivery',true)+
+    `<div class="overview-section">Yarn Dyeing <span>Overall production, In-house, Capacity, B/M/D and OTD</span></div>`+
+    c('Yarn Dyeing — Overall vs In-house Production','Daily production from the current Yarn Dyeing source','ovYarn',true)+
+    `<div class="overview-section">Knitting <span>Overall, In-house, Subcontract and key process performance</span></div>`+
+    c('Knitting — Overall / In-house / Subcontract','Daily production kg','ovKnitting',true)+
+    `<div class="overview-section">Dyeing <span>EFL, EKL+Ext, Pluvia, On Time, Reprocess, RFT and B/M/D</span></div>`+
+    c('Dyeing — Production Mix','Daily EFL / EKL+Ext / Pluvia production','ovDyeing',true)+
+    `<div class="overview-section">Finishing <span>Handover, MLT, machine production/utilization, refinish and first batch finish</span></div>`+
+    c('Finishing — Handover & Core Machine Production','Daily Handedover / Stenter / Dryer / Compactor kg','ovFinishing',true)+
+    `<div class="overview-section">Chemical Lab <span>Overall SLT</span></div>`+
+    c('Chemical Lab — Overall SLT','Daily elapsed HH:MM:SS','ovChemical',true)+
+    `<div class="overview-section">ETL <span>Total reports delivered and ETL OTD</span></div>`+
+    c('ETL — Total vs On-Time Reports','Daily report count','ovETL',true);
+
+  // Cross-department comparison charts
+  barChart('ovThroughput',
+    ['Delivery','Yarn Dyeing','Knitting','Dyeing','Finishing'],
+    [
+      deliveryAvg===null?null:deliveryAvg/1000,
+      perDay(ydOverall,ydDays)===null?null:perDay(ydOverall,ydDays)/1000,
+      perDay(knOverall,knDays)===null?null:perDay(knOverall,knDays)/1000,
+      perDay(dyeTotal,dyeDays)===null?null:perDay(dyeTotal,dyeDays)/1000,
+      perDay(hand,finDays)===null?null:perDay(hand,finDays)/1000
+    ],
+    'T/day'
+  );
+  barChartPct('ovPerformance',
+    ['Delivery OTD','Yarn OTD','Knitting OTT','Dyeing On Time','Finishing MLT','ETL OTD'],
+    [deliveryOTD,ydOtd,knOTT,dyeOT,finMLT,etlOTD],
+    'Performance'
+  );
+
+  // Department trend charts
+  lineChart('ovDelivery',del.map(r=>r.Date?.slice(5)||r.Date),[
+    {label:'Received',data:del.map(r=>safeNum(r.Received))},
+    {label:'Delivered',data:del.map(r=>safeNum(r.Delivered))}
+  ]);
+
+  lineChart('ovYarn',ydDaily.map(r=>r.Date?.slice(5)||r.Date),[
+    {label:'Overall Total Prod.',data:ydDaily.map(r=>safeNum(r['Overall Total Prod.']))},
+    {label:'Total In-house Prod.',data:ydDaily.map(r=>safeNum(r['Total In house Prod.']))}
+  ]);
+
+  lineChart('ovKnitting',kn.map(r=>r.Date?.slice(5)||r.Date),[
+    {label:'Overall',data:kn.map(r=>(safeNum(r['Knitting In house Prod.'])||0)+(safeNum(r['Knitting Subcontract Prod.'])||0))},
+    {label:'In-house',data:kn.map(r=>safeNum(r['Knitting In house Prod.']))},
+    {label:'Subcontract',data:kn.map(r=>safeNum(r['Knitting Subcontract Prod.']))}
+  ]);
+
+  lineChart('ovDyeing',dyeDaily.map(r=>r.Date?.slice(5)||r.Date),[
+    {label:'EFL',data:dyeDaily.map(r=>safeNum(r['Prod. (EFL)']))},
+    {label:'EKL+Ext',data:dyeDaily.map(r=>safeNum(r['Prod. (EKL+Ext)']))},
+    {label:'Pluvia',data:dyeDaily.map(r=>safeNum(r.Pluvia))}
+  ]);
+
+  lineChart('ovFinishing',fin.map(r=>r.Date?.slice(5)||r.Date),[
+    {label:'Handedover',data:fin.map(r=>safeNum(r['Handedover kg']))},
+    {label:'Stenter',data:fin.map(r=>safeNum(r['Stenter Prod. Kg']))},
+    {label:'Dryer',data:fin.map(r=>safeNum(r['Dryer Prod. Kg']))},
+    {label:'Compactor',data:fin.map(r=>safeNum(r['Compactor Prod. Kg']))}
+  ]);
+
+  lineChartDuration('ovChemical',chem.map(r=>r.Date?.slice(5)||r.Date),[
+    {label:'Overall SLT',data:chem.map(r=>durationSeconds(r['Overall SLT [Hr:Min:Sec]']))}
+  ]);
+
+  lineChart('ovETL',etl.map(r=>r.Date?.slice(5)||r.Date),[
+    {label:'Total Reports',data:etl.map(r=>safeNum(r['Total no of report Delivered']))},
+    {label:'On-Time Reports',data:etl.map(r=>safeNum(r['No of report delivered on time']))}
+  ]);
+}
 function renderDyeing(){const br=dyeingBuyerRows(),dr=dyeingDateRows(),buyer=$('#buyerFilter')?.value||'',daily=groupDyeingByDate(br);if(!br.length&&!dr.length){metricCardSet([]);$('#content').innerHTML='<div class="alert">No Dyeing data uploaded yet. Go to Data Management and upload the Dyeing_Dashboard workbook containing Dyeing_Date_Buyer and Dyeing_Date.</div>';return}
 const prodE=sum(br,'Prod. (EFL)'),prodX=sum(br,'Prod. (EKL+Ext)'),pluvia=sum(br,'Pluvia'),totalProd=prodE+prodX+pluvia;const activeDays=daily.length||dr.length||0;const perDay=n=>activeDays?n/activeDays:null;const capE=avg(daily,'Capacity Utilization (EFL)'),capX=avg(daily,'Capacity Utilization (EKL+Ext)');const ontime=buyer?avg(br,'On Time Target'):avg(dr,'On Time Target');const repE=sum(br,'Reprocess (EFL)'),repX=sum(br,'Reprocess (EKL+Ext)');const repEPct=prodE>0?repE/prodE:null,repXPct=prodX>0?repX/prodX:null;const rftE=avg(dr,'Dyeing RFT (EFL)'),rftX=avg(dr,'Dyeing RFT (EKL+Ext.)'),loadE=avg(dr,'Loading (EFL)'),loadX=avg(dr,'Loading (EKL+Ext)');const ontimeValue=ontime===null?'—':`<span class="kpi-inline-target"><span class="good">Pass ${pct(ontime)}</span><span class="slash">•</span><span class="bad">Fail ${pct(Math.max(0,1-ontime))}</span></span>`;
 metricCardSet([
@@ -820,7 +1105,7 @@ function resetUserForm(){state.editingUserId=null;$('#userFormTitle').textConten
 async function saveUser(){const st=$('#userStatus');const name=$('#userName').value.trim(),email=$('#userEmail').value.trim(),password=$('#userPassword').value,role=$('#userRole').value,active=$('#userActive').checked,permissions=collectPermissions();if(!name)return st.textContent='Enter a display name.';if(!state.editingUserId&&!email)return st.textContent='Enter an email address.';if(!state.editingUserId&&password.length<6)return st.textContent='Password must be at least 6 characters.';const payload=state.editingUserId?{action:'update',user_id:state.editingUserId,display_name:name,role,active,permissions,password:password||undefined}:{action:'create',email,password,display_name:name,role,active,permissions};try{$('#saveUserBtn').disabled=true;st.textContent=state.editingUserId?'Saving changes...':'Creating user...';await invokeUserAdmin(payload);st.textContent='Saved successfully.';resetUserForm();await loadUsers()}catch(e){st.textContent='Failed: '+e.message}finally{$('#saveUserBtn').disabled=false}}
 async function deleteUser(id){const u=state.userList.find(x=>x.id===id);if(!u||id===state.profile?.id)return;if(!confirm(`Delete ${u.display_name||u.email}? This removes the login account.`))return;try{await invokeUserAdmin({action:'delete',user_id:id});await loadUsers()}catch(e){alert('Delete failed: '+e.message)}}
 function renderData(){metricCardSet([]);$('#kpis').classList.remove('knitting-kpis','finishing-kpis');const d=state.data,dyeMeta=d?.departmentFiles?.dyeing,knitMeta=d?.departmentFiles?.knitting,finMeta=d?.departmentFiles?.finishing,delMeta=d?.departmentFiles?.delivery,ydMeta=d?.departmentFiles?.yarn,chemMeta=d?.departmentFiles?.chemical,etlMeta=d?.departmentFiles?.etl;$('#content').innerHTML=`<div class="section-title"><h2>Data Management</h2><span>Department-wise source files</span></div>${state.profile?.role==='admin'?`<div class="dept-upload-grid"><div class="dept-card"><h3>Dyeing Data</h3><div class="meta">Required workbook: <b>Dyeing_Dashboard</b><br>Required sheets: <b>Dyeing_Date_Buyer</b> and <b>Dyeing_Date</b><br>Recommended maximum: ${MAX_DYEING_FILE_MB} MB</div><input id="dyeingFileInput" type="file" accept=".xlsx,.xls,.xlsb"><br><button class="btn primary" id="dyeingUploadBtn">Upload / Replace Dyeing</button><div id="dyeingUploadStatus" style="margin-top:10px"></div></div><div class="dept-card"><h3>Knitting Data</h3><div class="meta">Required workbook: <b>Knitting_Dashboard</b><br>Required sheets: <b>Knitting_Date</b> and <b>Knitting_Date_Buyer</b><br>Recommended maximum: ${MAX_KNITTING_FILE_MB} MB</div><input id="knittingFileInput" type="file" accept=".xlsx,.xls,.xlsb"><br><button class="btn primary" id="knittingUploadBtn">Upload / Replace Knitting</button><div id="knittingUploadStatus" style="margin-top:10px"></div></div><div class="dept-card"><h3>Finishing Data</h3><div class="meta">Required workbook: <b>Finishing_Dashboard</b><br>Required sheet: <b>Finishing_Date</b><br>Recommended maximum: ${MAX_FINISHING_FILE_MB} MB</div><input id="finishingFileInput" type="file" accept=".xlsx,.xls,.xlsb"><br><button class="btn primary" id="finishingUploadBtn">Upload / Replace Finishing</button><div id="finishingUploadStatus" style="margin-top:10px"></div></div><div class="dept-card"><h3>Delivery Data</h3><div class="meta">Required workbook: <b>Delivery_Dashboard</b><br>Required sheets: <b>Delivery_Date</b> and <b>Delivery_Date_Buyer</b><br>Recommended maximum: ${MAX_DELIVERY_FILE_MB} MB</div><input id="deliveryFileInput" type="file" accept=".xlsx,.xls,.xlsb"><br><button class="btn primary" id="deliveryUploadBtn">Upload / Replace Delivery</button><div id="deliveryUploadStatus" style="margin-top:10px"></div></div><div class="dept-card"><h3>Yarn Dyeing Data</h3><div class="meta">Required workbook: <b>Yarn_Dyeing_Dashboard</b><br>Required sheets: <b>YD_Date</b> and <b>YD_Date_Buyer</b><br>Recommended maximum: ${MAX_YARN_DYEING_FILE_MB} MB</div><input id="yarnDyeingFileInput" type="file" accept=".xlsx,.xls,.xlsb"><br><button class="btn primary" id="yarnDyeingUploadBtn">Upload / Replace Yarn Dyeing</button><div id="yarnDyeingUploadStatus" style="margin-top:10px"></div></div><div class="dept-card"><h3>Chemical Lab Data</h3><div class="meta">Required workbook: <b>Chemical_Lab_Dashboard</b><br>Required sheet: <b>C_Lab_Date</b><br>Recommended maximum: ${MAX_CHEMICAL_LAB_FILE_MB} MB</div><input id="chemicalLabFileInput" type="file" accept=".xlsx,.xls,.xlsb"><br><button class="btn primary" id="chemicalLabUploadBtn">Upload / Replace Chemical Lab</button><div id="chemicalLabUploadStatus" style="margin-top:10px"></div></div><div class="dept-card"><h3>ETL Data</h3><div class="meta">Required workbook: <b>ETL_Dashboard</b><br>Required sheet: <b>ETL_Date</b><br>Recommended maximum: ${MAX_ETL_FILE_MB} MB</div><input id="etlFileInput" type="file" accept=".xlsx,.xls,.xlsb"><br><button class="btn primary" id="etlUploadBtn">Upload / Replace ETL</button><div id="etlUploadStatus" style="margin-top:10px"></div></div></div>`:`<div class="alert">Viewer access: data upload is restricted to Admin users.</div>`}<div style="height:14px"></div><div class="panel"><h3>Current Dyeing dataset</h3><div class="note">Visible to authenticated users with Dyeing menu permission</div><p><b>File:</b> ${esc(dyeMeta?.fileName||((d?.sheets?.Dyeing_Date_Buyer||[]).length?'Dyeing file uploaded':'—'))}</p><p><b>Last updated:</b> ${dyeMeta?.uploadedAt?new Date(dyeMeta.uploadedAt).toLocaleString():'—'}</p><p><b>Usable source period:</b> ${esc(dyeMeta?.dateFrom||'—')} to ${esc(dyeMeta?.dateTo||'—')}</p><span class="status-pill" style="margin:4px">Dyeing_Date_Buyer: ${(d?.sheets?.Dyeing_Date_Buyer||[]).length} rows</span><span class="status-pill" style="margin:4px">Dyeing_Date: ${(d?.sheets?.Dyeing_Date||[]).length} rows</span></div><div class="panel"><h3>Current Knitting dataset</h3><div class="note">Visible to authenticated users with Knitting menu permission</div><p><b>File:</b> ${esc(knitMeta?.fileName||((d?.sheets?.Knitting_Date||[]).length?'Knitting file uploaded':'—'))}</p><p><b>Last updated:</b> ${knitMeta?.uploadedAt?new Date(knitMeta.uploadedAt).toLocaleString():'—'}</p><p><b>Usable source period:</b> ${esc(knitMeta?.dateFrom||'—')} to ${esc(knitMeta?.dateTo||'—')}</p><span class="status-pill" style="margin:4px">Knitting_Date: ${(d?.sheets?.Knitting_Date||[]).length} rows</span><span class="status-pill" style="margin:4px">Knitting_Date_Buyer: ${(d?.sheets?.Knitting_Date_Buyer||[]).length} rows</span>${knitMeta?.buyerEvenAllocation?'<p class="muted"><b>Buyer source notice:</b> equal daily allocation detected across buyers.</p>':''}</div><div class="panel"><h3>Current Finishing dataset</h3><div class="note">Visible to authenticated users with Finishing menu permission</div><p><b>File:</b> ${esc(finMeta?.fileName||((d?.sheets?.Finishing_Date||[]).length?'Finishing file uploaded':'—'))}</p><p><b>Last updated:</b> ${finMeta?.uploadedAt?new Date(finMeta.uploadedAt).toLocaleString():'—'}</p><p><b>Usable source period:</b> ${esc(finMeta?.dateFrom||'—')} to ${esc(finMeta?.dateTo||'—')}</p><span class="status-pill" style="margin:4px">Finishing_Date: ${(d?.sheets?.Finishing_Date||[]).length} rows</span></div><div class="panel"><h3>Current Delivery dataset</h3><div class="note">Visible to authenticated users with Delivery menu permission</div><p><b>File:</b> ${esc(delMeta?.fileName||((d?.sheets?.Delivery_Date||[]).length?'Delivery file uploaded':'—'))}</p><p><b>Last updated:</b> ${delMeta?.uploadedAt?new Date(delMeta.uploadedAt).toLocaleString():'—'}</p><p><b>Usable source period:</b> ${esc(delMeta?.dateFrom||'—')} to ${esc(delMeta?.dateTo||'—')}</p><span class="status-pill" style="margin:4px">Delivery_Date: ${(d?.sheets?.Delivery_Date||[]).length} rows</span><span class="status-pill" style="margin:4px">Delivery_Date_Buyer: ${(d?.sheets?.Delivery_Date_Buyer||[]).length} rows</span>${delMeta?.buyerEvenAllocation?'<p class="muted"><b>Buyer source notice:</b> draft/equal buyer allocation detected. Replace later with actual buyer-wise data.</p>':''}</div><div class="panel"><h3>Current Yarn Dyeing dataset</h3><div class="note">Visible to authenticated users with Yarn Dyeing menu permission</div><p><b>File:</b> ${esc(ydMeta?.fileName||((d?.sheets?.YD_Date||[]).length?'Yarn Dyeing file uploaded':'—'))}</p><p><b>Last updated:</b> ${ydMeta?.uploadedAt?new Date(ydMeta.uploadedAt).toLocaleString():'—'}</p><p><b>Usable source period:</b> ${esc(ydMeta?.dateFrom||'—')} to ${esc(ydMeta?.dateTo||'—')}</p><span class="status-pill" style="margin:4px">YD_Date: ${(d?.sheets?.YD_Date||[]).length} rows</span><span class="status-pill" style="margin:4px">YD_Date_Buyer: ${(d?.sheets?.YD_Date_Buyer||[]).length} rows</span>${ydMeta?.buyerEvenAllocation?'<p class="muted"><b>Buyer source notice:</b> demo/equal buyer allocation detected. Date totals are protected from multiplication; replace later with actual buyer-wise data.</p>':''}</div><div class="panel"><h3>Current Chemical Lab dataset</h3><div class="note">Visible to authenticated users with Chemical Lab menu permission</div><p><b>File:</b> ${esc(chemMeta?.fileName||((d?.sheets?.C_Lab_Date||[]).length?'Chemical Lab file uploaded':'—'))}</p><p><b>Last updated:</b> ${chemMeta?.uploadedAt?new Date(chemMeta.uploadedAt).toLocaleString():'—'}</p><p><b>Usable source period:</b> ${esc(chemMeta?.dateFrom||'—')} to ${esc(chemMeta?.dateTo||'—')}</p><span class="status-pill" style="margin:4px">C_Lab_Date: ${(d?.sheets?.C_Lab_Date||[]).length} rows</span></div><div class="panel"><h3>Current ETL dataset</h3><div class="note">Visible to authenticated users with ETL menu permission</div><p><b>File:</b> ${esc(etlMeta?.fileName||((d?.sheets?.ETL_Date||[]).length?'ETL file uploaded':'—'))}</p><p><b>Last updated:</b> ${etlMeta?.uploadedAt?new Date(etlMeta.uploadedAt).toLocaleString():'—'}</p><p><b>Usable source period:</b> ${esc(etlMeta?.dateFrom||'—')} to ${esc(etlMeta?.dateTo||'—')}</p><span class="status-pill" style="margin:4px">ETL_Date: ${(d?.sheets?.ETL_Date||[]).length} rows</span></div>`;if($('#dyeingUploadBtn'))$('#dyeingUploadBtn').onclick=handleDyeingUpload;if($('#knittingUploadBtn'))$('#knittingUploadBtn').onclick=handleKnittingUpload;if($('#finishingUploadBtn'))$('#finishingUploadBtn').onclick=handleFinishingUpload;if($('#deliveryUploadBtn'))$('#deliveryUploadBtn').onclick=handleDeliveryUpload;if($('#yarnDyeingUploadBtn'))$('#yarnDyeingUploadBtn').onclick=handleYarnDyeingUpload;if($('#chemicalLabUploadBtn'))$('#chemicalLabUploadBtn').onclick=handleChemicalLabUpload;if($('#etlUploadBtn'))$('#etlUploadBtn').onclick=handleETLUpload;}
-function render(){if(!state.data)return;destroyCharts();applyMenuPermissions();syncBuyerOptions(false);const special=['data','users'].includes(state.tab);$('.toolbar').classList.toggle('hidden',special);$('#exportBtn').classList.toggle('hidden',special);$('#kpis').classList.toggle('knitting-kpis',state.tab==='knitting');$('#kpis').classList.toggle('finishing-kpis',state.tab==='finishing');$('#kpis').classList.toggle('delivery-kpis',state.tab==='delivery');$('#kpis').classList.toggle('yarn-kpis',state.tab==='yarn');$('#kpis').classList.toggle('chemical-kpis',state.tab==='chemical');$('#kpis').classList.toggle('etl-kpis',state.tab==='etl');$$('.nav button').forEach(b=>b.classList.toggle('active',b.dataset.tab===state.tab));const fns={overview:renderOverview,dyeing:renderDyeing,knitting:renderKnitting,finishing:renderFinishing,delivery:renderDelivery,yarn:renderYarnDyeing,chemical:renderChemicalLab,etl:renderETL,buyers:renderBuyers,data:renderData,users:renderUsers};(fns[state.tab]||renderOverview)();if(special){$('#countText').textContent='';return}if(state.tab==='dyeing')$('#countText').textContent=`${dyeingBuyerRows().length} buyer/date records • ${dyeingDateRows().length} overall date records`;else if(state.tab==='knitting')$('#countText').textContent=`${knittingBuyerRows().length} buyer/date records • ${knittingDateRows().length} overall date records`;else if(state.tab==='finishing')$('#countText').textContent=`${finishingDateRows().length} finishing date records`;else if(state.tab==='delivery')$('#countText').textContent=`${deliveryBuyerRows().length} buyer/date records • ${deliveryDateRows().length} delivery date records`;else if(state.tab==='yarn')$('#countText').textContent=`${yarnDyeingBuyerRows().length} buyer/date records • ${yarnDyeingDateRows().length} Yarn Dyeing date records`;else if(state.tab==='chemical')$('#countText').textContent=`${chemicalLabRows().length} Chemical Lab date records`;else if(state.tab==='etl')$('#countText').textContent=`${etlRows().length} ETL date records`;else $('#countText').textContent=state.tab==='buyers'?`${filteredBuyers().length} buyer records`:`${currentDateRows('Dyeing').length} daily records`;}
+function render(){if(!state.data)return;destroyCharts();applyMenuPermissions();syncBuyerOptions(false);const special=['data','users'].includes(state.tab);$('.toolbar').classList.toggle('hidden',special);$('#exportBtn').classList.toggle('hidden',special);$('#kpis').classList.toggle('overview-kpis',state.tab==='overview');$('#kpis').classList.toggle('knitting-kpis',state.tab==='knitting');$('#kpis').classList.toggle('finishing-kpis',state.tab==='finishing');$('#kpis').classList.toggle('delivery-kpis',state.tab==='delivery');$('#kpis').classList.toggle('yarn-kpis',state.tab==='yarn');$('#kpis').classList.toggle('chemical-kpis',state.tab==='chemical');$('#kpis').classList.toggle('etl-kpis',state.tab==='etl');$$('.nav button').forEach(b=>b.classList.toggle('active',b.dataset.tab===state.tab));const fns={overview:renderOverview,dyeing:renderDyeing,knitting:renderKnitting,finishing:renderFinishing,delivery:renderDelivery,yarn:renderYarnDyeing,chemical:renderChemicalLab,etl:renderETL,buyers:renderBuyers,data:renderData,users:renderUsers};(fns[state.tab]||renderOverview)();if(special){$('#countText').textContent='';return}if(state.tab==='dyeing')$('#countText').textContent=`${dyeingBuyerRows().length} buyer/date records • ${dyeingDateRows().length} overall date records`;else if(state.tab==='knitting')$('#countText').textContent=`${knittingBuyerRows().length} buyer/date records • ${knittingDateRows().length} overall date records`;else if(state.tab==='finishing')$('#countText').textContent=`${finishingDateRows().length} finishing date records`;else if(state.tab==='delivery')$('#countText').textContent=`${deliveryBuyerRows().length} buyer/date records • ${deliveryDateRows().length} delivery date records`;else if(state.tab==='yarn')$('#countText').textContent=`${yarnDyeingBuyerRows().length} buyer/date records • ${yarnDyeingDateRows().length} Yarn Dyeing date records`;else if(state.tab==='chemical')$('#countText').textContent=`${chemicalLabRows().length} Chemical Lab date records`;else if(state.tab==='etl')$('#countText').textContent=`${etlRows().length} ETL date records`;else if(state.tab==='overview')$('#countText').textContent='Executive summary • 7 departments • date-wise view';else $('#countText').textContent=state.tab==='buyers'?`${filteredBuyers().length} buyer records`:`${currentDateRows('Dyeing').length} daily records`;}
 let swElapsed=0,swStartedAt=null,swTimer=null;
 function updateStopwatch(){const el=$('#stopwatchText');if(!el)return;const ms=swElapsed+(swStartedAt?Date.now()-swStartedAt:0),sec=Math.floor(ms/1000),m=Math.floor(sec/60),s=sec%60;el.textContent=`${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`}
 function toggleStopwatch(){const btn=$('#stopwatchBtn');if(swTimer){swElapsed+=Date.now()-swStartedAt;swStartedAt=null;clearInterval(swTimer);swTimer=null;btn?.classList.remove('active-tool')}else{swStartedAt=Date.now();swTimer=setInterval(updateStopwatch,250);btn?.classList.add('active-tool')}updateStopwatch()}
