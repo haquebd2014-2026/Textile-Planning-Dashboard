@@ -82,11 +82,90 @@ body.dark-mode .delivery-weekend-note{background:#172a22;border-color:#355046;co
 @media(max-width:1050px){.kpis.delivery-kpis{grid-template-columns:repeat(3,minmax(0,1fr))}}
 @media(max-width:650px){.kpis.delivery-kpis{grid-template-columns:repeat(2,minmax(0,1fr))}}
 
-.kpis.yarn-kpis{grid-template-columns:repeat(4,minmax(0,1fr))}
-.kpis.yarn-kpis .kpi{min-width:0}
-.kpis.yarn-kpis .kpi .label{font-size:10.5px;line-height:1.25}
-.kpis.yarn-kpis .kpi .value{font-size:24px;line-height:1.08}
-.kpis.yarn-kpis .kpi .sub{font-size:10px;line-height:1.45}
+.kpis.yarn-kpis{
+  grid-template-columns:1.08fr 1.62fr 1.08fr 1.48fr 1fr .78fr .92fr;
+  gap:0;
+  align-items:stretch;
+  overflow:hidden;
+  border-radius:7px;
+  box-shadow:0 5px 18px rgba(17,70,52,.08)
+}
+.kpis.yarn-kpis .kpi{
+  min-width:0;
+  min-height:126px;
+  padding:15px 13px 12px;
+  display:flex;
+  flex-direction:column;
+  justify-content:flex-start;
+  border-right:1px solid var(--line);
+  border-bottom:0;
+  overflow:hidden
+}
+.kpis.yarn-kpis .kpi:last-child{border-right:0}
+.kpis.yarn-kpis .kpi .label{
+  font-size:10.5px;
+  line-height:1.2;
+  font-weight:800;
+  color:#31433b;
+  min-height:25px
+}
+.kpis.yarn-kpis .kpi .value{
+  font-size:27px;
+  line-height:1.02;
+  margin:7px 0 5px;
+  letter-spacing:-.3px
+}
+.kpis.yarn-kpis .kpi .sub{
+  font-size:9.8px;
+  line-height:1.35;
+  color:#64736c
+}
+.kpis.yarn-kpis .kpi-substack{
+  display:flex;
+  flex-wrap:wrap;
+  align-content:flex-start;
+  gap:4px 5px;
+  margin-top:1px
+}
+.kpis.yarn-kpis .kpi-substack>div{
+  white-space:nowrap;
+  padding:2px 6px;
+  border-radius:999px;
+  background:rgba(10,125,91,.07);
+  border:1px solid rgba(10,125,91,.11);
+  font-size:9.1px;
+  line-height:1.35
+}
+.kpis.yarn-kpis .kpi-substack>div:first-child{
+  background:rgba(40,119,184,.07);
+  border-color:rgba(40,119,184,.12)
+}
+.kpis.yarn-kpis .kpi-substack b{color:#30483f}
+.kpis.yarn-kpis .tone-green{background:linear-gradient(180deg,#ffffff,#f5fbf8)}
+.kpis.yarn-kpis .tone-teal{background:linear-gradient(180deg,#ffffff,#f2fbfb)}
+.kpis.yarn-kpis .tone-orange{background:linear-gradient(180deg,#ffffff,#fff8ef)}
+.kpis.yarn-kpis .tone-purple{background:linear-gradient(180deg,#ffffff,#f8f5ff)}
+.kpis.yarn-kpis .tone-blue{background:linear-gradient(180deg,#ffffff,#f4f9fd)}
+.kpis.yarn-kpis .tone-amber{background:linear-gradient(180deg,#ffffff,#fffbef)}
+.kpis.yarn-kpis .tone-rose{background:linear-gradient(180deg,#ffffff,#fff5f8)}
+body.dark-mode .kpis.yarn-kpis{box-shadow:0 5px 18px rgba(0,0,0,.22)}
+body.dark-mode .kpis.yarn-kpis .kpi .label{color:#d5e7df}
+body.dark-mode .kpis.yarn-kpis .kpi .sub{color:#a9bbb3}
+body.dark-mode .kpis.yarn-kpis .kpi-substack>div{
+  background:rgba(114,214,169,.08);
+  border-color:rgba(114,214,169,.16);
+  color:#bfd5cb
+}
+body.dark-mode .kpis.yarn-kpis .kpi-substack b{color:#dff2ea}
+body.dark-mode .kpis.yarn-kpis .tone-green,
+body.dark-mode .kpis.yarn-kpis .tone-teal,
+body.dark-mode .kpis.yarn-kpis .tone-orange,
+body.dark-mode .kpis.yarn-kpis .tone-purple,
+body.dark-mode .kpis.yarn-kpis .tone-blue,
+body.dark-mode .kpis.yarn-kpis .tone-amber,
+body.dark-mode .kpis.yarn-kpis .tone-rose{
+  background:linear-gradient(180deg,#17231e,#14201b)
+}
 .yd-viewbar{grid-column:1/-1;display:flex;align-items:center;justify-content:space-between;gap:12px;background:var(--card);border:1px solid var(--line);padding:10px 12px}
 .yd-viewbar .view-note{font-size:10px;color:var(--muted)}
 .yd-segment{display:inline-flex;border:1px solid var(--green);border-radius:4px;overflow:hidden;background:var(--card)}
@@ -97,7 +176,17 @@ body.dark-mode .yd-viewbar{background:#17231e}
 body.dark-mode .yd-segment{background:#17231e}
 body.dark-mode .yd-segment button{color:#bfe9d7}
 body.dark-mode .yd-segment button.active{background:#0a7d5b;color:#fff}
-@media(max-width:900px){.kpis.yarn-kpis{grid-template-columns:repeat(2,minmax(0,1fr))}.yd-viewbar{align-items:flex-start;flex-direction:column}}
+@media(max-width:1200px){
+  .kpis.yarn-kpis{
+    grid-template-columns:repeat(7,minmax(155px,1fr));
+    overflow-x:auto;
+    border-radius:5px
+  }
+}
+@media(max-width:900px){
+  .kpis.yarn-kpis{grid-template-columns:repeat(7,minmax(150px,1fr))}
+  .yd-viewbar{align-items:flex-start;flex-direction:column}
+}
 
 </style></head><body><div id="app" class="hidden"><div class="app-sticky-header"><div class="top-accent"></div><header class="header"><div class="header-left"><div class="brand-mark">TP</div><div><div class="brand-title">Textile Planning Dashboard</div><div class="brand-sub">Planning, Monitoring & Control</div></div></div><div class="header-actions"><div class="utility-tools"><button class="tool-btn stopwatch-btn" id="stopwatchBtn" title="Click to start/pause • Double-click to reset">⏱ <span id="stopwatchText">00:00</span></button><button class="tool-btn" id="fullscreenBtn" title="Enter full screen">⛶ Full</button><button class="tool-btn" id="themeBtn" title="Switch dark/light mode">☾ Dark</button></div><span class="greeting" id="greeting">Good morning</span><button class="btn" id="exportBtn">Export CSV</button><button class="btn" id="signOutBtn">Sign out</button><button class="btn primary" id="refreshBtn">Refresh</button></div></header><nav class="nav"><button class="active" data-tab="overview">Overview</button><button data-tab="dyeing">Dyeing</button><button data-tab="knitting">Knitting</button><button data-tab="finishing">Finishing</button><button data-tab="delivery">Delivery</button><button data-tab="yarn">Yarn Dyeing</button><button data-tab="buyers">Buyer Analysis</button><button data-tab="data">Data Management</button><button data-tab="users">User Management</button></nav></div><main class="page"><section class="toolbar"><div class="filters"><div class="filter-group"><span class="mini-label">Search</span><input id="search" placeholder="buyer, value..."></div><div class="filter-group"><span class="mini-label">Buyer</span><select id="buyerFilter"><option value="">All buyers</option></select></div><div class="filter-group"><span class="mini-label">From</span><input id="fromDate" type="date"></div><div class="filter-group"><span class="mini-label">To</span><input id="toDate" type="date"></div><div class="filter-group"><span class="mini-label">Filters</span><button class="btn" id="resetBtn">Reset all</button></div><div class="filter-group"><span class="mini-label">Dataset</span><span class="status-pill">Live data</span></div></div><div class="toolbar-bottom"><span id="countText"></span><span id="lastUpdated"></span></div></section><section class="kpis" id="kpis"></section><section class="grid" id="content"></section></main><div id="chartDataModal" class="chart-data-modal hidden" role="dialog" aria-modal="true" aria-labelledby="chartDataTitle"><div class="chart-data-dialog"><div class="chart-data-head"><div><h3 id="chartDataTitle">Chart Data</h3><div class="meta" id="chartDataMeta"></div></div><button class="chart-data-close" id="chartDataClose" type="button" title="Close">×</button></div><div class="chart-data-body" id="chartDataBody"></div></div></div></div><div id="login" class="login-shell"><div class="login-card"><div class="brand-row"><div class="brand-mark">TP</div><div><div class="brand-title">Textile Planning Dashboard</div><div class="brand-sub">Planning, Monitoring & Control</div></div></div><h2>Authorized access</h2><p>Sign in to view the shared planning dashboard.</p><div class="field"><label>Email</label><input id="email" type="email" autocomplete="username"></div><div class="field"><label>Password</label><input id="password" type="password" autocomplete="current-password"></div><button class="btn primary" id="loginBtn" style="width:100%">Sign in</button><div class="error" id="loginError"></div></div></div><script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script><script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="config.js"></script><script>const REQUIRED_SHEETS=['Dyeing','Knitting','Finishing','FFS','Buyer Wise data'];
 const DYEING_SHEETS=['Dyeing_Date_Buyer','Dyeing_Date'];
@@ -296,9 +385,9 @@ lineChartPct('finStRef',labels,[{label:'Stenter Refinish',data:r.map(x=>safeNum(
 function renderYarnDyeing(){const dr=yarnDyeingDateRows(),br=yarnDyeingBuyerRows(),buyer=$('#buyerFilter')?.value||'',rawAll=currentDateRows('YD_Date_Buyer');if(!dr.length&&!(state.data?.sheets?.YD_Date_Buyer||[]).length){metricCardSet([]);$('#content').innerHTML='<div class="alert">No Yarn Dyeing data uploaded yet. Go to Data Management and upload <b>Yarn_Dyeing_Dashboard.xlsx</b> containing <b>YD_Date</b> and <b>YD_Date_Buyer</b>.</div>';return}
 const even=yarnDyeingBuyerSourceEvenlyAllocated(rawAll),useRepresentative=even&&!buyer;const daily=yarnDyeingDailySummary(br,useRepresentative),buyerSummary=yarnDyeingBuyerSummary(br);const days=new Set(daily.map(r=>r.Date).filter(Boolean)).size||dr.length,perDay=n=>days?n/days:null,avgMass=n=>n===null||!Number.isFinite(n)?'—':(Math.abs(n)>=1000?ton(n)+'/day':fmt1(n)+' kg/day');const overall=sum(daily,'Overall Total Prod.'),inhouse=sum(daily,'Total In house Prod.'),subcon=sum(daily,'Sub-Contract  Prod.'),inShare=overall?inhouse/overall:null,subShare=overall?subcon/overall:null;const cotton=sum(daily,'Cotton Dyeing'),space=sum(daily,'Space Dyeing'),thread=sum(daily,'Sewing Thread'),service=sum(daily,'Service Prod.');const twist=sum(daily,'Twisting Total'),twIn=sum(daily,'Twisting In house'),twSub=sum(daily,'Twisting Subcontract'),twInShare=twist?twIn/twist:null,twSubShare=twist?twSub/twist:null;
 metricCardSet([
-kpi('Overall Total Prod.',ton(overall),`Avg/day: ${avgMass(perDay(overall))}`,'green'),
+kpi('Overall Total Prod.',ton(overall),`Avg/day ${avgMass(perDay(overall))}`,'green'),
 kpiMulti('Total In-house Prod.',ton(inhouse),[{label:'Avg/day:',value:avgMass(perDay(inhouse))},{label:'Share:',value:pct(inShare)},{label:'Cotton:',value:ton(cotton)},{label:'Space:',value:ton(space)},{label:'Sewing Thread:',value:ton(thread)},{label:'Service:',value:ton(service)}],'teal'),
-kpi('Sub-Contract Prod.',ton(subcon),`Avg/day: ${avgMass(perDay(subcon))} • Share ${pct(subShare)}`,'orange'),
+kpi('Sub-Contract Prod.',ton(subcon),`Avg/day ${avgMass(perDay(subcon))} • Share ${pct(subShare)}`,'orange'),
 kpiMulti('Twisting Total',fmt1(twist)+' kg',[{label:'Avg/day:',value:fmt1(perDay(twist))+' kg'},{label:'In-house:',value:`${fmt1(twIn)} kg • Avg ${fmt1(perDay(twIn))} • ${pct(twInShare)}`},{label:'Subcontract:',value:`${fmt1(twSub)} kg • Avg ${fmt1(perDay(twSub))} • ${pct(twSubShare)}`}],'purple'),
 kpi('Capacity Utilization',pct(avg(dr,'Capacity Utilization')),'Average of selected dates','blue'),
 kpi('B/M/D',fmt1(avg(dr,'B/M/D')),'Average of selected dates','amber'),
