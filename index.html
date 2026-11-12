@@ -470,7 +470,7 @@ body.dark-mode .snap-pill.st-neutral{background:#2c3c35;color:#d1dfd9}
 body.dark-mode .snap-tile{background:#22302a}
 body.dark-mode .snap-tile.st-ok{background:#17382b}.dark-mode .snap-tile.st-watch{background:#413715}
 body.dark-mode .snap-tile.st-critical{background:#44231d}
-@media(max-width:900px){.snapshot-kp{grid-template-columns:repeat(4,minmax(0,1fr))}.snap-c3,.snap-c2{grid-column:span 6}}
+@media(max-width:900px){.snap-dye-compare{width:100%}.snapshot-kp{grid-template-columns:repeat(4,minmax(0,1fr))}.snap-c3,.snap-c2{grid-column:span 6}}
 
 
 /* ===== Compact executive Overview v20 ===== */
@@ -584,7 +584,7 @@ body:not(.dark-mode) .snapshot-shell{background:#f4f7f5}
 
 
 /* ===== Overview v21: Dyeing comparison card ===== */
-.snap-dye-compare{width:100%;border-collapse:collapse;margin-top:1px}
+.snap-dye-compare{width:74%;border-collapse:collapse;margin-top:1px;margin-right:auto;table-layout:fixed}
 .snap-dye-compare th{
   font-size:8px;color:var(--muted);font-weight:600;padding:1px 2px 3px;text-align:center
 }
@@ -593,12 +593,11 @@ body:not(.dark-mode) .snapshot-shell{background:#f4f7f5}
   padding:2px 2px;border-top:1px solid var(--line);text-align:center;font-size:9px
 }
 .snap-dye-compare td:first-child{
-  text-align:left;color:var(--muted);font-size:9.2px;width:38%
+  text-align:left;color:var(--muted);font-size:9.2px;width:32%
 }
+.snap-dye-compare th:first-child{width:32%}
+.snap-dye-compare th:nth-child(2),.snap-dye-compare th:nth-child(3){width:34%}
 .snap-dye-compare .snap-pill{min-width:58px}
-.snap-dye-overall{
-  display:inline-block;min-width:126px;text-align:center
-}
 .snap-pluvia{
   margin-top:5px;padding-top:3px;border-top:1px solid var(--line)
 }
@@ -1066,6 +1065,8 @@ function normalizeTargetWorkbook(wb){
   add('Dyeing','Capacity Utilization EKL+Ext',capX);
 
   const otE=parsed(by('EFL Dyeing','On Time Target'),'%'),otX=parsed(by('EKL + Ext Dyeing','On Time Target'),'%');
+  add('Dyeing','On Time Target EFL',otE);
+  add('Dyeing','On Time Target EKL+Ext',otX);
   if(otE||otX)add('Dyeing','On Time Target',{...(otE||otX),value:Math.min(...[otE?.value,otX?.value].filter(v=>v!==undefined))},'Uses the stricter/lower of EFL and EKL+Ext On Time targets');
 
   const repE=parsed(by('EFL Dyeing','Reprocess'),'%',{direction:'Lower'}),repX=parsed(by('EKL + Ext Dyeing','Reprocess'),'%',{direction:'Lower'});
@@ -1114,8 +1115,9 @@ function targetMap(){const m=new Map();for(const r of(state.data?.targets||[]))m
 function targetFor(department,kpi){return targetMap().get(targetKey(department,kpi))||null}
 function targetStatus(department,kpi,actual){
   const t=targetFor(department,kpi);
+  if(actual===null||actual===undefined||actual==='')return{code:'neutral',label:'No data',target:t};
   const a=Number(actual);
-  if(!t||!Number.isFinite(a))return{code:'neutral',label:'No target',target:t};
+  if(!t||!Number.isFinite(a))return{code:'neutral',label:t?'No data':'No target',target:t};
   const target=Number(t.Target),watch=Math.max(0,Number(t['Watch %']??.10)),margin=Math.abs(target)*watch;
   let code='critical';
   if(String(t.Direction).toLowerCase()==='lower'){
@@ -1201,6 +1203,8 @@ function renderOverview(){
         dyeE=sum(dyeBuyerAll,'Prod. (EFL)'),dyeX=sum(dyeBuyerAll,'Prod. (EKL+Ext)'),dyePl=sum(dyeBuyerAll,'Pluvia'),
         dyeTotal=dyeE+dyeX+dyePl,dyeAvg=tpd(dyeTotal,dyeDays),dyeEAvg=tpd(dyeE,dyeDays),
         dyeXAvg=tpd(dyeX,dyeDays),dyePlAvg=tpd(dyePl,dyeDays),dyeOT=avg(dyeDate,'On Time Target'),
+        dyeOTE=avg(dyeDate,'On Time Target (EFL)') ?? avg(dyeDate,'On Time (EFL)') ?? null,
+        dyeOTX=avg(dyeDate,'On Time Target (EKL+Ext)') ?? avg(dyeDate,'On Time Target (EKL+Ext.)') ?? avg(dyeDate,'On Time (EKL+Ext)') ?? null,
         dyeRepE=sum(dyeBuyerAll,'Reprocess (EFL)'),dyeRepX=sum(dyeBuyerAll,'Reprocess (EKL+Ext)'),
         dyeRep=dyeRepE+dyeRepX,dyeRepEPct=dyeE?dyeRepE/dyeE:null,dyeRepXPct=dyeX?dyeRepX/dyeX:null,
         dyeRepPct=(dyeE+dyeX)?dyeRep/(dyeE+dyeX):null,
@@ -1237,6 +1241,9 @@ function renderOverview(){
     S('Dyeing','Reprocess EFL',dyeRepEPct),S('Dyeing','Reprocess EKL+Ext',dyeRepXPct),
     S('Dyeing','B/M/D EFL',dyeBmdE),S('Dyeing','B/M/D EKL+Ext',dyeBmdX)
   ];
+  const dyeOTEStatus=S('Dyeing','On Time Target EFL',dyeOTE),
+        dyeOTXStatus=S('Dyeing','On Time Target EKL+Ext',dyeOTX);
+  const dyeVisibleStats=[...dyeStats.filter((_,i)=>i!==4),dyeOTEStatus,dyeOTXStatus];
   const finStats=[S('Finishing','Handedover Avg/day',handAvg),S('Finishing','MLT',finMLT),S('Finishing','Stenter Avg/day',stAvg),S('Finishing','Stenter Utilization',stUtil),S('Finishing','Dryer Avg/day',drAvg),S('Finishing','Dryer Utilization',drUtil),S('Finishing','Compactor Avg/day',coAvg),S('Finishing','Compactor Utilization',coUtil),S('Finishing','Stenter Refinish',stRef),S('Finishing','First Batch Single',firstSingle),S('Finishing','First Batch Double',firstDouble)];
   const chemStats=[S('Chemical Lab','Overall SLT',chemSLT),S('Chemical Lab','Overall RFT',chemRFT)];
   const etlStats=[S('ETL','Total Reports Avg/day',etlAvg),S('ETL','ETL OTD',etlOTD),S('ETL','Flat Dry 1 Wash',etlFlat1),S('ETL','Line Dry 1 Wash',etlLine1),S('ETL','Tumble Dry 1 Wash',etlTumble1)];
@@ -1282,7 +1289,7 @@ function renderOverview(){
       <tr><td>Daily prod</td><td>${snapPill(`${fmt1(dyeEAvg)} T`,dyeStats[1])}</td><td>${snapPill(`${fmt1(dyeXAvg)} T`,dyeStats[2])}</td></tr>
       <tr><td>RFT</td><td>${snapPill(pct(dyeRftE),dyeStats[8])}</td><td>${snapPill(pct(dyeRftX),dyeStats[9])}</td></tr>
       <tr><td>Capacity util.</td><td>${snapPill(pct(dyeCapE),dyeStats[10])}</td><td>${snapPill(pct(dyeCapX),dyeStats[11])}</td></tr>
-      <tr><td>On time</td><td colspan="2"><span class="snap-dye-overall">${snapPill(pct(dyeOT),dyeStats[4])}</span></td></tr>
+      <tr><td>On time</td><td>${dyeOTE===null?'':snapPill(pct(dyeOTE),dyeOTEStatus)}</td><td>${dyeOTX===null?'':snapPill(pct(dyeOTX),dyeOTXStatus)}</td></tr>
       <tr><td>Re-process</td><td>${snapPill(pct(dyeRepEPct),dyeStats[12])}</td><td>${snapPill(pct(dyeRepXPct),dyeStats[13])}</td></tr>
       <tr><td>B/M/D</td><td>${snapPill(fmt1(dyeBmdE),dyeStats[14])}</td><td>${snapPill(fmt1(dyeBmdX),dyeStats[15])}</td></tr>
     </tbody>
@@ -1328,7 +1335,7 @@ function renderOverview(){
       ${snapCard('snap-c3','Delivery',deliveryAvg===null?'—':`${fmt1(deliveryAvg)} T/day`,worstStatus(deliveryStats),deliveryBody,'green')}
       ${snapCard('snap-c3','Knitting',knAvg===null?'—':`${fmt1(knAvg)} T/day`,worstStatus([knitStats[0],knitStats[2],knitStats[3],knitStats[4],knitStats[5],knitStats[6]]),knittingBody,'blue')}
 
-      ${snapCard('snap-c3','Dyeing',dyeAvg===null?'—':`${fmt1(dyeAvg)} T/day`,worstStatus(dyeStats),dyeBody,'purple')}
+      ${snapCard('snap-c3','Dyeing',dyeAvg===null?'—':`${fmt1(dyeAvg)} T/day`,worstStatus(dyeVisibleStats),dyeBody,'purple')}
       ${snapCard('snap-c3','Finishing',handAvg===null?'—':`${fmt1(handAvg)} T/day`,worstStatus(finStats),finishingBody,'orange')}
 
       ${snapCard('snap-c2','Yarn Dyeing',ydOverallAvg===null?'—':`${fmt1(ydOverallAvg)} T/day`,worstStatus(yarnStats),yarnBody,'teal')}
