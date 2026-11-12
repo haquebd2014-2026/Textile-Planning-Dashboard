@@ -561,7 +561,7 @@ body:not(.dark-mode) .snapshot-shell{background:#f4f7f5}
 .snapshot-grid > .snap-card:nth-of-type(2){min-height:122px}
 
 /* Dyeing + Finishing row */
-.snapshot-grid > .snap-card:nth-of-type(3),
+.snapshot-grid > .snap-card:nth-of-type(3){min-height:205px}
 .snapshot-grid > .snap-card:nth-of-type(4){min-height:176px}
 
 /* Yarn Dyeing + Chemical Lab + ETL row */
@@ -581,6 +581,46 @@ body:not(.dark-mode) .snapshot-shell{background:#f4f7f5}
   .snapshot-kp{grid-template-columns:repeat(4,minmax(0,1fr));overflow:visible}
   .snap-c3,.snap-c2{grid-column:span 6}
 }
+
+
+/* ===== Overview v21: Dyeing comparison card ===== */
+.snap-dye-compare{width:100%;border-collapse:collapse;margin-top:1px}
+.snap-dye-compare th{
+  font-size:8px;color:var(--muted);font-weight:600;padding:1px 2px 3px;text-align:center
+}
+.snap-dye-compare th:first-child{text-align:left}
+.snap-dye-compare td{
+  padding:2px 2px;border-top:1px solid var(--line);text-align:center;font-size:9px
+}
+.snap-dye-compare td:first-child{
+  text-align:left;color:var(--muted);font-size:9.2px;width:38%
+}
+.snap-dye-compare .snap-pill{min-width:58px}
+.snap-dye-overall{
+  display:inline-block;min-width:126px;text-align:center
+}
+.snap-pluvia{
+  margin-top:5px;padding-top:3px;border-top:1px solid var(--line)
+}
+.snap-pluvia-head{
+  display:flex;justify-content:space-between;align-items:baseline;gap:8px;
+  font-size:8.8px;color:var(--muted)
+}
+.snap-pluvia-head b{
+  color:#2a4b40;font-size:9px;font-weight:800;white-space:nowrap
+}
+.snap-pluvia-track{
+  height:9px;border-radius:99px;background:#e7efeb;overflow:hidden;margin-top:3px
+}
+.snap-pluvia-track u{
+  display:block;height:100%;border-radius:99px;background:var(--snap-neutral);text-decoration:none
+}
+.snap-pluvia-track u.st-ok{background:var(--snap-ok)}
+.snap-pluvia-track u.st-watch{background:var(--snap-watch)}
+.snap-pluvia-track u.st-critical{background:var(--snap-critical)}
+.snap-pluvia-track u.st-neutral{background:var(--snap-neutral)}
+body.dark-mode .snap-pluvia-head b{color:#d8ece3}
+body.dark-mode .snap-pluvia-track{background:#27372f}
 
 </style></head><body><div id="app" class="hidden"><div class="app-sticky-header"><div class="top-accent"></div><header class="header"><div class="header-left"><div class="brand-mark">TP</div><div><div class="brand-title">Textile Planning Dashboard</div><div class="brand-sub">Planning, Monitoring & Control</div></div></div><div class="header-actions"><div class="utility-tools"><button class="tool-btn stopwatch-btn" id="stopwatchBtn" title="Click to start/pause • Double-click to reset">⏱ <span id="stopwatchText">00:00</span></button><button class="tool-btn" id="fullscreenBtn" title="Enter full screen">⛶ Full</button><button class="tool-btn" id="themeBtn" title="Switch dark/light mode">☾ Dark</button></div><span class="greeting" id="greeting">Good morning</span><button class="btn" id="exportBtn">Export CSV</button><button class="btn" id="signOutBtn">Sign out</button><button class="btn primary" id="refreshBtn">Refresh</button></div></header><nav class="nav"><button class="active" data-tab="overview">Overview</button><button data-tab="delivery">Delivery</button><button data-tab="yarn">Yarn Dyeing</button><button data-tab="knitting">Knitting</button><button data-tab="dyeing">Dyeing</button><button data-tab="finishing">Finishing</button><button data-tab="chemical">Chemical Lab</button><button data-tab="etl">ETL</button><button data-tab="buyers">Buyer Analysis</button><button data-tab="data">Data Management</button><button data-tab="users">User Management</button></nav></div><main class="page"><section class="toolbar"><div class="filters"><div class="filter-group"><span class="mini-label">Search</span><input id="search" placeholder="buyer, value..."></div><div class="filter-group"><span class="mini-label">Buyer</span><select id="buyerFilter"><option value="">All buyers</option></select></div><div class="filter-group"><span class="mini-label">From</span><input id="fromDate" type="date"></div><div class="filter-group"><span class="mini-label">To</span><input id="toDate" type="date"></div><div class="filter-group"><span class="mini-label">Filters</span><button class="btn" id="resetBtn">Reset all</button></div><div class="filter-group"><span class="mini-label">Dataset</span><span class="status-pill">Live data</span></div></div><div class="toolbar-bottom"><span id="countText"></span><span id="lastUpdated"></span></div></section><section class="kpis" id="kpis"></section><section class="grid" id="content"></section></main><div id="chartDataModal" class="chart-data-modal hidden" role="dialog" aria-modal="true" aria-labelledby="chartDataTitle"><div class="chart-data-dialog"><div class="chart-data-head"><div><h3 id="chartDataTitle">Chart Data</h3><div class="meta" id="chartDataMeta"></div></div><button class="chart-data-close" id="chartDataClose" type="button" title="Close">×</button></div><div class="chart-data-body" id="chartDataBody"></div></div></div></div><div id="login" class="login-shell"><div class="login-card"><div class="brand-row"><div class="brand-mark">TP</div><div><div class="brand-title">Textile Planning Dashboard</div><div class="brand-sub">Planning, Monitoring & Control</div></div></div><h2>Authorized access</h2><p>Sign in to view the shared planning dashboard.</p><div class="field"><label>Email</label><input id="email" type="email" autocomplete="username"></div><div class="field"><label>Password</label><input id="password" type="password" autocomplete="current-password"></div><button class="btn primary" id="loginBtn" style="width:100%">Sign in</button><div class="error" id="loginError"></div></div></div><script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script><script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="config.js"></script><script>const REQUIRED_SHEETS=['Dyeing','Knitting','Finishing','FFS','Buyer Wise data'];
 const DYEING_SHEETS=['Dyeing_Date_Buyer','Dyeing_Date'];
@@ -1017,12 +1057,25 @@ function normalizeTargetWorkbook(wb){
   add('Dyeing','Pluvia Avg/day',pluvia);
   if(eflDaily&&eklDaily&&pluvia)add('Dyeing','Total Prod Avg/day',{value:eflDaily.value+eklDaily.value+pluvia.value,direction:'Higher',unit:'T/day',source:'EFL + EKL+Ext + Pluvia daily targets',raw:'Derived'},'Derived: EFL Daily Dyeing + EKL+Ext Daily Dyeing + one Pluvia daily target');
   const rftE=parsed(by('EFL Dyeing','Dyeing RFT'),'%'),rftX=parsed(by('EKL + Ext Dyeing','Dyeing RFT'),'%');
+  add('Dyeing','RFT EFL',rftE);
+  add('Dyeing','RFT EKL+Ext',rftX);
   if(rftE||rftX)add('Dyeing','Overall RFT',{...(rftE||rftX),value:Math.min(...[rftE?.value,rftX?.value].filter(v=>v!==undefined))},'Uses the stricter/lower of EFL and EKL+Ext RFT targets');
+
+  const capE=parsed(by('EFL Dyeing','Capacity Utilization'),'%'),capX=parsed(by('EKL + Ext Dyeing','Capacity Utilization'),'%');
+  add('Dyeing','Capacity Utilization EFL',capE);
+  add('Dyeing','Capacity Utilization EKL+Ext',capX);
+
   const otE=parsed(by('EFL Dyeing','On Time Target'),'%'),otX=parsed(by('EKL + Ext Dyeing','On Time Target'),'%');
   if(otE||otX)add('Dyeing','On Time Target',{...(otE||otX),value:Math.min(...[otE?.value,otX?.value].filter(v=>v!==undefined))},'Uses the stricter/lower of EFL and EKL+Ext On Time targets');
+
   const repE=parsed(by('EFL Dyeing','Reprocess'),'%',{direction:'Lower'}),repX=parsed(by('EKL + Ext Dyeing','Reprocess'),'%',{direction:'Lower'});
+  add('Dyeing','Reprocess EFL',repE);
+  add('Dyeing','Reprocess EKL+Ext',repX);
   if(repE||repX)add('Dyeing','Reprocess %',{...(repE||repX),value:Math.min(...[repE?.value,repX?.value].filter(v=>v!==undefined)),direction:'Lower'},'Uses the stricter/lower reprocess limit');
+
   const bmdE=parsed(by('EFL Dyeing','Batch/MC/Day'),'Number'),bmdX=parsed(by('EKL + Ext Dyeing','Batch/MC/Day'),'Number');
+  add('Dyeing','B/M/D EFL',bmdE);
+  add('Dyeing','B/M/D EKL+Ext',bmdX);
   if(bmdE||bmdX)add('Dyeing','Batch/MC/Day',{value:(bmdE?.value||0)+(bmdX?.value||0),direction:'Higher',unit:'Number',source:'EFL + EKL+Ext B/M/D targets',raw:'Derived'},'Combined target because Overview B/M/D is a combined EFL + EKL/Ext measure');
 
   // Finishing
@@ -1148,9 +1201,14 @@ function renderOverview(){
         dyeE=sum(dyeBuyerAll,'Prod. (EFL)'),dyeX=sum(dyeBuyerAll,'Prod. (EKL+Ext)'),dyePl=sum(dyeBuyerAll,'Pluvia'),
         dyeTotal=dyeE+dyeX+dyePl,dyeAvg=tpd(dyeTotal,dyeDays),dyeEAvg=tpd(dyeE,dyeDays),
         dyeXAvg=tpd(dyeX,dyeDays),dyePlAvg=tpd(dyePl,dyeDays),dyeOT=avg(dyeDate,'On Time Target'),
-        dyeRep=sum(dyeBuyerAll,'Reprocess (EFL)')+sum(dyeBuyerAll,'Reprocess (EKL+Ext)'),
+        dyeRepE=sum(dyeBuyerAll,'Reprocess (EFL)'),dyeRepX=sum(dyeBuyerAll,'Reprocess (EKL+Ext)'),
+        dyeRep=dyeRepE+dyeRepX,dyeRepEPct=dyeE?dyeRepE/dyeE:null,dyeRepXPct=dyeX?dyeRepX/dyeX:null,
         dyeRepPct=(dyeE+dyeX)?dyeRep/(dyeE+dyeX):null,
-        dyeRft=mean([avg(dyeDate,'Dyeing RFT (EFL)'),avg(dyeDate,'Dyeing RFT (EKL+Ext.)')]),
+        dyeRftE=avg(dyeDate,'Dyeing RFT (EFL)'),dyeRftX=avg(dyeDate,'Dyeing RFT (EKL+Ext.)'),
+        dyeRft=mean([dyeRftE,dyeRftX]),
+        dyeCapE=avg(dyeDaily,'Capacity Utilization (EFL)'),dyeCapX=avg(dyeDaily,'Capacity Utilization (EKL+Ext)'),
+        dyeBmdE=avg(dyeDaily,'Batch/MC/Day (EFL)'),
+        dyeBmdX=mean(dyeDaily.map(r=>(safeNum(r['Batch/MC/Day (EKL)'])||0)+(safeNum(r['Batch/MC/Day (Ext)'])||0))),
         dyeBmd=mean(dyeDaily.map(r=>(safeNum(r['Batch/MC/Day (EFL)'])||0)+(safeNum(r['Batch/MC/Day (EKL)'])||0)+(safeNum(r['Batch/MC/Day (Ext)'])||0)));
 
   // Finishing
@@ -1171,7 +1229,14 @@ function renderOverview(){
   const deliveryStats=[S('Delivery','Delivered Avg/day',deliveryAvg),S('Delivery','Received Avg/day',receivedAvg),S('Delivery','On Time Delivery',deliveryOTD),S('Delivery','Total Excess %',excessShare)];
   const yarnStats=[S('Yarn Dyeing','Overall Prod Avg/day',ydOverallAvg),S('Yarn Dyeing','In-house Share',ydInShare),S('Yarn Dyeing','Capacity Utilization',ydCapacity),S('Yarn Dyeing','B/M/D',ydBmd),S('Yarn Dyeing','YD OTD',ydOtd)];
   const knitStats=[S('Knitting','Overall Prod Avg/day',knAvg),S('Knitting','In-house Share',knInShare),S('Knitting','Subcontract Share',knSubShare),S('Knitting','Prod/MC',knProdMC),S('Knitting','MC Utilization',knMC),S('Knitting','Overall OTT',knOTT),S('Knitting','Yarn Booking',knYarn)];
-  const dyeStats=[S('Dyeing','Total Prod Avg/day',dyeAvg),S('Dyeing','EFL Avg/day',dyeEAvg),S('Dyeing','EKL+Ext Avg/day',dyeXAvg),S('Dyeing','Pluvia Avg/day',dyePlAvg),S('Dyeing','On Time Target',dyeOT),S('Dyeing','Reprocess %',dyeRepPct),S('Dyeing','Overall RFT',dyeRft),S('Dyeing','Batch/MC/Day',dyeBmd)];
+  const dyeStats=[
+    S('Dyeing','Total Prod Avg/day',dyeAvg),S('Dyeing','EFL Avg/day',dyeEAvg),S('Dyeing','EKL+Ext Avg/day',dyeXAvg),S('Dyeing','Pluvia Avg/day',dyePlAvg),
+    S('Dyeing','On Time Target',dyeOT),S('Dyeing','Reprocess %',dyeRepPct),S('Dyeing','Overall RFT',dyeRft),S('Dyeing','Batch/MC/Day',dyeBmd),
+    S('Dyeing','RFT EFL',dyeRftE),S('Dyeing','RFT EKL+Ext',dyeRftX),
+    S('Dyeing','Capacity Utilization EFL',dyeCapE),S('Dyeing','Capacity Utilization EKL+Ext',dyeCapX),
+    S('Dyeing','Reprocess EFL',dyeRepEPct),S('Dyeing','Reprocess EKL+Ext',dyeRepXPct),
+    S('Dyeing','B/M/D EFL',dyeBmdE),S('Dyeing','B/M/D EKL+Ext',dyeBmdX)
+  ];
   const finStats=[S('Finishing','Handedover Avg/day',handAvg),S('Finishing','MLT',finMLT),S('Finishing','Stenter Avg/day',stAvg),S('Finishing','Stenter Utilization',stUtil),S('Finishing','Dryer Avg/day',drAvg),S('Finishing','Dryer Utilization',drUtil),S('Finishing','Compactor Avg/day',coAvg),S('Finishing','Compactor Utilization',coUtil),S('Finishing','Stenter Refinish',stRef),S('Finishing','First Batch Single',firstSingle),S('Finishing','First Batch Double',firstDouble)];
   const chemStats=[S('Chemical Lab','Overall SLT',chemSLT),S('Chemical Lab','Overall RFT',chemRFT)];
   const etlStats=[S('ETL','Total Reports Avg/day',etlAvg),S('ETL','ETL OTD',etlOTD),S('ETL','Flat Dry 1 Wash',etlFlat1),S('ETL','Line Dry 1 Wash',etlLine1),S('ETL','Tumble Dry 1 Wash',etlTumble1)];
@@ -1201,7 +1266,6 @@ function renderOverview(){
 
   const knittingBody=`<div class="snap-tiles" style="--n:3">
     ${snapTile('Overall Prod/day',knAvg===null?'—':`${fmt1(knAvg)} T`,knitStats[0])}
-    ${snapTile('In-house Share',pct(knInShare),knitStats[1])}
     ${snapTile('Subcontract Share',pct(knSubShare),knitStats[2])}
     ${snapTile('Prod / MC',`${fmt1(knProdMC)} kg`,knitStats[3])}
     ${snapTile('MC Utilization',pct(knMC),knitStats[4])}
@@ -1209,13 +1273,27 @@ function renderOverview(){
     ${snapTile('Yarn Booking',`${fmt1(knYarn)} d`,knitStats[6])}
   </div>`;
 
-  const dyeRows=[
-    ['Daily prod',`${fmt1(dyeEAvg)} T`,dyeStats[1],`${fmt1(dyeXAvg)} T`,dyeStats[2]],
-    ['Pluvia',`${fmt1(dyePlAvg)} T`,dyeStats[3],'Total',dyeStats[0]],
-    ['On time',pct(dyeOT),dyeStats[4],'RFT',dyeStats[6]],
-    ['Re-process',pct(dyeRepPct),dyeStats[5],'B/M/D',dyeStats[7]]
-  ];
-  const dyeBody=`<table class="snap-dye-table"><thead><tr><th></th><th>EFL / Value</th><th>EKL+Ext / KPI</th></tr></thead><tbody>${dyeRows.map(x=>`<tr><td>${esc(x[0])}</td><td>${snapPill(x[1],x[2])}</td><td>${snapPill(x[3],x[4])}</td></tr>`).join('')}</tbody></table>`;
+  const plTarget=targetFor('Dyeing','Pluvia Avg/day'),
+        plAch=plTarget?.Target?dyePlAvg/plTarget.Target:null,
+        plWidth=plAch===null?0:Math.max(0,Math.min(100,plAch*100));
+  const dyeBody=`<table class="snap-dye-compare">
+    <thead><tr><th></th><th>EFL</th><th>EKL+Ext</th></tr></thead>
+    <tbody>
+      <tr><td>Daily prod</td><td>${snapPill(`${fmt1(dyeEAvg)} T`,dyeStats[1])}</td><td>${snapPill(`${fmt1(dyeXAvg)} T`,dyeStats[2])}</td></tr>
+      <tr><td>RFT</td><td>${snapPill(pct(dyeRftE),dyeStats[8])}</td><td>${snapPill(pct(dyeRftX),dyeStats[9])}</td></tr>
+      <tr><td>Capacity util.</td><td>${snapPill(pct(dyeCapE),dyeStats[10])}</td><td>${snapPill(pct(dyeCapX),dyeStats[11])}</td></tr>
+      <tr><td>On time</td><td colspan="2"><span class="snap-dye-overall">${snapPill(pct(dyeOT),dyeStats[4])}</span></td></tr>
+      <tr><td>Re-process</td><td>${snapPill(pct(dyeRepEPct),dyeStats[12])}</td><td>${snapPill(pct(dyeRepXPct),dyeStats[13])}</td></tr>
+      <tr><td>B/M/D</td><td>${snapPill(fmt1(dyeBmdE),dyeStats[14])}</td><td>${snapPill(fmt1(dyeBmdX),dyeStats[15])}</td></tr>
+    </tbody>
+  </table>
+  <div class="snap-pluvia">
+    <div class="snap-pluvia-head">
+      <span>Pluvia</span>
+      <b>${fmt1(dyePlAvg)} T/day${plTarget?` / ${fmt1(plTarget.Target)} target · ${Math.round((plAch||0)*100)}%`:''}</b>
+    </div>
+    <div class="snap-pluvia-track"><u class="st-${dyeStats[3].code}" style="width:${plWidth}%"></u></div>
+  </div>`;
 
   const finishingBody=`<div class="snap-tiles" style="--n:2">
     ${snapTile('Handedover / day',handAvg===null?'—':`${fmt1(handAvg)} T`,finStats[0],`Total ${ton(hand)}`)}
@@ -1248,7 +1326,7 @@ function renderOverview(){
     <div class="snapshot-kp">${kpHtml}</div>
     <div class="snapshot-grid">
       ${snapCard('snap-c3','Delivery',deliveryAvg===null?'—':`${fmt1(deliveryAvg)} T/day`,worstStatus(deliveryStats),deliveryBody,'green')}
-      ${snapCard('snap-c3','Knitting',knAvg===null?'—':`${fmt1(knAvg)} T/day`,worstStatus(knitStats),knittingBody,'blue')}
+      ${snapCard('snap-c3','Knitting',knAvg===null?'—':`${fmt1(knAvg)} T/day`,worstStatus([knitStats[0],knitStats[2],knitStats[3],knitStats[4],knitStats[5],knitStats[6]]),knittingBody,'blue')}
 
       ${snapCard('snap-c3','Dyeing',dyeAvg===null?'—':`${fmt1(dyeAvg)} T/day`,worstStatus(dyeStats),dyeBody,'purple')}
       ${snapCard('snap-c3','Finishing',handAvg===null?'—':`${fmt1(handAvg)} T/day`,worstStatus(finStats),finishingBody,'orange')}
