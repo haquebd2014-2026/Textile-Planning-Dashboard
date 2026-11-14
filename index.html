@@ -1656,6 +1656,38 @@ body.dark-mode .lock-kpi .value{color:#d9eee5}
   .lock-chart-grid .wide{grid-column:auto}
 }
 
+
+/* ===== Lock Plan Details split menu v38 ===== */
+.lock-menu-wrap{position:relative;height:52px;display:flex;align-items:stretch}
+.lock-menu-toggle{
+  height:52px;border:0;background:transparent;color:#49554f;padding:0 18px;
+  border-bottom:3px solid transparent;font-size:12px;font-weight:600;
+  display:flex;align-items:center;gap:7px
+}
+.lock-menu-toggle.active{color:#155f7d;border-bottom-color:#1c7896;font-weight:800}
+.lock-menu-arrow{font-size:15px;transition:transform .16s ease}
+.lock-menu-wrap.open .lock-menu-arrow,.lock-menu-wrap:hover .lock-menu-arrow{transform:rotate(180deg)}
+.lock-submenu{
+  display:none;position:absolute;left:0;top:49px;width:300px;padding:9px;background:#fff;
+  border:1px solid #dce5e0;border-top:3px solid #1c7896;border-radius:0 0 9px 9px;
+  box-shadow:0 14px 35px rgba(24,61,48,.18);grid-template-columns:1fr;gap:5px;z-index:3150
+}
+.lock-menu-wrap.open .lock-submenu,.lock-menu-wrap:hover .lock-submenu{display:grid}
+.lock-submenu button{
+  height:39px!important;border:0!important;border-radius:5px;padding:0 12px!important;
+  text-align:left;background:#f5fafb!important;color:#244b59!important;font-size:11px!important
+}
+.lock-submenu button:hover,.lock-submenu button.active{
+  background:#e6f2f5!important;color:#155f7d!important;font-weight:800
+}
+body.dark-mode .lock-submenu{background:#17231e;border-color:#315b68}
+body.dark-mode .lock-submenu button{background:#19282b!important;color:#c9e2e8!important}
+body.dark-mode .lock-submenu button:hover,body.dark-mode .lock-submenu button.active{
+  background:#234047!important;color:#e7f6f8!important
+}
+.lock-event-only .lock-detail-table{margin-top:0}
+.lock-event-only .lock-detail-table .table-wrap{max-height:720px}
+
 </style></head><body><div id="app" class="hidden"><div class="app-sticky-header"><div class="top-accent"></div><header class="header"><div class="header-left"><div class="brand-mark">TP</div><div><div class="brand-title">Textile Planning Dashboard</div><div class="brand-sub">Planning, Monitoring & Control</div></div></div><div class="header-actions"><div class="utility-tools"><button class="tool-btn stopwatch-btn" id="stopwatchBtn" title="Click to start/pause • Double-click to reset">⏱ <span id="stopwatchText">00:00</span></button><button class="tool-btn" id="fullscreenBtn" title="Enter full screen">⛶ Full</button><button class="tool-btn" id="themeBtn" title="Switch dark/light mode">☾ Dark</button></div><span class="greeting" id="greeting">Good morning</span><button class="btn" id="exportBtn">Export CSV</button><button class="btn" id="signOutBtn">Sign out</button><button class="btn primary" id="refreshBtn">Refresh</button></div></header><nav class="nav">
   <div class="kpi-menu-wrap" id="kpiMenuWrap">
     <button class="kpi-menu-toggle active" id="kpiBoardBtn" type="button">KPI Board <span class="kpi-menu-arrow">⌄</span></button>
@@ -1682,7 +1714,13 @@ body.dark-mode .lock-kpi .value{color:#d9eee5}
       <button data-tab="ott_overall">Overall OTT</button>
     </div>
   </div>
-  <button data-tab="lock_details" class="main-nav-btn">Lock Plan Details</button>
+  <div class="lock-menu-wrap" id="lockMenuWrap">
+    <button class="lock-menu-toggle" id="lockDetailsBtn" type="button">Lock Plan Details <span class="lock-menu-arrow">⌄</span></button>
+    <div class="lock-submenu" id="lockSubmenu">
+      <button data-tab="lock_board">Lock Plan Details Board</button>
+      <button data-tab="lock_event">Event Detail</button>
+    </div>
+  </div>
   <button data-tab="data" class="main-nav-btn">Data Management</button>
   <button data-tab="users" class="main-nav-btn">User Management</button>
 </nav></div><main class="page"><section class="toolbar"><div class="kpi-toolbar-head hidden" id="kpiToolbarHead"></div><div class="filters">
@@ -1846,13 +1884,14 @@ const MENU_DEFS=[
   {key:'ott_lock',label:'Lock Plan OTT'},
   {key:'ott_booking',label:'Booking OTT Status'},
   {key:'ott_overall',label:'Overall OTT'},
-  {key:'lock_details',label:'Lock Plan Details'},
+  {key:'lock_board',label:'Lock Plan Details Board'},
+  {key:'lock_event',label:'Event Detail'},
   {key:'data',label:'Data Management'}
 ];
 const DEFAULT_PERMISSIONS={
   overview:true,dyeing:true,knitting:true,finishing:true,delivery:true,yarn:true,chemical:true,etl:true,
   ott_yarn:true,ott_knitting:true,ott_dyeing:true,ott_delivery:true,ott_lock:true,ott_booking:true,ott_overall:true,
-  lock_details:true,data:false,users:false
+  lock_board:true,lock_event:true,data:false,users:false
 };
 const state={
   data:null,filtered:null,tab:'overview',charts:[],profile:null,userList:[],editingUserId:null,ydViewMode:'date',
@@ -3578,7 +3617,14 @@ kpiMulti('Excess Delivery without PO Qty',ton(exPO),[{label:'Avg/day:',value:ton
 kpiMulti('Additional Delivery Qty',ton(additional),[{label:'Avg/day:',value:ton(excessAvg(additional))},{label:'% of Delivered:',value:pct(share(additional))}],'blue'),
 kpiMulti('Total Excess (Qty)',ton(totalEx),[{label:'Avg/day:',value:ton(excessAvg(totalEx))},{label:'% of Delivered:',value:pct(share(totalEx))}],'rose')]);const labels=dr.map(r=>r.Date?.slice(5)||r.Date),allBuyer=(state.data?.sheets?.Delivery_Date_Buyer||[]),even=deliveryBuyerSourceEvenlyAllocated(allBuyer),summary=deliveryBuyerSummary(br);const c=(title,note,id,wide=false)=>panel(title,note,`<div class="chart-wrap"><canvas id="${id}"></canvas></div>`,wide,true);$('#content').innerHTML=`<div class="delivery-weekend-note"><b>Average rule:</b> Delivered Avg/day excludes all Friday rows from both quantity and day count; Delivered total still includes every recorded delivery. ${buyer?'<b>Buyer filter:</b> Received/Delivered use Delivery_Date_Buyer. OTD and Excess remain overall date-wise because those fields are not available buyer-wise.':''}</div>`+`<div class="section-band">Delivery Volume & OTD <span class="source-tag">Delivery_Date</span></div>`+c('Received','Daily received kg','delReceived')+c('Delivered','Daily delivered kg • Friday excluded only from Avg/day','delDelivered')+c('On Time Delivery','Daily OTD %','delOTD')+`<div class="section-band">Excess Delivery <span class="source-tag">Delivery_Date</span></div>`+c('Excess Delivery without PO Qty','Daily kg','delExPO')+c('Additional Delivery Qty','Daily kg','delAdditional')+c('Total Excess (Qty)','Daily kg','delTotalEx')+`<div class="section-band">Buyer-wise Delivery <span class="source-tag">Delivery_Date_Buyer</span></div>`+(even?'<div class="source-warning"><b>Source-data notice:</b> Delivery_Date_Buyer is currently draft/equal-distributed data, as advised. The buyer chart is displayed from the source but should not be treated as an actual buyer ranking until the real buyer allocation is uploaded.</div>':'')+panel('Buyer-wise Received & Delivered','Selected date range'+(buyer?` • Buyer filter: ${esc(buyer)}`:''),'<div class="chart-wrap tall"><canvas id="delBuyer"></canvas></div>',true,true)+panel('Delivery Daily Detail','Date-wise source for OTD and excess KPIs',tableHTML(dr,500,DELIVERY_PERCENT),true)+panel('Delivery Buyer/Date Detail','Draft buyer-wise source; actual data can replace it later',tableHTML(br,500),true);lineChart('delReceived',labels,[{label:'Received',data:dr.map(r=>safeNum(r.Received))}]);lineChart('delDelivered',labels,[{label:'Delivered',data:dr.map(r=>safeNum(r.Delivered))}]);lineChartPct('delOTD',labels,[{label:'On Time Delivery',data:dr.map(r=>safeNum(r['On Time Delivery']))}]);lineChart('delExPO',labels,[{label:'Excess without PO',data:dr.map(r=>safeNum(r['Excess Delivery without PO Qty']))}]);lineChart('delAdditional',labels,[{label:'Additional Delivery',data:dr.map(r=>safeNum(r['Additional Delivery Qty']))}]);lineChart('delTotalEx',labels,[{label:'Total Excess',data:dr.map(r=>safeNum(r['Total Excess (Qty)']))}]);groupedBarChart('delBuyer',summary.map(r=>r.Buyer),[{label:'Received',data:summary.map(r=>r.Received)},{label:'Delivered',data:summary.map(r=>r.Delivered)}]);}
 function renderBuyers(){const r=filteredBuyers();metricCardSet([kpi('Buyers',fmt(r.length)),kpi('Received',ton(r.reduce((a,x)=>a+(safeNum(x.Received)||0),0))),kpi('Delivered',ton(r.reduce((a,x)=>a+(safeNum(x.Delivered)||0),0))),kpi('Dyeing production',ton(r.reduce((a,x)=>a+(safeNum(x['Dyeing Prod'])||0),0))),kpi('Knitting production',ton(r.reduce((a,x)=>a+(safeNum(x['Knitting Prod'])||0),0))),kpi('Total excess',ton(r.reduce((a,x)=>a+(safeNum(x['Total Excess (Qty)'])||0),0)))]);$('#content').innerHTML=panel('Buyer delivery comparison','Top delivered quantities','<div class="chart-wrap"><canvas id="buyers"></canvas></div>',false,true)+panel('Buyer-wise data','Search and buyer filters apply',tableHTML(r),true);const top=r.slice().sort((a,z)=>(safeNum(z.Delivered)||0)-(safeNum(a.Delivered)||0)).slice(0,12);barChart('buyers',top.map(x=>x.Buyer),top.map(x=>safeNum(x.Delivered)||0));}
-function effectivePermissions(){if(state.profile?.role==='admin')return {...DEFAULT_PERMISSIONS,...Object.fromEntries(MENU_DEFS.map(m=>[m.key,true])),users:true};return {...DEFAULT_PERMISSIONS,...(state.profile?.permissions||{}),users:false};}
+
+function effectivePermissions(){
+  if(state.profile?.role==='admin')return {...DEFAULT_PERMISSIONS,...Object.fromEntries(MENU_DEFS.map(m=>[m.key,true])),users:true};
+  const saved=state.profile?.permissions||{},merged={...DEFAULT_PERMISSIONS,...saved,users:false};
+  if(!Object.prototype.hasOwnProperty.call(saved,'lock_board')&&Object.prototype.hasOwnProperty.call(saved,'lock_details'))merged.lock_board=saved.lock_details===true;
+  if(!Object.prototype.hasOwnProperty.call(saved,'lock_event')&&Object.prototype.hasOwnProperty.call(saved,'lock_details'))merged.lock_event=saved.lock_details===true;
+  return merged
+}
 function canAccess(tab){const p=effectivePermissions();return tab==='users'?state.profile?.role==='admin':p[tab]===true;}
 function applyMenuPermissions(){
   const p=effectivePermissions();
@@ -3586,12 +3632,13 @@ function applyMenuPermissions(){
   $$('.ott-submenu button[data-tab]').forEach(b=>b.classList.toggle('hidden',p[b.dataset.tab]!==true));
   const kBoard=$('#kpiMenuWrap');if(kBoard)kBoard.classList.toggle('hidden',!KPI_TABS.some(t=>p[t]===true));
   const oBoard=$('#ottMenuWrap');if(oBoard)oBoard.classList.toggle('hidden',!OTT_TABS.some(t=>p[t]===true));
-  const lockBtn=$('.nav>button[data-tab="lock_details"]');if(lockBtn)lockBtn.classList.toggle('hidden',p.lock_details!==true);
+  $$('.lock-submenu button[data-tab]').forEach(b=>b.classList.toggle('hidden',p[b.dataset.tab]!==true));
+  const lockWrap=$('#lockMenuWrap');if(lockWrap)lockWrap.classList.toggle('hidden',!(p.lock_board===true||p.lock_event===true));
   const dataBtn=$('.nav>button[data-tab="data"]');if(dataBtn)dataBtn.classList.toggle('hidden',p.data!==true);
   const usersBtn=$('.nav>button[data-tab="users"]');if(usersBtn)usersBtn.classList.toggle('hidden',state.profile?.role!=='admin');
   if(!canAccess(state.tab)){
     const firstKpi=KPI_TABS.find(t=>canAccess(t)),firstOtt=OTT_TABS.find(t=>canAccess(t));
-    if(firstKpi)state.tab=firstKpi;else if(firstOtt)state.tab=firstOtt;else if(canAccess('lock_details'))state.tab='lock_details';else if(canAccess('data'))state.tab='data';
+    if(firstKpi)state.tab=firstKpi;else if(firstOtt)state.tab=firstOtt;else if(canAccess('lock_board'))state.tab='lock_board';else if(canAccess('lock_event'))state.tab='lock_event';else if(canAccess('data'))state.tab='data';
     else if(state.profile?.role==='admin')state.tab='users';else state.tab='overview'
   }
 }
@@ -3713,11 +3760,12 @@ function lpdMonthOptions(rows){
     const aa=a.startsWith('SRC:')?'9999-'+a:a,bb=b.startsWith('SRC:')?'9999-'+b:b;return aa.localeCompare(bb)
   })
 }
-function lpdFilteredRows(){
+
+function lpdFilteredRows(mode='board'){
   lpdEnsureFilters();const f=state.lockDetailFilters;
   return lpdEvents().filter(r=>{
     if(!lpdMatch(r.Event,f.event))return false;
-    if(!lpdMatch(r.BookingNo,f.booking))return false;
+    if(mode==='event'&&!lpdMatch(r.BookingNo,f.booking))return false;
     if(!lpdMatch(r.Floor,f.floor))return false;
     if(!lpdMatch(r.PMC,f.pmc))return false;
     if(!lpdMatch(r.Buyer,f.buyer))return false;
@@ -3839,18 +3887,23 @@ function lpdDetailTable(rows,limit=600){
   }).join('');
   return`<div class="table-wrap"><table><thead><tr><th>EVENT</th><th>Booking No.</th><th>FLOOR</th><th>PMC</th><th>Buyer</th><th>LOCK PLAN</th><th>ACTUAL</th><th>DELAY</th><th>OTD</th><th>DETAIL REASON</th><th>RESPONSIBLE</th><th>Month</th><th>Week</th><th>Status</th></tr></thead><tbody>${body||'<tr><td colspan="14">No records match the current filters.</td></tr>'}</tbody></table></div>${rows.length>limit?`<div class="note">Showing first ${limit.toLocaleString()} of ${rows.length.toLocaleString()} filtered event rows.</div>`:''}`
 }
-function lpdFilterPanel(){
-  lpdEnsureFilters();const all=lpdEvents(),f=state.lockDetailFilters;
+
+function lpdFilterPanel(mode='board'){
+  lpdEnsureFilters();const all=lpdEvents(),f=state.lockDetailFilters,eventMode=mode==='event';
   const lockVals=[...new Set(all.map(r=>r.LockPlanRaw).filter(Boolean))].sort((a,b)=>{
     const aa=/^\d{4}-/.test(a)?a:'9999-'+a,bb=/^\d{4}-/.test(b)?b:'9999-'+b;return aa.localeCompare(bb)
   });
   const lockDisplay=v=>/^\d{4}-\d{2}-\d{2}$/.test(v)?lpdDateLabel(v):v;
+  const title=eventMode?'Event Detail':'Lock Plan Details Board';
+  const actions=eventMode
+    ?`<button class="btn" id="lpdExportBtn" type="button">Export CSV</button>`
+    :`<button class="btn" id="lpdExportBtn" type="button">Export CSV</button><button class="btn primary" id="lpdManagementBtn" type="button">▣ Management View</button>`;
   return`<div class="lock-detail-filter">
-    <div class="lock-detail-head"><div><h2>Lock Plan Details</h2><div class="meta">${all.length.toLocaleString()} Start/End event rows • ${new Set(all.map(r=>r.BookingNo)).size.toLocaleString()} unique bookings • Source upload is managed from Data Management</div></div>
-      <div class="lock-detail-actions"><button class="btn" id="lpdExportBtn" type="button">Export CSV</button><button class="btn primary" id="lpdManagementBtn" type="button">▣ Management View</button></div></div>
+    <div class="lock-detail-head"><div><h2>${esc(title)}</h2><div class="meta">${all.length.toLocaleString()} Start/End event rows • ${new Set(all.map(r=>r.BookingNo)).size.toLocaleString()} unique bookings • Source upload is managed from Data Management</div></div>
+      <div class="lock-detail-actions">${actions}</div></div>
     <div class="lock-filter-grid">
       ${lpdPickerHTML('lpdEvent','EVENT',['START','END'],f.event)}
-      ${lpdPickerHTML('lpdBooking','Booking No.',lpdOptions(all,'BookingNo'),f.booking,true)}
+      ${eventMode?lpdPickerHTML('lpdBooking','Booking No.',lpdOptions(all,'BookingNo'),f.booking,true):''}
       ${lpdPickerHTML('lpdFloor','FLOOR',lpdOptions(all,'Floor'),f.floor)}
       ${lpdPickerHTML('lpdPMC','PMC',lpdOptions(all,'PMC'),f.pmc)}
       ${lpdPickerHTML('lpdBuyer','Buyer',lpdOptions(all,'Buyer'),f.buyer)}
@@ -3863,24 +3916,27 @@ function lpdFilterPanel(){
       ${lpdPickerHTML('lpdStatus','Status',lpdOptions(all,'Status'),f.status)}
       <div class="filter-group"><span class="mini-label">FILTERS</span><button class="btn" id="lpdResetBtn" type="button">Reset all</button></div>
     </div>
-    <div class="lock-filter-note">OTD uses the source Start/End OTD fields as authoritative. Pending/Waiting are display statuses for unevaluated events. Delay = Actual − Lock Plan; if overdue with no Actual, delay is measured to today.</div>
+    <div class="lock-filter-note">${eventMode?'<b>Event Detail:</b> Booking No. filtering is available here for single/multiple booking investigation.':'<b>Board:</b> Booking No. is intentionally excluded so management KPIs are not narrowed by an individual booking selection.'} OTD uses the source Start/End OTD fields as authoritative. Pending/Waiting are display statuses for unevaluated events.</div>
   </div>`
 }
-function lpdBindFilters(){
-  const pairs=[['lpdEvent','event'],['lpdBooking','booking'],['lpdFloor','floor'],['lpdPMC','pmc'],['lpdBuyer','buyer'],['lpdOTD','otd'],['lpdReason','reason'],['lpdResponsible','responsible'],['lpdMonth','month'],['lpdWeek','week'],['lpdStatus','status']];
+
+function lpdBindFilters(mode='board'){
+  const pairs=[['lpdEvent','event'],['lpdFloor','floor'],['lpdPMC','pmc'],['lpdBuyer','buyer'],['lpdOTD','otd'],['lpdReason','reason'],['lpdResponsible','responsible'],['lpdMonth','month'],['lpdWeek','week'],['lpdStatus','status']];
+  if(mode==='event')pairs.splice(1,0,['lpdBooking','booking']);
   pairs.forEach(([id,key])=>lpdBindPicker(id,key));
   if($('#lpdLockPlan'))$('#lpdLockPlan').onchange=()=>{state.lockDetailFilters.lockPlan=$('#lpdLockPlan').value;render()};
   if($('#lpdResetBtn'))$('#lpdResetBtn').onclick=()=>{state.lockDetailFilters=lpdDefaultFilters();render()};
-  if($('#lpdExportBtn'))$('#lpdExportBtn').onclick=exportLockPlanDetailsCSV;
-  if($('#lpdManagementBtn'))$('#lpdManagementBtn').onclick=openLockPlanDetailsSnapshot
+  if($('#lpdExportBtn'))$('#lpdExportBtn').onclick=()=>exportLockPlanDetailsCSV(mode);
+  if(mode==='board'&&$('#lpdManagementBtn'))$('#lpdManagementBtn').onclick=openLockPlanDetailsSnapshot
 }
-function renderLockPlanDetails(){
+
+function renderLockPlanDetailsBoard(){
   metricCardSet([]);lpdEnsureFilters();
   const all=lpdEvents();
-  $('#content').innerHTML=`<div class="lock-detail-page">${lpdFilterPanel()}<div id="lpdBody"></div></div>`;lpdBindFilters();
+  $('#content').innerHTML=`<div class="lock-detail-page">${lpdFilterPanel('board')}<div id="lpdBody"></div></div>`;lpdBindFilters('board');
   const body=$('#lpdBody');
   if(!all.length){body.innerHTML='<div class="alert">No Lock Plan Details data uploaded yet. Go to Data Management → Lock Plan Details Data Upload and upload <b>Lock Plan Details.xlsx</b>.</div>';return}
-  const rows=lpdFilteredRows(),ss=lpdEventStats(rows,'START'),es=lpdEventStats(rows,'END'),ts=lpdEventStats(rows),
+  const rows=lpdFilteredRows('board'),ss=lpdEventStats(rows,'START'),es=lpdEventStats(rows,'END'),ts=lpdEventStats(rows),
         gap=ss.rate!==null&&es.rate!==null?es.rate-ss.rate:null,pending=rows.filter(r=>['PENDING','WAITING'].includes(lpdClassifyOTD(r))).length,
         monthly=lpdMonthTrend(rows),daily=lpdDailyCounts(rows),weekly=lpdWeekTrend(rows),
         buyer=lpdGroup(rows,'Buyer').filter(x=>x.label!=='(blank)').sort((a,b)=>b.total-a.total).slice(0,12),
@@ -3916,8 +3972,7 @@ function renderLockPlanDetails(){
       ${lpdResponsibleTable(rows)}
       ${lpdSimpleTable(rows,'FinishType','Finish Type / Events + OTD',10)}
     </div>
-  </div>
-  <div class="panel lock-detail-table"><h3>Lock Plan Event Detail</h3><div class="note">Event-level detail generated from Start/End fields in the uploaded Lock Plan Details workbook.</div>${lpdDetailTable(rows)}</div>`;
+  </div>`;
   lineChartPct('lpdMonthly',monthly.labels,[{label:'START',data:monthly.start},{label:'END',data:monthly.end},{label:'OVERALL',data:monthly.overall}]);
   lpdDailyPFChart('lpdDaily',daily.labels,daily.pass,daily.fail);
   lineChartPct('lpdWeekly',weekly.labels,[{label:'START',data:weekly.start},{label:'END',data:weekly.end},{label:'OVERALL',data:weekly.overall}]);
@@ -3925,8 +3980,20 @@ function renderLockPlanDetails(){
   barChartPct('lpdBuyerChart',buyer.map(x=>x.label),buyer.map(x=>x.rate),'OTD');
   barChartPct('lpdPMCChart',pmc.map(x=>x.label),pmc.map(x=>x.rate),'OTD')
 }
-function exportLockPlanDetailsCSV(){
-  const rows=lpdFilteredRows();if(!rows.length)return;
+
+function renderLockPlanEventDetail(){
+  metricCardSet([]);lpdEnsureFilters();
+  const all=lpdEvents();
+  $('#content').innerHTML=`<div class="lock-detail-page lock-event-only">${lpdFilterPanel('event')}<div id="lpdBody"></div></div>`;lpdBindFilters('event');
+  const body=$('#lpdBody');
+  if(!all.length){body.innerHTML='<div class="alert">No Lock Plan Details data uploaded yet. Go to Data Management → Lock Plan Details Data Upload and upload <b>Lock Plan Details.xlsx</b>.</div>';return}
+  const rows=lpdFilteredRows('event');
+  body.innerHTML=`<div class="panel lock-detail-table"><h3>Lock Plan Event Detail</h3><div class="note">Event-level detail generated dynamically from the latest uploaded Lock Plan Details workbook. Booking No. filtering is available only in this submenu.</div>${lpdDetailTable(rows)}</div>`
+}
+
+
+function exportLockPlanDetailsCSV(mode=(state.tab==='lock_event'?'event':'board')){
+  const rows=lpdFilteredRows(mode);if(!rows.length)return;
   const out=rows.map(r=>{const st=lpdClassifyOTD(r),delay=lpdDelay(r);return{
     EVENT:r.Event,'Booking No.':r.BookingNo,FLOOR:r.Floor,PMC:r.PMC,Buyer:r.Buyer,
     'LOCK PLAN':r.LockPlan||r.LockPlanRaw||'',ACTUAL:r.Actual||(st==='PENDING'?'Pending':st==='WAITING'?'Waiting':''),
@@ -3934,7 +4001,7 @@ function exportLockPlanDetailsCSV(){
     Month:lpdMonthLabel(r.MonthKey),Week:r.Week,Status:r.Status,'Order Type':r.OrderType,'Fabric Type':r.FabricType,'Finish Type':r.FinishType,'Fail Area':r.FailArea
   }});
   const ws=XLSX.utils.json_to_sheet(out),csv=XLSX.utils.sheet_to_csv(ws),a=document.createElement('a');
-  a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));a.download=`Lock_Plan_Details_${new Date().toISOString().slice(0,10)}.csv`;a.click();URL.revokeObjectURL(a.href)
+  a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));a.download=`Lock_Plan_${mode==='event'?'Event_Detail':'Details_Board'}_${new Date().toISOString().slice(0,10)}.csv`;a.click();URL.revokeObjectURL(a.href)
 }
 function lockPlanManagementHeader(rows){
   const dates=rows.map(r=>r.LockPlan).filter(Boolean).sort(),from=dates[0]||'—',to=dates.slice(-1)[0]||'—';
@@ -3943,7 +4010,7 @@ function lockPlanManagementHeader(rows){
 function buildLockPlanDetailsSnapshot(){
   const source=$('#lpdManagementArea');if(!source)throw new Error('Lock Plan Details management area is not available.');
   const clone=cloneWithCanvasImages(source),wrap=document.createElement('div');wrap.className='lock-snapshot-inner';
-  wrap.innerHTML=lockPlanManagementHeader(lpdFilteredRows());wrap.appendChild(clone);return wrap
+  wrap.innerHTML=lockPlanManagementHeader(lpdFilteredRows('board'));wrap.appendChild(clone);return wrap
 }
 function openLockPlanDetailsSnapshot(){
   const modal=$('#ottSnapshotModal'),capture=$('#ottSnapshotCapture'),status=$('#ottCopyStatus');if(!modal||!capture)return;
@@ -4115,17 +4182,18 @@ function renderKpiToolbarHeading(tab){
   $('#kpiInlineExportBtn').onclick=exportCurrent;
   $('#kpiManagementBtn').onclick=openKpiManagementView
 }
-function render(){if(!state.data)return;destroyCharts();applyMenuPermissions();syncBuyerOptions(false);const isOtt=OTT_TABS.includes(state.tab),isKpi=KPI_TABS.includes(state.tab),isLockDetails=state.tab==='lock_details',special=['data','users'].includes(state.tab)||isOtt||isLockDetails;$('.toolbar').classList.toggle('hidden',special);$('#exportBtn').classList.toggle('hidden',special||isKpi);
+function render(){if(!state.data)return;destroyCharts();applyMenuPermissions();syncBuyerOptions(false);const isOtt=OTT_TABS.includes(state.tab),isKpi=KPI_TABS.includes(state.tab),isLockDetails=['lock_board','lock_event'].includes(state.tab),special=['data','users'].includes(state.tab)||isOtt||isLockDetails;$('.toolbar').classList.toggle('hidden',special);$('#exportBtn').classList.toggle('hidden',special||isKpi);
   const isOverview=state.tab==='overview';
   $('.toolbar')?.classList.toggle('overview-toolbar',isOverview);
   $('#searchFilterGroup')?.classList.toggle('hidden',isOverview);
   $('#buyerFilterGroup')?.classList.toggle('hidden',isOverview);
-  const osg=$('#overviewSnapshotGroup');if(osg)osg.classList.toggle('hidden',!isOverview);$('#kpis').classList.toggle('overview-kpis',state.tab==='overview');$('#kpis').classList.toggle('knitting-kpis',state.tab==='knitting');$('#kpis').classList.toggle('finishing-kpis',state.tab==='finishing');$('#kpis').classList.toggle('delivery-kpis',state.tab==='delivery');$('#kpis').classList.toggle('yarn-kpis',state.tab==='yarn');$('#kpis').classList.toggle('chemical-kpis',state.tab==='chemical');$('#kpis').classList.toggle('etl-kpis',state.tab==='etl');$$('.kpi-submenu button[data-tab],.ott-submenu button[data-tab],.nav>button[data-tab]').forEach(b=>b.classList.toggle('active',b.dataset.tab===state.tab));
+  const osg=$('#overviewSnapshotGroup');if(osg)osg.classList.toggle('hidden',!isOverview);$('#kpis').classList.toggle('overview-kpis',state.tab==='overview');$('#kpis').classList.toggle('knitting-kpis',state.tab==='knitting');$('#kpis').classList.toggle('finishing-kpis',state.tab==='finishing');$('#kpis').classList.toggle('delivery-kpis',state.tab==='delivery');$('#kpis').classList.toggle('yarn-kpis',state.tab==='yarn');$('#kpis').classList.toggle('chemical-kpis',state.tab==='chemical');$('#kpis').classList.toggle('etl-kpis',state.tab==='etl');$$('.kpi-submenu button[data-tab],.ott-submenu button[data-tab],.lock-submenu button[data-tab],.nav>button[data-tab]').forEach(b=>b.classList.toggle('active',b.dataset.tab===state.tab));
   const kb=$('#kpiBoardBtn');if(kb)kb.classList.toggle('active',KPI_TABS.includes(state.tab));
   const ob=$('#ottBoardBtn');if(ob)ob.classList.toggle('active',OTT_TABS.includes(state.tab));
+  const lb=$('#lockDetailsBtn');if(lb)lb.classList.toggle('active',['lock_board','lock_event'].includes(state.tab));
   const fns={overview:renderOverview,dyeing:renderDyeing,knitting:renderKnitting,finishing:renderFinishing,delivery:renderDelivery,yarn:renderYarnDyeing,chemical:renderChemicalLab,etl:renderETL,
     ott_yarn:()=>renderOTTDept('ott_yarn'),ott_knitting:()=>renderOTTDept('ott_knitting'),ott_dyeing:()=>renderOTTDept('ott_dyeing'),ott_delivery:()=>renderOTTDept('ott_delivery'),ott_lock:()=>renderOTTDept('ott_lock'),ott_booking:renderOTTBooking,ott_overall:renderOTTOverall,
-    lock_details:renderLockPlanDetails,data:renderData,users:renderUsers};if(isKpi)renderKpiToolbarHeading(state.tab);else renderKpiToolbarHeading(null);(fns[state.tab]||renderOverview)();if(special){$('#countText').textContent='';return}if(state.tab==='dyeing')$('#countText').textContent=`${dyeingBuyerRows().length} buyer/date records • ${dyeingDateRows().length} overall date records`;else if(state.tab==='knitting')$('#countText').textContent=`${knittingBuyerRows().length} buyer/date records • ${knittingDateRows().length} overall date records`;else if(state.tab==='finishing')$('#countText').textContent=`${finishingDateRows().length} finishing date records`;else if(state.tab==='delivery')$('#countText').textContent=`${deliveryBuyerRows().length} buyer/date records • ${deliveryDateRows().length} delivery date records`;else if(state.tab==='yarn')$('#countText').textContent=`${yarnDyeingBuyerRows().length} buyer/date records • ${yarnDyeingDateRows().length} Yarn Dyeing date records`;else if(state.tab==='chemical')$('#countText').textContent=`${chemicalLabRows().length} Chemical Lab date records`;else if(state.tab==='etl')$('#countText').textContent=`${etlRows().length} ETL date records`;else if(state.tab==='overview')$('#countText').textContent='Executive summary • 7 departments • date-wise view';else $('#countText').textContent=`${currentDateRows('Dyeing').length} daily records`;}
+    lock_board:renderLockPlanDetailsBoard,lock_event:renderLockPlanEventDetail,data:renderData,users:renderUsers};if(isKpi)renderKpiToolbarHeading(state.tab);else renderKpiToolbarHeading(null);(fns[state.tab]||renderOverview)();if(special){$('#countText').textContent='';return}if(state.tab==='dyeing')$('#countText').textContent=`${dyeingBuyerRows().length} buyer/date records • ${dyeingDateRows().length} overall date records`;else if(state.tab==='knitting')$('#countText').textContent=`${knittingBuyerRows().length} buyer/date records • ${knittingDateRows().length} overall date records`;else if(state.tab==='finishing')$('#countText').textContent=`${finishingDateRows().length} finishing date records`;else if(state.tab==='delivery')$('#countText').textContent=`${deliveryBuyerRows().length} buyer/date records • ${deliveryDateRows().length} delivery date records`;else if(state.tab==='yarn')$('#countText').textContent=`${yarnDyeingBuyerRows().length} buyer/date records • ${yarnDyeingDateRows().length} Yarn Dyeing date records`;else if(state.tab==='chemical')$('#countText').textContent=`${chemicalLabRows().length} Chemical Lab date records`;else if(state.tab==='etl')$('#countText').textContent=`${etlRows().length} ETL date records`;else if(state.tab==='overview')$('#countText').textContent='Executive summary • 7 departments • date-wise view';else $('#countText').textContent=`${currentDateRows('Dyeing').length} daily records`;}
 let swElapsed=0,swStartedAt=null,swTimer=null;
 function updateStopwatch(){const el=$('#stopwatchText');if(!el)return;const ms=swElapsed+(swStartedAt?Date.now()-swStartedAt:0),sec=Math.floor(ms/1000),m=Math.floor(sec/60),s=sec%60;el.textContent=`${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`}
 function toggleStopwatch(){const btn=$('#stopwatchBtn');if(swTimer){swElapsed+=Date.now()-swStartedAt;swStartedAt=null;clearInterval(swTimer);swTimer=null;btn?.classList.remove('active-tool')}else{swStartedAt=Date.now();swTimer=setInterval(updateStopwatch,250);btn?.classList.add('active-tool')}updateStopwatch()}
@@ -4259,18 +4327,24 @@ async function copyOverviewSnapshotImage(){
 }
 
 function bindUI(){initUtilityControls();
-  $$('.kpi-submenu button[data-tab],.ott-submenu button[data-tab],.nav>button[data-tab]').forEach(b=>b.onclick=()=>{
+  $$('.kpi-submenu button[data-tab],.ott-submenu button[data-tab],.lock-submenu button[data-tab],.nav>button[data-tab]').forEach(b=>b.onclick=()=>{
     if(!canAccess(b.dataset.tab))return;
     state.tab=b.dataset.tab;
-    $('#kpiMenuWrap')?.classList.remove('open');$('#ottMenuWrap')?.classList.remove('open');
+    $('#kpiMenuWrap')?.classList.remove('open');$('#ottMenuWrap')?.classList.remove('open');$('#lockMenuWrap')?.classList.remove('open');
     render()
   });
-  const kpiWrap=$('#kpiMenuWrap'),kpiBtn=$('#kpiBoardBtn'),ottWrap=$('#ottMenuWrap'),ottBtn=$('#ottBoardBtn');
-  if(kpiBtn)kpiBtn.onclick=e=>{e.stopPropagation();kpiWrap?.classList.toggle('open');ottWrap?.classList.remove('open')};
-  if(ottBtn)ottBtn.onclick=e=>{e.stopPropagation();ottWrap?.classList.toggle('open');kpiWrap?.classList.remove('open')};
+  const kpiWrap=$('#kpiMenuWrap'),kpiBtn=$('#kpiBoardBtn'),ottWrap=$('#ottMenuWrap'),ottBtn=$('#ottBoardBtn'),lockWrap=$('#lockMenuWrap'),lockBtn=$('#lockDetailsBtn');
+  if(kpiBtn)kpiBtn.onclick=e=>{e.stopPropagation();kpiWrap?.classList.toggle('open');ottWrap?.classList.remove('open');lockWrap?.classList.remove('open')};
+  if(ottBtn)ottBtn.onclick=e=>{e.stopPropagation();ottWrap?.classList.toggle('open');kpiWrap?.classList.remove('open');lockWrap?.classList.remove('open')};
+  if(lockBtn)lockBtn.onclick=e=>{e.stopPropagation();lockWrap?.classList.toggle('open');kpiWrap?.classList.remove('open');ottWrap?.classList.remove('open')};
   if(kpiWrap)kpiWrap.addEventListener('mouseleave',()=>kpiWrap.classList.remove('open'));
   if(ottWrap)ottWrap.addEventListener('mouseleave',()=>ottWrap.classList.remove('open'));
-  document.addEventListener('click',e=>{if(kpiWrap&&!kpiWrap.contains(e.target))kpiWrap.classList.remove('open');if(ottWrap&&!ottWrap.contains(e.target))ottWrap.classList.remove('open')});
+  if(lockWrap)lockWrap.addEventListener('mouseleave',()=>lockWrap.classList.remove('open'));
+  document.addEventListener('click',e=>{
+    if(kpiWrap&&!kpiWrap.contains(e.target))kpiWrap.classList.remove('open');
+    if(ottWrap&&!ottWrap.contains(e.target))ottWrap.classList.remove('open');
+    if(lockWrap&&!lockWrap.contains(e.target))lockWrap.classList.remove('open')
+  });
   ['search','buyerFilter','fromDate','toDate'].forEach(id=>$('#'+id).addEventListener('input',render));$('#resetBtn').onclick=()=>{setFilterDefaults();$('#search').value='';$('#buyerFilter').value='';render()};
   $('#exportBtn').onclick=exportCurrent;
   if($('#overviewSnapshotBtn'))$('#overviewSnapshotBtn').onclick=openOverviewSnapshot;
