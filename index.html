@@ -1688,6 +1688,183 @@ body.dark-mode .lock-submenu button:hover,body.dark-mode .lock-submenu button.ac
 .lock-event-only .lock-detail-table{margin-top:0}
 .lock-event-only .lock-detail-table .table-wrap{max-height:720px}
 
+
+/* ================= USER MANAGEMENT v39 ================= */
+.user-management-shell{grid-column:1/-1;width:100%}
+.user-management-head{
+  display:flex;align-items:flex-start;justify-content:space-between;gap:16px;
+  margin-bottom:10px;padding:12px 14px;background:var(--card);border:1px solid var(--line);
+  border-top:3px solid #2e6be6;border-radius:8px;box-shadow:0 3px 12px rgba(28,61,49,.05)
+}
+.user-management-head h2{margin:0;font:700 22px Georgia,serif;color:#075d45}
+.user-management-head p{margin:4px 0 0;font-size:9.5px;color:var(--muted)}
+.user-stat-row{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}
+.user-stat-chip{
+  min-width:82px;padding:7px 9px;border:1px solid var(--line);border-radius:7px;
+  background:var(--bg);text-align:center
+}
+.user-stat-chip b{display:block;font:700 16px Georgia,serif;color:#075d45}
+.user-stat-chip span{font-size:7.8px;text-transform:uppercase;letter-spacing:.45px;color:var(--muted)}
+
+.user-management-layout{
+  display:grid;grid-template-columns:minmax(300px,.75fr) minmax(620px,1.65fr);
+  gap:10px;align-items:start
+}
+.user-directory,.user-editor{
+  background:var(--card);border:1px solid var(--line);border-radius:8px;
+  box-shadow:0 3px 12px rgba(28,61,49,.04);overflow:hidden
+}
+.user-panel-head{
+  display:flex;align-items:center;justify-content:space-between;gap:10px;
+  padding:11px 12px;border-bottom:1px solid var(--line);background:var(--soft)
+}
+.user-panel-head h3{margin:0;font:700 16px Georgia,serif;color:#075d45}
+.user-panel-head .note{margin:2px 0 0!important;font-size:8.5px!important}
+.user-directory-tools{
+  padding:9px;border-bottom:1px solid var(--line);display:grid;grid-template-columns:1fr auto;gap:6px
+}
+.user-directory-tools input{
+  width:100%;height:32px;border:1px solid #cfd7d3;border-radius:5px;
+  padding:0 9px;background:var(--card);color:var(--text);font-size:10px
+}
+.user-directory-list{max-height:690px;overflow:auto;padding:7px;display:grid;gap:6px}
+.user-card{
+  border:1px solid var(--line);border-radius:7px;padding:9px 10px;background:var(--card);
+  display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center;transition:.14s ease
+}
+.user-card:hover{border-color:#aac7ba;box-shadow:0 2px 8px rgba(19,69,50,.06)}
+.user-card.selected{border-color:#2e6be6;background:#f5f8ff}
+.user-card.disabled-user{opacity:.7}
+.user-card-name{font-weight:800;color:#173f33;font-size:11px}
+.user-card-email{font-size:8.8px;color:var(--muted);margin-top:2px;word-break:break-all}
+.user-card-meta{display:flex;flex-wrap:wrap;gap:4px;margin-top:6px}
+.user-mini-badge{
+  display:inline-flex;align-items:center;gap:4px;padding:2px 6px;border-radius:999px;
+  border:1px solid #d9e5df;background:#f5faf7;color:#416359;font-size:7.5px;font-weight:700
+}
+.user-mini-badge.admin{background:#e7f0ff;border-color:#cadcff;color:#2359bd}
+.user-mini-badge.off{background:#fff0ec;border-color:#f0d0c8;color:#aa4936}
+.user-mini-badge.self{background:#eef7e8;border-color:#d5e8c8;color:#4c7c35}
+.user-card-actions{display:flex;gap:4px}
+.user-card-actions .btn{height:28px;padding:0 8px;font-size:8px}
+
+.user-editor-body{padding:12px}
+.user-editor-section{
+  border:1px solid var(--line);border-radius:7px;margin-bottom:9px;overflow:hidden;background:var(--card)
+}
+.user-editor-section-head{
+  padding:8px 10px;background:var(--soft);border-bottom:1px solid var(--line);
+  display:flex;align-items:center;justify-content:space-between;gap:8px
+}
+.user-editor-section-head h4{margin:0;font-size:10px;color:#264a3e}
+.user-editor-section-head span{font-size:8px;color:var(--muted)}
+.user-editor-section-body{padding:10px}
+.user-account-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.user-account-grid .wide{grid-column:span 2}
+.user-role-row{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.user-role-card,.user-active-card{
+  border:1px solid var(--line);border-radius:6px;padding:9px 10px;background:var(--bg)
+}
+.user-role-card label,.user-active-card label{font-size:8px;text-transform:uppercase;letter-spacing:.55px;color:var(--muted)}
+.user-role-card select{margin-top:5px}
+.user-active-line{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:5px}
+.user-active-line b{font-size:10px;color:#29483e}
+.user-active-line small{display:block;font-size:7.8px;color:var(--muted);margin-top:2px}
+
+.user-access-toolbar{
+  display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;
+  padding:8px 10px;border-bottom:1px solid var(--line);background:#fbfcff
+}
+.user-presets,.user-global-access{display:flex;gap:5px;flex-wrap:wrap;align-items:center}
+.user-access-toolbar .btn{height:28px;padding:0 8px;font-size:8px}
+.user-access-count{
+  display:inline-flex;align-items:center;padding:3px 7px;border-radius:999px;
+  background:#eaf1ff;color:#2857af;border:1px solid #cedcff;font-size:7.8px;font-weight:800
+}
+.user-permission-groups{display:grid;gap:7px;padding:8px}
+.user-permission-group{
+  border:1px solid var(--line);border-radius:7px;overflow:hidden;background:var(--card)
+}
+.user-perm-group-head{
+  display:flex;align-items:center;justify-content:space-between;gap:9px;padding:8px 9px;background:var(--soft)
+}
+.user-perm-group-title{display:flex;align-items:center;gap:8px}
+.user-perm-icon{
+  width:27px;height:27px;border-radius:7px;display:grid;place-items:center;
+  background:#e9f0ff;color:#2e6be6;font-size:8px;font-weight:900
+}
+.user-perm-group-title b{display:block;font-size:10px;color:#24463b}
+.user-perm-group-title small{display:block;font-size:7.8px;color:var(--muted);margin-top:1px}
+.user-perm-group-actions{display:flex;align-items:center;gap:4px}
+.user-perm-group-actions .btn{height:25px;padding:0 7px;font-size:7.5px}
+.user-perm-count{font-size:7.5px;color:#4e635b;min-width:34px;text-align:right}
+.user-perm-items{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0}
+.permission-toggle-card{
+  min-height:54px;padding:8px 9px;border-top:1px solid var(--line);
+  display:flex;align-items:center;justify-content:space-between;gap:8px;background:var(--card)
+}
+.permission-toggle-card:nth-child(odd){border-right:1px solid var(--line)}
+.permission-toggle-card:hover{background:#fbfdfc}
+.permission-toggle-copy b{display:block;font-size:9.5px;color:#29483e}
+.permission-toggle-copy span{display:block;margin-top:2px;font-size:7.7px;line-height:1.3;color:var(--muted)}
+.user-switch{position:relative;display:inline-block;width:38px;height:21px;flex:none}
+.user-switch input{opacity:0;width:0;height:0}
+.user-switch i{
+  position:absolute;inset:0;border-radius:999px;background:#c8d5df;transition:.16s;
+  box-shadow:inset 0 0 0 1px rgba(55,76,69,.08)
+}
+.user-switch i:before{
+  content:'';position:absolute;width:17px;height:17px;left:2px;top:2px;
+  border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.18);transition:.16s
+}
+.user-switch input:checked+i{background:#2e6be6}
+.user-switch input:checked+i:before{transform:translateX(17px)}
+.user-switch input:disabled+i{opacity:.55;cursor:not-allowed}
+
+.user-admin-notice{
+  display:none;margin:8px;padding:8px 10px;border:1px solid #c9dcff;background:#eef4ff;
+  color:#2857af;border-radius:6px;font-size:8.5px
+}
+.user-admin-notice.show{display:block}
+.user-editor-footer{
+  position:sticky;bottom:0;z-index:5;padding:9px 12px;border-top:1px solid var(--line);
+  background:rgba(255,255,255,.96);backdrop-filter:blur(6px);
+  display:flex;align-items:center;justify-content:space-between;gap:10px
+}
+.user-editor-footer .user-status{margin:0;min-height:0;flex:1}
+.user-editor-footer-actions{display:flex;gap:6px}
+.user-editor-footer-actions .btn{min-width:110px}
+.user-empty{
+  padding:28px 14px;text-align:center;color:var(--muted);font-size:9.5px
+}
+.user-management-help{
+  margin-top:8px;padding:8px 10px;border-left:3px solid #2e6be6;background:#f6f9ff;
+  font-size:8.5px;color:#5f6c67;line-height:1.45
+}
+.user-management-help b{color:#284f9b}
+
+body.dark-mode .user-management-head,body.dark-mode .user-directory,body.dark-mode .user-editor,
+body.dark-mode .user-card,body.dark-mode .user-editor-section,body.dark-mode .permission-toggle-card{background:#17231e}
+body.dark-mode .user-card.selected{background:#1b2a36;border-color:#527fca}
+body.dark-mode .user-directory-tools input{background:#17231e;color:#d8e6df;border-color:#3d5149}
+body.dark-mode .user-access-toolbar{background:#141f1b}
+body.dark-mode .user-editor-footer{background:rgba(23,35,30,.96)}
+body.dark-mode .user-perm-group-head,body.dark-mode .user-editor-section-head{background:#1b2a24}
+body.dark-mode .user-card-name,body.dark-mode .permission-toggle-copy b,body.dark-mode .user-perm-group-title b,
+body.dark-mode .user-active-line b{color:#d9ebe3}
+
+@media(max-width:1100px){
+  .user-management-layout{grid-template-columns:1fr}
+  .user-directory-list{max-height:390px}
+}
+@media(max-width:720px){
+  .user-account-grid,.user-role-row,.user-perm-items{grid-template-columns:1fr}
+  .user-account-grid .wide{grid-column:auto}
+  .permission-toggle-card:nth-child(odd){border-right:0}
+  .user-management-head{flex-direction:column}
+  .user-stat-row{justify-content:flex-start}
+}
+
 </style></head><body><div id="app" class="hidden"><div class="app-sticky-header"><div class="top-accent"></div><header class="header"><div class="header-left"><div class="brand-mark">TP</div><div><div class="brand-title">Textile Planning Dashboard</div><div class="brand-sub">Planning, Monitoring & Control</div></div></div><div class="header-actions"><div class="utility-tools"><button class="tool-btn stopwatch-btn" id="stopwatchBtn" title="Click to start/pause • Double-click to reset">⏱ <span id="stopwatchText">00:00</span></button><button class="tool-btn" id="fullscreenBtn" title="Enter full screen">⛶ Full</button><button class="tool-btn" id="themeBtn" title="Switch dark/light mode">☾ Dark</button></div><span class="greeting" id="greeting">Good morning</span><button class="btn" id="exportBtn">Export CSV</button><button class="btn" id="signOutBtn">Sign out</button><button class="btn primary" id="refreshBtn">Refresh</button></div></header><nav class="nav">
   <div class="kpi-menu-wrap" id="kpiMenuWrap">
     <button class="kpi-menu-toggle active" id="kpiBoardBtn" type="button">KPI Board <span class="kpi-menu-arrow">⌄</span></button>
@@ -3642,16 +3819,329 @@ function applyMenuPermissions(){
     else if(state.profile?.role==='admin')state.tab='users';else state.tab='overview'
   }
 }
-function permissionCheckboxes(perms={},role='viewer'){return MENU_DEFS.map(m=>`<label class="perm-item"><input type="checkbox" class="perm-box" data-perm="${m.key}" ${role==='admin'||perms?.[m.key]?'checked':''} ${role==='admin'?'disabled':''}><span>${esc(m.label)}</span></label>`).join('')}
-function renderUsers(){metricCardSet([]);$('#content').innerHTML=`<div class="panel"><h3 id="userFormTitle">Create New User</h3><div class="note">Create an authorized login and choose which dashboard menus the user can open.</div><div class="user-form-grid"><div><div class="mini-label">Display name</div><input class="form-control" id="userName" placeholder="User name"></div><div><div class="mini-label">Email</div><input class="form-control" id="userEmail" type="email" placeholder="name@company.com"></div><div><div class="mini-label">Password</div><input class="form-control" id="userPassword" type="password" placeholder="Minimum 6 characters"></div><div><div class="mini-label">Role</div><select class="form-control" id="userRole"><option value="viewer">Viewer</option><option value="admin">Admin</option></select></div></div><div style="margin-top:14px"><div class="mini-label">Menu permissions</div><div class="perm-grid" id="permissionGrid">${permissionCheckboxes(DEFAULT_PERMISSIONS,'viewer')}</div><label class="perm-item" style="max-width:220px"><input type="checkbox" id="userActive" checked><span>Active user</span></label></div><div class="user-actions" style="margin-top:14px"><button class="btn primary" id="saveUserBtn">Create User</button><button class="btn hidden" id="cancelUserBtn">Cancel Edit</button></div><div class="user-status" id="userStatus"></div></div><div class="panel"><h3>Authorized Users</h3><div class="note">Edit role, status, and menu access. User Management is Admin-only.</div><div id="usersTable" class="table-wrap compact-table"><div style="padding:18px" class="muted">Loading users...</div></div></div>`;$('#userRole').onchange=syncUserRoleForm;$('#saveUserBtn').onclick=saveUser;$('#cancelUserBtn').onclick=resetUserForm;loadUsers();}
-function syncUserRoleForm(){const role=$('#userRole').value;$$('.perm-box').forEach(c=>{c.disabled=role==='admin';if(role==='admin')c.checked=true});}
-function collectPermissions(){const out={...DEFAULT_PERMISSIONS};$$('.perm-box').forEach(c=>out[c.dataset.perm]=c.checked);out.users=false;return out;}
+
+const USER_PERMISSION_GROUPS=[
+  {key:'kpi',title:'KPI Board',icon:'KPI',desc:'Department KPI dashboards and executive overview',items:[
+    ['overview','Overview','Executive summary across departments'],
+    ['delivery','Delivery','Delivery KPI dashboard'],
+    ['yarn','Yarn Dyeing','Yarn Dyeing KPI dashboard'],
+    ['knitting','Knitting','Knitting KPI dashboard'],
+    ['dyeing','Dyeing','Dyeing KPI dashboard'],
+    ['finishing','Finishing','Finishing KPI dashboard'],
+    ['chemical','Chemical Lab','Chemical Lab KPI dashboard'],
+    ['etl','ETL','ETL KPI dashboard']
+  ]},
+  {key:'ott',title:'OTT Board',icon:'OTT',desc:'Department OTT, overall OTT and booking status',items:[
+    ['ott_yarn','Yarn Dyeing OTT','Yarn Dyeing OTT analysis'],
+    ['ott_knitting','Knitting OTT','Knitting OTT analysis'],
+    ['ott_dyeing','Dyeing OTT','Dyeing OTT analysis'],
+    ['ott_delivery','Delivery OTT','Delivery OTT analysis'],
+    ['ott_lock','Lock Plan OTT','Lock Plan OTT analysis'],
+    ['ott_booking','Booking OTT Status','Cross-department booking OTT status'],
+    ['ott_overall','Overall OTT','Combined OTT management board']
+  ]},
+  {key:'lock',title:'Lock Plan Details',icon:'LP',desc:'Detailed Lock Plan management and event investigation',items:[
+    ['lock_board','Lock Plan Details Board','Cards, charts and management reports'],
+    ['lock_event','Event Detail','Event-level table with Booking No. filtering']
+  ]},
+  {key:'system',title:'Data & System',icon:'SYS',desc:'Dataset visibility; upload remains Admin-only',items:[
+    ['data','Data Management','Viewer can see dataset status; upload controls remain Admin-only']
+  ]}
+];
+const USER_PERMISSION_PRESETS={
+  standard:[...KPI_TABS,...OTT_TABS,'lock_board','lock_event'],
+  kpi:[...KPI_TABS],
+  ott:[...OTT_TABS],
+  management:['overview','ott_overall','lock_board'],
+  none:[]
+};
+function normalizeManagedUserPermissions(perms={}){
+  const p={...DEFAULT_PERMISSIONS,...perms};
+  if(!Object.prototype.hasOwnProperty.call(perms,'lock_board')&&Object.prototype.hasOwnProperty.call(perms,'lock_details'))p.lock_board=perms.lock_details===true;
+  if(!Object.prototype.hasOwnProperty.call(perms,'lock_event')&&Object.prototype.hasOwnProperty.call(perms,'lock_details'))p.lock_event=perms.lock_details===true;
+  return p
+}
+function permissionCheckboxes(perms={},role='viewer'){
+  const p=normalizeManagedUserPermissions(perms),admin=role==='admin';
+  return USER_PERMISSION_GROUPS.map(g=>`<section class="user-permission-group" data-perm-group="${g.key}">
+    <div class="user-perm-group-head">
+      <div class="user-perm-group-title"><span class="user-perm-icon">${esc(g.icon)}</span><div><b>${esc(g.title)}</b><small>${esc(g.desc)}</small></div></div>
+      <div class="user-perm-group-actions"><span class="user-perm-count" id="permCount-${g.key}">0/${g.items.length}</span><button class="btn perm-group-all" data-group="${g.key}" type="button" ${admin?'disabled':''}>All</button><button class="btn perm-group-none" data-group="${g.key}" type="button" ${admin?'disabled':''}>None</button></div>
+    </div>
+    <div class="user-perm-items">${g.items.map(([key,label,desc])=>`<label class="permission-toggle-card">
+      <span class="permission-toggle-copy"><b>${esc(label)}</b><span>${esc(desc)}</span></span>
+      <span class="user-switch"><input type="checkbox" class="perm-box" data-perm="${key}" data-group="${g.key}" ${admin||p[key]?'checked':''} ${admin?'disabled':''}><i></i></span>
+    </label>`).join('')}</div>
+  </section>`).join('')
+}
+
+
+function renderUsers(){
+  metricCardSet([]);
+  $('#content').innerHTML=`<div class="user-management-shell">
+    <div class="user-management-head">
+      <div><h2>User Management</h2><p>Create authorized users and control exactly which dashboard areas they can open. User Management itself is Admin-only.</p></div>
+      <div class="user-stat-row" id="userStats">
+        <div class="user-stat-chip"><b>—</b><span>Total</span></div>
+        <div class="user-stat-chip"><b>—</b><span>Active</span></div>
+        <div class="user-stat-chip"><b>—</b><span>Admins</span></div>
+        <div class="user-stat-chip"><b>—</b><span>Viewers</span></div>
+      </div>
+    </div>
+
+    <div class="user-management-layout">
+      <section class="user-directory">
+        <div class="user-panel-head"><div><h3>Authorized Users</h3><div class="note">Search a user, then edit access.</div></div><span class="badge">Admin only</span></div>
+        <div class="user-directory-tools">
+          <input id="userSearch" placeholder="Search name or email...">
+          <button class="btn primary" id="newUserBtn" type="button">+ New User</button>
+        </div>
+        <div class="user-directory-list" id="usersTable"><div class="user-empty">Loading users...</div></div>
+      </section>
+
+      <section class="user-editor">
+        <div class="user-panel-head">
+          <div><h3 id="userFormTitle">Create New User</h3><div class="note" id="userFormNote">Account details, role, status and menu access.</div></div>
+          <span class="user-access-count" id="userAccessCount">0 menus</span>
+        </div>
+
+        <div class="user-editor-body">
+          <div class="user-editor-section">
+            <div class="user-editor-section-head"><h4>1. Account</h4><span>Login identity</span></div>
+            <div class="user-editor-section-body">
+              <div class="user-account-grid">
+                <div><div class="mini-label">Display name</div><input class="form-control" id="userName" placeholder="User name"></div>
+                <div><div class="mini-label">Email</div><input class="form-control" id="userEmail" type="email" placeholder="name@company.com"></div>
+                <div class="wide"><div class="mini-label">Password</div><input class="form-control" id="userPassword" type="password" placeholder="Minimum 6 characters"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="user-editor-section">
+            <div class="user-editor-section-head"><h4>2. Role & Status</h4><span>Admin = full system access</span></div>
+            <div class="user-editor-section-body">
+              <div class="user-role-row">
+                <div class="user-role-card">
+                  <label>Role</label>
+                  <select class="form-control" id="userRole"><option value="viewer">Viewer</option><option value="admin">Admin</option></select>
+                  <div class="user-management-help"><b>Viewer:</b> access only to selected menus. <b>Admin:</b> full menu access, uploads and User Management.</div>
+                </div>
+                <div class="user-active-card">
+                  <label>Account Status</label>
+                  <div class="user-active-line">
+                    <div><b id="userActiveLabel">Active</b><small id="userActiveHelp">User can sign in and use allowed menus.</small></div>
+                    <span class="user-switch"><input type="checkbox" id="userActive" checked><i></i></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="user-editor-section">
+            <div class="user-editor-section-head"><h4>3. Menu & Submenu Access</h4><span>Only applies to Viewer role</span></div>
+            <div class="user-access-toolbar">
+              <div class="user-presets">
+                <span class="mini-label" style="margin-right:2px">Quick presets</span>
+                <button class="btn user-preset" data-preset="standard" type="button">Standard Viewer</button>
+                <button class="btn user-preset" data-preset="kpi" type="button">KPI Only</button>
+                <button class="btn user-preset" data-preset="ott" type="button">OTT Only</button>
+                <button class="btn user-preset" data-preset="management" type="button">Management</button>
+              </div>
+              <div class="user-global-access"><button class="btn" id="permSelectAll" type="button">Select All</button><button class="btn" id="permClearAll" type="button">Clear All</button></div>
+            </div>
+            <div class="user-admin-notice" id="userAdminNotice"><b>Admin role:</b> all menus and system actions are automatically allowed. Individual switches are locked.</div>
+            <div class="user-permission-groups" id="permissionGrid">${permissionCheckboxes(DEFAULT_PERMISSIONS,'viewer')}</div>
+          </div>
+        </div>
+
+        <div class="user-editor-footer">
+          <div class="user-status" id="userStatus"></div>
+          <div class="user-editor-footer-actions"><button class="btn hidden" id="cancelUserBtn" type="button">Cancel Edit</button><button class="btn primary" id="saveUserBtn" type="button">Create User</button></div>
+        </div>
+      </section>
+    </div>
+  </div>`;
+
+  $('#userRole').onchange=syncUserRoleForm;
+  $('#userActive').onchange=syncUserActiveLabel;
+  $('#saveUserBtn').onclick=saveUser;
+  $('#cancelUserBtn').onclick=resetUserForm;
+  $('#newUserBtn').onclick=resetUserForm;
+  $('#userSearch').oninput=renderUsersTable;
+  bindPermissionControls();
+  syncUserRoleForm();
+  syncUserActiveLabel();
+  loadUsers()
+}
+
+function allManagedPermissionKeys(){return USER_PERMISSION_GROUPS.flatMap(g=>g.items.map(x=>x[0]))}
+function permissionGroupKeys(group){return USER_PERMISSION_GROUPS.find(g=>g.key===group)?.items.map(x=>x[0])||[]}
+function setPermissionsByKeys(keys){
+  const set=new Set(keys);
+  $$('.perm-box').forEach(c=>c.checked=set.has(c.dataset.perm));
+  updatePermissionSummary()
+}
+function applyPermissionPreset(name){
+  if($('#userRole')?.value==='admin')return;
+  setPermissionsByKeys(USER_PERMISSION_PRESETS[name]||[])
+}
+function bindPermissionControls(){
+  $$('.perm-box').forEach(c=>c.onchange=updatePermissionSummary);
+  $$('.perm-group-all').forEach(b=>b.onclick=()=>{if($('#userRole').value==='admin')return;const keys=new Set(permissionGroupKeys(b.dataset.group));$$(`.perm-box[data-group="${b.dataset.group}"]`).forEach(c=>c.checked=keys.has(c.dataset.perm));updatePermissionSummary()});
+  $$('.perm-group-none').forEach(b=>b.onclick=()=>{if($('#userRole').value==='admin')return;$$(`.perm-box[data-group="${b.dataset.group}"]`).forEach(c=>c.checked=false);updatePermissionSummary()});
+  $$('.user-preset').forEach(b=>b.onclick=()=>applyPermissionPreset(b.dataset.preset));
+  if($('#permSelectAll'))$('#permSelectAll').onclick=()=>{if($('#userRole').value!=='admin')setPermissionsByKeys(allManagedPermissionKeys())};
+  if($('#permClearAll'))$('#permClearAll').onclick=()=>{if($('#userRole').value!=='admin')setPermissionsByKeys([])};
+  updatePermissionSummary()
+}
+function updatePermissionSummary(){
+  const total=allManagedPermissionKeys().length,checked=$$('.perm-box').filter(c=>c.checked).length;
+  if($('#userAccessCount'))$('#userAccessCount').textContent=$('#userRole')?.value==='admin'?'Full access':`${checked}/${total} menus`;
+  USER_PERMISSION_GROUPS.forEach(g=>{
+    const boxes=$$(`.perm-box[data-group="${g.key}"]`),n=boxes.filter(c=>c.checked).length,el=$('#permCount-'+g.key);
+    if(el)el.textContent=`${n}/${boxes.length}`
+  })
+}
+function syncUserActiveLabel(){
+  const on=$('#userActive')?.checked!==false;
+  if($('#userActiveLabel'))$('#userActiveLabel').textContent=on?'Active':'Disabled';
+  if($('#userActiveHelp'))$('#userActiveHelp').textContent=on?'User can sign in and use allowed menus.':'User login remains configured but dashboard access is blocked.'
+}
+function countUserMenus(u){
+  if(u.role==='admin')return allManagedPermissionKeys().length;
+  const p=normalizeManagedUserPermissions(u.permissions||{});
+  return allManagedPermissionKeys().filter(k=>p[k]).length
+}
+function updateUserStats(){
+  const rows=state.userList||[],active=rows.filter(u=>u.active!==false).length,admins=rows.filter(u=>u.role==='admin').length,viewers=rows.length-admins;
+  const host=$('#userStats');if(!host)return;
+  host.innerHTML=`<div class="user-stat-chip"><b>${rows.length}</b><span>Total</span></div><div class="user-stat-chip"><b>${active}</b><span>Active</span></div><div class="user-stat-chip"><b>${admins}</b><span>Admins</span></div><div class="user-stat-chip"><b>${viewers}</b><span>Viewers</span></div>`
+}
+
+
+function syncUserRoleForm(){
+  const role=$('#userRole').value,admin=role==='admin';
+  $$('.perm-box').forEach(c=>{c.disabled=admin;if(admin)c.checked=true});
+  $$('.perm-group-all,.perm-group-none,.user-preset,#permSelectAll,#permClearAll').forEach(b=>b.disabled=admin);
+  $('#userAdminNotice')?.classList.toggle('show',admin);
+  updatePermissionSummary()
+}
+
+function collectPermissions(){
+  const out={};
+  allManagedPermissionKeys().forEach(k=>out[k]=false);
+  $$('.perm-box').forEach(c=>out[c.dataset.perm]=c.checked);
+  out.users=false;
+  return out
+}
 async function invokeUserAdmin(body){const {data,error}=await sb.functions.invoke('manage-users',{body});if(error)throw error;if(data?.error)throw new Error(data.error);return data;}
-async function loadUsers(){try{const d=await invokeUserAdmin({action:'list'});state.userList=d.users||[];renderUsersTable()}catch(e){$('#usersTable').innerHTML=`<div class="alert">User list could not load: ${esc(e.message)}. Confirm the manage-users Edge Function has been deployed.</div>`}}
-function renderUsersTable(){const rows=state.userList;if(!rows.length){$('#usersTable').innerHTML='<div style="padding:18px" class="muted">No users found.</div>';return}const body=rows.map(u=>{const perms=u.role==='admin'?MENU_DEFS.map(m=>m.label):MENU_DEFS.filter(m=>u.permissions?.[m.key]).map(m=>m.label);return `<tr><td><b>${esc(u.display_name||'—')}</b></td><td>${esc(u.email||'—')}</td><td><span class="badge ${u.role==='admin'?'admin':''}">${esc(u.role||'viewer')}</span></td><td><span class="badge ${u.active===false?'off':''}">${u.active===false?'Disabled':'Active'}</span></td><td class="menu-list">${esc(perms.join(', ')||'No menus')}</td><td><div class="user-actions"><button class="btn edit-user" data-id="${esc(u.id)}">Edit</button><button class="btn danger delete-user" data-id="${esc(u.id)}" ${u.id===state.profile?.id?'disabled title="You cannot delete your own account"':''}>Delete</button></div></td></tr>`}).join('');$('#usersTable').innerHTML=`<table><thead><tr><th>Name</th><th>Email</th><th>Role</th><th>Status</th><th>Allowed menus</th><th>Actions</th></tr></thead><tbody>${body}</tbody></table>`;$$('.edit-user').forEach(b=>b.onclick=()=>editUser(b.dataset.id));$$('.delete-user').forEach(b=>b.onclick=()=>deleteUser(b.dataset.id));}
-function editUser(id){const u=state.userList.find(x=>x.id===id);if(!u)return;state.editingUserId=id;$('#userFormTitle').textContent='Edit User';$('#userName').value=u.display_name||'';$('#userEmail').value=u.email||'';$('#userEmail').disabled=true;$('#userPassword').value='';$('#userPassword').placeholder='Leave blank to keep password';$('#userRole').value=u.role||'viewer';$('#userActive').checked=u.active!==false;$('#permissionGrid').innerHTML=permissionCheckboxes(u.permissions||DEFAULT_PERMISSIONS,u.role||'viewer');$('#saveUserBtn').textContent='Save Changes';$('#cancelUserBtn').classList.remove('hidden');syncUserRoleForm();window.scrollTo({top:0,behavior:'smooth'});}
-function resetUserForm(){state.editingUserId=null;$('#userFormTitle').textContent='Create New User';$('#userName').value='';$('#userEmail').value='';$('#userEmail').disabled=false;$('#userPassword').value='';$('#userPassword').placeholder='Minimum 6 characters';$('#userRole').value='viewer';$('#userActive').checked=true;$('#permissionGrid').innerHTML=permissionCheckboxes(DEFAULT_PERMISSIONS,'viewer');$('#saveUserBtn').textContent='Create User';$('#cancelUserBtn').classList.add('hidden');$('#userStatus').textContent='';syncUserRoleForm();}
-async function saveUser(){const st=$('#userStatus');const name=$('#userName').value.trim(),email=$('#userEmail').value.trim(),password=$('#userPassword').value,role=$('#userRole').value,active=$('#userActive').checked,permissions=collectPermissions();if(!name)return st.textContent='Enter a display name.';if(!state.editingUserId&&!email)return st.textContent='Enter an email address.';if(!state.editingUserId&&password.length<6)return st.textContent='Password must be at least 6 characters.';const payload=state.editingUserId?{action:'update',user_id:state.editingUserId,display_name:name,role,active,permissions,password:password||undefined}:{action:'create',email,password,display_name:name,role,active,permissions};try{$('#saveUserBtn').disabled=true;st.textContent=state.editingUserId?'Saving changes...':'Creating user...';await invokeUserAdmin(payload);st.textContent='Saved successfully.';resetUserForm();await loadUsers()}catch(e){st.textContent='Failed: '+e.message}finally{$('#saveUserBtn').disabled=false}}
+
+async function loadUsers(){
+  try{
+    const d=await invokeUserAdmin({action:'list'});
+    state.userList=d.users||[];
+    updateUserStats();
+    renderUsersTable()
+  }catch(e){
+    if($('#usersTable'))$('#usersTable').innerHTML=`<div class="alert">User list could not load: ${esc(e.message)}. Confirm the manage-users Edge Function has been deployed.</div>`
+  }
+}
+
+function renderUsersTable(){
+  const host=$('#usersTable');if(!host)return;
+  const q=($('#userSearch')?.value||'').trim().toLowerCase();
+  const rows=(state.userList||[]).filter(u=>!q||`${u.display_name||''} ${u.email||''} ${u.role||''}`.toLowerCase().includes(q));
+  updateUserStats();
+  if(!rows.length){host.innerHTML=`<div class="user-empty">${q?'No users match your search.':'No users found.'}</div>`;return}
+  host.innerHTML=rows.map(u=>{
+    const access=countUserMenus(u),selected=state.editingUserId===u.id,self=u.id===state.profile?.id;
+    return`<div class="user-card ${selected?'selected':''} ${u.active===false?'disabled-user':''}" data-user-id="${esc(u.id)}">
+      <div>
+        <div class="user-card-name">${esc(u.display_name||'—')}</div>
+        <div class="user-card-email">${esc(u.email||'—')}</div>
+        <div class="user-card-meta">
+          <span class="user-mini-badge ${u.role==='admin'?'admin':''}">${u.role==='admin'?'Admin':'Viewer'}</span>
+          <span class="user-mini-badge ${u.active===false?'off':''}">${u.active===false?'Disabled':'Active'}</span>
+          <span class="user-mini-badge">${u.role==='admin'?'Full access':`${access} menus`}</span>
+          ${self?'<span class="user-mini-badge self">You</span>':''}
+        </div>
+      </div>
+      <div class="user-card-actions">
+        <button class="btn edit-user" data-id="${esc(u.id)}" type="button">Edit</button>
+        <button class="btn danger delete-user" data-id="${esc(u.id)}" type="button" ${self?'disabled title="You cannot delete your own account"':''}>Delete</button>
+      </div>
+    </div>`
+  }).join('');
+  $$('.edit-user').forEach(b=>b.onclick=()=>editUser(b.dataset.id));
+  $$('.delete-user').forEach(b=>b.onclick=()=>deleteUser(b.dataset.id))
+}
+
+function editUser(id){
+  const u=state.userList.find(x=>x.id===id);if(!u)return;
+  state.editingUserId=id;
+  $('#userFormTitle').textContent=`Edit: ${u.display_name||u.email||'User'}`;
+  $('#userFormNote').textContent='Update role, account status and menu access.';
+  $('#userName').value=u.display_name||'';
+  $('#userEmail').value=u.email||'';
+  $('#userEmail').disabled=true;
+  $('#userPassword').value='';
+  $('#userPassword').placeholder='Leave blank to keep current password';
+  $('#userRole').value=u.role||'viewer';
+  $('#userActive').checked=u.active!==false;
+  $('#permissionGrid').innerHTML=permissionCheckboxes(u.permissions||DEFAULT_PERMISSIONS,u.role||'viewer');
+  $('#saveUserBtn').textContent='Apply Changes';
+  $('#cancelUserBtn').classList.remove('hidden');
+  $('#userStatus').textContent='';
+  bindPermissionControls();
+  syncUserRoleForm();
+  syncUserActiveLabel();
+  renderUsersTable();
+  document.querySelector('.user-editor')?.scrollIntoView({behavior:'smooth',block:'start'})
+}
+
+function resetUserForm(){
+  state.editingUserId=null;
+  $('#userFormTitle').textContent='Create New User';
+  $('#userFormNote').textContent='Account details, role, status and menu access.';
+  $('#userName').value='';
+  $('#userEmail').value='';
+  $('#userEmail').disabled=false;
+  $('#userPassword').value='';
+  $('#userPassword').placeholder='Minimum 6 characters';
+  $('#userRole').value='viewer';
+  $('#userActive').checked=true;
+  $('#permissionGrid').innerHTML=permissionCheckboxes(DEFAULT_PERMISSIONS,'viewer');
+  $('#saveUserBtn').textContent='Create User';
+  $('#cancelUserBtn').classList.add('hidden');
+  $('#userStatus').textContent='';
+  bindPermissionControls();
+  syncUserRoleForm();
+  syncUserActiveLabel();
+  renderUsersTable();
+  document.querySelector('.user-editor')?.scrollIntoView({behavior:'smooth',block:'start'})
+}
+
+async function saveUser(){
+  const st=$('#userStatus'),btn=$('#saveUserBtn');
+  const name=$('#userName').value.trim(),email=$('#userEmail').value.trim(),password=$('#userPassword').value,
+        role=$('#userRole').value,active=$('#userActive').checked,permissions=collectPermissions(),editing=state.editingUserId;
+  if(!name)return st.textContent='Enter a display name.';
+  if(!editing&&!email)return st.textContent='Enter an email address.';
+  if(!editing&&password.length<6)return st.textContent='Password must be at least 6 characters.';
+  if(role==='viewer'&&!Object.values(permissions).some(Boolean))return st.textContent='Select at least one menu for a Viewer, or disable the account.';
+  const payload=editing
+    ?{action:'update',user_id:editing,display_name:name,role,active,permissions,password:password||undefined}
+    :{action:'create',email,password,display_name:name,role,active,permissions};
+  try{
+    btn.disabled=true;st.textContent=editing?'Applying changes...':'Creating user...';
+    await invokeUserAdmin(payload);
+    const msg=editing?'Permissions updated successfully.':'User created successfully.';
+    resetUserForm();
+    await loadUsers();
+    if($('#userStatus'))$('#userStatus').textContent=msg
+  }catch(e){st.textContent='Failed: '+e.message}
+  finally{btn.disabled=false}
+}
 async function deleteUser(id){const u=state.userList.find(x=>x.id===id);if(!u||id===state.profile?.id)return;if(!confirm(`Delete ${u.display_name||u.email}? This removes the login account.`))return;try{await invokeUserAdmin({action:'delete',user_id:id});await loadUsers()}catch(e){alert('Delete failed: '+e.message)}}
 
 /* ================= LOCK PLAN DETAILS CORE ================= */
