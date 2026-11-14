@@ -2072,6 +2072,61 @@ body.dark-mode .lock-event-only tbody tr.meeting-selected td{background:#695c18!
 /* Filter panels: first controls are month and dates */
 .lock-filter-grid .filter-group,.ott-filter-grid .filter-group{min-width:0}
 
+
+/* ================= v42 Lock Board + permission refinements ================= */
+.page:has(.lock-detail-page){max-width:1680px}
+.lock-all-chart-board{padding:10px}
+.lock-primary-chart-grid{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:10px;
+  margin-top:9px
+}
+.lock-primary-chart-grid .panel{margin:0;min-height:390px}
+.lock-primary-chart-grid .chart-wrap{height:325px!important}
+.lock-large-charts{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:10px!important;margin-top:10px!important}
+.lock-large-charts .panel{min-height:350px!important}
+.lock-large-charts .chart-wrap{height:285px!important}
+.lock-large-charts .panel:nth-child(7),
+.lock-large-charts .panel:nth-child(8),
+.lock-large-charts .panel:nth-child(9){min-height:365px!important}
+.lock-large-charts .panel:nth-child(7) .chart-wrap,
+.lock-large-charts .panel:nth-child(8) .chart-wrap,
+.lock-large-charts .panel:nth-child(9) .chart-wrap{height:300px!important}
+
+/* More compact filters across KPI / OTT / Lock Plan */
+.filters{grid-template-columns:repeat(7,minmax(90px,1fr))!important;gap:6px!important}
+.filters input,.filters select{height:30px!important;padding:0 7px!important;font-size:10px!important}
+.ott-filter-grid,.lock-filter-grid{grid-template-columns:repeat(7,minmax(92px,1fr))!important;gap:5px 6px!important}
+.ott-filter-grid input,.ott-filter-grid select,.lock-filter-grid input,.lock-filter-grid select,
+.ott-filter-grid .ott-multi-picker>summary,.ott-filter-grid .ott-month-picker>summary,
+.lock-filter-grid .lpd-picker>summary{height:28px!important;min-height:28px!important;font-size:9px!important}
+.ott-filter-grid .mini-label,.lock-filter-grid .mini-label,.filters .mini-label{font-size:7.4px!important;letter-spacing:.45px!important}
+.lock-filter-grid .wide,.ott-filter-grid .wide{grid-column:span 2!important}
+
+/* Event Detail starts directly with meeting controls/table */
+.lock-event-direct{padding-top:10px!important}
+.lock-event-direct>.lpd-meeting-tools{margin-top:0!important}
+
+/* Data permission groups remain compact in User Management */
+.user-permission-group[data-perm-group^="data_"] .user-perm-items{grid-template-columns:repeat(2,minmax(0,1fr))}
+.user-permission-group[data-perm-group="data_kpi"] .user-perm-icon,
+.user-permission-group[data-perm-group="data_ott"] .user-perm-icon,
+.user-permission-group[data-perm-group="data_lock"] .user-perm-icon{background:#e9f7f4;color:#087252}
+
+/* Keep value labels readable at right edge of horizontal charts */
+.lock-all-chart-board canvas{overflow:visible}
+
+@media(max-width:1250px){
+  .filters{grid-template-columns:repeat(4,minmax(100px,1fr))!important}
+  .ott-filter-grid,.lock-filter-grid{grid-template-columns:repeat(4,minmax(105px,1fr))!important}
+}
+@media(max-width:900px){
+  .lock-large-charts{grid-template-columns:1fr!important}
+  .ott-filter-grid,.lock-filter-grid,.filters{grid-template-columns:repeat(2,minmax(105px,1fr))!important}
+  .user-permission-group[data-perm-group^="data_"] .user-perm-items{grid-template-columns:1fr}
+}
+
 </style></head><body><div id="app" class="hidden"><div class="app-sticky-header"><div class="top-accent"></div><header class="header"><div class="header-left"><div class="brand-mark">TP</div><div><div class="brand-title">Textile Planning Dashboard</div><div class="brand-sub">Planning, Monitoring & Control</div></div></div><div class="header-actions"><div class="utility-tools"><button class="tool-btn stopwatch-btn" id="stopwatchBtn" title="Click to start/pause • Double-click to reset">⏱ <span id="stopwatchText">00:00</span></button><button class="tool-btn" id="fullscreenBtn" title="Enter full screen">⛶ Full</button><button class="tool-btn" id="themeBtn" title="Switch dark/light mode">☾ Dark</button></div><span class="greeting" id="greeting">Good morning</span><button class="btn" id="exportBtn">Export CSV</button><button class="btn" id="signOutBtn">Sign out</button><button class="btn primary" id="refreshBtn">Refresh</button></div></header><nav class="nav">
   <div class="kpi-menu-wrap" id="kpiMenuWrap">
     <button class="kpi-menu-toggle active" id="kpiBoardBtn" type="button">KPI Board <span class="kpi-menu-arrow">⌄</span></button>
@@ -2115,7 +2170,6 @@ body.dark-mode .lock-event-only tbody tr.meeting-selected td{background:#695c18!
   <div class="filter-group" id="searchFilterGroup"><span class="mini-label">Search</span><input id="search" placeholder="buyer, value..."></div>
   <div class="filter-group snapshot-inline-group" id="overviewSnapshotGroup"><button class="overview-snapshot-open snapshot-inline-btn" id="overviewSnapshotBtn" type="button" title="Open management Overview snapshot" aria-label="Open Overview snapshot">▣</button></div>
   <div class="filter-group"><span class="mini-label">Filters</span><button class="btn" id="resetBtn">Reset all</button></div>
-  <div class="filter-group"><span class="mini-label">Dataset</span><span class="status-pill">Live data</span></div>
 </div><div class="toolbar-bottom"><span id="countText"></span><span id="lastUpdated"></span></div></section><section class="kpis" id="kpis"></section><section class="grid" id="content"></section></main><div id="chartDataModal" class="chart-data-modal hidden" role="dialog" aria-modal="true" aria-labelledby="chartDataTitle"><div class="chart-data-dialog"><div class="chart-data-head"><div><h3 id="chartDataTitle">Chart Data</h3><div class="meta" id="chartDataMeta"></div></div><button class="chart-data-close" id="chartDataClose" type="button" title="Close">×</button></div><div class="chart-data-body" id="chartDataBody"></div></div></div></div>
 <div id="overviewSnapshotModal" class="overview-snapshot-modal hidden" role="dialog" aria-modal="true" aria-labelledby="overviewSnapshotTitle">
   <div class="overview-snapshot-dialog">
@@ -2273,10 +2327,17 @@ const MENU_DEFS=[
   {key:'lock_event',label:'Event Detail'},
   {key:'data',label:'Data Management'}
 ];
+const DATA_UPLOAD_PERMISSION_KEYS=[
+  'upload_dyeing','upload_knitting','upload_finishing','upload_delivery','upload_yarn','upload_chemical','upload_etl','upload_targets',
+  'upload_ott_yarn','upload_ott_knitting','upload_ott_dyeing','upload_ott_delivery','upload_ott_lock','upload_lock_details'
+];
 const DEFAULT_PERMISSIONS={
   overview:true,dyeing:true,knitting:true,finishing:true,delivery:true,yarn:true,chemical:true,etl:true,
   ott_yarn:true,ott_knitting:true,ott_dyeing:true,ott_delivery:true,ott_lock:true,ott_booking:true,ott_overall:true,
-  lock_board:true,lock_event:true,data:false,users:false
+  lock_board:true,lock_event:true,data:false,
+  upload_dyeing:false,upload_knitting:false,upload_finishing:false,upload_delivery:false,upload_yarn:false,upload_chemical:false,upload_etl:false,upload_targets:false,
+  upload_ott_yarn:false,upload_ott_knitting:false,upload_ott_dyeing:false,upload_ott_delivery:false,upload_ott_lock:false,upload_lock_details:false,
+  users:false
 };
 const state={
   data:null,filtered:null,tab:'overview',charts:[],profile:null,userList:[],editingUserId:null,ydViewMode:'date',
@@ -3331,6 +3392,7 @@ function ottBookingValuesFromRows(rows){
 }
 
 
+
 function ottFilterPanel(tab){
   ottEnsureDefaults(tab);
   const cfg=OTT_CONFIG[tab],base=ottRowsWithDept(tab),f=state.ottFilters,bookingPage=tab==='ott_booking',
@@ -3343,6 +3405,13 @@ function ottFilterPanel(tab){
       :`${base.length.toLocaleString()} checks • ${(state.data?.ottSources?.[cfg.key]?.meta?.bookings||0).toLocaleString()} bookings`;
 
   let stage=ottDateContextRows(base);
+  const buyers=ottCanonicalOptions(stage,'Buyer');ottPruneListFilter('buyer',buyers);stage=stage.filter(r=>ottMultiMatch(r.Buyer,f.buyer));
+  const results=ottCanonicalOptions(stage,'Result');ottPruneScalarFilter('result',results);if(f.result)stage=stage.filter(r=>ottNorm(r.Result)===ottNorm(f.result));
+  const reasons=ottCanonicalOptions(stage.filter(r=>r.FailReason),'FailReason');ottPruneListFilter('failReason',reasons);stage=stage.filter(r=>ottMultiMatch(r.FailReason,f.failReason));
+  const related=ottCanonicalOptions(stage.filter(r=>r.RelatedDept),'RelatedDept');ottPruneListFilter('relatedDept',related);stage=stage.filter(r=>ottMultiMatch(r.RelatedDept,f.relatedDept));
+  const floors=ottCanonicalOptions(stage.filter(r=>r.Floor),'Floor');ottPruneListFilter('floor',floors);
+  if(ottAsList(f.floor).length)stage=stage.filter(r=>['knitting','yarn'].includes(r.DepartmentKey)||ottMultiMatch(r.Floor,f.floor));
+  const types=ottCanonicalOptions(stage,'Type');ottPruneScalarFilter('type',types);if(f.type)stage=stage.filter(r=>ottNormType(r.Type)===ottNormType(f.type));
 
   const bookingOpts=ottBookingValuesFromRows(stage);
   if(bookingPage&&!f.bookingAll){
@@ -3350,27 +3419,6 @@ function ottFilterPanel(tab){
     f.bookings=(f.bookings||[]).filter(b=>allowed.has(ottBookingKey(b)));
     if(!f.bookings.length)f.bookingAll=true
   }
-  if(bookingPage&&!f.bookingAll){
-    const selected=new Set((f.bookings||[]).map(ottBookingKey));
-    stage=stage.filter(r=>selected.has(ottBookingKey(r.BookingNo)))
-  }
-
-  const buyers=ottCanonicalOptions(stage,'Buyer');ottPruneListFilter('buyer',buyers);
-  stage=stage.filter(r=>ottMultiMatch(r.Buyer,f.buyer));
-
-  const results=ottCanonicalOptions(stage,'Result');ottPruneScalarFilter('result',results);
-  if(f.result)stage=stage.filter(r=>ottNorm(r.Result)===ottNorm(f.result));
-
-  const reasons=ottCanonicalOptions(stage.filter(r=>r.FailReason),'FailReason');ottPruneListFilter('failReason',reasons);
-  stage=stage.filter(r=>ottMultiMatch(r.FailReason,f.failReason));
-
-  const related=ottCanonicalOptions(stage.filter(r=>r.RelatedDept),'RelatedDept');ottPruneListFilter('relatedDept',related);
-  stage=stage.filter(r=>ottMultiMatch(r.RelatedDept,f.relatedDept));
-
-  const floors=ottCanonicalOptions(stage.filter(r=>r.Floor),'Floor');ottPruneListFilter('floor',floors);
-  if(ottAsList(f.floor).length)stage=stage.filter(r=>['knitting','yarn'].includes(r.DepartmentKey)||ottMultiMatch(r.Floor,f.floor));
-
-  const types=ottCanonicalOptions(stage,'Type');ottPruneScalarFilter('type',types);
 
   return `<div class="ott-filter-panel">
     <div class="ott-filter-head"><div><h2>${esc(cfg.label)}</h2><div class="meta">${esc(meta)} • Source upload is managed from Data Management</div></div>
@@ -3379,16 +3427,16 @@ function ottFilterPanel(tab){
       ${ottMonthPickerHTML(base,months,f.month)}
       <div class="filter-group"><span class="mini-label">Date Range — From</span><input id="ottFrom" type="date" value="${esc(f.from||'')}"></div>
       <div class="filter-group"><span class="mini-label">Date Range — To</span><input id="ottTo" type="date" value="${esc(f.to||'')}"></div>
-      ${bookingPage?`<div class="filter-group wide"><span class="mini-label">Booking No. (single / multiple)</span>${ottBookingPickerHTML(tab,bookingOpts)}</div>`:''}
       ${ottMultiPickerHTML('ottBuyer','Buyer',buyers,f.buyer)}
       ${ottSelectHTML('ottResult','Result',results,f.result)}
       ${ottMultiPickerHTML('ottFailReason','Fail Reason',reasons,f.failReason)}
       ${ottMultiPickerHTML('ottRelatedDept','Related Dept.',related,f.relatedDept)}
       ${ottMultiPickerHTML('ottFloor','Floor',floors,f.floor)}
       ${ottSelectHTML('ottType','Type',types,f.type)}
+      ${bookingPage?`<div class="filter-group wide"><span class="mini-label">Booking No. (single / multiple)</span>${ottBookingPickerHTML(tab,bookingOpts)}</div>`:''}
       <div class="filter-group"><span class="mini-label">Filters</span><button class="btn" id="ottResetBtn" type="button">Reset all</button></div>
     </div>
-    <div class="ott-filter-note"><b>Filter sequence:</b> Month → Date Range → remaining filters. Each filter only lists values still valid after the filters before it. Month supports multiple selection; for the running month, the automatic end date is yesterday. ${noFloor?'<span class="ott-floor-note">Floor is not available in this source.</span>':(tab==='ott_overall'||bookingPage)?'<span class="ott-floor-note">Floor applies to Dyeing / Delivery / Lock Plan only; Knitting and Yarn Dyeing remain included.</span>':''}</div>
+    <div class="ott-filter-note"><b>Filter sequence:</b> Month → Date Range → remaining filters → Booking No. last. Each filter only lists values still valid after the filters before it. ${noFloor?'<span class="ott-floor-note">Floor is not available in this source.</span>':(tab==='ott_overall'||bookingPage)?'<span class="ott-floor-note">Floor applies to Dyeing / Delivery / Lock Plan only; Knitting and Yarn Dyeing remain included.</span>':''}</div>
   </div>`
 }
 function ottBindFilters(tab){
@@ -4099,14 +4147,26 @@ kpiMulti('Additional Delivery Qty',ton(additional),[{label:'Avg/day:',value:ton(
 kpiMulti('Total Excess (Qty)',ton(totalEx),[{label:'Avg/day:',value:ton(excessAvg(totalEx))},{label:'% of Delivered:',value:pct(share(totalEx))}],'rose')]);const labels=dr.map(r=>r.Date?.slice(5)||r.Date),allBuyer=(state.data?.sheets?.Delivery_Date_Buyer||[]),even=deliveryBuyerSourceEvenlyAllocated(allBuyer),summary=deliveryBuyerSummary(br);const c=(title,note,id,wide=false)=>panel(title,note,`<div class="chart-wrap"><canvas id="${id}"></canvas></div>`,wide,true);$('#content').innerHTML=`<div class="delivery-weekend-note"><b>Average rule:</b> Delivered Avg/day excludes all Friday rows from both quantity and day count; Delivered total still includes every recorded delivery. ${buyer?'<b>Buyer filter:</b> Received/Delivered use Delivery_Date_Buyer. OTD and Excess remain overall date-wise because those fields are not available buyer-wise.':''}</div>`+`<div class="section-band">Delivery Volume & OTD <span class="source-tag">Delivery_Date</span></div>`+c('Received','Daily received kg','delReceived')+c('Delivered','Daily delivered kg • Friday excluded only from Avg/day','delDelivered')+c('On Time Delivery','Daily OTD %','delOTD')+`<div class="section-band">Excess Delivery <span class="source-tag">Delivery_Date</span></div>`+c('Excess Delivery without PO Qty','Daily kg','delExPO')+c('Additional Delivery Qty','Daily kg','delAdditional')+c('Total Excess (Qty)','Daily kg','delTotalEx')+`<div class="section-band">Buyer-wise Delivery <span class="source-tag">Delivery_Date_Buyer</span></div>`+(even?'<div class="source-warning"><b>Source-data notice:</b> Delivery_Date_Buyer is currently draft/equal-distributed data, as advised. The buyer chart is displayed from the source but should not be treated as an actual buyer ranking until the real buyer allocation is uploaded.</div>':'')+panel('Buyer-wise Received & Delivered','Selected date range'+(buyer?` • Buyer filter: ${esc(buyer)}`:''),'<div class="chart-wrap tall"><canvas id="delBuyer"></canvas></div>',true,true)+panel('Delivery Daily Detail','Date-wise source for OTD and excess KPIs',tableHTML(dr,500,DELIVERY_PERCENT),true)+panel('Delivery Buyer/Date Detail','Draft buyer-wise source; actual data can replace it later',tableHTML(br,500),true);lineChart('delReceived',labels,[{label:'Received',data:dr.map(r=>safeNum(r.Received))}]);lineChart('delDelivered',labels,[{label:'Delivered',data:dr.map(r=>safeNum(r.Delivered))}]);lineChartPct('delOTD',labels,[{label:'On Time Delivery',data:dr.map(r=>safeNum(r['On Time Delivery']))}]);lineChart('delExPO',labels,[{label:'Excess without PO',data:dr.map(r=>safeNum(r['Excess Delivery without PO Qty']))}]);lineChart('delAdditional',labels,[{label:'Additional Delivery',data:dr.map(r=>safeNum(r['Additional Delivery Qty']))}]);lineChart('delTotalEx',labels,[{label:'Total Excess',data:dr.map(r=>safeNum(r['Total Excess (Qty)']))}]);groupedBarChart('delBuyer',summary.map(r=>r.Buyer),[{label:'Received',data:summary.map(r=>r.Received)},{label:'Delivered',data:summary.map(r=>r.Delivered)}]);}
 function renderBuyers(){const r=filteredBuyers();metricCardSet([kpi('Buyers',fmt(r.length)),kpi('Received',ton(r.reduce((a,x)=>a+(safeNum(x.Received)||0),0))),kpi('Delivered',ton(r.reduce((a,x)=>a+(safeNum(x.Delivered)||0),0))),kpi('Dyeing production',ton(r.reduce((a,x)=>a+(safeNum(x['Dyeing Prod'])||0),0))),kpi('Knitting production',ton(r.reduce((a,x)=>a+(safeNum(x['Knitting Prod'])||0),0))),kpi('Total excess',ton(r.reduce((a,x)=>a+(safeNum(x['Total Excess (Qty)'])||0),0)))]);$('#content').innerHTML=panel('Buyer delivery comparison','Top delivered quantities','<div class="chart-wrap"><canvas id="buyers"></canvas></div>',false,true)+panel('Buyer-wise data','Search and buyer filters apply',tableHTML(r),true);const top=r.slice().sort((a,z)=>(safeNum(z.Delivered)||0)-(safeNum(a.Delivered)||0)).slice(0,12);barChart('buyers',top.map(x=>x.Buyer),top.map(x=>safeNum(x.Delivered)||0));}
 
+
 function effectivePermissions(){
-  if(state.profile?.role==='admin')return {...DEFAULT_PERMISSIONS,...Object.fromEntries(MENU_DEFS.map(m=>[m.key,true])),users:true};
+  if(state.profile?.role==='admin')return {
+    ...DEFAULT_PERMISSIONS,
+    ...Object.fromEntries(MENU_DEFS.map(m=>[m.key,true])),
+    ...Object.fromEntries(DATA_UPLOAD_PERMISSION_KEYS.map(k=>[k,true])),
+    data:true,users:true
+  };
   const saved=state.profile?.permissions||{},merged={...DEFAULT_PERMISSIONS,...saved,users:false};
   if(!Object.prototype.hasOwnProperty.call(saved,'lock_board')&&Object.prototype.hasOwnProperty.call(saved,'lock_details'))merged.lock_board=saved.lock_details===true;
   if(!Object.prototype.hasOwnProperty.call(saved,'lock_event')&&Object.prototype.hasOwnProperty.call(saved,'lock_details'))merged.lock_event=saved.lock_details===true;
   return merged
 }
-function canAccess(tab){const p=effectivePermissions();return tab==='users'?state.profile?.role==='admin':p[tab]===true;}
+
+function canAccess(tab){
+  if(tab==='users')return state.profile?.role==='admin';
+  const p=effectivePermissions();
+  if(tab==='data')return p.data===true||DATA_UPLOAD_PERMISSION_KEYS.some(k=>p[k]===true);
+  return p[tab]===true
+}
 function applyMenuPermissions(){
   const p=effectivePermissions();
   $$('.kpi-submenu button[data-tab]').forEach(b=>b.classList.toggle('hidden',p[b.dataset.tab]!==true));
@@ -4115,7 +4175,7 @@ function applyMenuPermissions(){
   const oBoard=$('#ottMenuWrap');if(oBoard)oBoard.classList.toggle('hidden',!OTT_TABS.some(t=>p[t]===true));
   $$('.lock-submenu button[data-tab]').forEach(b=>b.classList.toggle('hidden',p[b.dataset.tab]!==true));
   const lockWrap=$('#lockMenuWrap');if(lockWrap)lockWrap.classList.toggle('hidden',!(p.lock_board===true||p.lock_event===true));
-  const dataBtn=$('.nav>button[data-tab="data"]');if(dataBtn)dataBtn.classList.toggle('hidden',p.data!==true);
+  const dataBtn=$('.nav>button[data-tab="data"]');if(dataBtn)dataBtn.classList.toggle('hidden',!(p.data===true||DATA_UPLOAD_PERMISSION_KEYS.some(k=>p[k]===true)));
   const usersBtn=$('.nav>button[data-tab="users"]');if(usersBtn)usersBtn.classList.toggle('hidden',state.profile?.role!=='admin');
   if(!canAccess(state.tab)){
     const firstKpi=KPI_TABS.find(t=>canAccess(t)),firstOtt=OTT_TABS.find(t=>canAccess(t));
@@ -4148,8 +4208,26 @@ const USER_PERMISSION_GROUPS=[
     ['lock_board','Lock Plan Details Board','Cards, charts and management reports'],
     ['lock_event','Event Detail','Event-level table with Booking No. filtering']
   ]},
-  {key:'system',title:'Data & System',icon:'SYS',desc:'Dataset visibility; upload remains Admin-only',items:[
-    ['data','Data Management','Viewer can see dataset status; upload controls remain Admin-only']
+  {key:'data_kpi',title:'Data Management — KPI Uploads',icon:'KPI↑',desc:'Allow specific KPI/target source upload cards',items:[
+    ['data','Data Management Status','Open Data Management and see current source status'],
+    ['upload_dyeing','Upload Dyeing Data','Upload / replace Dyeing_Dashboard'],
+    ['upload_knitting','Upload Knitting Data','Upload / replace Knitting_Dashboard'],
+    ['upload_finishing','Upload Finishing Data','Upload / replace Finishing_Dashboard'],
+    ['upload_delivery','Upload Delivery Data','Upload / replace Delivery_Dashboard'],
+    ['upload_yarn','Upload Yarn Dyeing Data','Upload / replace Yarn_Dyeing_Dashboard'],
+    ['upload_chemical','Upload Chemical Lab Data','Upload / replace Chemical_Lab_Dashboard'],
+    ['upload_etl','Upload ETL Data','Upload / replace ETL_Dashboard'],
+    ['upload_targets','Upload Target Data','Upload / replace Dashboard_Target']
+  ]},
+  {key:'data_ott',title:'Data Management — OTT Uploads',icon:'OTT↑',desc:'Allow source upload one department at a time',items:[
+    ['upload_ott_yarn','Upload Yarn Dyeing OTT','Upload / replace Yarn Dyeing OTT source'],
+    ['upload_ott_knitting','Upload Knitting OTT','Upload / replace Knitting OTT source'],
+    ['upload_ott_dyeing','Upload Dyeing OTT','Upload / replace Dyeing OTT source'],
+    ['upload_ott_delivery','Upload Delivery OTT','Upload / replace Delivery OTT source'],
+    ['upload_ott_lock','Upload Lock Plan OTT','Upload / replace Lock Plan OTT source']
+  ]},
+  {key:'data_lock',title:'Data Management — Lock Plan Details',icon:'LP↑',desc:'Detailed Lock Plan event source upload',items:[
+    ['upload_lock_details','Upload Lock Plan Details','Upload / replace Lock Plan Details.xlsx']
   ]}
 ];
 const USER_PERMISSION_PRESETS={
@@ -4300,7 +4378,7 @@ function bindPermissionControls(){
 }
 function updatePermissionSummary(){
   const total=allManagedPermissionKeys().length,checked=$$('.perm-box').filter(c=>c.checked).length;
-  if($('#userAccessCount'))$('#userAccessCount').textContent=$('#userRole')?.value==='admin'?'Full access':`${checked}/${total} menus`;
+  if($('#userAccessCount'))$('#userAccessCount').textContent=$('#userRole')?.value==='admin'?'Full access':`${checked}/${total} access`;
   USER_PERMISSION_GROUPS.forEach(g=>{
     const boxes=$$(`.perm-box[data-group="${g.key}"]`),n=boxes.filter(c=>c.checked).length,el=$('#permCount-'+g.key);
     if(el)el.textContent=`${n}/${boxes.length}`
@@ -4366,7 +4444,7 @@ function renderUsersTable(){
         <div class="user-card-meta">
           <span class="user-mini-badge ${u.role==='admin'?'admin':''}">${u.role==='admin'?'Admin':'Viewer'}</span>
           <span class="user-mini-badge ${u.active===false?'off':''}">${u.active===false?'Disabled':'Active'}</span>
-          <span class="user-mini-badge">${u.role==='admin'?'Full access':`${access} menus`}</span>
+          <span class="user-mini-badge">${u.role==='admin'?'Full access':`${access} access`}</span>
           ${self?'<span class="user-mini-badge self">You</span>':''}
         </div>
       </div>
@@ -4746,11 +4824,12 @@ function lpdResponsibleTable(rows){
   const arr=[...m.entries()].map(([label,count])=>({label,count,share:den?count/den:0})).sort((a,b)=>b.count-a.count).slice(0,12);
   return`<div class="lock-report-card">${lpdReportTitle('Responsible Department / Fail Share','red')}<div class="table-wrap"><table><thead><tr><th>RESPONSIBLE</th><th>FAIL</th><th>SHARE</th></tr></thead><tbody>${arr.map(x=>`<tr><td>${esc(x.label)}</td><td><b>${x.count}</b></td><td>${pct(x.share)}</td></tr>`).join('')||'<tr><td colspan="3">No responsible department data</td></tr>'}</tbody></table></div></div>`
 }
+
 function lpdMonthTrend(rows){
   const m=new Map();rows.filter(r=>r.LockPlan).forEach(r=>{const k=r.LockPlan.slice(0,7);if(!m.has(k))m.set(k,[]);m.get(k).push(r)});
-  const keys=[...m.keys()].sort();return{labels:keys.map(lpdMonthLabel),start:keys.map(k=>lpdEventStats(m.get(k),'START').rate),end:keys.map(k=>lpdEventStats(m.get(k),'END').rate),overall:keys.map(k=>lpdEventStats(m.get(k)).rate)}
+  const keys=[...m.keys()].sort();
+  return{labels:keys.map(lpdMonthLabel),start:keys.map(k=>lpdEventStats(m.get(k),'START')),end:keys.map(k=>lpdEventStats(m.get(k),'END')),overall:keys.map(k=>lpdEventStats(m.get(k)))}
 }
-
 function lpdDailyCounts(rows){
   const m=new Map();rows.filter(r=>r.LockPlan).forEach(r=>{if(!m.has(r.LockPlan))m.set(r.LockPlan,[]);m.get(r.LockPlan).push(r)});
   let keys=[...m.keys()].sort();
@@ -4771,6 +4850,7 @@ function lpdWeekTrend(rows){
   return{labels:keys,start:keys.map(k=>lpdEventStats(m.get(k),'START')),end:keys.map(k=>lpdEventStats(m.get(k),'END')),overall:keys.map(k=>lpdEventStats(m.get(k)))}
 }
 
+
 function lpdDailyPFChart(id,data){
   const ctx=document.querySelector(`canvas#${id}`);if(!ctx)return;
   const dark=document.body.classList.contains('dark-mode'),grid=dark?'#31453c':'#e7ece9',txt=dark?'#c6d8cf':'#58635e';
@@ -4782,13 +4862,14 @@ function lpdDailyPFChart(id,data){
   ];
   const datasets=[];
   groups.forEach(g=>{
-    datasets.push({label:g.name,data:g.stats.map(s=>s.pass),stack:g.name,backgroundColor:g.color,borderRadius:2,maxBarThickness:20,_kind:'PASS'});
-    datasets.push({label:g.name+' Fail',data:g.stats.map(s=>s.fail),stack:g.name,backgroundColor:rgba(g.color,.28),borderColor:g.color,borderWidth:1,borderRadius:2,maxBarThickness:20,_kind:'FAIL'})
+    datasets.push({label:g.name,data:g.stats.map(s=>s.pass),stack:g.name,backgroundColor:g.color,borderRadius:2,maxBarThickness:22,_countLabels:g.stats.map(s=>s.pass?String(s.pass):''),_kind:'PASS'});
+    datasets.push({label:g.name+' Fail',data:g.stats.map(s=>s.fail),stack:g.name,backgroundColor:rgba(g.color,.28),borderColor:g.color,borderWidth:1,borderRadius:2,maxBarThickness:22,_countLabels:g.stats.map(s=>s.fail?String(s.fail):''),_kind:'FAIL'})
   });
-  const c=new Chart(ctx,{type:'bar',data:{labels:data.labels,datasets},options:{responsive:true,maintainAspectRatio:false,animation:false,
-    plugins:{tpChartValueLabels:{display:false},legend:{position:'bottom',labels:{boxWidth:10,font:{size:9},color:txt,filter:item=>[0,2,4].includes(item.datasetIndex)}},
+  const c=new Chart(ctx,{type:'bar',data:{labels:data.labels,datasets},options:{responsive:true,maintainAspectRatio:false,animation:false,layout:{padding:{top:24}},
+    plugins:{tpChartValueLabels:{display:false},legend:{position:'bottom',labels:{boxWidth:10,font:{size:10},color:txt,filter:item=>[0,2,4].includes(item.datasetIndex)}},
       tooltip:{callbacks:{label:c=>`${c.dataset.label}: ${Number(c.raw||0).toLocaleString()} event(s)`}}},
-    scales:{x:{stacked:true,grid:{display:false},ticks:{font:{size:8},color:txt,maxRotation:90,minRotation:0}},y:{stacked:true,beginAtZero:true,grid:{color:grid},ticks:{font:{size:8},color:txt}}}}});
+    scales:{x:{stacked:true,grid:{display:false},ticks:{font:{size:8},color:txt,maxRotation:90,minRotation:0}},y:{stacked:true,beginAtZero:true,grid:{color:grid},ticks:{font:{size:9},color:txt}}}},
+    plugins:[lpdCountLabelPlugin()]});
   state.charts.push(c)
 }
 function lpdCountLabelPlugin(){
@@ -4812,6 +4893,7 @@ function lpdCountLabelPlugin(){
     }
   }
 }
+
 function lpdGroupedRateChart(id,groups){
   const ctx=document.querySelector(`canvas#${id}`);if(!ctx)return;
   const dark=document.body.classList.contains('dark-mode'),grid=dark?'#31453c':'#e7ece9',txt=dark?'#c6d8cf':'#58635e',cols=['#15939b','#e77a2f','#285f9a'];
@@ -4821,29 +4903,62 @@ function lpdGroupedRateChart(id,groups){
     {label:'END',stats:groups.map(g=>lpdEventStats(g.rows,'END'))},
     {label:'OVERALL',stats:groups.map(g=>lpdEventStats(g.rows))}
   ];
-  const datasets=specs.map((s,i)=>({label:s.label,data:s.stats.map(x=>x.rate),backgroundColor:cols[i],borderRadius:3,maxBarThickness:18,
-    _countLabels:s.stats.map(x=>`${x.pass}/${x.total}`),_stats:s.stats}));
-  const c=new Chart(ctx,{type:'bar',data:{labels,datasets},options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,animation:false,layout:{padding:{right:45}},
-    plugins:{tpChartValueLabels:{display:false},legend:{position:'bottom',labels:{boxWidth:10,font:{size:9},color:txt}},
+  const datasets=specs.map((s,i)=>({label:s.label,data:s.stats.map(x=>x.rate),backgroundColor:cols[i],borderRadius:3,maxBarThickness:19,
+    _countLabels:s.stats.map(x=>x.total?`${x.pass}/${x.total} • ${pct(x.rate)}`:'—'),_stats:s.stats}));
+  const c=new Chart(ctx,{type:'bar',data:{labels,datasets},options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,animation:false,layout:{padding:{right:115}},
+    plugins:{tpChartValueLabels:{display:false},legend:{position:'bottom',labels:{boxWidth:10,font:{size:10},color:txt}},
       tooltip:{callbacks:{label:c=>{const s=c.dataset._stats[c.dataIndex];return`${c.dataset.label}: ${pct(s.rate)} • Pass ${s.pass} / Total ${s.total}`}}}},
-    scales:{x:{min:0,max:1,grid:{color:grid},ticks:{font:{size:8},color:txt,callback:v=>(v*100).toFixed(0)+'%'}},y:{grid:{display:false},ticks:{font:{size:8},color:txt}}}},
-    plugins:[lpdCountLabelPlugin()]});
-  c.$tpPercent=true;state.charts.push(c)
-}
-function lpdRateLineCountChart(id,data){
-  const ctx=document.querySelector(`canvas#${id}`);if(!ctx)return;
-  const dark=document.body.classList.contains('dark-mode'),grid=dark?'#31453c':'#e7ece9',txt=dark?'#c6d8cf':'#58635e',cols=['#15939b','#e77a2f','#285f9a'];
-  const specs=[['START',data.start],['END',data.end],['OVERALL',data.overall]];
-  const datasets=specs.map((s,i)=>({label:s[0],data:s[1].map(x=>x.rate),borderColor:cols[i],backgroundColor:cols[i],tension:.25,pointRadius:3,borderWidth:2,
-    _countLabels:s[1].map(x=>`${x.pass}/${x.total}`),_stats:s[1]}));
-  const c=new Chart(ctx,{type:'line',data:{labels:data.labels,datasets},options:{responsive:true,maintainAspectRatio:false,animation:false,layout:{padding:{top:22}},
-    plugins:{tpChartValueLabels:{display:false},legend:{position:'bottom',labels:{boxWidth:10,font:{size:9},color:txt}},
-      tooltip:{callbacks:{label:c=>{const s=c.dataset._stats[c.dataIndex];return`${c.dataset.label}: ${pct(s.rate)} • Pass ${s.pass} / Total ${s.total}`}}}},
-    scales:{x:{grid:{display:false},ticks:{font:{size:8},color:txt,maxRotation:35}},y:{min:0,max:1,grid:{color:grid},ticks:{font:{size:8},color:txt,callback:v=>(v*100).toFixed(0)+'%'}}}},
+    scales:{x:{min:0,max:1,grid:{color:grid},ticks:{font:{size:9},color:txt,callback:v=>(v*100).toFixed(0)+'%'}},y:{grid:{display:false},ticks:{font:{size:9},color:txt,autoSkip:false}}}},
     plugins:[lpdCountLabelPlugin()]});
   c.$tpPercent=true;state.charts.push(c)
 }
 
+
+function lpdPassTotalCountChart(id,groups){
+  const ctx=document.querySelector(`canvas#${id}`);if(!ctx)return;
+  const dark=document.body.classList.contains('dark-mode'),grid=dark?'#31453c':'#e7ece9',txt=dark?'#c6d8cf':'#58635e',cols=['#15939b','#e77a2f','#285f9a'];
+  const specs=[
+    {label:'START',stats:groups.map(g=>lpdEventStats(g.rows,'START'))},
+    {label:'END',stats:groups.map(g=>lpdEventStats(g.rows,'END'))},
+    {label:'OVERALL',stats:groups.map(g=>lpdEventStats(g.rows))}
+  ];
+  const datasets=specs.map((s,i)=>({label:s.label+' Pass',data:s.stats.map(x=>x.pass),backgroundColor:cols[i],borderRadius:3,maxBarThickness:20,
+    _countLabels:s.stats.map(x=>x.total?`${x.pass}/${x.total} • ${pct(x.rate)}`:'—'),_stats:s.stats}));
+  const maxTotal=Math.max(1,...specs.flatMap(s=>s.stats.map(x=>x.total)));
+  const c=new Chart(ctx,{type:'bar',data:{labels:groups.map(g=>g.label),datasets},options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,animation:false,layout:{padding:{right:115}},
+    plugins:{tpChartValueLabels:{display:false},legend:{position:'bottom',labels:{boxWidth:10,font:{size:10},color:txt}},
+      tooltip:{callbacks:{label:c=>{const s=c.dataset._stats[c.dataIndex];return`${c.dataset.label}: ${s.pass} Pass / ${s.total} Total • ${pct(s.rate)}`}}}},
+    scales:{x:{beginAtZero:true,suggestedMax:maxTotal,grid:{color:grid},ticks:{font:{size:9},color:txt}},y:{grid:{display:false},ticks:{font:{size:9},color:txt,autoSkip:false}}}},
+    plugins:[lpdCountLabelPlugin()]});
+  state.charts.push(c)
+}
+function lpdFailShareChart(id,groups){
+  const ctx=document.querySelector(`canvas#${id}`);if(!ctx)return;
+  const dark=document.body.classList.contains('dark-mode'),grid=dark?'#31453c':'#e7ece9',txt=dark?'#c6d8cf':'#58635e';
+  const stats=groups.map(g=>({fail:g.rows.filter(r=>r.OTD==='FAIL').length,total:g.rows.length}));
+  const totalFail=stats.reduce((a,x)=>a+x.fail,0);
+  const ds={label:'Fail Events',data:stats.map(x=>x.fail),backgroundColor:'#d95845',borderRadius:3,maxBarThickness:22,
+    _countLabels:stats.map(x=>x.fail?`${x.fail} • ${pct(totalFail?x.fail/totalFail:null)}`:''),_stats:stats};
+  const c=new Chart(ctx,{type:'bar',data:{labels:groups.map(g=>g.label),datasets:[ds]},options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,animation:false,layout:{padding:{right:95}},
+    plugins:{tpChartValueLabels:{display:false},legend:{display:false},tooltip:{callbacks:{label:c=>{const s=c.dataset._stats[c.dataIndex];return`Fail ${s.fail} / ${s.total} events • ${pct(totalFail?s.fail/totalFail:null)} of all fails`}}}},
+    scales:{x:{beginAtZero:true,grid:{color:grid},ticks:{font:{size:9},color:txt}},y:{grid:{display:false},ticks:{font:{size:9},color:txt,autoSkip:false}}}},
+    plugins:[lpdCountLabelPlugin()]});
+  state.charts.push(c)
+}
+
+function lpdRateLineCountChart(id,data){
+  const ctx=document.querySelector(`canvas#${id}`);if(!ctx)return;
+  const dark=document.body.classList.contains('dark-mode'),grid=dark?'#31453c':'#e7ece9',txt=dark?'#c6d8cf':'#58635e',cols=['#15939b','#e77a2f','#285f9a'];
+  const specs=[['START',data.start],['END',data.end],['OVERALL',data.overall]];
+  const datasets=specs.map((s,i)=>({label:s[0],data:s[1].map(x=>x.rate),borderColor:cols[i],backgroundColor:cols[i],tension:.25,pointRadius:3,pointHoverRadius:5,borderWidth:2,
+    _countLabels:s[1].map(x=>x.total?`${x.pass}/${x.total} • ${pct(x.rate)}`:'—'),_stats:s[1]}));
+  const c=new Chart(ctx,{type:'line',data:{labels:data.labels,datasets},options:{responsive:true,maintainAspectRatio:false,animation:false,layout:{padding:{top:32,left:5,right:5}},
+    plugins:{tpChartValueLabels:{display:false},legend:{position:'bottom',labels:{boxWidth:10,font:{size:10},color:txt}},
+      tooltip:{callbacks:{label:c=>{const s=c.dataset._stats[c.dataIndex];return`${c.dataset.label}: ${pct(s.rate)} • Pass ${s.pass} / Total ${s.total}`}}}},
+    scales:{x:{grid:{display:false},ticks:{font:{size:8},color:txt,maxRotation:35}},y:{min:0,max:1,grid:{color:grid},ticks:{font:{size:9},color:txt,callback:v=>(v*100).toFixed(0)+'%'}}}},
+    plugins:[lpdCountLabelPlugin()]});
+  c.$tpPercent=true;state.charts.push(c)
+}
 function lpdDetailTable(rows,limit=600){
   const sorted=rows.slice().sort((a,b)=>(a.LockPlan||'9999').localeCompare(b.LockPlan||'9999')||a.BookingNo.localeCompare(b.BookingNo,undefined,{numeric:true})).slice(0,limit);
   state.lpdPopupRows=sorted;
@@ -4877,6 +4992,7 @@ function lpdDetailTable(rows,limit=600){
   </tr></thead><tbody>${body||'<tr><td colspan="23">No records match the current filters.</td></tr>'}</tbody></table></div>
   ${rows.length>limit?`<div class="note">Showing first ${limit.toLocaleString()} of ${rows.length.toLocaleString()} filtered event rows.</div>`:''}`
 }
+
 function lpdFilterPanel(mode='board'){
   lpdEnsureFilters();const all=lpdEvents(),f=state.lockDetailFilters,eventMode=mode==='event',
         title=eventMode?'Event Detail':'Lock Plan Details Board',
@@ -4885,14 +5001,7 @@ function lpdFilterPanel(mode='board'){
 
   const monthOpts=lpdMonthOptions(all);lpdPrune('month',monthOpts);
   let stage=lpdDateContextRows(all);
-
   const eventOpts=lpdOptions(stage,'Event');lpdPrune('event',eventOpts);stage=stage.filter(r=>lpdMatch(r.Event,f.event));
-
-  let bookingOpts=[];
-  if(eventMode){
-    bookingOpts=lpdOptions(stage,'BookingNo');lpdPrune('booking',bookingOpts);stage=stage.filter(r=>lpdMatch(r.BookingNo,f.booking))
-  }
-
   const floorOpts=lpdOptions(stage,'Floor');lpdPrune('floor',floorOpts);stage=stage.filter(r=>lpdMatch(r.Floor,f.floor));
   const pmcOpts=lpdOptions(stage,'PMC');lpdPrune('pmc',pmcOpts);stage=stage.filter(r=>lpdMatch(r.PMC,f.pmc));
   const buyerOpts=lpdOptions(stage,'Buyer');lpdPrune('buyer',buyerOpts);stage=stage.filter(r=>lpdMatch(r.Buyer,f.buyer));
@@ -4900,7 +5009,9 @@ function lpdFilterPanel(mode='board'){
   const reasonOpts=lpdOptions(stage,'DetailReason');lpdPrune('reason',reasonOpts);stage=stage.filter(r=>lpdMatch(r.DetailReason,f.reason));
   const respOpts=lpdOptions(stage,'Responsible');lpdPrune('responsible',respOpts);stage=stage.filter(r=>lpdMatch(r.Responsible,f.responsible));
   const weekOpts=lpdOptions(stage,'Week');lpdPrune('week',weekOpts);stage=stage.filter(r=>lpdMatch(r.Week,f.week));
-  const statusOpts=lpdOptions(stage,'Status');lpdPrune('status',statusOpts);
+  const statusOpts=lpdOptions(stage,'Status');lpdPrune('status',statusOpts);stage=stage.filter(r=>lpdMatch(r.Status,f.status));
+  const bookingOpts=eventMode?lpdOptions(stage,'BookingNo'):[];
+  if(eventMode)lpdPrune('booking',bookingOpts);
 
   return`<div class="lock-detail-filter">
     <div class="lock-detail-head"><div><h2>${esc(title)}</h2><div class="meta">${all.length.toLocaleString()} Start/End event rows • ${new Set(all.map(r=>r.BookingNo)).size.toLocaleString()} unique bookings • Source upload is managed from Data Management</div></div>
@@ -4910,7 +5021,6 @@ function lpdFilterPanel(mode='board'){
       <div class="filter-group"><span class="mini-label">LOCK PLAN — FROM</span><input id="lpdLockFrom" type="date" value="${esc(f.lockPlanFrom||'')}"></div>
       <div class="filter-group"><span class="mini-label">LOCK PLAN — TO</span><input id="lpdLockTo" type="date" value="${esc(f.lockPlanTo||'')}"></div>
       ${lpdPickerHTML('lpdEvent','EVENT',eventOpts,f.event)}
-      ${eventMode?lpdPickerHTML('lpdBooking','Booking No.',bookingOpts,f.booking,true):''}
       ${lpdPickerHTML('lpdFloor','FLOOR',floorOpts,f.floor)}
       ${lpdPickerHTML('lpdPMC','PMC',pmcOpts,f.pmc)}
       ${lpdPickerHTML('lpdBuyer','Buyer',buyerOpts,f.buyer)}
@@ -4919,15 +5029,16 @@ function lpdFilterPanel(mode='board'){
       ${lpdPickerHTML('lpdResponsible','RESPONSIBLE',respOpts,f.responsible)}
       ${lpdPickerHTML('lpdWeek','Week',weekOpts,f.week)}
       ${lpdPickerHTML('lpdStatus','Status',statusOpts,f.status)}
+      ${eventMode?lpdPickerHTML('lpdBooking','Booking No.',bookingOpts,f.booking,true):''}
       <div class="filter-group"><span class="mini-label">FILTERS</span><button class="btn" id="lpdResetBtn" type="button">Reset all</button></div>
     </div>
-    <div class="lock-filter-note"><b>Filter sequence:</b> Month → Lock Plan Date Range → remaining criteria. Every later filter only shows values still valid after the filters before it. ${eventMode?'<b>Booking No.</b> is available only in Event Detail.':'Booking No. is intentionally excluded from the Board.'}</div>
+    <div class="lock-filter-note"><b>Filter sequence:</b> Month → Lock Plan Date Range → remaining criteria${eventMode?' → Booking No. last':''}. Every later filter only shows values still valid after the filters before it.</div>
   </div>`
 }
 
 function lpdBindFilters(mode='board'){
   const pairs=[['lpdMonth','month'],['lpdEvent','event'],['lpdFloor','floor'],['lpdPMC','pmc'],['lpdBuyer','buyer'],['lpdOTD','otd'],['lpdReason','reason'],['lpdResponsible','responsible'],['lpdWeek','week'],['lpdStatus','status']];
-  if(mode==='event')pairs.splice(2,0,['lpdBooking','booking']);
+  if(mode==='event')pairs.push(['lpdBooking','booking']);
   pairs.forEach(([id,key])=>lpdBindPicker(id,key));
   if($('#lpdLockFrom'))$('#lpdLockFrom').onchange=()=>{state.lockDetailFilters.lockPlanFrom=$('#lpdLockFrom').value;render()};
   if($('#lpdLockTo'))$('#lpdLockTo').onchange=()=>{state.lockDetailFilters.lockPlanTo=$('#lpdLockTo').value;render()};
@@ -4943,12 +5054,15 @@ function renderLockPlanDetailsBoard(){
   const body=$('#lpdBody');
   if(!all.length){body.innerHTML='<div class="alert">No Lock Plan Details data uploaded yet. Go to Data Management → Lock Plan Details Data Upload and upload <b>Lock Plan Details.xlsx</b>.</div>';return}
   const rows=lpdFilteredRows('board'),ss=lpdEventStats(rows,'START'),es=lpdEventStats(rows,'END'),ts=lpdEventStats(rows),
-        gap=ss.rate!==null&&es.rate!==null?es.rate-ss.rate:null,pending=ts.pending+ts.waiting,
+        gap=ss.rate!==null&&es.rate!==null?es.rate-ss.rate:null,
         monthly=lpdMonthTrend(rows),daily=lpdDailyCounts(rows),weekly=lpdWeekTrend(rows),
         buyer=lpdGroup(rows,'Buyer').filter(x=>x.label!=='(blank)').sort((a,b)=>b.total-a.total).slice(0,12),
         pmc=lpdGroup(rows,'PMC').filter(x=>x.label!=='(blank)').sort((a,b)=>b.total-a.total).slice(0,12),
         floor=lpdGroup(rows,'Floor').filter(x=>x.label!=='(blank)').sort((a,b)=>b.total-a.total).slice(0,10),
-        failArea=lpdGroup(rows,'FailArea').filter(x=>x.label!=='(blank)').sort((a,b)=>b.total-a.total).slice(0,10);
+        fabric=lpdGroup(rows,'FabricType').filter(x=>x.label!=='(blank)').sort((a,b)=>b.total-a.total).slice(0,12),
+        failArea=lpdGroup(rows,'FailArea').filter(x=>x.label!=='(blank)').sort((a,b)=>b.total-a.total).slice(0,10),
+        responsible=lpdGroup(rows.filter(r=>r.Responsible),'Responsible').filter(x=>x.label!=='(blank)').sort((a,b)=>b.rows.filter(r=>r.OTD==='FAIL').length-a.rows.filter(r=>r.OTD==='FAIL').length).slice(0,12),
+        finish=lpdGroup(rows,'FinishType').filter(x=>x.label!=='(blank)').sort((a,b)=>b.total-a.total).slice(0,10);
   const cards=[
     lpdKpi('Start OTD',pct(ss.rate),`${ss.pass.toLocaleString()} Pass / ${ss.total.toLocaleString()} total events`,'blue'),
     lpdKpi('End OTD',pct(es.rate),`${es.pass.toLocaleString()} Pass / ${es.total.toLocaleString()} total events`,'purple'),
@@ -4958,34 +5072,38 @@ function renderLockPlanDetailsBoard(){
     lpdKpi('Total Events',ts.total.toLocaleString(),`${new Set(rows.map(r=>r.BookingNo)).size.toLocaleString()} unique bookings in current view`)
   ].join('');
   const p=(title,note,id,wide=false)=>panel(title,note,`<div class="chart-wrap"><canvas id="${id}"></canvas></div>`,wide,true);
-  body.innerHTML=`<div class="lock-management" id="lpdManagementArea">
+  body.innerHTML=`<div class="lock-management lock-all-chart-board" id="lpdManagementArea">
     <div class="lock-card-grid">${cards}</div>
-    <div class="lock-first-report-grid">
-      ${p('Fail Area / Start + End + Overall','OTD% by Fail Area • labels show Pass/Total event','lpdFailAreaChart')}
-      ${lpdPFTable(rows,'Floor','Floor / Start + End + Overall (Pass / Total OTD%)',10)}
+
+    <div class="lock-primary-chart-grid">
+      ${p('Floor OTD Comparison','START / END / OVERALL OTD • direct labels show Pass/Total and OTD%','lpdFloorChart')}
+      ${p('Floor / Start + End + Overall (Pass / Total OTD%)','Pass-event volume by Floor • direct labels show Pass/Total and OTD%','lpdFloorPassTotal')}
     </div>
-    <div class="lock-chart-grid" style="margin-top:8px">
-      ${p('Monthly OTD / Start vs End','Start, End and Overall OTD across Lock Plan months','lpdMonthly')}
-      ${p('Daily Events / Pass vs Fail','START / END / OVERALL legend • solid = Pass, light = Fail','lpdDaily')}
-      ${p('Weekly OTD Trend','Start / End / Overall OTD • point labels show Pass/Total','lpdWeekly')}
-      ${p('Floor OTD Comparison','Start / End / Overall • labels show Pass/Total event','lpdFloorChart')}
-      ${p('Buyer OTD Performance','Start / End / Overall • labels show Pass/Total event','lpdBuyerChart')}
-      ${p('PMC OTD Performance','Start / End / Overall • labels show Pass/Total event','lpdPMCChart')}
-    </div>
-    <div class="lock-report-grid">
-      ${lpdSimpleTable(rows,'FabricType','Fabric / Events + OTD',12)}
-      ${lpdRootCauseTable(rows)}
-      ${lpdResponsibleTable(rows)}
-      ${lpdSimpleTable(rows,'FinishType','Finish Type / Events + OTD',10)}
+
+    <div class="lock-chart-grid lock-large-charts">
+      ${p('Monthly OTD / Start vs End','START / END / OVERALL • labels show Pass/Total and OTD%','lpdMonthly')}
+      ${p('Daily Events / Pass vs Fail','START / END / OVERALL • direct event counts are shown on bars','lpdDaily')}
+      ${p('Weekly OTD Trend','START / END / OVERALL • labels show Pass/Total and OTD%','lpdWeekly')}
+      ${p('Buyer OTD Performance','START / END / OVERALL • labels show Pass/Total and OTD%','lpdBuyerChart')}
+      ${p('PMC OTD Performance','START / END / OVERALL • labels show Pass/Total and OTD%','lpdPMCChart')}
+      ${p('Fabric OTD Performance','START / END / OVERALL • labels show Pass/Total and OTD%','lpdFabricChart')}
+      ${p('Fail Area / Start + End + Overall','Replaces Root Causes report • labels show Pass/Total and OTD%','lpdFailAreaChart')}
+      ${p('Responsible Department — Fail Events','Fail-event count and share of all failures','lpdResponsibleChart')}
+      ${p('Finish Type OTD Performance','START / END / OVERALL • labels show Pass/Total and OTD%','lpdFinishChart')}
     </div>
   </div>`;
-  lineChartPct('lpdMonthly',monthly.labels,[{label:'START',data:monthly.start},{label:'END',data:monthly.end},{label:'OVERALL',data:monthly.overall}]);
+
+  lpdGroupedRateChart('lpdFloorChart',floor);
+  lpdPassTotalCountChart('lpdFloorPassTotal',floor);
+  lpdRateLineCountChart('lpdMonthly',monthly);
   lpdDailyPFChart('lpdDaily',daily);
   lpdRateLineCountChart('lpdWeekly',weekly);
-  lpdGroupedRateChart('lpdFailAreaChart',failArea);
-  lpdGroupedRateChart('lpdFloorChart',floor);
   lpdGroupedRateChart('lpdBuyerChart',buyer);
-  lpdGroupedRateChart('lpdPMCChart',pmc)
+  lpdGroupedRateChart('lpdPMCChart',pmc);
+  lpdGroupedRateChart('lpdFabricChart',fabric);
+  lpdGroupedRateChart('lpdFailAreaChart',failArea);
+  lpdFailShareChart('lpdResponsibleChart',responsible);
+  lpdGroupedRateChart('lpdFinishChart',finish)
 }
 function lpdOttBookingStatusHTML(row){
   const tabs=['ott_yarn','ott_knitting','ott_dyeing','ott_delivery'],key=ottBookingKey(row.BookingNo);
@@ -5078,6 +5196,7 @@ function bindLpdReasonPopups(){
 
 
 
+
 function renderLockPlanEventDetail(){
   metricCardSet([]);lpdEnsureFilters();
   const all=lpdEvents();
@@ -5085,7 +5204,7 @@ function renderLockPlanEventDetail(){
   const body=$('#lpdBody');
   if(!all.length){body.innerHTML='<div class="alert">No Lock Plan Details data uploaded yet. Go to Data Management → Lock Plan Details Data Upload and upload <b>Lock Plan Details.xlsx</b>.</div>';return}
   const rows=lpdFilteredRows('event');
-  body.innerHTML=`<div class="panel lock-detail-table"><h3>Lock Plan Event Detail</h3><div class="note">Select rows to highlight them or open a larger Meeting Zoom view. The ⓘ popup includes this row’s reason/responsible data plus matching Yarn Dyeing, Knitting, Dyeing and Delivery OTT status when the same booking exists.</div>${lpdDetailTable(rows)}</div>`;
+  body.innerHTML=`<div class="panel lock-detail-table lock-event-direct">${lpdDetailTable(rows)}</div>`;
   bindLpdReasonPopups();bindLpdMeetingSelection()
 }
 function exportLockPlanDetailsCSV(mode=(state.tab==='lock_event'?'event':'board')){
@@ -5143,12 +5262,14 @@ async function handleLockPlanDetailsUpload(){
   }catch(e){st.textContent='Lock Plan Details upload failed: '+e.message}
 }
 
+
 function renderData(){
   metricCardSet([]);
-  $('#kpis').classList.remove('knitting-kpis','finishing-kpis');
-  const d=state.data||{},df=d.departmentFiles||{},ott=d.ottSources||{},lockDetails=d.lockPlanDetails||{};
+  const d=state.data||{},df=d.departmentFiles||{},ott=d.ottSources||{},lockDetails=d.lockPlanDetails||{},p=effectivePermissions();
   const dyeMeta=df.dyeing,knitMeta=df.knitting,finMeta=df.finishing,delMeta=df.delivery,
         ydMeta=df.yarn,chemMeta=df.chemical,etlMeta=df.etl,targetMeta=df.targets,lockDetailMeta=lockDetails.meta||{};
+  const uploadAllowed=key=>state.profile?.role==='admin'||p[key]===true;
+  const guardUpload=(key,fn)=>()=>{if(!uploadAllowed(key))return alert('You do not have permission for this upload source.');return fn()};
 
   const statusCard=(title,file,updated,period,pills=[],extra='')=>`<div class="data-status-card">
     <b class="title">${esc(title)}</b>
@@ -5157,120 +5278,82 @@ function renderData(){
     <div class="mini-pills">${pills.map(x=>`<span>${esc(x)}</span>`).join('')}</div>
   </div>`;
 
-  const kpiUploadCards=`
-    <div class="dept-card"><h3>Dyeing Data</h3><div class="meta">Workbook: <b>Dyeing_Dashboard</b><br>Sheets: <b>Dyeing_Date_Buyer</b>, <b>Dyeing_Date</b><br>Maximum: ${MAX_DYEING_FILE_MB} MB</div><input id="dyeingFileInput" type="file" accept=".xlsx,.xls,.xlsb"><br><button class="btn primary" id="dyeingUploadBtn">Upload / Replace Dyeing</button><div class="data-upload-status" id="dyeingUploadStatus"></div></div>
-    <div class="dept-card"><h3>Knitting Data</h3><div class="meta">Workbook: <b>Knitting_Dashboard</b><br>Sheets: <b>Knitting_Date</b>, <b>Knitting_Date_Buyer</b><br>Maximum: ${MAX_KNITTING_FILE_MB} MB</div><input id="knittingFileInput" type="file" accept=".xlsx,.xls,.xlsb"><br><button class="btn primary" id="knittingUploadBtn">Upload / Replace Knitting</button><div class="data-upload-status" id="knittingUploadStatus"></div></div>
-    <div class="dept-card"><h3>Finishing Data</h3><div class="meta">Workbook: <b>Finishing_Dashboard</b><br>Sheet: <b>Finishing_Date</b><br>Maximum: ${MAX_FINISHING_FILE_MB} MB</div><input id="finishingFileInput" type="file" accept=".xlsx,.xls,.xlsb"><br><button class="btn primary" id="finishingUploadBtn">Upload / Replace Finishing</button><div class="data-upload-status" id="finishingUploadStatus"></div></div>
-    <div class="dept-card"><h3>Delivery Data</h3><div class="meta">Workbook: <b>Delivery_Dashboard</b><br>Sheets: <b>Delivery_Date</b>, <b>Delivery_Date_Buyer</b><br>Maximum: ${MAX_DELIVERY_FILE_MB} MB</div><input id="deliveryFileInput" type="file" accept=".xlsx,.xls,.xlsb"><br><button class="btn primary" id="deliveryUploadBtn">Upload / Replace Delivery</button><div class="data-upload-status" id="deliveryUploadStatus"></div></div>
-    <div class="dept-card"><h3>Yarn Dyeing Data</h3><div class="meta">Workbook: <b>Yarn_Dyeing_Dashboard</b><br>Sheets: <b>YD_Date</b>, <b>YD_Date_Buyer</b><br>Maximum: ${MAX_YARN_DYEING_FILE_MB} MB</div><input id="yarnDyeingFileInput" type="file" accept=".xlsx,.xls,.xlsb"><br><button class="btn primary" id="yarnDyeingUploadBtn">Upload / Replace Yarn Dyeing</button><div class="data-upload-status" id="yarnDyeingUploadStatus"></div></div>
-    <div class="dept-card"><h3>Chemical Lab Data</h3><div class="meta">Workbook: <b>Chemical_Lab_Dashboard</b><br>Sheet: <b>C_Lab_Date</b><br>Maximum: ${MAX_CHEMICAL_LAB_FILE_MB} MB</div><input id="chemicalLabFileInput" type="file" accept=".xlsx,.xls,.xlsb"><br><button class="btn primary" id="chemicalLabUploadBtn">Upload / Replace Chemical Lab</button><div class="data-upload-status" id="chemicalLabUploadStatus"></div></div>
-    <div class="dept-card"><h3>ETL Data</h3><div class="meta">Workbook: <b>ETL_Dashboard</b><br>Sheet: <b>ETL_Date</b><br>Maximum: ${MAX_ETL_FILE_MB} MB</div><input id="etlFileInput" type="file" accept=".xlsx,.xls,.xlsb"><br><button class="btn primary" id="etlUploadBtn">Upload / Replace ETL</button><div class="data-upload-status" id="etlUploadStatus"></div></div>
-    <div class="dept-card" style="border-top-color:#f0b400"><h3>Target Data</h3><div class="meta">Workbook: <b>Dashboard_Target.xlsx</b><br>Sheet: <b>Target</b><br>Columns: Department | Topics | Target</div><input id="targetFileInput" type="file" accept=".xlsx,.xls,.xlsb"><br><button class="btn primary" id="targetUploadBtn">Upload / Replace Targets</button><div class="data-upload-status" id="targetUploadStatus"></div></div>`;
+  const uploadCard=(perm,title,meta,inputId,buttonId,statusId,buttonText)=>uploadAllowed(perm)?`<div class="dept-card">
+    <h3>${title}</h3><div class="meta">${meta}</div>
+    <input id="${inputId}" type="file" accept=".xlsx,.xls,.xlsb"><br>
+    <button class="btn primary" id="${buttonId}">${buttonText}</button>
+    <div class="data-upload-status" id="${statusId}"></div></div>`:'';
 
-  const ottUploadCards=`
-    <div class="dept-card"><h3>Yarn Dyeing OTT</h3><div class="meta">Workbook: <b>Yarn Dyeing OTT_2026-2027.xlsx</b><br>Sheet: <b>Data</b><br>Maximum: ${MAX_OTT_FILE_MB} MB</div><input id="ottYarnFileInput" type="file" accept=".xlsx,.xls,.xlsb"><br><button class="btn primary" id="ottYarnUploadBtn">Upload / Replace YD OTT</button><div class="data-upload-status" id="ottYarnUploadStatus"></div></div>
-    <div class="dept-card"><h3>Knitting OTT</h3><div class="meta">Workbook: <b>Knitting OTT_2026-2027.xlsx</b><br>Sheet: <b>Data</b><br>Maximum: ${MAX_OTT_FILE_MB} MB</div><input id="ottKnittingFileInput" type="file" accept=".xlsx,.xls,.xlsb"><br><button class="btn primary" id="ottKnittingUploadBtn">Upload / Replace Knitting OTT</button><div class="data-upload-status" id="ottKnittingUploadStatus"></div></div>
-    <div class="dept-card"><h3>Dyeing OTT</h3><div class="meta">Workbook: <b>Dyeing OTT_2026-2027.xlsx</b><br>Sheet: <b>Data</b><br>Maximum: ${MAX_OTT_FILE_MB} MB</div><input id="ottDyeingFileInput" type="file" accept=".xlsx,.xls,.xlsb"><br><button class="btn primary" id="ottDyeingUploadBtn">Upload / Replace Dyeing OTT</button><div class="data-upload-status" id="ottDyeingUploadStatus"></div></div>
-    <div class="dept-card"><h3>Delivery OTT</h3><div class="meta">Workbook: <b>Delivery Floor OTT_2026-2027.xlsx</b><br>Sheet: <b>Data</b><br>Maximum: ${MAX_OTT_FILE_MB} MB</div><input id="ottDeliveryFileInput" type="file" accept=".xlsx,.xls,.xlsb"><br><button class="btn primary" id="ottDeliveryUploadBtn">Upload / Replace Delivery OTT</button><div class="data-upload-status" id="ottDeliveryUploadStatus"></div></div>
-    <div class="dept-card"><h3>Lock Plan OTT</h3><div class="meta">Workbook: <b>Lock Plan OTT_2026-2027.xlsx</b><br>Sheet: <b>Data</b><br>Maximum: ${MAX_OTT_FILE_MB} MB</div><input id="ottLockFileInput" type="file" accept=".xlsx,.xls,.xlsb"><br><button class="btn primary" id="ottLockUploadBtn">Upload / Replace Lock Plan OTT</button><div class="data-upload-status" id="ottLockUploadStatus"></div></div>
-    <div class="dept-card data-auto-card"><h3>Overall OTT</h3><div class="meta"><b>No separate upload required.</b><br>Overall OTT is generated automatically from the five OTT source files above.</div><div style="margin-top:16px"><span class="status-pill">Auto-generated</span></div></div>`;
+  const kpiCards=[
+    uploadCard('upload_dyeing','Dyeing Data',`Workbook: <b>Dyeing_Dashboard</b><br>Sheets: <b>Dyeing_Date_Buyer</b>, <b>Dyeing_Date</b><br>Maximum: ${MAX_DYEING_FILE_MB} MB`,'dyeingFileInput','dyeingUploadBtn','dyeingUploadStatus','Upload / Replace Dyeing'),
+    uploadCard('upload_knitting','Knitting Data',`Workbook: <b>Knitting_Dashboard</b><br>Sheets: <b>Knitting_Date</b>, <b>Knitting_Date_Buyer</b><br>Maximum: ${MAX_KNITTING_FILE_MB} MB`,'knittingFileInput','knittingUploadBtn','knittingUploadStatus','Upload / Replace Knitting'),
+    uploadCard('upload_finishing','Finishing Data',`Workbook: <b>Finishing_Dashboard</b><br>Sheet: <b>Finishing_Date</b><br>Maximum: ${MAX_FINISHING_FILE_MB} MB`,'finishingFileInput','finishingUploadBtn','finishingUploadStatus','Upload / Replace Finishing'),
+    uploadCard('upload_delivery','Delivery Data',`Workbook: <b>Delivery_Dashboard</b><br>Sheets: <b>Delivery_Date</b>, <b>Delivery_Date_Buyer</b><br>Maximum: ${MAX_DELIVERY_FILE_MB} MB`,'deliveryFileInput','deliveryUploadBtn','deliveryUploadStatus','Upload / Replace Delivery'),
+    uploadCard('upload_yarn','Yarn Dyeing Data',`Workbook: <b>Yarn_Dyeing_Dashboard</b><br>Sheets: <b>YD_Date</b>, <b>YD_Date_Buyer</b><br>Maximum: ${MAX_YARN_DYEING_FILE_MB} MB`,'yarnDyeingFileInput','yarnDyeingUploadBtn','yarnDyeingUploadStatus','Upload / Replace Yarn Dyeing'),
+    uploadCard('upload_chemical','Chemical Lab Data',`Workbook: <b>Chemical_Lab_Dashboard</b><br>Sheet: <b>C_Lab_Date</b><br>Maximum: ${MAX_CHEMICAL_LAB_FILE_MB} MB`,'chemicalLabFileInput','chemicalLabUploadBtn','chemicalLabUploadStatus','Upload / Replace Chemical Lab'),
+    uploadCard('upload_etl','ETL Data',`Workbook: <b>ETL_Dashboard</b><br>Sheet: <b>ETL_Date</b><br>Maximum: ${MAX_ETL_FILE_MB} MB`,'etlFileInput','etlUploadBtn','etlUploadStatus','Upload / Replace ETL'),
+    uploadAllowed('upload_targets')?`<div class="dept-card" style="border-top-color:#f0b400"><h3>Target Data</h3><div class="meta">Workbook: <b>Dashboard_Target.xlsx</b><br>Sheet: <b>Target</b><br>Columns: Department | Topics | Target</div><input id="targetFileInput" type="file" accept=".xlsx,.xls,.xlsb"><br><button class="btn primary" id="targetUploadBtn">Upload / Replace Targets</button><div class="data-upload-status" id="targetUploadStatus"></div></div>`:''
+  ].filter(Boolean).join('');
 
-  const lockPlanDetailsUpload=`<div class="dept-card"><h3>Lock Plan Details</h3><div class="meta">Workbook: <b>Lock Plan Details.xlsx</b><br>Sheet: <b>Data</b><br>Source contains Start/End event planning, OTD, reasons and responsible departments.<br>Maximum: ${MAX_LOCK_PLAN_DETAILS_MB} MB</div><input id="lockPlanDetailsFileInput" type="file" accept=".xlsx,.xls,.xlsb"><br><button class="btn primary" id="lockPlanDetailsUploadBtn">Upload / Replace Lock Plan Details</button><div class="data-upload-status" id="lockPlanDetailsUploadStatus"></div></div>`;
+  const ottCards=[
+    uploadCard('upload_ott_yarn','Yarn Dyeing OTT',`Workbook: <b>Yarn Dyeing OTT_2026-2027.xlsx</b><br>Sheet: <b>Data</b><br>Maximum: ${MAX_OTT_FILE_MB} MB`,'ottYarnFileInput','ottYarnUploadBtn','ottYarnUploadStatus','Upload / Replace YD OTT'),
+    uploadCard('upload_ott_knitting','Knitting OTT',`Workbook: <b>Knitting OTT_2026-2027.xlsx</b><br>Sheet: <b>Data</b><br>Maximum: ${MAX_OTT_FILE_MB} MB`,'ottKnittingFileInput','ottKnittingUploadBtn','ottKnittingUploadStatus','Upload / Replace Knitting OTT'),
+    uploadCard('upload_ott_dyeing','Dyeing OTT',`Workbook: <b>Dyeing OTT_2026-2027.xlsx</b><br>Sheet: <b>Data</b><br>Maximum: ${MAX_OTT_FILE_MB} MB`,'ottDyeingFileInput','ottDyeingUploadBtn','ottDyeingUploadStatus','Upload / Replace Dyeing OTT'),
+    uploadCard('upload_ott_delivery','Delivery OTT',`Workbook: <b>Delivery Floor OTT_2026-2027.xlsx</b><br>Sheet: <b>Data</b><br>Maximum: ${MAX_OTT_FILE_MB} MB`,'ottDeliveryFileInput','ottDeliveryUploadBtn','ottDeliveryUploadStatus','Upload / Replace Delivery OTT'),
+    uploadCard('upload_ott_lock','Lock Plan OTT',`Workbook: <b>Lock Plan OTT_2026-2027.xlsx</b><br>Sheet: <b>Data</b><br>Maximum: ${MAX_OTT_FILE_MB} MB`,'ottLockFileInput','ottLockUploadBtn','ottLockUploadStatus','Upload / Replace Lock Plan OTT')
+  ].filter(Boolean).join('');
 
-  const adminUploads=state.profile?.role==='admin'
-    ?`<div class="data-upload-section kpi-upload">
-        <div class="data-upload-heading"><div><h3>KPI Board Data Upload</h3><p>All KPI Board source files and target file are managed here.</p></div><span class="data-upload-count">8 upload sources</span></div>
-        <div class="dept-upload-grid">${kpiUploadCards}</div>
-      </div>
-      <div class="data-upload-section ott-upload">
-        <div class="data-upload-heading"><div><h3>OTT Board Data Upload</h3><p>Upload the five OTT source files here. Overall OTT is calculated automatically.</p></div><span class="data-upload-count">5 upload sources + Overall auto</span></div>
-        <div class="dept-upload-grid">${ottUploadCards}</div>
-      </div>
-      <div class="data-upload-section" style="border-top:4px solid #1c7896">
-        <div class="data-upload-heading"><div><h3 style="color:#155f7d">Lock Plan Details Data Upload</h3><p>Detailed Start/End Lock Plan event source for the Lock Plan Details menu.</p></div><span class="data-upload-count">1 source</span></div>
-        <div class="dept-upload-grid">${lockPlanDetailsUpload}</div>
-      </div>`
-    :`<div class="alert">Viewer access: source-file upload is restricted to Admin users. Current dataset status is shown below.</div>`;
+  const lockCard=uploadAllowed('upload_lock_details')?`<div class="dept-card"><h3>Lock Plan Details</h3><div class="meta">Workbook: <b>Lock Plan Details.xlsx</b><br>Sheet: <b>Data</b><br>Maximum: ${MAX_LOCK_PLAN_DETAILS_MB} MB</div><input id="lockPlanDetailsFileInput" type="file" accept=".xlsx,.xls,.xlsb"><br><button class="btn primary" id="lockPlanDetailsUploadBtn">Upload / Replace Lock Plan Details</button><div class="data-upload-status" id="lockPlanDetailsUploadStatus"></div></div>`:'';
 
+  const uploadSections=[
+    kpiCards?`<div class="data-upload-section kpi-upload"><div class="data-upload-heading"><div><h3>KPI Board Data Upload</h3><p>Only upload sources permitted for this user are shown.</p></div></div><div class="dept-upload-grid">${kpiCards}</div></div>`:'',
+    ottCards?`<div class="data-upload-section ott-upload"><div class="data-upload-heading"><div><h3>OTT Board Data Upload</h3><p>Only permitted departmental OTT sources are shown. Overall OTT remains automatic.</p></div></div><div class="dept-upload-grid">${ottCards}</div></div>`:'',
+    lockCard?`<div class="data-upload-section" style="border-top:4px solid #1c7896"><div class="data-upload-heading"><div><h3 style="color:#155f7d">Lock Plan Details Data Upload</h3><p>Detailed Start/End Lock Plan event source.</p></div></div><div class="dept-upload-grid">${lockCard}</div></div>`:''
+  ].filter(Boolean).join('');
+
+  const noUploads=!uploadSections;
   const kpiStatus=`
-    ${statusCard('Dyeing',dyeMeta?.fileName,dyeMeta?.uploadedAt,dyeMeta?.dateFrom&&dyeMeta?.dateTo?`${dyeMeta.dateFrom} → ${dyeMeta.dateTo}`:'',[
-      `Date/Buyer ${(d.sheets?.Dyeing_Date_Buyer||[]).length} rows`,`Date ${(d.sheets?.Dyeing_Date||[]).length} rows`
-    ])}
-    ${statusCard('Knitting',knitMeta?.fileName,knitMeta?.uploadedAt,knitMeta?.dateFrom&&knitMeta?.dateTo?`${knitMeta.dateFrom} → ${knitMeta.dateTo}`:'',[
-      `Date ${(d.sheets?.Knitting_Date||[]).length} rows`,`Date/Buyer ${(d.sheets?.Knitting_Date_Buyer||[]).length} rows`
-    ],knitMeta?.buyerEvenAllocation?'Buyer allocation currently detected as equal/draft.':'')}
-    ${statusCard('Finishing',finMeta?.fileName,finMeta?.uploadedAt,finMeta?.dateFrom&&finMeta?.dateTo?`${finMeta.dateFrom} → ${finMeta.dateTo}`:'',[
-      `Date ${(d.sheets?.Finishing_Date||[]).length} rows`
-    ])}
-    ${statusCard('Delivery',delMeta?.fileName,delMeta?.uploadedAt,delMeta?.dateFrom&&delMeta?.dateTo?`${delMeta.dateFrom} → ${delMeta.dateTo}`:'',[
-      `Date ${(d.sheets?.Delivery_Date||[]).length} rows`,`Date/Buyer ${(d.sheets?.Delivery_Date_Buyer||[]).length} rows`
-    ],delMeta?.buyerEvenAllocation?'Buyer allocation currently detected as equal/draft.':'')}
-    ${statusCard('Yarn Dyeing',ydMeta?.fileName,ydMeta?.uploadedAt,ydMeta?.dateFrom&&ydMeta?.dateTo?`${ydMeta.dateFrom} → ${ydMeta.dateTo}`:'',[
-      `Date ${(d.sheets?.YD_Date||[]).length} rows`,`Date/Buyer ${(d.sheets?.YD_Date_Buyer||[]).length} rows`
-    ])}
-    ${statusCard('Chemical Lab',chemMeta?.fileName,chemMeta?.uploadedAt,chemMeta?.dateFrom&&chemMeta?.dateTo?`${chemMeta.dateFrom} → ${chemMeta.dateTo}`:'',[
-      `C_Lab_Date ${(d.sheets?.C_Lab_Date||[]).length} rows`
-    ])}
-    ${statusCard('ETL',etlMeta?.fileName,etlMeta?.uploadedAt,etlMeta?.dateFrom&&etlMeta?.dateTo?`${etlMeta.dateFrom} → ${etlMeta.dateTo}`:'',[
-      `ETL_Date ${(d.sheets?.ETL_Date||[]).length} rows`
-    ])}
-    ${statusCard('Target',targetMeta?.fileName,targetMeta?.uploadedAt,'',[
-      `${(d.targets||[]).length} active targets`
-    ])}`;
+    ${statusCard('Dyeing',dyeMeta?.fileName,dyeMeta?.uploadedAt,dyeMeta?.dateFrom&&dyeMeta?.dateTo?`${dyeMeta.dateFrom} → ${dyeMeta.dateTo}`:'',[`Date/Buyer ${(d.sheets?.Dyeing_Date_Buyer||[]).length} rows`,`Date ${(d.sheets?.Dyeing_Date||[]).length} rows`])}
+    ${statusCard('Knitting',knitMeta?.fileName,knitMeta?.uploadedAt,knitMeta?.dateFrom&&knitMeta?.dateTo?`${knitMeta.dateFrom} → ${knitMeta.dateTo}`:'',[`Date ${(d.sheets?.Knitting_Date||[]).length} rows`,`Date/Buyer ${(d.sheets?.Knitting_Date_Buyer||[]).length} rows`],knitMeta?.buyerEvenAllocation?'Buyer allocation currently detected as equal/draft.':'')}
+    ${statusCard('Finishing',finMeta?.fileName,finMeta?.uploadedAt,finMeta?.dateFrom&&finMeta?.dateTo?`${finMeta.dateFrom} → ${finMeta.dateTo}`:'',[`Date ${(d.sheets?.Finishing_Date||[]).length} rows`])}
+    ${statusCard('Delivery',delMeta?.fileName,delMeta?.uploadedAt,delMeta?.dateFrom&&delMeta?.dateTo?`${delMeta.dateFrom} → ${delMeta.dateTo}`:'',[`Date ${(d.sheets?.Delivery_Date||[]).length} rows`,`Date/Buyer ${(d.sheets?.Delivery_Date_Buyer||[]).length} rows`],delMeta?.buyerEvenAllocation?'Buyer allocation currently detected as equal/draft.':'')}
+    ${statusCard('Yarn Dyeing',ydMeta?.fileName,ydMeta?.uploadedAt,ydMeta?.dateFrom&&ydMeta?.dateTo?`${ydMeta.dateFrom} → ${ydMeta.dateTo}`:'',[`Date ${(d.sheets?.YD_Date||[]).length} rows`,`Date/Buyer ${(d.sheets?.YD_Date_Buyer||[]).length} rows`])}
+    ${statusCard('Chemical Lab',chemMeta?.fileName,chemMeta?.uploadedAt,chemMeta?.dateFrom&&chemMeta?.dateTo?`${chemMeta.dateFrom} → ${chemMeta.dateTo}`:'',[`C_Lab_Date ${(d.sheets?.C_Lab_Date||[]).length} rows`])}
+    ${statusCard('ETL',etlMeta?.fileName,etlMeta?.uploadedAt,etlMeta?.dateFrom&&etlMeta?.dateTo?`${etlMeta.dateFrom} → ${etlMeta.dateTo}`:'',[`ETL_Date ${(d.sheets?.ETL_Date||[]).length} rows`])}
+    ${statusCard('Target',targetMeta?.fileName,targetMeta?.uploadedAt,'',[`${(d.targets||[]).length} active targets`])}`;
 
   const ottStatusCard=(tab)=>{
     const cfg=OTT_CONFIG[tab],m=ott?.[cfg.key]?.meta;
-    return statusCard(cfg.label,m?.fileName,m?.uploadedAt,m?.dateFrom&&m?.dateTo?`${m.dateFrom} → ${m.dateTo}`:'',[
-      `${(m?.rows||0).toLocaleString()} checks`,`${(m?.bookings||0).toLocaleString()} bookings`
-    ])
+    return statusCard(cfg.label,m?.fileName,m?.uploadedAt,m?.dateFrom&&m?.dateTo?`${m.dateFrom} → ${m.dateTo}`:'',[`${(m?.rows||0).toLocaleString()} checks`,`${(m?.bookings||0).toLocaleString()} bookings`])
   };
   const loadedOtt=OTT_SOURCE_TABS.filter(t=>(ott?.[OTT_CONFIG[t].key]?.rows||[]).length).length;
   const combinedRows=OTT_SOURCE_TABS.reduce((n,t)=>n+(ott?.[OTT_CONFIG[t].key]?.rows||[]).length,0);
 
-  $('#content').innerHTML=`<div class="section-title"><h2>Data Management</h2><span>Centralized upload center for KPI Board, OTT Board & Lock Plan Details</span></div>
-    ${adminUploads}
-    <div class="data-current-section kpi-current">
-      <div class="data-current-head"><h3>KPI Board — Current Datasets</h3><span class="data-upload-count">Department source status</span></div>
-      <div class="data-status-grid">${kpiStatus}</div>
-    </div>
-    <div class="data-current-section ott-current">
-      <div class="data-current-head"><h3>OTT Board — Current Datasets</h3><span class="data-upload-count">${loadedOtt}/5 sources loaded</span></div>
-      <div class="data-status-grid">
-        ${ottStatusCard('ott_yarn')}
-        ${ottStatusCard('ott_knitting')}
-        ${ottStatusCard('ott_dyeing')}
-        ${ottStatusCard('ott_delivery')}
-        ${ottStatusCard('ott_lock')}
-        <div class="data-status-card data-auto-card"><b class="title">Overall OTT</b><div class="file">Auto-generated from 5 OTT sources</div><div class="meta">${combinedRows.toLocaleString()} combined event checks currently available.<br>No separate source file required.</div><div class="mini-pills"><span>${loadedOtt}/5 sources active</span></div></div>
-      </div>
-    </div>
-    <div class="lock-data-section">
-      <h3>Lock Plan Details — Current Dataset</h3>
-      <div class="data-status-grid">
-        ${statusCard('Lock Plan Details',lockDetailMeta.fileName,lockDetailMeta.uploadedAt,lockDetailMeta.dateFrom&&lockDetailMeta.dateTo?`${lockDetailMeta.dateFrom} → ${lockDetailMeta.dateTo}`:'',[
-          `${(lockDetailMeta.eventRows||0).toLocaleString()} Start/End events`,`${(lockDetailMeta.bookings||0).toLocaleString()} bookings`
-        ],lockDetailMeta.actualTo?`Actual data through ${lockDetailMeta.actualTo}`:'')}
-      </div>
-    </div>`;
+  $('#content').innerHTML=`<div class="section-title"><h2>Data Management</h2><span>Source access follows the permissions assigned in User Management</span></div>
+    ${uploadSections}
+    ${noUploads?'<div class="alert">No upload source has been assigned to this user. Current source status is available below.</div>':''}
+    <div class="data-current-section kpi-current"><div class="data-current-head"><h3>KPI Board — Current Sources</h3><span class="data-upload-count">Department source status</span></div><div class="data-status-grid">${kpiStatus}</div></div>
+    <div class="data-current-section ott-current"><div class="data-current-head"><h3>OTT Board — Current Sources</h3><span class="data-upload-count">${loadedOtt}/5 sources loaded</span></div><div class="data-status-grid">
+      ${ottStatusCard('ott_yarn')}${ottStatusCard('ott_knitting')}${ottStatusCard('ott_dyeing')}${ottStatusCard('ott_delivery')}${ottStatusCard('ott_lock')}
+      <div class="data-status-card data-auto-card"><b class="title">Overall OTT</b><div class="file">Auto-generated from 5 OTT sources</div><div class="meta">${combinedRows.toLocaleString()} combined event checks currently available.<br>No separate source file required.</div><div class="mini-pills"><span>${loadedOtt}/5 sources active</span></div></div>
+    </div></div>
+    <div class="lock-data-section"><h3>Lock Plan Details — Current Source</h3><div class="data-status-grid">${statusCard('Lock Plan Details',lockDetailMeta.fileName,lockDetailMeta.uploadedAt,lockDetailMeta.dateFrom&&lockDetailMeta.dateTo?`${lockDetailMeta.dateFrom} → ${lockDetailMeta.dateTo}`:'',[`${(lockDetailMeta.eventRows||0).toLocaleString()} Start/End events`,`${(lockDetailMeta.bookings||0).toLocaleString()} bookings`],lockDetailMeta.actualTo?`Actual data through ${lockDetailMeta.actualTo}`:'')}</div></div>`;
 
-  if($('#dyeingUploadBtn'))$('#dyeingUploadBtn').onclick=handleDyeingUpload;
-  if($('#knittingUploadBtn'))$('#knittingUploadBtn').onclick=handleKnittingUpload;
-  if($('#finishingUploadBtn'))$('#finishingUploadBtn').onclick=handleFinishingUpload;
-  if($('#deliveryUploadBtn'))$('#deliveryUploadBtn').onclick=handleDeliveryUpload;
-  if($('#yarnDyeingUploadBtn'))$('#yarnDyeingUploadBtn').onclick=handleYarnDyeingUpload;
-  if($('#chemicalLabUploadBtn'))$('#chemicalLabUploadBtn').onclick=handleChemicalLabUpload;
-  if($('#etlUploadBtn'))$('#etlUploadBtn').onclick=handleETLUpload;
-  if($('#targetUploadBtn'))$('#targetUploadBtn').onclick=handleTargetUpload;
-
-  if($('#ottYarnUploadBtn'))$('#ottYarnUploadBtn').onclick=()=>handleOTTUpload('ott_yarn','ottYarnFileInput','ottYarnUploadStatus');
-  if($('#ottKnittingUploadBtn'))$('#ottKnittingUploadBtn').onclick=()=>handleOTTUpload('ott_knitting','ottKnittingFileInput','ottKnittingUploadStatus');
-  if($('#ottDyeingUploadBtn'))$('#ottDyeingUploadBtn').onclick=()=>handleOTTUpload('ott_dyeing','ottDyeingFileInput','ottDyeingUploadStatus');
-  if($('#ottDeliveryUploadBtn'))$('#ottDeliveryUploadBtn').onclick=()=>handleOTTUpload('ott_delivery','ottDeliveryFileInput','ottDeliveryUploadStatus');
-  if($('#ottLockUploadBtn'))$('#ottLockUploadBtn').onclick=()=>handleOTTUpload('ott_lock','ottLockFileInput','ottLockUploadStatus');
-  if($('#lockPlanDetailsUploadBtn'))$('#lockPlanDetailsUploadBtn').onclick=handleLockPlanDetailsUpload;
+  if($('#dyeingUploadBtn'))$('#dyeingUploadBtn').onclick=guardUpload('upload_dyeing',handleDyeingUpload);
+  if($('#knittingUploadBtn'))$('#knittingUploadBtn').onclick=guardUpload('upload_knitting',handleKnittingUpload);
+  if($('#finishingUploadBtn'))$('#finishingUploadBtn').onclick=guardUpload('upload_finishing',handleFinishingUpload);
+  if($('#deliveryUploadBtn'))$('#deliveryUploadBtn').onclick=guardUpload('upload_delivery',handleDeliveryUpload);
+  if($('#yarnDyeingUploadBtn'))$('#yarnDyeingUploadBtn').onclick=guardUpload('upload_yarn',handleYarnDyeingUpload);
+  if($('#chemicalLabUploadBtn'))$('#chemicalLabUploadBtn').onclick=guardUpload('upload_chemical',handleChemicalLabUpload);
+  if($('#etlUploadBtn'))$('#etlUploadBtn').onclick=guardUpload('upload_etl',handleETLUpload);
+  if($('#targetUploadBtn'))$('#targetUploadBtn').onclick=guardUpload('upload_targets',handleTargetUpload);
+  if($('#ottYarnUploadBtn'))$('#ottYarnUploadBtn').onclick=guardUpload('upload_ott_yarn',()=>handleOTTUpload('ott_yarn','ottYarnFileInput','ottYarnUploadStatus'));
+  if($('#ottKnittingUploadBtn'))$('#ottKnittingUploadBtn').onclick=guardUpload('upload_ott_knitting',()=>handleOTTUpload('ott_knitting','ottKnittingFileInput','ottKnittingUploadStatus'));
+  if($('#ottDyeingUploadBtn'))$('#ottDyeingUploadBtn').onclick=guardUpload('upload_ott_dyeing',()=>handleOTTUpload('ott_dyeing','ottDyeingFileInput','ottDyeingUploadStatus'));
+  if($('#ottDeliveryUploadBtn'))$('#ottDeliveryUploadBtn').onclick=guardUpload('upload_ott_delivery',()=>handleOTTUpload('ott_delivery','ottDeliveryFileInput','ottDeliveryUploadStatus'));
+  if($('#ottLockUploadBtn'))$('#ottLockUploadBtn').onclick=guardUpload('upload_ott_lock',()=>handleOTTUpload('ott_lock','ottLockFileInput','ottLockUploadStatus'));
+  if($('#lockPlanDetailsUploadBtn'))$('#lockPlanDetailsUploadBtn').onclick=guardUpload('upload_lock_details',handleLockPlanDetailsUpload);
 }
-
-
 function renderKpiToolbarHeading(tab){
   const host=$('#kpiToolbarHead');if(!host)return;
   if(!KPI_TABS.includes(tab)){host.classList.add('hidden');host.innerHTML='';return}
