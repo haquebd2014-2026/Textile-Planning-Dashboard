@@ -2022,7 +2022,7 @@ function ottShortLabel(v,max=32){
   const s=String(v??'');return s.length>max?s.slice(0,max-1)+'…':s
 }
 function ottDoughnutChart(id,labels,data){
-  const ctx=document.getElementById(id);if(!ctx)return;
+  const ctx=document.querySelector(`canvas#${id}`);if(!ctx)return;
   const vals=data.map(v=>Number.isFinite(Number(v))?Number(v):0);
   const dark=document.body.classList.contains('dark-mode'),txt=dark?'#c5d5cd':'#58635e';
   const total=vals.reduce((a,b)=>a+b,0);
@@ -2053,7 +2053,7 @@ function ottDoughnutChart(id,labels,data){
   state.charts.push(c)
 }
 function ottPercentBarChart(id,labels,data,label='Pass rate',horizontal=true,fullLabels=null){
-  const ctx=document.getElementById(id);if(!ctx)return;
+  const ctx=document.querySelector(`canvas#${id}`);if(!ctx)return;
   const vals=data.map(v=>v===null||v===undefined?null:Number(v));
   const dark=document.body.classList.contains('dark-mode'),grid=dark?'#31453c':'#e9eeeb',txt=dark?'#b9c9c1':'#58635e';
   const displayLabels=labels.map(x=>ottShortLabel(x,horizontal?28:18));
@@ -2085,7 +2085,7 @@ function ottPercentBarChart(id,labels,data,label='Pass rate',horizontal=true,ful
   c.$tpPercent=true;state.charts.push(c)
 }
 function ottGroupedPercentBarChart(id,labels,sets){
-  const ctx=document.getElementById(id);if(!ctx)return;
+  const ctx=document.querySelector(`canvas#${id}`);if(!ctx)return;
   const dark=document.body.classList.contains('dark-mode'),grid=dark?'#31453c':'#e9eeeb',txt=dark?'#b9c9c1':'#58635e';
   const c=new Chart(ctx,{
     type:'bar',
@@ -2108,7 +2108,7 @@ function ottGroupedPercentBarChart(id,labels,sets){
   c.$tpPercent=true;state.charts.push(c)
 }
 function ottPercentLineChart(id,labels,sets){
-  const ctx=document.getElementById(id);if(!ctx)return;
+  const ctx=document.querySelector(`canvas#${id}`);if(!ctx)return;
   const dark=document.body.classList.contains('dark-mode'),grid=dark?'#31453c':'#e9eeeb',txt=dark?'#b9c9c1':'#58635e';
   const c=new Chart(ctx,{
     type:'line',
@@ -2131,7 +2131,7 @@ function ottPercentLineChart(id,labels,sets){
   c.$tpPercent=true;state.charts.push(c)
 }
 function ottCountBarChart(id,labels,data,label='Checks'){
-  const ctx=document.getElementById(id);if(!ctx)return;
+  const ctx=document.querySelector(`canvas#${id}`);if(!ctx)return;
   const vals=data.map(v=>Number.isFinite(Number(v))?Number(v):0),fullLabels=[...labels],display=labels.map(x=>ottShortLabel(x,34));
   const dark=document.body.classList.contains('dark-mode'),grid=dark?'#31453c':'#e9eeeb',txt=dark?'#b9c9c1':'#58635e';
   const c=new Chart(ctx,{
@@ -2422,6 +2422,15 @@ function ottManagementHeader(title,rows){
   const plans=rows.map(r=>r.Plan).filter(Boolean).sort(),from=state.ottFilters.from||plans[0]||'—',to=state.ottFilters.to||plans.slice(-1)[0]||'—';
   return `<div class="ott-management-title"><div><h2>${esc(title)}</h2><small>TEXTILE OTT MANAGEMENT BOARD</small></div><div class="ott-period">Plan date range<b>${esc(from)} → ${esc(to)}</b></div></div>`
 }
+
+function ottAssertUniqueChartTargets(){
+  const ids=['ottChartResult','ottChartType','ottChartMonth','ottBuyerChart','ottChartFailReason','ottRelated','ottChartFloor'];
+  ids.forEach(id=>{
+    const nodes=document.querySelectorAll(`#${id}`);
+    if(nodes.length>1)console.warn(`Duplicate OTT chart id detected: ${id}`,nodes)
+  })
+}
+
 function renderOTTDept(tab){
   metricCardSet([]);const cfg=OTT_CONFIG[tab],source=ottSource(tab);
   $('#content').innerHTML=`<div class="ott-page">${ottFilterPanel(tab)}<div id="ottBody"></div></div>`;ottBindFilters(tab);
@@ -2447,23 +2456,24 @@ function renderOTTDept(tab){
   const p=(title,note,id,wide=false)=>panel(title,note,`<div class="chart-wrap"><canvas id="${id}"></canvas></div>`,wide,true);
   body.innerHTML=`<div class="ott-management-area" id="ottManagementArea">${ottManagementHeader(cfg.label,rows)}
     <div class="ott-card-grid">${cards}</div><div class="ott-chart-grid">
-      ${p('Pass / Fail','Current filtered checks','ottResult')}
-      ${p('Start vs End OTT','Pass rate by event type','ottType')}
-      ${p('Monthly OTT Trend','Pass rate by source Month','ottMonth')}
+      ${p('Pass / Fail','Current filtered checks','ottChartResult')}
+      ${p('Start vs End OTT','Pass rate by event type','ottChartType')}
+      ${p('Monthly OTT Trend','Pass rate by source Month','ottChartMonth')}
       ${p('Buyer OTT Performance','Top buyers by number of checks','ottBuyerChart')}
-      ${p('Major Fail Reasons','Top fail reasons','ottFailReason')}
+      ${p('Major Fail Reasons','Top fail reasons','ottChartFailReason')}
       ${p('Fail Responsible / Related Dept.','Top departments on failed rows','ottRelated')}
-      ${cfg.hasFloor?p('Floor OTT','Pass rate by Floor','ottFloor'):''}
+      ${cfg.hasFloor?p('Floor OTT','Pass rate by Floor','ottChartFloor'):''}
       ${ottCrossStatusHTML()}
     </div></div>
     <div class="panel ott-detail-wrap"><h3>${esc(cfg.label)} Detail</h3><div class="note">Filters apply to the table. Source Result is authoritative; Actual placeholders such as “11” are treated as blank dates.</div>${ottTableHTML(rows,false)}</div>`;
-  ottDoughnutChart('ottResult',['Pass','Fail'],[s.pass,s.fail]);
-  ottPercentBarChart('ottType',['Start','End'],[s.startRate,s.endRate],'Pass rate',false);
-  ottPercentLineChart('ottMonth',monthly.map(x=>x.label),[{label:'OTT',data:monthly.map(x=>x.rate)}]);
+  ottAssertUniqueChartTargets();
+  ottDoughnutChart('ottChartResult',['Pass','Fail'],[s.pass,s.fail]);
+  ottPercentBarChart('ottChartType',['Start','End'],[s.startRate,s.endRate],'Pass rate',false);
+  ottPercentLineChart('ottChartMonth',monthly.map(x=>x.label),[{label:'OTT',data:monthly.map(x=>x.rate)}]);
   ottPercentBarChart('ottBuyerChart',buyer.map(x=>x.label),buyer.map(x=>x.rate),'Pass rate',true);
-  ottCountBarChart('ottFailReason',safeReasons.map(x=>x.label),safeReasons.map(x=>x.count),'Fail checks');
+  ottCountBarChart('ottChartFailReason',safeReasons.map(x=>x.label),safeReasons.map(x=>x.count),'Fail checks');
   ottCountBarChart('ottRelated',safeRelated.map(x=>x.label),safeRelated.map(x=>x.count),'Fail checks');
-  if(cfg.hasFloor)ottPercentBarChart('ottFloor',floors.map(x=>x.label),floors.map(x=>x.rate),'Pass rate',true)
+  if(cfg.hasFloor)ottPercentBarChart('ottChartFloor',floors.map(x=>x.label),floors.map(x=>x.rate),'Pass rate',true)
 }
 function renderOTTOverall(){
   metricCardSet([]);const tab='ott_overall',all=ottRowsWithDept(tab);
