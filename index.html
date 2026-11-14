@@ -1509,6 +1509,21 @@ body.dark-mode .kpi-page-heading .badge{background:#20352c;border-color:#355247;
 }
 body.dark-mode .ott-month-pop{background:#17231e;border-color:#3b5248}
 
+
+/* ===== OTT v36: management banner only inside popup ===== */
+#ottManagementArea{
+  padding-top:8px!important
+}
+.ott-snapshot-capture .ott-snapshot-inner{
+  width:100%;
+}
+.ott-snapshot-capture .ott-snapshot-inner > .ott-management-title{
+  margin-bottom:8px;
+}
+.ott-snapshot-capture .ott-snapshot-inner > #ottManagementArea{
+  padding-top:8px!important;
+}
+
 </style></head><body><div id="app" class="hidden"><div class="app-sticky-header"><div class="top-accent"></div><header class="header"><div class="header-left"><div class="brand-mark">TP</div><div><div class="brand-title">Textile Planning Dashboard</div><div class="brand-sub">Planning, Monitoring & Control</div></div></div><div class="header-actions"><div class="utility-tools"><button class="tool-btn stopwatch-btn" id="stopwatchBtn" title="Click to start/pause • Double-click to reset">⏱ <span id="stopwatchText">00:00</span></button><button class="tool-btn" id="fullscreenBtn" title="Enter full screen">⛶ Full</button><button class="tool-btn" id="themeBtn" title="Switch dark/light mode">☾ Dark</button></div><span class="greeting" id="greeting">Good morning</span><button class="btn" id="exportBtn">Export CSV</button><button class="btn" id="signOutBtn">Sign out</button><button class="btn primary" id="refreshBtn">Refresh</button></div></header><nav class="nav">
   <div class="kpi-menu-wrap" id="kpiMenuWrap">
     <button class="kpi-menu-toggle active" id="kpiBoardBtn" type="button">KPI Board <span class="kpi-menu-arrow">⌄</span></button>
@@ -2845,7 +2860,7 @@ function renderOTTDept(tab){
     ottCard('Avg Late Days',s.avgDelay===null?'—':fmt1(s.avgDelay),`Positive delay among failed rows with valid Actual`,'red')
   ].join('');
   const p=(title,note,id,wide=false)=>panel(title,note,`<div class="chart-wrap"><canvas id="${id}"></canvas></div>`,wide,true);
-  body.innerHTML=`<div class="ott-management-area" id="ottManagementArea">${ottManagementHeader(cfg.label,rows)}
+  body.innerHTML=`<div class="ott-management-area" id="ottManagementArea">
     <div class="ott-card-grid">${cards}</div><div class="ott-chart-grid">
       <div class="ott-trend-wide">${p('Daily OTT Trend','Start / End / Overall OTT for every date in the selected range','ottChartDaily',true)}</div>
       <div class="ott-trend-wide">${p('Monthly OTT Trend','Start / End / Overall OTT flow','ottChartMonth',true)}</div>
@@ -2885,7 +2900,7 @@ function renderOTTBooking(){
     ottCard('Bookings in View',selected.length.toLocaleString(),state.ottFilters.bookingAll?'All unique bookings selected by default':'Selected booking numbers','green'),
     ...deptStats.map((x,i)=>ottCard(x.cfg.short,pct(x.s.rate),`${x.s.checks.toLocaleString()} checks`,['teal','blue','purple','orange','red'][i]))
   ].join('');
-  body.innerHTML=`<div class="ott-management-area" id="ottManagementArea">${ottManagementHeader('Booking OTT Status',rows)}
+  body.innerHTML=`<div class="ott-management-area" id="ottManagementArea">
     <div class="ott-card-grid">${cards}</div>
     ${ottCrossStatusHTML(rows,selected)}
   </div>
@@ -2907,7 +2922,7 @@ function renderOTTOverall(){
         safeReasons=reasons.length?reasons:[{label:'No fail reason available',count:0}],
         safeRelated=related.length?related:[{label:'No related department available',count:0}];
   const p=(title,note,id,wide=false)=>panel(title,note,`<div class="chart-wrap"><canvas id="${id}"></canvas></div>`,wide,true);
-  body.innerHTML=`<div class="ott-management-area" id="ottManagementArea">${ottManagementHeader('Overall OTT',rows)}
+  body.innerHTML=`<div class="ott-management-area" id="ottManagementArea">
     <div class="ott-card-grid">${cards}</div><div class="ott-chart-grid">
       ${p('Pass / Fail','Combined filtered checks','ottChartResult')}
       ${p('Start vs End by Department','Pass rate comparison','ottDeptType')}
@@ -2965,8 +2980,21 @@ async function handleOTTUpload(tab,inputId='ottFileInput',statusId='ottUploadSta
 function buildOttSnapshotClone(){
   const source=$('#ottManagementArea');if(!source)throw new Error('OTT management view is not available.');
   const clone=source.cloneNode(true),srcCanvases=[...source.querySelectorAll('canvas')],cloneCanvases=[...clone.querySelectorAll('canvas')];
-  cloneCanvases.forEach((c,i)=>{const src=srcCanvases[i];if(!src)return;const img=document.createElement('img');try{img.src=src.toDataURL('image/png')}catch(e){};c.replaceWith(img)});
-  clone.querySelectorAll('.panel-chart-actions').forEach(x=>x.remove());return clone
+  cloneCanvases.forEach((c,i)=>{
+    const src=srcCanvases[i];if(!src)return;
+    const img=document.createElement('img');
+    try{img.src=src.toDataURL('image/png')}catch(e){}
+    c.replaceWith(img)
+  });
+  clone.querySelectorAll('.panel-chart-actions').forEach(x=>x.remove());
+
+  const rows=ottFilterRows(state.tab);
+  const title=OTT_CONFIG[state.tab]?.label||'OTT';
+  const wrap=document.createElement('div');
+  wrap.className='ott-snapshot-inner';
+  wrap.innerHTML=ottManagementHeader(title,rows);
+  wrap.appendChild(clone);
+  return wrap
 }
 function openOttSnapshot(){
   const modal=$('#ottSnapshotModal'),capture=$('#ottSnapshotCapture');if(!modal||!capture)return;
