@@ -1165,6 +1165,26 @@ body.dark-mode .ott-floor-note{background:#3b3418;color:#f3d76c}
   .ott-chart-grid .panel.wide{grid-column:auto}
 }
 
+
+/* ===== OTT chart rendering fix v31 ===== */
+.ott-chart-grid .panel{
+  min-height:285px!important
+}
+.ott-chart-grid .chart-wrap{
+  height:225px!important;
+  min-height:225px!important;
+  position:relative
+}
+.ott-chart-grid canvas{
+  display:block!important;
+  width:100%!important;
+  height:100%!important
+}
+.ott-chart-grid .panel:nth-child(5) .chart-wrap,
+.ott-chart-grid .panel:nth-child(6) .chart-wrap{
+  height:245px!important
+}
+
 </style></head><body><div id="app" class="hidden"><div class="app-sticky-header"><div class="top-accent"></div><header class="header"><div class="header-left"><div class="brand-mark">TP</div><div><div class="brand-title">Textile Planning Dashboard</div><div class="brand-sub">Planning, Monitoring & Control</div></div></div><div class="header-actions"><div class="utility-tools"><button class="tool-btn stopwatch-btn" id="stopwatchBtn" title="Click to start/pause • Double-click to reset">⏱ <span id="stopwatchText">00:00</span></button><button class="tool-btn" id="fullscreenBtn" title="Enter full screen">⛶ Full</button><button class="tool-btn" id="themeBtn" title="Switch dark/light mode">☾ Dark</button></div><span class="greeting" id="greeting">Good morning</span><button class="btn" id="exportBtn">Export CSV</button><button class="btn" id="signOutBtn">Sign out</button><button class="btn primary" id="refreshBtn">Refresh</button></div></header><nav class="nav">
   <div class="kpi-menu-wrap" id="kpiMenuWrap">
     <button class="kpi-menu-toggle active" id="kpiBoardBtn" type="button">KPI Board <span class="kpi-menu-arrow">⌄</span></button>
@@ -1830,6 +1850,183 @@ function metricCardSet(items){$('#kpis').innerHTML=items.join('')}
 function panel(title,note,body,wide=false,zoomable=false){const controls=zoomable?`<div class="panel-chart-actions"><button class="panel-data-btn" type="button" title="Show chart data" aria-label="Show ${esc(title)} chart data" onclick="showPanelChartData(this)">▦</button><button class="panel-expand-btn" type="button" title="Open this chart full screen" aria-label="Open ${esc(title)} full screen" onclick="togglePanelFullscreen(this)">⛶</button></div>`:'';return`<section class="panel ${wide?'wide':''} ${zoomable?'zoomable-panel':''}">${controls}<h3>${esc(title)}</h3><div class="note">${esc(note)}</div>${body}</section>`}
 
 /* ======================== OTT CORE ======================== */
+
+const ottSafeValueLabels={
+  id:'ottSafeValueLabels',
+  afterDatasetsDraw(chart,args,pluginOpts){
+    if(pluginOpts?.display===false)return;
+    const {ctx,chartArea}=chart;if(!chartArea)return;
+    const pct=!!pluginOpts?.percent,count=!!pluginOpts?.count;
+    ctx.save();
+    ctx.font='700 9px Inter,Arial,sans-serif';
+    ctx.fillStyle=document.body.classList.contains('dark-mode')?'#e8f3ee':'#42534c';
+    ctx.textBaseline='middle';
+    chart.data.datasets.forEach((ds,di)=>{
+      const meta=chart.getDatasetMeta(di);if(meta.hidden)return;
+      meta.data.forEach((el,i)=>{
+        const raw=ds.data?.[i],n=Number(raw);if(!Number.isFinite(n))return;
+        const label=pct?`${(n*100).toFixed(n*100<10?1:0)}%`:count?Math.round(n).toLocaleString():Number(n).toLocaleString(undefined,{maximumFractionDigits:1});
+        if(chart.config.type==='bar'){
+          const horizontal=chart.options?.indexAxis==='y';
+          if(horizontal){
+            let x=el.x+5,align='left';
+            if(x+ctx.measureText(label).width>chartArea.right-2){x=el.x-5;align='right'}
+            ctx.textAlign=align;ctx.fillText(label,x,el.y)
+          }else{
+            ctx.textAlign='center';
+            const y=Math.max(chartArea.top+7,el.y-8);
+            ctx.fillText(label,el.x,y)
+          }
+        }else if(chart.config.type==='line'){
+          ctx.textAlign='center';
+          const y=Math.max(chartArea.top+7,el.y-9-(di*9));
+          ctx.fillText(label,el.x,y)
+        }
+      })
+    });
+    ctx.restore()
+  }
+};
+function ottShortLabel(v,max=32){
+  const s=String(v??'');return s.length>max?s.slice(0,max-1)+'…':s
+}
+function ottDoughnutChart(id,labels,data){
+  const ctx=document.getElementById(id);if(!ctx)return;
+  const vals=data.map(v=>Number.isFinite(Number(v))?Number(v):0);
+  const dark=document.body.classList.contains('dark-mode'),txt=dark?'#c5d5cd':'#58635e';
+  const total=vals.reduce((a,b)=>a+b,0);
+  const centerPlugin={
+    id:'ottDoughnutCenter',
+    afterDraw(chart){
+      const meta=chart.getDatasetMeta(0);if(!meta?.data?.length)return;
+      const x=meta.data[0].x,y=meta.data[0].y,c=chart.ctx;
+      c.save();c.textAlign='center';c.textBaseline='middle';
+      c.fillStyle=dark?'#e9f4ef':'#075d45';c.font='700 22px Georgia,serif';c.fillText(total.toLocaleString(),x,y-4);
+      c.fillStyle=txt;c.font='600 9px Inter,Arial,sans-serif';c.fillText('checks',x,y+15);c.restore()
+    }
+  };
+  const c=new Chart(ctx,{
+    type:'doughnut',
+    data:{labels,datasets:[{data:vals,backgroundColor:['#20a46c','#dc5b42','#8f9b98'],borderWidth:0,hoverOffset:4}]},
+    options:{
+      responsive:true,maintainAspectRatio:false,animation:false,cutout:'64%',
+      plugins:{
+        tpChartValueLabels:{display:false},
+        ottSafeValueLabels:{display:false},
+        legend:{position:'bottom',labels:{boxWidth:10,font:{size:10},color:txt}},
+        tooltip:{callbacks:{label:c=>`${c.label}: ${Number(c.raw||0).toLocaleString()} (${total?((Number(c.raw||0)/total)*100).toFixed(1):'0.0'}%)`}}
+      }
+    },
+    plugins:[centerPlugin]
+  });
+  state.charts.push(c)
+}
+function ottPercentBarChart(id,labels,data,label='Pass rate',horizontal=true,fullLabels=null){
+  const ctx=document.getElementById(id);if(!ctx)return;
+  const vals=data.map(v=>v===null||v===undefined?null:Number(v));
+  const dark=document.body.classList.contains('dark-mode'),grid=dark?'#31453c':'#e9eeeb',txt=dark?'#b9c9c1':'#58635e';
+  const displayLabels=labels.map(x=>ottShortLabel(x,horizontal?28:18));
+  const c=new Chart(ctx,{
+    type:'bar',
+    data:{labels:displayLabels,datasets:[{label,data:vals,backgroundColor:'#087252',borderRadius:3,maxBarThickness:22}]},
+    options:{
+      indexAxis:horizontal?'y':'x',responsive:true,maintainAspectRatio:false,animation:false,
+      layout:{padding:horizontal?{right:36}:{top:18}},
+      plugins:{
+        tpChartValueLabels:{display:false},
+        ottSafeValueLabels:{display:true,percent:true},
+        legend:{display:false},
+        tooltip:{callbacks:{
+          title:items=>{const i=items?.[0]?.dataIndex??0;return String((fullLabels||labels)[i]??'')},
+          label:c=>`${label}: ${c.raw===null?'—':(Number(c.raw)*100).toFixed(1)+'%'}`
+        }}
+      },
+      scales:horizontal?{
+        x:{min:0,max:1,grid:{color:grid},ticks:{font:{size:9},color:txt,callback:v=>(v*100).toFixed(0)+'%'}},
+        y:{grid:{display:false},ticks:{font:{size:9},color:txt,autoSkip:false}}
+      }:{
+        x:{grid:{display:false},ticks:{font:{size:9},color:txt}},
+        y:{min:0,max:1,grid:{color:grid},ticks:{font:{size:9},color:txt,callback:v=>(v*100).toFixed(0)+'%'}}
+      }
+    },
+    plugins:[ottSafeValueLabels]
+  });
+  c.$tpPercent=true;state.charts.push(c)
+}
+function ottGroupedPercentBarChart(id,labels,sets){
+  const ctx=document.getElementById(id);if(!ctx)return;
+  const dark=document.body.classList.contains('dark-mode'),grid=dark?'#31453c':'#e9eeeb',txt=dark?'#b9c9c1':'#58635e';
+  const c=new Chart(ctx,{
+    type:'bar',
+    data:{labels,datasets:sets.map((s,i)=>({label:s.label,data:s.data.map(v=>v===null||v===undefined?null:Number(v)),backgroundColor:color[i%color.length],borderRadius:3,maxBarThickness:28}))},
+    options:{
+      responsive:true,maintainAspectRatio:false,animation:false,layout:{padding:{top:18}},
+      plugins:{
+        tpChartValueLabels:{display:false},
+        ottSafeValueLabels:{display:true,percent:true},
+        legend:{position:'bottom',labels:{boxWidth:10,font:{size:10},color:txt}},
+        tooltip:{callbacks:{label:c=>`${c.dataset.label}: ${c.raw===null?'—':(Number(c.raw)*100).toFixed(1)+'%'}`}}
+      },
+      scales:{
+        x:{grid:{display:false},ticks:{font:{size:9},color:txt}},
+        y:{min:0,max:1,grid:{color:grid},ticks:{font:{size:9},color:txt,callback:v=>(v*100).toFixed(0)+'%'}}
+      }
+    },
+    plugins:[ottSafeValueLabels]
+  });
+  c.$tpPercent=true;state.charts.push(c)
+}
+function ottPercentLineChart(id,labels,sets){
+  const ctx=document.getElementById(id);if(!ctx)return;
+  const dark=document.body.classList.contains('dark-mode'),grid=dark?'#31453c':'#e9eeeb',txt=dark?'#b9c9c1':'#58635e';
+  const c=new Chart(ctx,{
+    type:'line',
+    data:{labels,datasets:sets.map((s,i)=>({label:s.label,data:s.data.map(v=>v===null||v===undefined?null:Number(v)),borderColor:color[i%color.length],backgroundColor:color[i%color.length],tension:.25,pointRadius:3,pointHoverRadius:4,borderWidth:2,spanGaps:true}))},
+    options:{
+      responsive:true,maintainAspectRatio:false,animation:false,layout:{padding:{top:22,right:14}},
+      plugins:{
+        tpChartValueLabels:{display:false},
+        ottSafeValueLabels:{display:true,percent:true},
+        legend:{position:'bottom',labels:{boxWidth:10,font:{size:10},color:txt}},
+        tooltip:{callbacks:{label:c=>`${c.dataset.label}: ${c.raw===null?'—':(Number(c.raw)*100).toFixed(1)+'%'}`}}
+      },
+      scales:{
+        x:{grid:{display:false},ticks:{font:{size:9},color:txt,maxRotation:0}},
+        y:{min:0,max:1,grid:{color:grid},ticks:{font:{size:9},color:txt,callback:v=>(v*100).toFixed(0)+'%'}}
+      }
+    },
+    plugins:[ottSafeValueLabels]
+  });
+  c.$tpPercent=true;state.charts.push(c)
+}
+function ottCountBarChart(id,labels,data,label='Checks'){
+  const ctx=document.getElementById(id);if(!ctx)return;
+  const vals=data.map(v=>Number.isFinite(Number(v))?Number(v):0),fullLabels=[...labels],display=labels.map(x=>ottShortLabel(x,34));
+  const dark=document.body.classList.contains('dark-mode'),grid=dark?'#31453c':'#e9eeeb',txt=dark?'#b9c9c1':'#58635e';
+  const c=new Chart(ctx,{
+    type:'bar',
+    data:{labels:display,datasets:[{label,data:vals,backgroundColor:'#087252',borderRadius:3,maxBarThickness:22}]},
+    options:{
+      indexAxis:'y',responsive:true,maintainAspectRatio:false,animation:false,layout:{padding:{right:38}},
+      plugins:{
+        tpChartValueLabels:{display:false},
+        ottSafeValueLabels:{display:true,count:true},
+        legend:{display:false},
+        tooltip:{callbacks:{
+          title:items=>String(fullLabels[items?.[0]?.dataIndex??0]??''),
+          label:c=>`${label}: ${Number(c.raw||0).toLocaleString()}`
+        }}
+      },
+      scales:{
+        x:{beginAtZero:true,grid:{color:grid},ticks:{font:{size:9},color:txt}},
+        y:{grid:{display:false},ticks:{font:{size:9},color:txt,autoSkip:false}}
+      }
+    },
+    plugins:[ottSafeValueLabels]
+  });
+  state.charts.push(c)
+}
+
 function ottBlankFilters(){return{bookings:[],buyer:'',plan:'',result:'',failReason:'',relatedDept:'',floor:'',type:'',month:'',from:'',to:''}}
 function ottClean(v){const s=String(v??'').trim();return s==='11'?'':s}
 function ottNorm(v){return ottClean(v).toLowerCase().replace(/\s+/g,' ')}
@@ -2109,6 +2306,8 @@ function renderOTTDept(tab){
         buyer=ottGroup(rows,'Buyer').filter(x=>x.label!=='(blank)').sort((a,b)=>b.count-a.count).slice(0,12),
         reasons=ottTopCounts(rows,'FailReason',10),related=ottTopCounts(rows,'RelatedDept',10),
         floors=cfg.hasFloor?ottGroup(rows.filter(r=>r.Floor),'Floor').sort((a,b)=>b.count-a.count).slice(0,12):[];
+  const safeReasons=reasons.length?reasons:[{label:'No fail reason available',count:0}],
+        safeRelated=related.length?related:[{label:'No related department available',count:0}];
   const cards=[
     ottCard('Overall OTT',pct(s.rate),`${s.pass.toLocaleString()} Pass • ${s.fail.toLocaleString()} Fail`,'green'),
     ottCard('Start OTT',pct(s.startRate),`${s.startChecks.toLocaleString()} Start checks`,'blue'),
@@ -2130,13 +2329,13 @@ function renderOTTDept(tab){
       ${ottCrossStatusHTML()}
     </div></div>
     <div class="panel ott-detail-wrap"><h3>${esc(cfg.label)} Detail</h3><div class="note">Filters apply to the table. Source Result is authoritative; Actual placeholders such as “11” are treated as blank dates.</div>${ottTableHTML(rows,false)}</div>`;
-  doughnutChart('ottResult',['Pass','Fail'],[s.pass,s.fail]);
-  groupedBarChartPct('ottType',['Start','End'],[{label:'Pass rate',data:[s.startRate,s.endRate]}]);
-  lineChartPct('ottMonth',monthly.map(x=>x.label),[{label:'OTT',data:monthly.map(x=>x.rate)}]);
-  barChartPct('ottBuyerChart',buyer.map(x=>x.label),buyer.map(x=>x.rate),'Pass rate');
-  barChart('ottFailReason',reasons.map(x=>x.label),reasons.map(x=>x.count),'Fail checks');
-  barChart('ottRelated',related.map(x=>x.label),related.map(x=>x.count),'Fail checks');
-  if(cfg.hasFloor)barChartPct('ottFloor',floors.map(x=>x.label),floors.map(x=>x.rate),'Pass rate')
+  ottDoughnutChart('ottResult',['Pass','Fail'],[s.pass,s.fail]);
+  ottPercentBarChart('ottType',['Start','End'],[s.startRate,s.endRate],'Pass rate',false);
+  ottPercentLineChart('ottMonth',monthly.map(x=>x.label),[{label:'OTT',data:monthly.map(x=>x.rate)}]);
+  ottPercentBarChart('ottBuyerChart',buyer.map(x=>x.label),buyer.map(x=>x.rate),'Pass rate',true);
+  ottCountBarChart('ottFailReason',safeReasons.map(x=>x.label),safeReasons.map(x=>x.count),'Fail checks');
+  ottCountBarChart('ottRelated',safeRelated.map(x=>x.label),safeRelated.map(x=>x.count),'Fail checks');
+  if(cfg.hasFloor)ottPercentBarChart('ottFloor',floors.map(x=>x.label),floors.map(x=>x.rate),'Pass rate',true)
 }
 function renderOTTOverall(){
   metricCardSet([]);const tab='ott_overall',all=ottRowsWithDept(tab);
@@ -2153,7 +2352,9 @@ function renderOTTOverall(){
     const ar=rows.find(r=>r.Month===a)?.Plan||a,br=rows.find(r=>r.Month===b)?.Plan||b;return ar.localeCompare(br)
   });
   const monthSets=deptStats.map(x=>({label:x.cfg.short,data:monthlyLabels.map(m=>ottRate(x.rows.filter(r=>r.Month===m)))}));
-  const reasons=ottTopCounts(rows,'FailReason',12),related=ottTopCounts(rows,'RelatedDept',12);
+  const reasons=ottTopCounts(rows,'FailReason',12),related=ottTopCounts(rows,'RelatedDept',12),
+        safeReasons=reasons.length?reasons:[{label:'No fail reason available',count:0}],
+        safeRelated=related.length?related:[{label:'No related department available',count:0}];
   const p=(title,note,id,wide=false)=>panel(title,note,`<div class="chart-wrap"><canvas id="${id}"></canvas></div>`,wide,true);
   body.innerHTML=`<div class="ott-management-area" id="ottManagementArea">${ottManagementHeader('Overall OTT',rows)}
     <div class="ott-card-grid">${cards}</div><div class="ott-chart-grid">
@@ -2165,13 +2366,13 @@ function renderOTTOverall(){
       ${ottCrossStatusHTML()}
     </div></div>
     <div class="panel ott-detail-wrap"><h3>Overall OTT Detail</h3><div class="note">Data is extracted directly from the five uploaded OTT sources. Floor filtering does not exclude Yarn Dyeing or Knitting because those sources have no Floor column.</div>${ottTableHTML(rows,true)}</div>`;
-  barChartPct('ottDeptRate',deptStats.map(x=>x.cfg.short),deptStats.map(x=>x.s.rate),'Pass rate');
-  groupedBarChartPct('ottDeptType',deptStats.map(x=>x.cfg.short),[
+  ottPercentBarChart('ottDeptRate',deptStats.map(x=>x.cfg.short),deptStats.map(x=>x.s.rate),'Pass rate',false);
+  ottGroupedPercentBarChart('ottDeptType',deptStats.map(x=>x.cfg.short),[
     {label:'Start',data:deptStats.map(x=>x.s.startRate)},{label:'End',data:deptStats.map(x=>x.s.endRate)}
   ]);
-  lineChartPct('ottOverallMonth',monthlyLabels,monthSets);
-  barChart('ottOverallFail',reasons.map(x=>x.label),reasons.map(x=>x.count),'Fail checks');
-  barChart('ottOverallRelated',related.map(x=>x.label),related.map(x=>x.count),'Fail checks')
+  ottPercentLineChart('ottOverallMonth',monthlyLabels,monthSets);
+  ottCountBarChart('ottOverallFail',safeReasons.map(x=>x.label),safeReasons.map(x=>x.count),'Fail checks');
+  ottCountBarChart('ottOverallRelated',safeRelated.map(x=>x.label),safeRelated.map(x=>x.count),'Fail checks')
 }
 function exportOttCSV(tab){
   const rows=ottFilterRows(tab);if(!rows.length)return;
