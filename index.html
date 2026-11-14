@@ -1185,6 +1185,137 @@ body.dark-mode .ott-floor-note{background:#3b3418;color:#f3d76c}
   height:245px!important
 }
 
+
+/* ===== Centralized Data Management v32 ===== */
+.data-upload-section{
+  border:1px solid var(--line);
+  background:var(--card);
+  border-radius:8px;
+  padding:12px;
+  margin-bottom:16px;
+  box-shadow:0 3px 12px rgba(0,0,0,.035)
+}
+.data-upload-section.kpi-upload{border-top:4px solid var(--green)}
+.data-upload-section.ott-upload{border-top:4px solid #7a5cc0}
+.data-upload-heading{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  margin-bottom:10px;
+  padding:3px 2px 9px;
+  border-bottom:1px solid var(--line)
+}
+.data-upload-heading h3{
+  margin:0;
+  font:700 19px Georgia,serif;
+  color:#075d45
+}
+.data-upload-section.ott-upload .data-upload-heading h3{color:#654aa5}
+.data-upload-heading p{
+  margin:3px 0 0;
+  font-size:9.5px;
+  color:var(--muted)
+}
+.data-upload-count{
+  padding:5px 9px;
+  border-radius:999px;
+  background:var(--soft);
+  border:1px solid var(--line);
+  color:var(--muted);
+  font-size:9px;
+  white-space:nowrap
+}
+.data-upload-section .dept-card{
+  border-radius:6px;
+  min-height:188px
+}
+.data-upload-section.ott-upload .dept-card{
+  border-top-color:#7a5cc0
+}
+.data-upload-section .dept-card h3{font-size:16px}
+.data-upload-section .dept-card .meta{font-size:10px}
+.data-upload-section .dept-card input{
+  max-width:100%;
+  font-size:10px
+}
+.data-upload-status{
+  min-height:18px;
+  margin-top:8px;
+  color:var(--muted);
+  font-size:9px;
+  line-height:1.35
+}
+.data-current-section{
+  border:1px solid var(--line);
+  background:var(--card);
+  border-radius:8px;
+  padding:12px;
+  margin:14px 0
+}
+.data-current-section.kpi-current{border-left:4px solid var(--green)}
+.data-current-section.ott-current{border-left:4px solid #7a5cc0}
+.data-current-head{
+  display:flex;justify-content:space-between;align-items:center;gap:10px;
+  margin-bottom:10px
+}
+.data-current-head h3{
+  margin:0;font:700 17px Georgia,serif;color:#075d45
+}
+.data-current-section.ott-current .data-current-head h3{color:#654aa5}
+.data-status-grid{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:8px
+}
+.data-status-card{
+  border:1px solid var(--line);
+  background:var(--bg);
+  border-radius:6px;
+  padding:9px 10px;
+  min-width:0
+}
+.data-status-card b.title{
+  display:block;
+  color:#184d3d;
+  font-size:11px;
+  margin-bottom:5px
+}
+.data-status-card .file{
+  font-size:9px;
+  font-weight:700;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis
+}
+.data-status-card .meta{
+  margin-top:4px;
+  font-size:8.7px;
+  line-height:1.45;
+  color:var(--muted)
+}
+.data-status-card .mini-pills{
+  display:flex;flex-wrap:wrap;gap:4px;margin-top:6px
+}
+.data-status-card .mini-pills span{
+  padding:2px 5px;border-radius:999px;border:1px solid var(--line);
+  background:var(--card);font-size:7.8px;color:#53665e
+}
+.data-auto-card{
+  border-style:dashed;
+  background:linear-gradient(135deg,var(--bg),var(--card))
+}
+body.dark-mode .data-upload-section,
+body.dark-mode .data-current-section{background:#17231e}
+body.dark-mode .data-status-card{background:#111b17}
+body.dark-mode .data-status-card b.title{color:#d8eee4}
+@media(max-width:1100px){
+  .data-status-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:700px){
+  .data-status-grid{grid-template-columns:1fr}
+}
+
 </style></head><body><div id="app" class="hidden"><div class="app-sticky-header"><div class="top-accent"></div><header class="header"><div class="header-left"><div class="brand-mark">TP</div><div><div class="brand-title">Textile Planning Dashboard</div><div class="brand-sub">Planning, Monitoring & Control</div></div></div><div class="header-actions"><div class="utility-tools"><button class="tool-btn stopwatch-btn" id="stopwatchBtn" title="Click to start/pause • Double-click to reset">⏱ <span id="stopwatchText">00:00</span></button><button class="tool-btn" id="fullscreenBtn" title="Enter full screen">⛶ Full</button><button class="tool-btn" id="themeBtn" title="Switch dark/light mode">☾ Dark</button></div><span class="greeting" id="greeting">Good morning</span><button class="btn" id="exportBtn">Export CSV</button><button class="btn" id="signOutBtn">Sign out</button><button class="btn primary" id="refreshBtn">Refresh</button></div></header><nav class="nav">
   <div class="kpi-menu-wrap" id="kpiMenuWrap">
     <button class="kpi-menu-toggle active" id="kpiBoardBtn" type="button">KPI Board <span class="kpi-menu-arrow">⌄</span></button>
@@ -2198,11 +2329,9 @@ function ottFilterPanel(tab){
   const meta=tab==='ott_overall'
     ?`${base.length.toLocaleString()} checks combined from 5 OTT sources`
     :`${base.length.toLocaleString()} checks • ${(state.data?.ottSources?.[cfg.key]?.meta?.bookings||0).toLocaleString()} bookings`;
-  const upload=state.profile?.role==='admin'&&tab!=='ott_overall'
-    ?`<div class="ott-upload-inline"><input id="ottFileInput" type="file" accept=".xlsx,.xls,.xlsb"><button class="btn primary" id="ottUploadBtn" type="button">Upload / Replace</button><span class="ott-upload-status" id="ottUploadStatus">${esc(state.data?.ottSources?.[cfg.key]?.meta?.fileName||cfg.fileName)}</span></div>`:'';
   return `<div class="ott-filter-panel">
-    <div class="ott-filter-head"><div><h2>${esc(cfg.label)}</h2><div class="meta">${esc(meta)}</div></div>
-      <div class="ott-filter-actions">${upload}<button class="btn" id="ottCsvBtn" type="button">Export CSV</button><button class="btn primary" id="ottSnapshotBtn" type="button">▣ Management View</button></div></div>
+    <div class="ott-filter-head"><div><h2>${esc(cfg.label)}</h2><div class="meta">${esc(meta)} • Source upload is managed from Data Management</div></div>
+      <div class="ott-filter-actions"><button class="btn" id="ottCsvBtn" type="button">Export CSV</button><button class="btn primary" id="ottSnapshotBtn" type="button">▣ Management View</button></div></div>
     <div class="ott-filter-grid">
       <div class="filter-group wide"><span class="mini-label">Booking No. (single / multiple)</span>${ottBookingPickerHTML(tab)}</div>
       ${ottSelectHTML('ottBuyer','Buyer',buyers,f.buyer)}
@@ -2239,7 +2368,6 @@ function ottBindFilters(tab){
   if($('#ottResetBtn'))$('#ottResetBtn').onclick=()=>{state.ottFilters=ottBlankFilters();render()};
   if($('#ottSnapshotBtn'))$('#ottSnapshotBtn').onclick=openOttSnapshot;
   if($('#ottCsvBtn'))$('#ottCsvBtn').onclick=()=>exportOttCSV(tab);
-  if($('#ottUploadBtn'))$('#ottUploadBtn').onclick=()=>handleOTTUpload(tab)
 }
 function ottTableHTML(rows,overall=false,limit=350){
   if(!rows.length)return'<div class="empty">No records match the current filters.</div>';
@@ -2386,23 +2514,23 @@ function exportOttCSV(tab){
   a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));
   a.download=`Textile_OTT_${OTT_CONFIG[tab].key}_${new Date().toISOString().slice(0,10)}.csv`;a.click();URL.revokeObjectURL(a.href)
 }
-async function handleOTTUpload(tab){
-  const cfg=OTT_CONFIG[tab],inp=$('#ottFileInput'),f=inp?.files?.[0],st=$('#ottUploadStatus');
-  if(!f)return st.textContent='Choose the OTT Excel file first.';
-  if(f.size>MAX_OTT_FILE_MB*1024*1024)return st.textContent=`File is larger than ${MAX_OTT_FILE_MB} MB.`;
+async function handleOTTUpload(tab,inputId='ottFileInput',statusId='ottUploadStatus'){
+  const cfg=OTT_CONFIG[tab],inp=$('#'+inputId),f=inp?.files?.[0],st=$('#'+statusId);
+  if(!f){if(st)st.textContent='Choose the OTT Excel file first.';return}
+  if(f.size>MAX_OTT_FILE_MB*1024*1024){if(st)st.textContent=`File is larger than ${MAX_OTT_FILE_MB} MB.`;return}
   try{
-    st.textContent='Reading and validating Data sheet...';
+    if(st)st.textContent='Reading and validating Data sheet...';
     const wb=XLSX.read(await f.arrayBuffer(),{type:'array'}),rows=normalizeOTTWorkbook(wb,tab);
     const plans=rows.map(r=>r.Plan).filter(Boolean).sort(),now=new Date().toISOString();
     const meta={fileName:f.name,uploadedAt:now,rows:rows.length,bookings:new Set(rows.map(r=>ottBookingKey(r.BookingNo))).size,dateFrom:plans[0]||null,dateTo:plans.slice(-1)[0]||null};
     const merged={...(state.data||{}),ottSources:{...(state.data?.ottSources||{}),[cfg.key]:{rows,meta}},uploadedAt:now};
-    st.textContent=`Validated ${rows.length.toLocaleString()} checks / ${meta.bookings.toLocaleString()} bookings. Publishing...`;
+    if(st)st.textContent=`Validated ${rows.length.toLocaleString()} checks / ${meta.bookings.toLocaleString()} bookings. Publishing...`;
     const {data:{user}}=await sb.auth.getUser();
     const {error}=await sb.from('dashboard_data').upsert({id:1,file_name:merged.fileName||'Department-wise data',data:merged,uploaded_by:user.id,uploaded_at:now},{onConflict:'id'});
     if(error)throw error;
-    st.textContent=`${cfg.label} published successfully (${meta.dateFrom||'—'} to ${meta.dateTo||'—'}).`;
+    if(st)st.textContent=`${cfg.label} published successfully (${meta.dateFrom||'—'} to ${meta.dateTo||'—'}).`;
     await loadData()
-  }catch(e){st.textContent='OTT upload failed: '+e.message}
+  }catch(e){if(st)st.textContent='OTT upload failed: '+e.message}
 }
 function buildOttSnapshotClone(){
   const source=$('#ottManagementArea');if(!source)throw new Error('OTT management view is not available.');
@@ -2881,7 +3009,117 @@ function editUser(id){const u=state.userList.find(x=>x.id===id);if(!u)return;sta
 function resetUserForm(){state.editingUserId=null;$('#userFormTitle').textContent='Create New User';$('#userName').value='';$('#userEmail').value='';$('#userEmail').disabled=false;$('#userPassword').value='';$('#userPassword').placeholder='Minimum 6 characters';$('#userRole').value='viewer';$('#userActive').checked=true;$('#permissionGrid').innerHTML=permissionCheckboxes(DEFAULT_PERMISSIONS,'viewer');$('#saveUserBtn').textContent='Create User';$('#cancelUserBtn').classList.add('hidden');$('#userStatus').textContent='';syncUserRoleForm();}
 async function saveUser(){const st=$('#userStatus');const name=$('#userName').value.trim(),email=$('#userEmail').value.trim(),password=$('#userPassword').value,role=$('#userRole').value,active=$('#userActive').checked,permissions=collectPermissions();if(!name)return st.textContent='Enter a display name.';if(!state.editingUserId&&!email)return st.textContent='Enter an email address.';if(!state.editingUserId&&password.length<6)return st.textContent='Password must be at least 6 characters.';const payload=state.editingUserId?{action:'update',user_id:state.editingUserId,display_name:name,role,active,permissions,password:password||undefined}:{action:'create',email,password,display_name:name,role,active,permissions};try{$('#saveUserBtn').disabled=true;st.textContent=state.editingUserId?'Saving changes...':'Creating user...';await invokeUserAdmin(payload);st.textContent='Saved successfully.';resetUserForm();await loadUsers()}catch(e){st.textContent='Failed: '+e.message}finally{$('#saveUserBtn').disabled=false}}
 async function deleteUser(id){const u=state.userList.find(x=>x.id===id);if(!u||id===state.profile?.id)return;if(!confirm(`Delete ${u.display_name||u.email}? This removes the login account.`))return;try{await invokeUserAdmin({action:'delete',user_id:id});await loadUsers()}catch(e){alert('Delete failed: '+e.message)}}
-function renderData(){metricCardSet([]);$('#kpis').classList.remove('knitting-kpis','finishing-kpis');const d=state.data,dyeMeta=d?.departmentFiles?.dyeing,knitMeta=d?.departmentFiles?.knitting,finMeta=d?.departmentFiles?.finishing,delMeta=d?.departmentFiles?.delivery,ydMeta=d?.departmentFiles?.yarn,chemMeta=d?.departmentFiles?.chemical,etlMeta=d?.departmentFiles?.etl,targetMeta=d?.departmentFiles?.targets;$('#content').innerHTML=`<div class="section-title"><h2>Data Management</h2><span>Department-wise source files</span></div>${state.profile?.role==='admin'?`<div class="dept-upload-grid"><div class="dept-card"><h3>Dyeing Data</h3><div class="meta">Required workbook: <b>Dyeing_Dashboard</b><br>Required sheets: <b>Dyeing_Date_Buyer</b> and <b>Dyeing_Date</b><br>Recommended maximum: ${MAX_DYEING_FILE_MB} MB</div><input id="dyeingFileInput" type="file" accept=".xlsx,.xls,.xlsb"><br><button class="btn primary" id="dyeingUploadBtn">Upload / Replace Dyeing</button><div id="dyeingUploadStatus" style="margin-top:10px"></div></div><div class="dept-card"><h3>Knitting Data</h3><div class="meta">Required workbook: <b>Knitting_Dashboard</b><br>Required sheets: <b>Knitting_Date</b> and <b>Knitting_Date_Buyer</b><br>Recommended maximum: ${MAX_KNITTING_FILE_MB} MB</div><input id="knittingFileInput" type="file" accept=".xlsx,.xls,.xlsb"><br><button class="btn primary" id="knittingUploadBtn">Upload / Replace Knitting</button><div id="knittingUploadStatus" style="margin-top:10px"></div></div><div class="dept-card"><h3>Finishing Data</h3><div class="meta">Required workbook: <b>Finishing_Dashboard</b><br>Required sheet: <b>Finishing_Date</b><br>Recommended maximum: ${MAX_FINISHING_FILE_MB} MB</div><input id="finishingFileInput" type="file" accept=".xlsx,.xls,.xlsb"><br><button class="btn primary" id="finishingUploadBtn">Upload / Replace Finishing</button><div id="finishingUploadStatus" style="margin-top:10px"></div></div><div class="dept-card"><h3>Delivery Data</h3><div class="meta">Required workbook: <b>Delivery_Dashboard</b><br>Required sheets: <b>Delivery_Date</b> and <b>Delivery_Date_Buyer</b><br>Recommended maximum: ${MAX_DELIVERY_FILE_MB} MB</div><input id="deliveryFileInput" type="file" accept=".xlsx,.xls,.xlsb"><br><button class="btn primary" id="deliveryUploadBtn">Upload / Replace Delivery</button><div id="deliveryUploadStatus" style="margin-top:10px"></div></div><div class="dept-card"><h3>Yarn Dyeing Data</h3><div class="meta">Required workbook: <b>Yarn_Dyeing_Dashboard</b><br>Required sheets: <b>YD_Date</b> and <b>YD_Date_Buyer</b><br>Recommended maximum: ${MAX_YARN_DYEING_FILE_MB} MB</div><input id="yarnDyeingFileInput" type="file" accept=".xlsx,.xls,.xlsb"><br><button class="btn primary" id="yarnDyeingUploadBtn">Upload / Replace Yarn Dyeing</button><div id="yarnDyeingUploadStatus" style="margin-top:10px"></div></div><div class="dept-card"><h3>Chemical Lab Data</h3><div class="meta">Required workbook: <b>Chemical_Lab_Dashboard</b><br>Required sheet: <b>C_Lab_Date</b><br>Recommended maximum: ${MAX_CHEMICAL_LAB_FILE_MB} MB</div><input id="chemicalLabFileInput" type="file" accept=".xlsx,.xls,.xlsb"><br><button class="btn primary" id="chemicalLabUploadBtn">Upload / Replace Chemical Lab</button><div id="chemicalLabUploadStatus" style="margin-top:10px"></div></div><div class="dept-card"><h3>ETL Data</h3><div class="meta">Required workbook: <b>ETL_Dashboard</b><br>Required sheet: <b>ETL_Date</b><br>Recommended maximum: ${MAX_ETL_FILE_MB} MB</div><input id="etlFileInput" type="file" accept=".xlsx,.xls,.xlsb"><br><button class="btn primary" id="etlUploadBtn">Upload / Replace ETL</button><div id="etlUploadStatus" style="margin-top:10px"></div></div><div class="dept-card" style="border-top:3px solid #f0b400"><h3>Target Data</h3><div class="meta">Required workbook: <b>Dashboard_Target.xlsx</b><br>Required sheet: <b>Target</b><br>Required columns: <b>Department | Topics | Target</b><br>The dashboard reads ≥ / ≤ / %, Ton, kg and Hr targets automatically.</div><input id="targetFileInput" type="file" accept=".xlsx,.xls,.xlsb"><br><button class="btn primary" id="targetUploadBtn">Upload / Replace Targets</button><div id="targetUploadStatus" style="margin-top:10px"></div></div></div>`:`<div class="alert">Viewer access: data upload is restricted to Admin users.</div>`}<div style="height:14px"></div><div class="panel"><h3>Current Dyeing dataset</h3><div class="note">Visible to authenticated users with Dyeing menu permission</div><p><b>File:</b> ${esc(dyeMeta?.fileName||((d?.sheets?.Dyeing_Date_Buyer||[]).length?'Dyeing file uploaded':'—'))}</p><p><b>Last updated:</b> ${dyeMeta?.uploadedAt?new Date(dyeMeta.uploadedAt).toLocaleString():'—'}</p><p><b>Usable source period:</b> ${esc(dyeMeta?.dateFrom||'—')} to ${esc(dyeMeta?.dateTo||'—')}</p><span class="status-pill" style="margin:4px">Dyeing_Date_Buyer: ${(d?.sheets?.Dyeing_Date_Buyer||[]).length} rows</span><span class="status-pill" style="margin:4px">Dyeing_Date: ${(d?.sheets?.Dyeing_Date||[]).length} rows</span></div><div class="panel"><h3>Current Knitting dataset</h3><div class="note">Visible to authenticated users with Knitting menu permission</div><p><b>File:</b> ${esc(knitMeta?.fileName||((d?.sheets?.Knitting_Date||[]).length?'Knitting file uploaded':'—'))}</p><p><b>Last updated:</b> ${knitMeta?.uploadedAt?new Date(knitMeta.uploadedAt).toLocaleString():'—'}</p><p><b>Usable source period:</b> ${esc(knitMeta?.dateFrom||'—')} to ${esc(knitMeta?.dateTo||'—')}</p><span class="status-pill" style="margin:4px">Knitting_Date: ${(d?.sheets?.Knitting_Date||[]).length} rows</span><span class="status-pill" style="margin:4px">Knitting_Date_Buyer: ${(d?.sheets?.Knitting_Date_Buyer||[]).length} rows</span>${knitMeta?.buyerEvenAllocation?'<p class="muted"><b>Buyer source notice:</b> equal daily allocation detected across buyers.</p>':''}</div><div class="panel"><h3>Current Finishing dataset</h3><div class="note">Visible to authenticated users with Finishing menu permission</div><p><b>File:</b> ${esc(finMeta?.fileName||((d?.sheets?.Finishing_Date||[]).length?'Finishing file uploaded':'—'))}</p><p><b>Last updated:</b> ${finMeta?.uploadedAt?new Date(finMeta.uploadedAt).toLocaleString():'—'}</p><p><b>Usable source period:</b> ${esc(finMeta?.dateFrom||'—')} to ${esc(finMeta?.dateTo||'—')}</p><span class="status-pill" style="margin:4px">Finishing_Date: ${(d?.sheets?.Finishing_Date||[]).length} rows</span></div><div class="panel"><h3>Current Delivery dataset</h3><div class="note">Visible to authenticated users with Delivery menu permission</div><p><b>File:</b> ${esc(delMeta?.fileName||((d?.sheets?.Delivery_Date||[]).length?'Delivery file uploaded':'—'))}</p><p><b>Last updated:</b> ${delMeta?.uploadedAt?new Date(delMeta.uploadedAt).toLocaleString():'—'}</p><p><b>Usable source period:</b> ${esc(delMeta?.dateFrom||'—')} to ${esc(delMeta?.dateTo||'—')}</p><span class="status-pill" style="margin:4px">Delivery_Date: ${(d?.sheets?.Delivery_Date||[]).length} rows</span><span class="status-pill" style="margin:4px">Delivery_Date_Buyer: ${(d?.sheets?.Delivery_Date_Buyer||[]).length} rows</span>${delMeta?.buyerEvenAllocation?'<p class="muted"><b>Buyer source notice:</b> draft/equal buyer allocation detected. Replace later with actual buyer-wise data.</p>':''}</div><div class="panel"><h3>Current Yarn Dyeing dataset</h3><div class="note">Visible to authenticated users with Yarn Dyeing menu permission</div><p><b>File:</b> ${esc(ydMeta?.fileName||((d?.sheets?.YD_Date||[]).length?'Yarn Dyeing file uploaded':'—'))}</p><p><b>Last updated:</b> ${ydMeta?.uploadedAt?new Date(ydMeta.uploadedAt).toLocaleString():'—'}</p><p><b>Usable source period:</b> ${esc(ydMeta?.dateFrom||'—')} to ${esc(ydMeta?.dateTo||'—')}</p><span class="status-pill" style="margin:4px">YD_Date: ${(d?.sheets?.YD_Date||[]).length} rows</span><span class="status-pill" style="margin:4px">YD_Date_Buyer: ${(d?.sheets?.YD_Date_Buyer||[]).length} rows</span>${ydMeta?.buyerEvenAllocation?'<p class="muted"><b>Buyer source notice:</b> demo/equal buyer allocation detected. Date totals are protected from multiplication; replace later with actual buyer-wise data.</p>':''}</div><div class="panel"><h3>Current Chemical Lab dataset</h3><div class="note">Visible to authenticated users with Chemical Lab menu permission</div><p><b>File:</b> ${esc(chemMeta?.fileName||((d?.sheets?.C_Lab_Date||[]).length?'Chemical Lab file uploaded':'—'))}</p><p><b>Last updated:</b> ${chemMeta?.uploadedAt?new Date(chemMeta.uploadedAt).toLocaleString():'—'}</p><p><b>Usable source period:</b> ${esc(chemMeta?.dateFrom||'—')} to ${esc(chemMeta?.dateTo||'—')}</p><span class="status-pill" style="margin:4px">C_Lab_Date: ${(d?.sheets?.C_Lab_Date||[]).length} rows</span></div><div class="panel"><h3>Current ETL dataset</h3><div class="note">Visible to authenticated users with ETL menu permission</div><p><b>File:</b> ${esc(etlMeta?.fileName||((d?.sheets?.ETL_Date||[]).length?'ETL file uploaded':'—'))}</p><p><b>Last updated:</b> ${etlMeta?.uploadedAt?new Date(etlMeta.uploadedAt).toLocaleString():'—'}</p><p><b>Usable source period:</b> ${esc(etlMeta?.dateFrom||'—')} to ${esc(etlMeta?.dateTo||'—')}</p><span class="status-pill" style="margin:4px">ETL_Date: ${(d?.sheets?.ETL_Date||[]).length} rows</span></div><div class="panel"><h3>Current Target dataset</h3><div class="note">Controls Overview green / amber / red KPI status</div><p><b>File:</b> ${esc(targetMeta?.fileName||((d?.targets||[]).length?'Target file uploaded':'—'))}</p><p><b>Last updated:</b> ${targetMeta?.uploadedAt?new Date(targetMeta.uploadedAt).toLocaleString():'—'}</p><span class="status-pill" style="margin:4px">Active targets: ${(d?.targets||[]).length}</span><p class="muted">Target direction and unit are inferred from your source values (for example ≥90%, ≤8%, 24 Hr, 59.3 Ton). Watch = within 10% of target; beyond that = Critical. KPIs without a matching target remain neutral.</p></div>`;if($('#dyeingUploadBtn'))$('#dyeingUploadBtn').onclick=handleDyeingUpload;if($('#knittingUploadBtn'))$('#knittingUploadBtn').onclick=handleKnittingUpload;if($('#finishingUploadBtn'))$('#finishingUploadBtn').onclick=handleFinishingUpload;if($('#deliveryUploadBtn'))$('#deliveryUploadBtn').onclick=handleDeliveryUpload;if($('#yarnDyeingUploadBtn'))$('#yarnDyeingUploadBtn').onclick=handleYarnDyeingUpload;if($('#chemicalLabUploadBtn'))$('#chemicalLabUploadBtn').onclick=handleChemicalLabUpload;if($('#etlUploadBtn'))$('#etlUploadBtn').onclick=handleETLUpload;if($('#targetUploadBtn'))$('#targetUploadBtn').onclick=handleTargetUpload;}
+function renderData(){
+  metricCardSet([]);
+  $('#kpis').classList.remove('knitting-kpis','finishing-kpis');
+  const d=state.data||{},df=d.departmentFiles||{},ott=d.ottSources||{};
+  const dyeMeta=df.dyeing,knitMeta=df.knitting,finMeta=df.finishing,delMeta=df.delivery,
+        ydMeta=df.yarn,chemMeta=df.chemical,etlMeta=df.etl,targetMeta=df.targets;
+
+  const statusCard=(title,file,updated,period,pills=[],extra='')=>`<div class="data-status-card">
+    <b class="title">${esc(title)}</b>
+    <div class="file">${esc(file||'—')}</div>
+    <div class="meta">Updated: ${updated?new Date(updated).toLocaleString():'—'}<br>${period?`Period: ${esc(period)}`:'Period: —'}${extra?`<br>${extra}`:''}</div>
+    <div class="mini-pills">${pills.map(x=>`<span>${esc(x)}</span>`).join('')}</div>
+  </div>`;
+
+  const kpiUploadCards=`
+    <div class="dept-card"><h3>Dyeing Data</h3><div class="meta">Workbook: <b>Dyeing_Dashboard</b><br>Sheets: <b>Dyeing_Date_Buyer</b>, <b>Dyeing_Date</b><br>Maximum: ${MAX_DYEING_FILE_MB} MB</div><input id="dyeingFileInput" type="file" accept=".xlsx,.xls,.xlsb"><br><button class="btn primary" id="dyeingUploadBtn">Upload / Replace Dyeing</button><div class="data-upload-status" id="dyeingUploadStatus"></div></div>
+    <div class="dept-card"><h3>Knitting Data</h3><div class="meta">Workbook: <b>Knitting_Dashboard</b><br>Sheets: <b>Knitting_Date</b>, <b>Knitting_Date_Buyer</b><br>Maximum: ${MAX_KNITTING_FILE_MB} MB</div><input id="knittingFileInput" type="file" accept=".xlsx,.xls,.xlsb"><br><button class="btn primary" id="knittingUploadBtn">Upload / Replace Knitting</button><div class="data-upload-status" id="knittingUploadStatus"></div></div>
+    <div class="dept-card"><h3>Finishing Data</h3><div class="meta">Workbook: <b>Finishing_Dashboard</b><br>Sheet: <b>Finishing_Date</b><br>Maximum: ${MAX_FINISHING_FILE_MB} MB</div><input id="finishingFileInput" type="file" accept=".xlsx,.xls,.xlsb"><br><button class="btn primary" id="finishingUploadBtn">Upload / Replace Finishing</button><div class="data-upload-status" id="finishingUploadStatus"></div></div>
+    <div class="dept-card"><h3>Delivery Data</h3><div class="meta">Workbook: <b>Delivery_Dashboard</b><br>Sheets: <b>Delivery_Date</b>, <b>Delivery_Date_Buyer</b><br>Maximum: ${MAX_DELIVERY_FILE_MB} MB</div><input id="deliveryFileInput" type="file" accept=".xlsx,.xls,.xlsb"><br><button class="btn primary" id="deliveryUploadBtn">Upload / Replace Delivery</button><div class="data-upload-status" id="deliveryUploadStatus"></div></div>
+    <div class="dept-card"><h3>Yarn Dyeing Data</h3><div class="meta">Workbook: <b>Yarn_Dyeing_Dashboard</b><br>Sheets: <b>YD_Date</b>, <b>YD_Date_Buyer</b><br>Maximum: ${MAX_YARN_DYEING_FILE_MB} MB</div><input id="yarnDyeingFileInput" type="file" accept=".xlsx,.xls,.xlsb"><br><button class="btn primary" id="yarnDyeingUploadBtn">Upload / Replace Yarn Dyeing</button><div class="data-upload-status" id="yarnDyeingUploadStatus"></div></div>
+    <div class="dept-card"><h3>Chemical Lab Data</h3><div class="meta">Workbook: <b>Chemical_Lab_Dashboard</b><br>Sheet: <b>C_Lab_Date</b><br>Maximum: ${MAX_CHEMICAL_LAB_FILE_MB} MB</div><input id="chemicalLabFileInput" type="file" accept=".xlsx,.xls,.xlsb"><br><button class="btn primary" id="chemicalLabUploadBtn">Upload / Replace Chemical Lab</button><div class="data-upload-status" id="chemicalLabUploadStatus"></div></div>
+    <div class="dept-card"><h3>ETL Data</h3><div class="meta">Workbook: <b>ETL_Dashboard</b><br>Sheet: <b>ETL_Date</b><br>Maximum: ${MAX_ETL_FILE_MB} MB</div><input id="etlFileInput" type="file" accept=".xlsx,.xls,.xlsb"><br><button class="btn primary" id="etlUploadBtn">Upload / Replace ETL</button><div class="data-upload-status" id="etlUploadStatus"></div></div>
+    <div class="dept-card" style="border-top-color:#f0b400"><h3>Target Data</h3><div class="meta">Workbook: <b>Dashboard_Target.xlsx</b><br>Sheet: <b>Target</b><br>Columns: Department | Topics | Target</div><input id="targetFileInput" type="file" accept=".xlsx,.xls,.xlsb"><br><button class="btn primary" id="targetUploadBtn">Upload / Replace Targets</button><div class="data-upload-status" id="targetUploadStatus"></div></div>`;
+
+  const ottUploadCards=`
+    <div class="dept-card"><h3>Yarn Dyeing OTT</h3><div class="meta">Workbook: <b>Yarn Dyeing OTT_2026-2027.xlsx</b><br>Sheet: <b>Data</b><br>Maximum: ${MAX_OTT_FILE_MB} MB</div><input id="ottYarnFileInput" type="file" accept=".xlsx,.xls,.xlsb"><br><button class="btn primary" id="ottYarnUploadBtn">Upload / Replace YD OTT</button><div class="data-upload-status" id="ottYarnUploadStatus"></div></div>
+    <div class="dept-card"><h3>Knitting OTT</h3><div class="meta">Workbook: <b>Knitting OTT_2026-2027.xlsx</b><br>Sheet: <b>Data</b><br>Maximum: ${MAX_OTT_FILE_MB} MB</div><input id="ottKnittingFileInput" type="file" accept=".xlsx,.xls,.xlsb"><br><button class="btn primary" id="ottKnittingUploadBtn">Upload / Replace Knitting OTT</button><div class="data-upload-status" id="ottKnittingUploadStatus"></div></div>
+    <div class="dept-card"><h3>Dyeing OTT</h3><div class="meta">Workbook: <b>Dyeing OTT_2026-2027.xlsx</b><br>Sheet: <b>Data</b><br>Maximum: ${MAX_OTT_FILE_MB} MB</div><input id="ottDyeingFileInput" type="file" accept=".xlsx,.xls,.xlsb"><br><button class="btn primary" id="ottDyeingUploadBtn">Upload / Replace Dyeing OTT</button><div class="data-upload-status" id="ottDyeingUploadStatus"></div></div>
+    <div class="dept-card"><h3>Delivery OTT</h3><div class="meta">Workbook: <b>Delivery Floor OTT_2026-2027.xlsx</b><br>Sheet: <b>Data</b><br>Maximum: ${MAX_OTT_FILE_MB} MB</div><input id="ottDeliveryFileInput" type="file" accept=".xlsx,.xls,.xlsb"><br><button class="btn primary" id="ottDeliveryUploadBtn">Upload / Replace Delivery OTT</button><div class="data-upload-status" id="ottDeliveryUploadStatus"></div></div>
+    <div class="dept-card"><h3>Lock Plan OTT</h3><div class="meta">Workbook: <b>Lock Plan OTT_2026-2027.xlsx</b><br>Sheet: <b>Data</b><br>Maximum: ${MAX_OTT_FILE_MB} MB</div><input id="ottLockFileInput" type="file" accept=".xlsx,.xls,.xlsb"><br><button class="btn primary" id="ottLockUploadBtn">Upload / Replace Lock Plan OTT</button><div class="data-upload-status" id="ottLockUploadStatus"></div></div>
+    <div class="dept-card data-auto-card"><h3>Overall OTT</h3><div class="meta"><b>No separate upload required.</b><br>Overall OTT is generated automatically from the five OTT source files above.</div><div style="margin-top:16px"><span class="status-pill">Auto-generated</span></div></div>`;
+
+  const adminUploads=state.profile?.role==='admin'
+    ?`<div class="data-upload-section kpi-upload">
+        <div class="data-upload-heading"><div><h3>KPI Board Data Upload</h3><p>All KPI Board source files and target file are managed here.</p></div><span class="data-upload-count">8 upload sources</span></div>
+        <div class="dept-upload-grid">${kpiUploadCards}</div>
+      </div>
+      <div class="data-upload-section ott-upload">
+        <div class="data-upload-heading"><div><h3>OTT Board Data Upload</h3><p>Upload the five OTT source files here. Overall OTT is calculated automatically.</p></div><span class="data-upload-count">5 upload sources + Overall auto</span></div>
+        <div class="dept-upload-grid">${ottUploadCards}</div>
+      </div>`
+    :`<div class="alert">Viewer access: source-file upload is restricted to Admin users. Current dataset status is shown below.</div>`;
+
+  const kpiStatus=`
+    ${statusCard('Dyeing',dyeMeta?.fileName,dyeMeta?.uploadedAt,dyeMeta?.dateFrom&&dyeMeta?.dateTo?`${dyeMeta.dateFrom} → ${dyeMeta.dateTo}`:'',[
+      `Date/Buyer ${(d.sheets?.Dyeing_Date_Buyer||[]).length} rows`,`Date ${(d.sheets?.Dyeing_Date||[]).length} rows`
+    ])}
+    ${statusCard('Knitting',knitMeta?.fileName,knitMeta?.uploadedAt,knitMeta?.dateFrom&&knitMeta?.dateTo?`${knitMeta.dateFrom} → ${knitMeta.dateTo}`:'',[
+      `Date ${(d.sheets?.Knitting_Date||[]).length} rows`,`Date/Buyer ${(d.sheets?.Knitting_Date_Buyer||[]).length} rows`
+    ],knitMeta?.buyerEvenAllocation?'Buyer allocation currently detected as equal/draft.':'')}
+    ${statusCard('Finishing',finMeta?.fileName,finMeta?.uploadedAt,finMeta?.dateFrom&&finMeta?.dateTo?`${finMeta.dateFrom} → ${finMeta.dateTo}`:'',[
+      `Date ${(d.sheets?.Finishing_Date||[]).length} rows`
+    ])}
+    ${statusCard('Delivery',delMeta?.fileName,delMeta?.uploadedAt,delMeta?.dateFrom&&delMeta?.dateTo?`${delMeta.dateFrom} → ${delMeta.dateTo}`:'',[
+      `Date ${(d.sheets?.Delivery_Date||[]).length} rows`,`Date/Buyer ${(d.sheets?.Delivery_Date_Buyer||[]).length} rows`
+    ],delMeta?.buyerEvenAllocation?'Buyer allocation currently detected as equal/draft.':'')}
+    ${statusCard('Yarn Dyeing',ydMeta?.fileName,ydMeta?.uploadedAt,ydMeta?.dateFrom&&ydMeta?.dateTo?`${ydMeta.dateFrom} → ${ydMeta.dateTo}`:'',[
+      `Date ${(d.sheets?.YD_Date||[]).length} rows`,`Date/Buyer ${(d.sheets?.YD_Date_Buyer||[]).length} rows`
+    ])}
+    ${statusCard('Chemical Lab',chemMeta?.fileName,chemMeta?.uploadedAt,chemMeta?.dateFrom&&chemMeta?.dateTo?`${chemMeta.dateFrom} → ${chemMeta.dateTo}`:'',[
+      `C_Lab_Date ${(d.sheets?.C_Lab_Date||[]).length} rows`
+    ])}
+    ${statusCard('ETL',etlMeta?.fileName,etlMeta?.uploadedAt,etlMeta?.dateFrom&&etlMeta?.dateTo?`${etlMeta.dateFrom} → ${etlMeta.dateTo}`:'',[
+      `ETL_Date ${(d.sheets?.ETL_Date||[]).length} rows`
+    ])}
+    ${statusCard('Target',targetMeta?.fileName,targetMeta?.uploadedAt,'',[
+      `${(d.targets||[]).length} active targets`
+    ])}`;
+
+  const ottStatusCard=(tab)=>{
+    const cfg=OTT_CONFIG[tab],m=ott?.[cfg.key]?.meta;
+    return statusCard(cfg.label,m?.fileName,m?.uploadedAt,m?.dateFrom&&m?.dateTo?`${m.dateFrom} → ${m.dateTo}`:'',[
+      `${(m?.rows||0).toLocaleString()} checks`,`${(m?.bookings||0).toLocaleString()} bookings`
+    ])
+  };
+  const loadedOtt=OTT_SOURCE_TABS.filter(t=>(ott?.[OTT_CONFIG[t].key]?.rows||[]).length).length;
+  const combinedRows=OTT_SOURCE_TABS.reduce((n,t)=>n+(ott?.[OTT_CONFIG[t].key]?.rows||[]).length,0);
+
+  $('#content').innerHTML=`<div class="section-title"><h2>Data Management</h2><span>Centralized upload center for KPI Board & OTT Board</span></div>
+    ${adminUploads}
+    <div class="data-current-section kpi-current">
+      <div class="data-current-head"><h3>KPI Board — Current Datasets</h3><span class="data-upload-count">Department source status</span></div>
+      <div class="data-status-grid">${kpiStatus}</div>
+    </div>
+    <div class="data-current-section ott-current">
+      <div class="data-current-head"><h3>OTT Board — Current Datasets</h3><span class="data-upload-count">${loadedOtt}/5 sources loaded</span></div>
+      <div class="data-status-grid">
+        ${ottStatusCard('ott_yarn')}
+        ${ottStatusCard('ott_knitting')}
+        ${ottStatusCard('ott_dyeing')}
+        ${ottStatusCard('ott_delivery')}
+        ${ottStatusCard('ott_lock')}
+        <div class="data-status-card data-auto-card"><b class="title">Overall OTT</b><div class="file">Auto-generated from 5 OTT sources</div><div class="meta">${combinedRows.toLocaleString()} combined event checks currently available.<br>No separate source file required.</div><div class="mini-pills"><span>${loadedOtt}/5 sources active</span></div></div>
+      </div>
+    </div>`;
+
+  if($('#dyeingUploadBtn'))$('#dyeingUploadBtn').onclick=handleDyeingUpload;
+  if($('#knittingUploadBtn'))$('#knittingUploadBtn').onclick=handleKnittingUpload;
+  if($('#finishingUploadBtn'))$('#finishingUploadBtn').onclick=handleFinishingUpload;
+  if($('#deliveryUploadBtn'))$('#deliveryUploadBtn').onclick=handleDeliveryUpload;
+  if($('#yarnDyeingUploadBtn'))$('#yarnDyeingUploadBtn').onclick=handleYarnDyeingUpload;
+  if($('#chemicalLabUploadBtn'))$('#chemicalLabUploadBtn').onclick=handleChemicalLabUpload;
+  if($('#etlUploadBtn'))$('#etlUploadBtn').onclick=handleETLUpload;
+  if($('#targetUploadBtn'))$('#targetUploadBtn').onclick=handleTargetUpload;
+
+  if($('#ottYarnUploadBtn'))$('#ottYarnUploadBtn').onclick=()=>handleOTTUpload('ott_yarn','ottYarnFileInput','ottYarnUploadStatus');
+  if($('#ottKnittingUploadBtn'))$('#ottKnittingUploadBtn').onclick=()=>handleOTTUpload('ott_knitting','ottKnittingFileInput','ottKnittingUploadStatus');
+  if($('#ottDyeingUploadBtn'))$('#ottDyeingUploadBtn').onclick=()=>handleOTTUpload('ott_dyeing','ottDyeingFileInput','ottDyeingUploadStatus');
+  if($('#ottDeliveryUploadBtn'))$('#ottDeliveryUploadBtn').onclick=()=>handleOTTUpload('ott_delivery','ottDeliveryFileInput','ottDeliveryUploadStatus');
+  if($('#ottLockUploadBtn'))$('#ottLockUploadBtn').onclick=()=>handleOTTUpload('ott_lock','ottLockFileInput','ottLockUploadStatus');
+}
 function render(){if(!state.data)return;destroyCharts();applyMenuPermissions();syncBuyerOptions(false);const isOtt=OTT_TABS.includes(state.tab),special=['data','users'].includes(state.tab)||isOtt;$('.toolbar').classList.toggle('hidden',special);$('#exportBtn').classList.toggle('hidden',special);
   const isOverview=state.tab==='overview';
   $('.toolbar')?.classList.toggle('overview-toolbar',isOverview);
