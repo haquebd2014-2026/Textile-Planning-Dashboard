@@ -1972,6 +1972,106 @@ body.dark-mode .lpd-row-popup-meta b{color:#d8eee5}
   .lpd-row-popup-meta{grid-template-columns:repeat(2,minmax(0,1fr))}
 }
 
+
+/* ================= v41 management refinements ================= */
+.lock-first-report-grid{
+  display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;margin-top:8px
+}
+.lock-first-report-grid>.panel,.lock-first-report-grid>.lock-report-card{margin:0;min-width:0}
+.lock-first-report-grid .chart-wrap{height:240px!important}
+
+.lock-report-card{min-width:0;position:relative}
+.lock-report-title{
+  display:flex!important;align-items:center;justify-content:space-between;gap:8px
+}
+.lock-report-title span{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.lpd-table-fs-btn{
+  flex:none;width:27px;height:25px;border:1px solid rgba(255,255,255,.55);border-radius:5px;
+  background:rgba(255,255,255,.12);color:#fff;font-size:13px;cursor:pointer
+}
+.lock-report-card .table-wrap{overflow:auto!important}
+.lock-report-card table{width:100%!important;table-layout:fixed!important}
+.lock-report-card table th,.lock-report-card table td{
+  padding:5px 6px!important;font-size:8.2px!important;line-height:1.2!important;
+  white-space:normal!important;overflow-wrap:anywhere!important
+}
+.lock-report-card table th:first-child,.lock-report-card table td:first-child{width:39%;text-align:left!important}
+.lock-report-card table th:not(:first-child),.lock-report-card table td:not(:first-child){text-align:center!important}
+.lock-report-card.table-fullscreen{
+  position:fixed!important;inset:12px!important;z-index:6100!important;background:var(--card)!important;
+  box-shadow:0 25px 70px rgba(0,0,0,.32)!important;border-radius:10px!important;display:flex!important;flex-direction:column!important
+}
+.lock-report-card.table-fullscreen .table-wrap{max-height:none!important;flex:1!important}
+.lock-report-card.table-fullscreen table th,.lock-report-card.table-fullscreen table td{font-size:13px!important;padding:9px 10px!important}
+body.lpd-table-modal-open{overflow:hidden!important}
+
+.lock-event-only .select-col{width:30px!important;text-align:center!important}
+.lock-event-only .lpd-row-select,#lpdSelectAllRows{width:14px!important;height:14px!important;accent-color:#2e6be6}
+.lock-event-only tbody tr.meeting-selected td{
+  background:#fff2a8!important;color:#172019!important;font-weight:800!important;
+  box-shadow:inset 0 1px #e2bb00,inset 0 -1px #e2bb00
+}
+body.dark-mode .lock-event-only tbody tr.meeting-selected td{background:#695c18!important;color:#fff!important}
+#lpdEventTableWrap.meeting-focus tbody tr:not(.meeting-selected){opacity:.18}
+#lpdEventTableWrap.meeting-focus tbody tr.meeting-selected td{font-size:9.5px!important;padding-top:7px!important;padding-bottom:7px!important}
+.lpd-meeting-tools{
+  display:flex;align-items:center;gap:7px;flex-wrap:wrap;padding:7px 8px;margin-bottom:6px;
+  border:1px solid var(--line);border-radius:6px;background:var(--soft);font-size:8.5px
+}
+.lpd-meeting-tools label{display:flex;align-items:center;gap:5px;font-weight:700;color:#38534a}
+.lpd-meeting-tools #lpdSelectedCount{margin-right:auto;color:var(--muted);font-weight:700}
+.lpd-meeting-tools .btn{height:28px;padding:0 9px;font-size:8px}
+.lpd-meeting-modal{
+  position:fixed;inset:0;z-index:6500;background:rgba(10,24,20,.62);padding:15px;
+  display:flex;align-items:center;justify-content:center
+}
+.lpd-meeting-modal.hidden{display:none!important}
+.lpd-meeting-card{
+  width:calc(100vw - 30px);height:calc(100vh - 30px);background:var(--card);border-radius:10px;
+  overflow:hidden;display:flex;flex-direction:column;box-shadow:0 28px 80px rgba(0,0,0,.38)
+}
+.lpd-meeting-head{
+  display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 15px;
+  background:linear-gradient(90deg,#075d45,#17738d);color:#fff
+}
+.lpd-meeting-head h3{margin:0;color:#fff;font:700 19px Georgia,serif}
+.lpd-meeting-head span{font-size:9px;color:#d5f0e8}
+.lpd-meeting-head button{
+  width:34px;height:34px;border-radius:50%;border:1px solid rgba(255,255,255,.5);
+  background:rgba(255,255,255,.12);color:#fff;font-size:20px;cursor:pointer
+}
+.lpd-meeting-body{padding:10px;overflow:auto;flex:1}
+.lpd-meeting-table-wrap{overflow:auto;height:100%}
+.lpd-meeting-table-wrap table{width:max-content;min-width:100%;border-collapse:collapse}
+.lpd-meeting-table-wrap th{
+  position:sticky;top:0;background:#173f59;color:#fff;padding:10px 12px;font-size:12px;white-space:nowrap
+}
+.lpd-meeting-table-wrap td{padding:10px 12px;font-size:13px;white-space:nowrap;border-bottom:1px solid var(--line)}
+
+.lpd-ott-section{margin-top:11px;border-top:1px solid var(--line);padding-top:10px}
+.lpd-ott-section>.label{font-size:8px;font-weight:900;letter-spacing:.55px;color:#155f7d;margin-bottom:6px}
+.lpd-ott-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}
+.lpd-ott-card{border:1px solid var(--line);border-radius:7px;padding:7px 8px;background:var(--bg)}
+.lpd-ott-card>b{display:block;color:#17493c;font-size:10px;margin-bottom:5px}
+.lpd-ott-card .no-data{font-size:8px;color:var(--muted)}
+.lpd-ott-event{border-top:1px dashed var(--line);padding:5px 0;font-size:8px;line-height:1.4}
+.lpd-ott-event:first-of-type{border-top:0}
+.lpd-ott-event strong,.lpd-ott-event span{display:block}
+.lpd-ott-event.pass strong{color:#087252}.lpd-ott-event.fail strong{color:#c94431}
+.lpd-ott-event span b{display:inline;color:inherit}
+
+.lock-filter-grid,.ott-filter-grid{align-items:end}
+@media(max-width:900px){
+  .lock-first-report-grid{grid-template-columns:1fr}
+  .lpd-ott-grid{grid-template-columns:1fr}
+}
+
+/* KPI filter order / compact month */
+#kpiMonthFilter{min-width:150px}
+
+/* Filter panels: first controls are month and dates */
+.lock-filter-grid .filter-group,.ott-filter-grid .filter-group{min-width:0}
+
 </style></head><body><div id="app" class="hidden"><div class="app-sticky-header"><div class="top-accent"></div><header class="header"><div class="header-left"><div class="brand-mark">TP</div><div><div class="brand-title">Textile Planning Dashboard</div><div class="brand-sub">Planning, Monitoring & Control</div></div></div><div class="header-actions"><div class="utility-tools"><button class="tool-btn stopwatch-btn" id="stopwatchBtn" title="Click to start/pause • Double-click to reset">⏱ <span id="stopwatchText">00:00</span></button><button class="tool-btn" id="fullscreenBtn" title="Enter full screen">⛶ Full</button><button class="tool-btn" id="themeBtn" title="Switch dark/light mode">☾ Dark</button></div><span class="greeting" id="greeting">Good morning</span><button class="btn" id="exportBtn">Export CSV</button><button class="btn" id="signOutBtn">Sign out</button><button class="btn primary" id="refreshBtn">Refresh</button></div></header><nav class="nav">
   <div class="kpi-menu-wrap" id="kpiMenuWrap">
     <button class="kpi-menu-toggle active" id="kpiBoardBtn" type="button">KPI Board <span class="kpi-menu-arrow">⌄</span></button>
@@ -2008,10 +2108,11 @@ body.dark-mode .lpd-row-popup-meta b{color:#d8eee5}
   <button data-tab="data" class="main-nav-btn">Data Management</button>
   <button data-tab="users" class="main-nav-btn">User Management</button>
 </nav></div><main class="page"><section class="toolbar"><div class="kpi-toolbar-head hidden" id="kpiToolbarHead"></div><div class="filters">
-  <div class="filter-group" id="searchFilterGroup"><span class="mini-label">Search</span><input id="search" placeholder="buyer, value..."></div>
+  <div class="filter-group" id="monthFilterGroup"><span class="mini-label">Month</span><select id="kpiMonthFilter"><option value="">All months</option></select></div>
+  <div class="filter-group"><span class="mini-label">Date Range — From</span><input id="fromDate" type="date"></div>
+  <div class="filter-group"><span class="mini-label">Date Range — To</span><input id="toDate" type="date"></div>
   <div class="filter-group" id="buyerFilterGroup"><span class="mini-label">Buyer</span><select id="buyerFilter"><option value="">All buyers</option></select></div>
-  <div class="filter-group"><span class="mini-label">From</span><input id="fromDate" type="date"></div>
-  <div class="filter-group"><span class="mini-label">To</span><input id="toDate" type="date"></div>
+  <div class="filter-group" id="searchFilterGroup"><span class="mini-label">Search</span><input id="search" placeholder="buyer, value..."></div>
   <div class="filter-group snapshot-inline-group" id="overviewSnapshotGroup"><button class="overview-snapshot-open snapshot-inline-btn" id="overviewSnapshotBtn" type="button" title="Open management Overview snapshot" aria-label="Open Overview snapshot">▣</button></div>
   <div class="filter-group"><span class="mini-label">Filters</span><button class="btn" id="resetBtn">Reset all</button></div>
   <div class="filter-group"><span class="mini-label">Dataset</span><span class="status-pill">Live data</span></div>
@@ -2180,7 +2281,8 @@ const DEFAULT_PERMISSIONS={
 const state={
   data:null,filtered:null,tab:'overview',charts:[],profile:null,userList:[],editingUserId:null,ydViewMode:'date',
   ottFilters:{_initialized:false,bookingAll:true,bookings:[],buyer:[],result:'',failReason:[],relatedDept:[],floor:[],type:'',month:['__RUNNING__'],from:'',to:''},
-  lockDetailFilters:{_initialized:false,event:[],booking:[],floor:[],pmc:[],buyer:[],lockPlan:'',otd:[],reason:[],responsible:[],month:[],week:[],status:[]}
+  lockDetailFilters:{_initialized:false,event:[],booking:[],floor:[],pmc:[],buyer:[],lockPlanFrom:'',lockPlanTo:'',otd:[],reason:[],responsible:[],month:[],week:[],status:[]},
+  greetingTimer:null
 };
 const $=s=>document.querySelector(s); const $$=s=>[...document.querySelectorAll(s)];
 const safeNum=v=>{if(v===null||v===undefined||v===''||String(v).trim().startsWith('#'))return null;if(typeof v==='number')return Number.isFinite(v)?v:null;let s=String(v).trim().replace(/,/g,'');if(!s)return null;if(s.endsWith('%')){const n=parseFloat(s.slice(0,-1));return Number.isFinite(n)?n/100:null}const n=Number(s);return Number.isFinite(n)?n:null};
@@ -2437,8 +2539,49 @@ function dyeingDateRows(){return currentDateRows('Dyeing_Date')}
 function filteredBuyers(){let rows=(state.data?.sheets?.['Buyer Wise data']||[]).slice();const q=($('#search')?.value||'').trim().toLowerCase();const buyer=$('#buyerFilter')?.value||'';if(q)rows=rows.filter(r=>Object.values(r).some(v=>String(v??'').toLowerCase().includes(q)));if(buyer)rows=rows.filter(r=>r.Buyer===buyer);return rows}
 function allDateValues(){return ['Dyeing_Date_Buyer','Dyeing_Date','Knitting_Date_Buyer','Knitting_Date','Finishing_Date','Delivery_Date_Buyer','Delivery_Date','YD_Date_Buyer','YD_Date','C_Lab_Date','ETL_Date','Dyeing','Knitting','Finishing','FFS'].flatMap(s=>(state.data?.sheets?.[s]||[]).map(r=>r.Date).filter(Boolean)).sort()}
 function buyerSource(){return state.tab==='dyeing'?(state.data?.sheets?.['Dyeing_Date_Buyer']||[]):state.tab==='knitting'?(state.data?.sheets?.['Knitting_Date_Buyer']||[]):state.tab==='delivery'?(state.data?.sheets?.['Delivery_Date_Buyer']||[]):state.tab==='yarn'?(state.data?.sheets?.['YD_Date_Buyer']||[]):state.tab==='chemical'?[]:state.tab==='etl'?[]:state.tab==='finishing'?[]:(state.data?.sheets?.['Buyer Wise data']||[])}
-function syncBuyerOptions(reset=false){const sel=$('#buyerFilter');if(!sel)return;const cur=reset?'':sel.value;const buyers=[...new Set(buyerSource().map(r=>String(r.Buyer||'').trim()).filter(Boolean))].sort((a,b)=>a.localeCompare(b));sel.innerHTML='<option value="">All buyers</option>'+buyers.map(b=>`<option value="${esc(b)}">${esc(b)}</option>`).join('');if(!reset&&buyers.includes(cur))sel.value=cur;else sel.value=''}
-function setFilterDefaults(){const dated=allDateValues();if(dated.length){$('#fromDate').value=dated[0];$('#toDate').value=dated[dated.length-1]}syncBuyerOptions(true)}
+
+function syncBuyerOptions(reset=false){
+  const sel=$('#buyerFilter');if(!sel)return;
+  const cur=reset?'':sel.value,f=$('#fromDate')?.value||'',t=$('#toDate')?.value||'';
+  let rows=buyerSource().slice();
+  if(rows.length&&'Date' in rows[0])rows=rows.filter(r=>(!f||r.Date>=f)&&(!t||r.Date<=t));
+  const buyers=[...new Set(rows.map(r=>String(r.Buyer||'').trim()).filter(Boolean))].sort((a,b)=>a.localeCompare(b));
+  sel.innerHTML='<option value="">All buyers</option>'+buyers.map(b=>`<option value="${esc(b)}">${esc(b)}</option>`).join('');
+  if(!reset&&buyers.includes(cur))sel.value=cur;else sel.value=''
+}
+
+function kpiMonthValues(){
+  return[...new Set(allDateValues().filter(d=>/^\d{4}-\d{2}-\d{2}$/.test(d)).map(d=>d.slice(0,7)))].sort()
+}
+function kpiMonthLabel(key){
+  const d=new Date(key+'-01T00:00:00');return isNaN(d)?key:d.toLocaleDateString(undefined,{month:'long',year:'numeric'})
+}
+function syncKpiMonthOptions(reset=false){
+  const sel=$('#kpiMonthFilter');if(!sel)return;
+  const months=kpiMonthValues(),cur=reset?'':sel.value;
+  sel.innerHTML='<option value="">All months</option>'+months.map(m=>`<option value="${m}">${esc(kpiMonthLabel(m))}</option>`).join('');
+  if(!reset&&months.includes(cur))sel.value=cur;
+}
+function applyKpiMonthRange(key){
+  if(!key)return;
+  const [y,m]=key.split('-').map(Number),first=new Date(y,m-1,1),last=new Date(y,m,0),now=new Date(),yesterday=new Date(now);
+  yesterday.setDate(now.getDate()-1);yesterday.setHours(0,0,0,0);
+  if(y===now.getFullYear()&&m===now.getMonth()+1&&last>yesterday)last.setTime(yesterday.getTime());
+  $('#fromDate').value=ottLocalISO(first);$('#toDate').value=ottLocalISO(last)
+}
+
+
+function setFilterDefaults(){
+  const months=kpiMonthValues(),nowKey=`${new Date().getFullYear()}-${String(new Date().getMonth()+1).padStart(2,'0')}`,
+        selected=months.includes(nowKey)?nowKey:(months.slice(-1)[0]||'');
+  syncKpiMonthOptions(true);
+  if($('#kpiMonthFilter'))$('#kpiMonthFilter').value=selected;
+  if(selected)applyKpiMonthRange(selected);
+  else{
+    const dated=allDateValues();if(dated.length){$('#fromDate').value=dated[0];$('#toDate').value=dated[dated.length-1]}
+  }
+  syncBuyerOptions(true)
+}
 function groupDyeingByDate(rows){const map=new Map();for(const r of rows){if(!r.Date)continue;if(!map.has(r.Date))map.set(r.Date,[]);map.get(r.Date).push(r)}return [...map.entries()].sort((a,b)=>a[0].localeCompare(b[0])).map(([Date,rs])=>{const o={Date};for(const k of DYEING_DAILY_SUM_FIELDS)o[k]=sum(rs,k);o['On Time Target']=avg(rs,'On Time Target');return o})}
 function buyerDyeingSummary(rows){const map=new Map();for(const r of rows){const b=String(r.Buyer||'').trim();if(!b)continue;if(!map.has(b))map.set(b,[]);map.get(b).push(r)}return [...map.entries()].map(([Buyer,rs])=>({Buyer,'Total Production':sum(rs,'Prod. (EFL)')+sum(rs,'Prod. (EKL+Ext)')+sum(rs,'Pluvia'),'Prod. (EFL)':sum(rs,'Prod. (EFL)'),'Prod. (EKL+Ext)':sum(rs,'Prod. (EKL+Ext)'),Pluvia:sum(rs,'Pluvia'),'Capacity Utilization (EFL)':avg(rs,'Capacity Utilization (EFL)'),'Capacity Utilization (EKL+Ext)':avg(rs,'Capacity Utilization (EKL+Ext)'),'On Time Target':avg(rs,'On Time Target')})).sort((a,b)=>b['Total Production']-a['Total Production'])}
 const esc=s=>String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]));
@@ -3118,8 +3261,9 @@ function ottTopCounts(rows,key,n=10){
   return ottGroup(rows.filter(r=>r.Result==='Fail'&&ottClean(r[key])),key).sort((a,b)=>b.count-a.count).slice(0,n)
 }
 
-function ottBookingPickerHTML(tab){
-  const opts=ottBookingOptions('ott_booking'),f=state.ottFilters,all=!!f.bookingAll,
+
+function ottBookingPickerHTML(tab,options=null){
+  const opts=options||ottBookingOptions('ott_booking'),f=state.ottFilters,all=!!f.bookingAll,
         sel=new Set((f.bookings||[]).map(ottBookingKey));
   const checkedCount=all?opts.length:opts.filter(b=>sel.has(ottBookingKey(b))).length;
   const summary=all?`All ${opts.length.toLocaleString()} bookings selected`:`${checkedCount.toLocaleString()} booking${checkedCount===1?'':'s'} selected`;
@@ -3130,7 +3274,6 @@ function ottBookingPickerHTML(tab){
       <div class="ott-booking-actions"><span class="muted" id="ottBookingCount">${checkedCount.toLocaleString()} selected</span><div><button class="btn" id="ottBookingSelectAll" type="button">Select all</button> <button class="btn" id="ottBookingClear" type="button">Clear</button> <button class="btn primary" id="ottBookingApply" type="button">Apply</button></div></div>
     </div></details>`
 }
-
 function ottMultiPickerHTML(id,label,values,current){
   const selected=new Set(ottAsList(current).map(ottNorm)),all=selected.size===0;
   const summary=all?'All':`${selected.size} selected`;
@@ -3162,38 +3305,92 @@ function ottSelectHTML(id,label,values,current,disabled=false){
 }
 
 
+
+function ottPruneListFilter(key,valid){
+  const allowed=new Set(valid.map(ottNorm));
+  state.ottFilters[key]=ottAsList(state.ottFilters[key]).filter(v=>allowed.has(ottNorm(v)))
+}
+function ottPruneScalarFilter(key,valid){
+  const cur=state.ottFilters[key];if(!cur)return;
+  const allowed=new Set(valid.map(ottNorm));if(!allowed.has(ottNorm(cur)))state.ottFilters[key]=''
+}
+function ottDateContextRows(base){
+  const f=state.ottFilters,runningKey=ottRunningMonthKey(),months=ottAsList(f.month);
+  return base.filter(r=>{
+    if(months.length){
+      const ok=months.some(m=>m==='__RUNNING__'?(r.Plan&&r.Plan.startsWith(runningKey)):ottNorm(r.Month)===ottNorm(m));
+      if(!ok)return false
+    }
+    if(f.from&&(!r.Plan||r.Plan<f.from))return false;
+    if(f.to&&(!r.Plan||r.Plan>f.to))return false;
+    return true
+  })
+}
+function ottBookingValuesFromRows(rows){
+  return[...new Set(rows.map(r=>ottClean(r.BookingNo)).filter(Boolean))].sort((a,b)=>a.localeCompare(b,undefined,{numeric:true,sensitivity:'base'}))
+}
+
+
 function ottFilterPanel(tab){
   ottEnsureDefaults(tab);
-  const cfg=OTT_CONFIG[tab],base=ottRowsWithDept(tab),f=state.ottFilters,bookingPage=tab==='ott_booking';
-  const buyers=ottCanonicalOptions(base,'Buyer'),reasons=ottCanonicalOptions(base.filter(r=>r.FailReason),'FailReason'),
-        related=ottCanonicalOptions(base.filter(r=>r.RelatedDept),'RelatedDept'),
-        floors=ottCanonicalOptions(base.filter(r=>r.Floor),'Floor'),types=ottCanonicalOptions(base,'Type'),months=ottCanonicalOptions(base,'Month');
+  const cfg=OTT_CONFIG[tab],base=ottRowsWithDept(tab),f=state.ottFilters,bookingPage=tab==='ott_booking',
+        months=ottCanonicalOptions(base,'Month');
   const noFloor=!bookingPage&&tab!=='ott_overall'&&!cfg.hasFloor;
   const meta=bookingPage
     ?`${ottBookingOptions('ott_booking').length.toLocaleString()} unique bookings combined from 5 OTT sources`
     :tab==='ott_overall'
       ?`${base.length.toLocaleString()} checks combined from 5 OTT sources`
       :`${base.length.toLocaleString()} checks • ${(state.data?.ottSources?.[cfg.key]?.meta?.bookings||0).toLocaleString()} bookings`;
+
+  let stage=ottDateContextRows(base);
+
+  const bookingOpts=ottBookingValuesFromRows(stage);
+  if(bookingPage&&!f.bookingAll){
+    const allowed=new Set(bookingOpts.map(ottBookingKey));
+    f.bookings=(f.bookings||[]).filter(b=>allowed.has(ottBookingKey(b)));
+    if(!f.bookings.length)f.bookingAll=true
+  }
+  if(bookingPage&&!f.bookingAll){
+    const selected=new Set((f.bookings||[]).map(ottBookingKey));
+    stage=stage.filter(r=>selected.has(ottBookingKey(r.BookingNo)))
+  }
+
+  const buyers=ottCanonicalOptions(stage,'Buyer');ottPruneListFilter('buyer',buyers);
+  stage=stage.filter(r=>ottMultiMatch(r.Buyer,f.buyer));
+
+  const results=ottCanonicalOptions(stage,'Result');ottPruneScalarFilter('result',results);
+  if(f.result)stage=stage.filter(r=>ottNorm(r.Result)===ottNorm(f.result));
+
+  const reasons=ottCanonicalOptions(stage.filter(r=>r.FailReason),'FailReason');ottPruneListFilter('failReason',reasons);
+  stage=stage.filter(r=>ottMultiMatch(r.FailReason,f.failReason));
+
+  const related=ottCanonicalOptions(stage.filter(r=>r.RelatedDept),'RelatedDept');ottPruneListFilter('relatedDept',related);
+  stage=stage.filter(r=>ottMultiMatch(r.RelatedDept,f.relatedDept));
+
+  const floors=ottCanonicalOptions(stage.filter(r=>r.Floor),'Floor');ottPruneListFilter('floor',floors);
+  if(ottAsList(f.floor).length)stage=stage.filter(r=>['knitting','yarn'].includes(r.DepartmentKey)||ottMultiMatch(r.Floor,f.floor));
+
+  const types=ottCanonicalOptions(stage,'Type');ottPruneScalarFilter('type',types);
+
   return `<div class="ott-filter-panel">
     <div class="ott-filter-head"><div><h2>${esc(cfg.label)}</h2><div class="meta">${esc(meta)} • Source upload is managed from Data Management</div></div>
       <div class="ott-filter-actions"><button class="btn" id="ottCsvBtn" type="button">Export CSV</button><button class="btn primary" id="ottSnapshotBtn" type="button">▣ Management View</button></div></div>
     <div class="ott-filter-grid">
-      ${bookingPage?`<div class="filter-group wide"><span class="mini-label">Booking No. (single / multiple)</span>${ottBookingPickerHTML(tab)}</div>`:''}
+      ${ottMonthPickerHTML(base,months,f.month)}
+      <div class="filter-group"><span class="mini-label">Date Range — From</span><input id="ottFrom" type="date" value="${esc(f.from||'')}"></div>
+      <div class="filter-group"><span class="mini-label">Date Range — To</span><input id="ottTo" type="date" value="${esc(f.to||'')}"></div>
+      ${bookingPage?`<div class="filter-group wide"><span class="mini-label">Booking No. (single / multiple)</span>${ottBookingPickerHTML(tab,bookingOpts)}</div>`:''}
       ${ottMultiPickerHTML('ottBuyer','Buyer',buyers,f.buyer)}
-      ${ottSelectHTML('ottResult','Result',['Pass','Fail'],f.result)}
+      ${ottSelectHTML('ottResult','Result',results,f.result)}
       ${ottMultiPickerHTML('ottFailReason','Fail Reason',reasons,f.failReason)}
       ${ottMultiPickerHTML('ottRelatedDept','Related Dept.',related,f.relatedDept)}
       ${ottMultiPickerHTML('ottFloor','Floor',floors,f.floor)}
       ${ottSelectHTML('ottType','Type',types,f.type)}
-      ${ottMonthPickerHTML(base,months,f.month)}
-      <div class="filter-group"><span class="mini-label">Date Range — From</span><input id="ottFrom" type="date" value="${esc(f.from||'')}"></div>
-      <div class="filter-group"><span class="mini-label">Date Range — To</span><input id="ottTo" type="date" value="${esc(f.to||'')}"></div>
       <div class="filter-group"><span class="mini-label">Filters</span><button class="btn" id="ottResetBtn" type="button">Reset all</button></div>
     </div>
-    <div class="ott-filter-note">Month supports <b>multiple selection</b>. Selecting month(s) automatically sets the Date Range to the first day of the earliest selected month through the last day of the latest selected month; for the running month, the end date is <b>yesterday</b>. ${noFloor?'<span class="ott-floor-note">Floor is not available in this source, so Floor filtering does not affect this dashboard.</span>':(tab==='ott_overall'||bookingPage)?'<span class="ott-floor-note">Floor applies to Dyeing / Delivery / Lock Plan only; Knitting and Yarn Dyeing remain included.</span>':''}</div>
+    <div class="ott-filter-note"><b>Filter sequence:</b> Month → Date Range → remaining filters. Each filter only lists values still valid after the filters before it. Month supports multiple selection; for the running month, the automatic end date is yesterday. ${noFloor?'<span class="ott-floor-note">Floor is not available in this source.</span>':(tab==='ott_overall'||bookingPage)?'<span class="ott-floor-note">Floor applies to Dyeing / Delivery / Lock Plan only; Knitting and Yarn Dyeing remain included.</span>':''}</div>
   </div>`
 }
-
 function ottBindFilters(tab){
   const base=ottRowsWithDept(tab);
   const map={ottResult:'result',ottType:'type',ottFrom:'from',ottTo:'to'};
@@ -4315,20 +4512,21 @@ function lpdQty(v){
   if(Number.isFinite(n))return Math.round(n).toLocaleString();
   return String(v)
 }
+
 function lpdWeekFY(plan,weekRaw,monthSource=''){
-  const w=lpdClean(weekRaw);if(!w)return'';
-  let year='';
-  if(plan&&/^\d{4}-/.test(plan))year=plan.slice(0,4);
-  if(!year){
-    const m=String(monthSource||'').match(/(?:^|\D)(20)?(\d{2})(?:\D|$)/);
-    if(m)year=m[1]?`${m[1]}${m[2]}`:`20${m[2]}`
+  const raw=lpdClean(weekRaw);if(!raw)return'';
+  const wm=String(raw).match(/W\s*0*(\d{1,2})/i)||String(raw).match(/(?:^|\D)0*(\d{1,2})(?:\D|$)/);
+  if(!wm)return raw;
+  const week=String(Number(wm[1])).padStart(2,'0');
+  let d=plan&&/^\d{4}-\d{2}-\d{2}$/.test(plan)?new Date(plan+'T00:00:00'):null;
+  if(!d||isNaN(d)){
+    const ms=String(monthSource||'').match(/(20\d{2})/);
+    if(ms)d=new Date(Number(ms[1]),6,1)
   }
-  if(!year)year=String(new Date().getFullYear());
-  const normalized=/^W/i.test(w)?w.toUpperCase():`W${w}`;
-  return`FY${year}-${normalized}`
+  if(!d||isNaN(d))d=new Date();
+  const y=d.getFullYear(),m=d.getMonth()+1,start=m>=7?y:y-1,end=(start+1)%100;
+  return`FY${start}-${String(end).padStart(2,'0')}-W${week}`
 }
-
-
 function normalizeLockPlanDetailsWorkbook(wb){
   const sn=LOCK_PLAN_DETAILS_SHEET;if(!wb.SheetNames.includes(sn))throw new Error(`Missing sheet: ${sn}`);
   const raw=XLSX.utils.sheet_to_json(wb.Sheets[sn],{defval:null,raw:true}).filter(r=>Object.values(r).some(v=>v!==null&&v!==''));
@@ -4365,10 +4563,18 @@ function normalizeLockPlanDetailsWorkbook(wb){
   events.sort((a,b)=>(a.LockPlan||'9999').localeCompare(b.LockPlan||'9999')||a.BookingNo.localeCompare(b.BookingNo,undefined,{numeric:true}));
   return events
 }
-function lpdEvents(){return state.data?.lockPlanDetails?.events||[]}
+function lpdEvents(){
+  return (state.data?.lockPlanDetails?.events||[]).map(r=>{
+    const sourceWeek=r.WeekRaw||r.Week||'';
+    const normalizedWeek=lpdWeekFY(r.LockPlan||null,sourceWeek,r.MonthSource||'');
+    return normalizedWeek===r.Week?r:{...r,Week:normalizedWeek}
+  })
+}
+
 function lpdDefaultFilters(){
-  const key=`${new Date().getFullYear()}-${String(new Date().getMonth()+1).padStart(2,'0')}`;
-  return{_initialized:true,event:[],booking:[],floor:[],pmc:[],buyer:[],lockPlan:'',otd:[],reason:[],responsible:[],month:[key],week:[],status:[]}
+  const now=new Date(),key=`${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}`,first=new Date(now.getFullYear(),now.getMonth(),1),yesterday=new Date(now);
+  yesterday.setDate(now.getDate()-1);yesterday.setHours(0,0,0,0);
+  return{_initialized:true,event:[],booking:[],floor:[],pmc:[],buyer:[],lockPlanFrom:ottLocalISO(first),lockPlanTo:ottLocalISO(yesterday),otd:[],reason:[],responsible:[],month:[key],week:[],status:[]}
 }
 function lpdEnsureFilters(){
   if(!state.lockDetailFilters||!state.lockDetailFilters._initialized)state.lockDetailFilters=lpdDefaultFilters()
@@ -4389,19 +4595,53 @@ function lpdMonthOptions(rows){
   })
 }
 
+
+function lpdMonthRange(selected){
+  const list=lpdList(selected),all=lpdEvents();if(!list.length)return{from:'',to:''};
+  const now=new Date(),yesterday=new Date(now);yesterday.setDate(now.getDate()-1);yesterday.setHours(0,0,0,0);
+  const windows=[];
+  list.forEach(key=>{
+    if(/^\d{4}-\d{2}$/.test(key)){
+      const [y,m]=key.split('-').map(Number),first=new Date(y,m-1,1),last=new Date(y,m,0);
+      if(y===now.getFullYear()&&m===now.getMonth()+1&&last>yesterday)last.setTime(yesterday.getTime());
+      windows.push({from:ottLocalISO(first),to:ottLocalISO(last)})
+    }else{
+      const plans=all.filter(r=>r.MonthKey===key&&r.LockPlan).map(r=>r.LockPlan).sort();
+      if(plans.length)windows.push({from:plans[0],to:plans[plans.length-1]})
+    }
+  });
+  if(!windows.length)return{from:'',to:''};
+  return{from:windows.map(x=>x.from).sort()[0],to:windows.map(x=>x.to).sort().slice(-1)[0]}
+}
+function lpdDateContextRows(rows){
+  const f=state.lockDetailFilters,months=lpdList(f.month);
+  return rows.filter(r=>{
+    if(months.length&&!lpdMatch(r.MonthKey,months))return false;
+    if(f.lockPlanFrom&&(!r.LockPlan||r.LockPlan<f.lockPlanFrom))return false;
+    if(f.lockPlanTo&&(!r.LockPlan||r.LockPlan>f.lockPlanTo))return false;
+    return true
+  })
+}
+function lpdPrune(key,valid){
+  const allow=new Set(valid.map(v=>String(v).toLowerCase()));
+  state.lockDetailFilters[key]=lpdList(state.lockDetailFilters[key]).filter(v=>allow.has(String(v).toLowerCase()))
+}
+function lpdClassOptions(rows){
+  return[...new Set(rows.map(lpdClassifyOTD).filter(Boolean))].sort()
+}
+
+
 function lpdFilteredRows(mode='board'){
   lpdEnsureFilters();const f=state.lockDetailFilters;
-  return lpdEvents().filter(r=>{
+  return lpdDateContextRows(lpdEvents()).filter(r=>{
     if(!lpdMatch(r.Event,f.event))return false;
     if(mode==='event'&&!lpdMatch(r.BookingNo,f.booking))return false;
     if(!lpdMatch(r.Floor,f.floor))return false;
     if(!lpdMatch(r.PMC,f.pmc))return false;
     if(!lpdMatch(r.Buyer,f.buyer))return false;
-    if(f.lockPlan&&String(r.LockPlanRaw||'')!==String(f.lockPlan))return false;
     if(!lpdMatch(lpdClassifyOTD(r),f.otd))return false;
     if(!lpdMatch(r.DetailReason,f.reason))return false;
     if(!lpdMatch(r.Responsible,f.responsible))return false;
-    if(!lpdMatch(r.MonthKey,f.month))return false;
     if(!lpdMatch(r.Week,f.week))return false;
     if(!lpdMatch(r.Status,f.status))return false;
     return true
@@ -4419,14 +4659,24 @@ function lpdPickerHTML(id,label,values,current,wide=false,display=x=>x){
     </details>
   </div>`
 }
+
 function lpdBindPicker(id,key){
   const search=$('#'+id+'Search');if(search)search.oninput=()=>{
     const q=search.value.trim().toLowerCase();$$(`#${id}List .lpd-option`).forEach(x=>x.classList.toggle('hidden',q&&!x.dataset.search.includes(q)))
   };
   const apply=$('#'+id+'Apply');if(apply)apply.onclick=()=>{
-    state.lockDetailFilters[key]=$$('.'+id+'Box').filter(x=>x.checked).map(x=>x.value);render()
+    const values=$$('.'+id+'Box').filter(x=>x.checked).map(x=>x.value);
+    state.lockDetailFilters[key]=values;
+    if(key==='month'){
+      const range=lpdMonthRange(values);state.lockDetailFilters.lockPlanFrom=range.from;state.lockDetailFilters.lockPlanTo=range.to
+    }
+    render()
   };
-  const all=$('#'+id+'All');if(all)all.onclick=()=>{state.lockDetailFilters[key]=[];render()}
+  const all=$('#'+id+'All');if(all)all.onclick=()=>{
+    state.lockDetailFilters[key]=[];
+    if(key==='month'){state.lockDetailFilters.lockPlanFrom='';state.lockDetailFilters.lockPlanTo=''}
+    render()
+  }
 }
 function lpdRateClass(rate){
   if(rate===null||!Number.isFinite(rate))return'';
@@ -4436,11 +4686,11 @@ function lpdCellClass(rate){
   if(rate===null||!Number.isFinite(rate))return'';
   return rate>=.85?'lock-pf-good':rate>=.70?'lock-pf-watch':'lock-pf-bad'
 }
+
 function lpdEventStats(rows,event=''){
-  const rs=event?rows.filter(r=>r.Event===event):rows;
-  const evalRows=rs.filter(r=>['PASS','FAIL'].includes(r.OTD)),pass=evalRows.filter(r=>r.OTD==='PASS').length,fail=evalRows.length-pass;
-  return{total:evalRows.length,pass,fail,rate:evalRows.length?pass/evalRows.length:null,
-    pending:rs.filter(r=>lpdClassifyOTD(r)==='PENDING').length,waiting:rs.filter(r=>lpdClassifyOTD(r)==='WAITING').length}
+  const rs=event?rows.filter(r=>r.Event===event):rows,pass=rs.filter(r=>r.OTD==='PASS').length,fail=rs.filter(r=>r.OTD==='FAIL').length,
+        pending=rs.filter(r=>lpdClassifyOTD(r)==='PENDING').length,waiting=rs.filter(r=>lpdClassifyOTD(r)==='WAITING').length,total=rs.length;
+  return{total,pass,fail,rate:total?pass/total:null,evaluated:pass+fail,pending,waiting}
 }
 function lpdKpi(label,value,sub,tone=''){
   return`<div class="lock-kpi ${tone}"><div class="label">${esc(label)}</div><div class="value">${value}</div><div class="sub">${sub}</div></div>`
@@ -4457,52 +4707,141 @@ function lpdEventSummaryTable(rows){
     <div class="lock-summary-strip"><div>START OTD<b>${pct(s.rate)}</b></div><div>END OTD<b>${pct(e.rate)}</b></div><div>END vs START<b>${gap===null?'—':`${gap>=0?'+':''}${(gap*100).toFixed(1)} pp`}</b></div></div>
   </div>`
 }
+
+function lpdReportTitle(title,tone=''){
+  return`<div class="lock-report-title ${tone}"><span>${esc(title)}</span><button class="lpd-table-fs-btn" type="button" title="Open table full screen" onclick="toggleLpdTableFullscreen(this)">⛶</button></div>`
+}
+function toggleLpdTableFullscreen(btn){
+  const card=btn.closest('.lock-report-card');if(!card)return;
+  const opening=!card.classList.contains('table-fullscreen');
+  $$('.lock-report-card.table-fullscreen').forEach(x=>x.classList.remove('table-fullscreen'));
+  card.classList.toggle('table-fullscreen',opening);
+  document.body.classList.toggle('lpd-table-modal-open',opening);
+  btn.textContent=opening?'×':'⛶';
+  btn.title=opening?'Exit full screen':'Open table full screen'
+}
+
+
 function lpdSimpleTable(rows,key,title,limit=10){
   const groups=lpdGroup(rows,key).filter(x=>x.label!=='(blank)').sort((a,b)=>b.total-a.total).slice(0,limit);
-  return`<div class="lock-report-card"><div class="lock-report-title purple">${esc(title)}</div><table><thead><tr><th>${esc(key)}</th><th>EVENTS</th><th>FAIL</th><th>OTD %</th></tr></thead><tbody>${groups.map(g=>`<tr><td>${esc(g.label)}</td><td>${g.total}</td><td>${g.fail}</td><td class="${lpdCellClass(g.rate)}">${pct(g.rate)}</td></tr>`).join('')||'<tr><td colspan="4">No evaluated data</td></tr>'}</tbody></table></div>`
+  return`<div class="lock-report-card">${lpdReportTitle(title,'purple')}<div class="table-wrap"><table><thead><tr><th>${esc(key)}</th><th>EVENTS</th><th>PASS</th><th>OTD %</th></tr></thead><tbody>${groups.map(g=>`<tr><td>${esc(g.label)}</td><td>${g.total}</td><td>${g.pass}</td><td class="${lpdCellClass(g.rate)}">${pct(g.rate)}</td></tr>`).join('')||'<tr><td colspan="4">No data</td></tr>'}</tbody></table></div></div>`
 }
+
 function lpdPFTable(rows,key,title,limit=12){
   const groups=lpdGroup(rows,key).filter(x=>x.label!=='(blank)').sort((a,b)=>b.total-a.total).slice(0,limit);
-  const pf=(rs,ev='')=>{const s=lpdEventStats(rs,ev);return s.total?`${s.pass}/${s.fail} ${pct(s.rate)}`:'—'};
-  return`<div class="lock-report-card"><div class="lock-report-title">${esc(title)}</div><table><thead><tr><th>${esc(key)}</th><th>START P/F %</th><th>END P/F %</th><th>TOTAL P/F %</th></tr></thead><tbody>${groups.map(g=>`<tr><td>${esc(g.label)}</td><td class="${lpdCellClass(lpdEventStats(g.rows,'START').rate)}">${pf(g.rows,'START')}</td><td class="${lpdCellClass(lpdEventStats(g.rows,'END').rate)}">${pf(g.rows,'END')}</td><td class="${lpdCellClass(g.rate)}">${pf(g.rows)}</td></tr>`).join('')||'<tr><td colspan="4">No evaluated data</td></tr>'}</tbody></table></div>`
+  const pf=(rs,ev='')=>{const s=lpdEventStats(rs,ev);return s.total?`${s.pass}/${s.total} ${pct(s.rate)}`:'—'};
+  return`<div class="lock-report-card">${lpdReportTitle(title)}<div class="table-wrap"><table><thead><tr><th>${esc(key)}</th><th>START P/T %</th><th>END P/T %</th><th>OVERALL P/T %</th></tr></thead><tbody>${groups.map(g=>`<tr><td>${esc(g.label)}</td><td class="${lpdCellClass(lpdEventStats(g.rows,'START').rate)}">${pf(g.rows,'START')}</td><td class="${lpdCellClass(lpdEventStats(g.rows,'END').rate)}">${pf(g.rows,'END')}</td><td class="${lpdCellClass(g.rate)}">${pf(g.rows)}</td></tr>`).join('')||'<tr><td colspan="4">No data</td></tr>'}</tbody></table></div></div>`
 }
+
 function lpdRootCauseTable(rows){
   const fails=rows.filter(r=>r.OTD==='FAIL'),den=fails.length,m=new Map();
   fails.forEach(r=>{const k=lpdClean(r.DetailReason);if(!k)return;m.set(k,(m.get(k)||0)+1)});
   const arr=[...m.entries()].map(([label,count])=>({label,count,share:den?count/den:0})).sort((a,b)=>b.count-a.count).slice(0,12);
-  return`<div class="lock-report-card"><div class="lock-report-title red">Root Causes / Production Action Plan</div><table><thead><tr><th>FAIL REASON</th><th>FAIL</th><th>SHARE</th></tr></thead><tbody>${arr.map(x=>`<tr><td>${esc(x.label)}</td><td><b>${x.count}</b></td><td class="lock-rate-bad">${pct(x.share)}</td></tr>`).join('')||'<tr><td colspan="3">No fail reason data</td></tr>'}</tbody></table></div>`
+  return`<div class="lock-report-card">${lpdReportTitle('Root Causes / Production Action Plan','red')}<div class="table-wrap"><table><thead><tr><th>FAIL REASON</th><th>FAIL</th><th>SHARE</th></tr></thead><tbody>${arr.map(x=>`<tr><td>${esc(x.label)}</td><td><b>${x.count}</b></td><td class="lock-rate-bad">${pct(x.share)}</td></tr>`).join('')||'<tr><td colspan="3">No fail reason data</td></tr>'}</tbody></table></div></div>`
 }
+
 function lpdResponsibleTable(rows){
   const fails=rows.filter(r=>r.OTD==='FAIL'),den=fails.length,m=new Map();
   fails.forEach(r=>{const k=lpdClean(r.Responsible);if(!k)return;m.set(k,(m.get(k)||0)+1)});
   const arr=[...m.entries()].map(([label,count])=>({label,count,share:den?count/den:0})).sort((a,b)=>b.count-a.count).slice(0,12);
-  return`<div class="lock-report-card"><div class="lock-report-title red">Responsible Department / Fail Share</div><table><thead><tr><th>RESPONSIBLE</th><th>FAIL</th><th>SHARE</th></tr></thead><tbody>${arr.map(x=>`<tr><td>${esc(x.label)}</td><td><b>${x.count}</b></td><td>${pct(x.share)}</td></tr>`).join('')||'<tr><td colspan="3">No responsible department data</td></tr>'}</tbody></table></div>`
+  return`<div class="lock-report-card">${lpdReportTitle('Responsible Department / Fail Share','red')}<div class="table-wrap"><table><thead><tr><th>RESPONSIBLE</th><th>FAIL</th><th>SHARE</th></tr></thead><tbody>${arr.map(x=>`<tr><td>${esc(x.label)}</td><td><b>${x.count}</b></td><td>${pct(x.share)}</td></tr>`).join('')||'<tr><td colspan="3">No responsible department data</td></tr>'}</tbody></table></div></div>`
 }
 function lpdMonthTrend(rows){
   const m=new Map();rows.filter(r=>r.LockPlan).forEach(r=>{const k=r.LockPlan.slice(0,7);if(!m.has(k))m.set(k,[]);m.get(k).push(r)});
   const keys=[...m.keys()].sort();return{labels:keys.map(lpdMonthLabel),start:keys.map(k=>lpdEventStats(m.get(k),'START').rate),end:keys.map(k=>lpdEventStats(m.get(k),'END').rate),overall:keys.map(k=>lpdEventStats(m.get(k)).rate)}
 }
+
 function lpdDailyCounts(rows){
   const m=new Map();rows.filter(r=>r.LockPlan).forEach(r=>{if(!m.has(r.LockPlan))m.set(r.LockPlan,[]);m.get(r.LockPlan).push(r)});
   let keys=[...m.keys()].sort();
   const filteredMonth=lpdList(state.lockDetailFilters.month).length>0;
   if(!filteredMonth&&keys.length>31)keys=keys.slice(-31);
-  return{labels:keys.map(lpdShortDate),pass:keys.map(k=>m.get(k).filter(r=>r.OTD==='PASS').length),fail:keys.map(k=>m.get(k).filter(r=>r.OTD==='FAIL').length)}
+  const stats=ev=>keys.map(k=>lpdEventStats(m.get(k),ev));
+  return{labels:keys.map(lpdShortDate),start:stats('START'),end:stats('END'),overall:stats('')}
 }
+
 function lpdWeekTrend(rows){
   const m=new Map();rows.forEach(r=>{const k=lpdClean(r.Week);if(!k)return;if(!m.has(k))m.set(k,[]);m.get(k).push(r)});
-  let keys=[...m.keys()].sort((a,b)=>Number(a.replace(/\D/g,''))-Number(b.replace(/\D/g,'')));if(keys.length>14)keys=keys.slice(-14);
-  return{labels:keys,start:keys.map(k=>lpdEventStats(m.get(k),'START').rate),end:keys.map(k=>lpdEventStats(m.get(k),'END').rate),overall:keys.map(k=>lpdEventStats(m.get(k)).rate)}
+  let keys=[...m.keys()].sort((a,b)=>{
+    const pa=String(a).match(/FY(\d{4})-(\d{2})-W(\d+)/),pb=String(b).match(/FY(\d{4})-(\d{2})-W(\d+)/);
+    if(pa&&pb)return Number(pa[1])-Number(pb[1])||Number(pa[3])-Number(pb[3]);
+    return String(a).localeCompare(String(b),undefined,{numeric:true})
+  });
+  if(keys.length>18)keys=keys.slice(-18);
+  return{labels:keys,start:keys.map(k=>lpdEventStats(m.get(k),'START')),end:keys.map(k=>lpdEventStats(m.get(k),'END')),overall:keys.map(k=>lpdEventStats(m.get(k)))}
 }
-function lpdDailyPFChart(id,labels,pass,fail){
+
+function lpdDailyPFChart(id,data){
   const ctx=document.querySelector(`canvas#${id}`);if(!ctx)return;
   const dark=document.body.classList.contains('dark-mode'),grid=dark?'#31453c':'#e7ece9',txt=dark?'#c6d8cf':'#58635e';
-  state.charts.push(new Chart(ctx,{type:'bar',data:{labels,datasets:[
-    {label:'PASS',data:pass,backgroundColor:'#2d79ad',borderRadius:2,maxBarThickness:24},
-    {label:'FAIL',data:fail,backgroundColor:'#e34b61',borderRadius:2,maxBarThickness:24}
-  ]},options:{responsive:true,maintainAspectRatio:false,animation:false,layout:{padding:{top:18}},
-    plugins:{tpChartValueLabels:{display:true},legend:{position:'right',labels:{boxWidth:9,font:{size:9},color:txt}}},
-    scales:{x:{grid:{display:false},ticks:{font:{size:8},color:txt,maxRotation:90,minRotation:90}},y:{beginAtZero:true,grid:{color:grid},ticks:{font:{size:8},color:txt}}}}}))
+  const rgba=(hex,a)=>{const h=hex.replace('#',''),n=parseInt(h,16);return`rgba(${(n>>16)&255},${(n>>8)&255},${n&255},${a})`};
+  const groups=[
+    {name:'START',color:'#15939b',stats:data.start},
+    {name:'END',color:'#e77a2f',stats:data.end},
+    {name:'OVERALL',color:'#285f9a',stats:data.overall}
+  ];
+  const datasets=[];
+  groups.forEach(g=>{
+    datasets.push({label:g.name,data:g.stats.map(s=>s.pass),stack:g.name,backgroundColor:g.color,borderRadius:2,maxBarThickness:20,_kind:'PASS'});
+    datasets.push({label:g.name+' Fail',data:g.stats.map(s=>s.fail),stack:g.name,backgroundColor:rgba(g.color,.28),borderColor:g.color,borderWidth:1,borderRadius:2,maxBarThickness:20,_kind:'FAIL'})
+  });
+  const c=new Chart(ctx,{type:'bar',data:{labels:data.labels,datasets},options:{responsive:true,maintainAspectRatio:false,animation:false,
+    plugins:{tpChartValueLabels:{display:false},legend:{position:'bottom',labels:{boxWidth:10,font:{size:9},color:txt,filter:item=>[0,2,4].includes(item.datasetIndex)}},
+      tooltip:{callbacks:{label:c=>`${c.dataset.label}: ${Number(c.raw||0).toLocaleString()} event(s)`}}},
+    scales:{x:{stacked:true,grid:{display:false},ticks:{font:{size:8},color:txt,maxRotation:90,minRotation:0}},y:{stacked:true,beginAtZero:true,grid:{color:grid},ticks:{font:{size:8},color:txt}}}}});
+  state.charts.push(c)
+}
+function lpdCountLabelPlugin(){
+  return{
+    id:'lpdCountLabels',
+    afterDatasetsDraw(chart){
+      const {ctx,chartArea}=chart;if(!chartArea)return;
+      ctx.save();ctx.font='700 8px Inter,Arial,sans-serif';ctx.fillStyle=document.body.classList.contains('dark-mode')?'#e5f0eb':'#42544d';ctx.textBaseline='middle';
+      chart.data.datasets.forEach((ds,di)=>{
+        const labels=ds._countLabels||[],meta=chart.getDatasetMeta(di);if(meta.hidden)return;
+        meta.data.forEach((el,i)=>{
+          const lab=labels[i];if(!lab)return;
+          if(chart.options.indexAxis==='y'){
+            let x=el.x+4,align='left';if(x+ctx.measureText(lab).width>chartArea.right){x=el.x-4;align='right'}
+            ctx.textAlign=align;ctx.fillText(lab,x,el.y)
+          }else{
+            ctx.textAlign='center';ctx.fillText(lab,el.x,Math.max(chartArea.top+7,el.y-8-di*8))
+          }
+        })
+      });ctx.restore()
+    }
+  }
+}
+function lpdGroupedRateChart(id,groups){
+  const ctx=document.querySelector(`canvas#${id}`);if(!ctx)return;
+  const dark=document.body.classList.contains('dark-mode'),grid=dark?'#31453c':'#e7ece9',txt=dark?'#c6d8cf':'#58635e',cols=['#15939b','#e77a2f','#285f9a'];
+  const labels=groups.map(g=>g.label);
+  const specs=[
+    {label:'START',stats:groups.map(g=>lpdEventStats(g.rows,'START'))},
+    {label:'END',stats:groups.map(g=>lpdEventStats(g.rows,'END'))},
+    {label:'OVERALL',stats:groups.map(g=>lpdEventStats(g.rows))}
+  ];
+  const datasets=specs.map((s,i)=>({label:s.label,data:s.stats.map(x=>x.rate),backgroundColor:cols[i],borderRadius:3,maxBarThickness:18,
+    _countLabels:s.stats.map(x=>`${x.pass}/${x.total}`),_stats:s.stats}));
+  const c=new Chart(ctx,{type:'bar',data:{labels,datasets},options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,animation:false,layout:{padding:{right:45}},
+    plugins:{tpChartValueLabels:{display:false},legend:{position:'bottom',labels:{boxWidth:10,font:{size:9},color:txt}},
+      tooltip:{callbacks:{label:c=>{const s=c.dataset._stats[c.dataIndex];return`${c.dataset.label}: ${pct(s.rate)} • Pass ${s.pass} / Total ${s.total}`}}}},
+    scales:{x:{min:0,max:1,grid:{color:grid},ticks:{font:{size:8},color:txt,callback:v=>(v*100).toFixed(0)+'%'}},y:{grid:{display:false},ticks:{font:{size:8},color:txt}}}},
+    plugins:[lpdCountLabelPlugin()]});
+  c.$tpPercent=true;state.charts.push(c)
+}
+function lpdRateLineCountChart(id,data){
+  const ctx=document.querySelector(`canvas#${id}`);if(!ctx)return;
+  const dark=document.body.classList.contains('dark-mode'),grid=dark?'#31453c':'#e7ece9',txt=dark?'#c6d8cf':'#58635e',cols=['#15939b','#e77a2f','#285f9a'];
+  const specs=[['START',data.start],['END',data.end],['OVERALL',data.overall]];
+  const datasets=specs.map((s,i)=>({label:s[0],data:s[1].map(x=>x.rate),borderColor:cols[i],backgroundColor:cols[i],tension:.25,pointRadius:3,borderWidth:2,
+    _countLabels:s[1].map(x=>`${x.pass}/${x.total}`),_stats:s[1]}));
+  const c=new Chart(ctx,{type:'line',data:{labels:data.labels,datasets},options:{responsive:true,maintainAspectRatio:false,animation:false,layout:{padding:{top:22}},
+    plugins:{tpChartValueLabels:{display:false},legend:{position:'bottom',labels:{boxWidth:10,font:{size:9},color:txt}},
+      tooltip:{callbacks:{label:c=>{const s=c.dataset._stats[c.dataIndex];return`${c.dataset.label}: ${pct(s.rate)} • Pass ${s.pass} / Total ${s.total}`}}}},
+    scales:{x:{grid:{display:false},ticks:{font:{size:8},color:txt,maxRotation:35}},y:{min:0,max:1,grid:{color:grid},ticks:{font:{size:8},color:txt,callback:v=>(v*100).toFixed(0)+'%'}}}},
+    plugins:[lpdCountLabelPlugin()]});
+  c.$tpPercent=true;state.charts.push(c)
 }
 
 function lpdDetailTable(rows,limit=600){
@@ -4511,76 +4850,87 @@ function lpdDetailTable(rows,limit=600){
   const body=sorted.map((r,i)=>{
     const st=lpdClassifyOTD(r),delay=lpdDelay(r),actual=r.Actual?lpdDateLabel(r.Actual):(st==='PENDING'?'Pending':st==='WAITING'?'Waiting':'—'),
           hasInfo=!!(r.DetailReason||r.Responsible);
-    return`<tr>
-      <td>${esc(r.Event)}</td>
-      <td class="booking-no">${esc(r.BookingNo)}</td>
-      <td>${esc(r.Floor||'—')}</td>
-      <td>${esc(r.PMC||'—')}</td>
-      <td>${esc(r.Buyer||'—')}</td>
-      <td>${esc(r.LockPlan?lpdDateLabel(r.LockPlan):(r.LockPlanRaw||'—'))}</td>
-      <td>${esc(actual)}</td>
-      <td class="num">${delay===null?'—':delay}</td>
+    return`<tr data-lpd-row="${i}">
+      <td class="select-col"><input type="checkbox" class="lpd-row-select" data-row-index="${i}" aria-label="Select row"></td>
+      <td>${esc(r.Event)}</td><td class="booking-no">${esc(r.BookingNo)}</td><td>${esc(r.Floor||'—')}</td><td>${esc(r.PMC||'—')}</td><td>${esc(r.Buyer||'—')}</td>
+      <td>${esc(r.LockPlan?lpdDateLabel(r.LockPlan):(r.LockPlanRaw||'—'))}</td><td>${esc(actual)}</td><td class="num">${delay===null?'—':delay}</td>
       <td class="${st==='FAIL'?'fail':st==='PASS'?'pass':''}"><span class="lock-badge ${st.toLowerCase()}">${esc(st)}</span></td>
-      <td class="num">${esc(lpdQty(r.BookingQty))}</td>
-      <td class="num">${esc(lpdQty(r.DeliveryQty))}</td>
-      <td class="num">${esc(lpdQty(r.DeliveryBal))}</td>
-      <td class="num">${esc(lpdQty(r.RFD))}</td>
-      <td class="num">${esc(lpdQty(r.NRFD))}</td>
-      <td class="num">${esc(lpdQty(r.WIP))}</td>
-      <td class="num">${esc(lpdQty(r.KnitOk))}</td>
-      <td class="num">${esc(lpdQty(r.KnitBal))}</td>
-      <td class="num">${esc(lpdQty(r.DyeOk))}</td>
-      <td class="num">${esc(lpdQty(r.DyeBal))}</td>
-      <td class="week-col">${esc(r.Week||'—')}</td>
-      <td>${esc(r.Status||'—')}</td>
-      <td><button class="lpd-info-btn ${hasInfo?'has-fail':''}" type="button" data-lpd-popup="${i}" title="Show Detail Reason & Responsible">ⓘ</button></td>
+      <td class="num">${esc(lpdQty(r.BookingQty))}</td><td class="num">${esc(lpdQty(r.DeliveryQty))}</td><td class="num">${esc(lpdQty(r.DeliveryBal))}</td>
+      <td class="num">${esc(lpdQty(r.RFD))}</td><td class="num">${esc(lpdQty(r.NRFD))}</td><td class="num">${esc(lpdQty(r.WIP))}</td>
+      <td class="num">${esc(lpdQty(r.KnitOk))}</td><td class="num">${esc(lpdQty(r.KnitBal))}</td><td class="num">${esc(lpdQty(r.DyeOk))}</td><td class="num">${esc(lpdQty(r.DyeBal))}</td>
+      <td class="week-col">${esc(r.Week||'—')}</td><td>${esc(r.Status||'—')}</td>
+      <td><button class="lpd-info-btn ${hasInfo?'has-fail':''}" type="button" data-lpd-popup="${i}" title="Show Reason, Responsible & OTT status">ⓘ</button></td>
     </tr>`
   }).join('');
-  return`<div class="table-wrap"><table><thead><tr>
-    <th>EVENT</th><th>Booking No.</th><th>FLOOR</th><th>PMC</th><th>Buyer</th><th>LOCK PLAN</th><th>ACTUAL</th><th class="num">DELAY</th><th>OTD</th>
+  return`<div class="lpd-meeting-tools">
+      <label><input type="checkbox" id="lpdSelectAllRows"> Select visible</label>
+      <span id="lpdSelectedCount">0 selected</span>
+      <button class="btn" id="lpdFocusSelected" type="button">Highlight Selected</button>
+      <button class="btn primary" id="lpdZoomSelected" type="button">⛶ Meeting Zoom</button>
+      <button class="btn" id="lpdClearSelected" type="button">Clear</button>
+    </div>
+    <div class="table-wrap" id="lpdEventTableWrap"><table><thead><tr>
+    <th class="select-col">✓</th><th>EVENT</th><th>Booking No.</th><th>FLOOR</th><th>PMC</th><th>Buyer</th><th>LOCK PLAN</th><th>ACTUAL</th><th class="num">DELAY</th><th>OTD</th>
     <th class="num">Booking</th><th class="num">Delivery</th><th class="num">Del. Bal</th><th class="num">RFD</th><th class="num">NRFD</th><th class="num">WIP</th>
     <th class="num">Knit ok</th><th class="num">Knit Bal</th><th class="num">Dye Ok</th><th class="num">Dye Bal</th>
     <th>Week</th><th>Status</th><th>Details</th>
-  </tr></thead><tbody>${body||'<tr><td colspan="22">No records match the current filters.</td></tr>'}</tbody></table></div>
+  </tr></thead><tbody>${body||'<tr><td colspan="23">No records match the current filters.</td></tr>'}</tbody></table></div>
   ${rows.length>limit?`<div class="note">Showing first ${limit.toLocaleString()} of ${rows.length.toLocaleString()} filtered event rows.</div>`:''}`
 }
 function lpdFilterPanel(mode='board'){
-  lpdEnsureFilters();const all=lpdEvents(),f=state.lockDetailFilters,eventMode=mode==='event';
-  const lockVals=[...new Set(all.map(r=>r.LockPlanRaw).filter(Boolean))].sort((a,b)=>{
-    const aa=/^\d{4}-/.test(a)?a:'9999-'+a,bb=/^\d{4}-/.test(b)?b:'9999-'+b;return aa.localeCompare(bb)
-  });
-  const lockDisplay=v=>/^\d{4}-\d{2}-\d{2}$/.test(v)?lpdDateLabel(v):v;
-  const title=eventMode?'Event Detail':'Lock Plan Details Board';
-  const actions=eventMode
-    ?`<button class="btn" id="lpdExportBtn" type="button">Export CSV</button>`
-    :`<button class="btn" id="lpdExportBtn" type="button">Export CSV</button><button class="btn primary" id="lpdManagementBtn" type="button">▣ Management View</button>`;
+  lpdEnsureFilters();const all=lpdEvents(),f=state.lockDetailFilters,eventMode=mode==='event',
+        title=eventMode?'Event Detail':'Lock Plan Details Board',
+        actions=eventMode?`<button class="btn" id="lpdExportBtn" type="button">Export CSV</button>`
+          :`<button class="btn" id="lpdExportBtn" type="button">Export CSV</button><button class="btn primary" id="lpdManagementBtn" type="button">▣ Management View</button>`;
+
+  const monthOpts=lpdMonthOptions(all);lpdPrune('month',monthOpts);
+  let stage=lpdDateContextRows(all);
+
+  const eventOpts=lpdOptions(stage,'Event');lpdPrune('event',eventOpts);stage=stage.filter(r=>lpdMatch(r.Event,f.event));
+
+  let bookingOpts=[];
+  if(eventMode){
+    bookingOpts=lpdOptions(stage,'BookingNo');lpdPrune('booking',bookingOpts);stage=stage.filter(r=>lpdMatch(r.BookingNo,f.booking))
+  }
+
+  const floorOpts=lpdOptions(stage,'Floor');lpdPrune('floor',floorOpts);stage=stage.filter(r=>lpdMatch(r.Floor,f.floor));
+  const pmcOpts=lpdOptions(stage,'PMC');lpdPrune('pmc',pmcOpts);stage=stage.filter(r=>lpdMatch(r.PMC,f.pmc));
+  const buyerOpts=lpdOptions(stage,'Buyer');lpdPrune('buyer',buyerOpts);stage=stage.filter(r=>lpdMatch(r.Buyer,f.buyer));
+  const otdOpts=lpdClassOptions(stage);lpdPrune('otd',otdOpts);stage=stage.filter(r=>lpdMatch(lpdClassifyOTD(r),f.otd));
+  const reasonOpts=lpdOptions(stage,'DetailReason');lpdPrune('reason',reasonOpts);stage=stage.filter(r=>lpdMatch(r.DetailReason,f.reason));
+  const respOpts=lpdOptions(stage,'Responsible');lpdPrune('responsible',respOpts);stage=stage.filter(r=>lpdMatch(r.Responsible,f.responsible));
+  const weekOpts=lpdOptions(stage,'Week');lpdPrune('week',weekOpts);stage=stage.filter(r=>lpdMatch(r.Week,f.week));
+  const statusOpts=lpdOptions(stage,'Status');lpdPrune('status',statusOpts);
+
   return`<div class="lock-detail-filter">
     <div class="lock-detail-head"><div><h2>${esc(title)}</h2><div class="meta">${all.length.toLocaleString()} Start/End event rows • ${new Set(all.map(r=>r.BookingNo)).size.toLocaleString()} unique bookings • Source upload is managed from Data Management</div></div>
       <div class="lock-detail-actions">${actions}</div></div>
     <div class="lock-filter-grid">
-      ${lpdPickerHTML('lpdEvent','EVENT',['START','END'],f.event)}
-      ${eventMode?lpdPickerHTML('lpdBooking','Booking No.',lpdOptions(all,'BookingNo'),f.booking,true):''}
-      ${lpdPickerHTML('lpdFloor','FLOOR',lpdOptions(all,'Floor'),f.floor)}
-      ${lpdPickerHTML('lpdPMC','PMC',lpdOptions(all,'PMC'),f.pmc)}
-      ${lpdPickerHTML('lpdBuyer','Buyer',lpdOptions(all,'Buyer'),f.buyer)}
-      <div class="filter-group"><span class="mini-label">LOCK PLAN</span><select id="lpdLockPlan"><option value="">All</option>${lockVals.map(v=>`<option value="${esc(v)}" ${String(f.lockPlan)===String(v)?'selected':''}>${esc(lockDisplay(v))}</option>`).join('')}</select></div>
-      ${lpdPickerHTML('lpdOTD','OTD',['PASS','FAIL','PENDING','WAITING'],f.otd)}
-      ${lpdPickerHTML('lpdReason','DETAIL REASON',lpdOptions(all,'DetailReason'),f.reason,true)}
-      ${lpdPickerHTML('lpdResponsible','RESPONSIBLE',lpdOptions(all,'Responsible'),f.responsible)}
-      ${lpdPickerHTML('lpdMonth','Month',lpdMonthOptions(all),f.month,false,lpdMonthLabel)}
-      ${lpdPickerHTML('lpdWeek','Week',lpdOptions(all,'Week'),f.week)}
-      ${lpdPickerHTML('lpdStatus','Status',lpdOptions(all,'Status'),f.status)}
+      ${lpdPickerHTML('lpdMonth','Month',monthOpts,f.month,false,lpdMonthLabel)}
+      <div class="filter-group"><span class="mini-label">LOCK PLAN — FROM</span><input id="lpdLockFrom" type="date" value="${esc(f.lockPlanFrom||'')}"></div>
+      <div class="filter-group"><span class="mini-label">LOCK PLAN — TO</span><input id="lpdLockTo" type="date" value="${esc(f.lockPlanTo||'')}"></div>
+      ${lpdPickerHTML('lpdEvent','EVENT',eventOpts,f.event)}
+      ${eventMode?lpdPickerHTML('lpdBooking','Booking No.',bookingOpts,f.booking,true):''}
+      ${lpdPickerHTML('lpdFloor','FLOOR',floorOpts,f.floor)}
+      ${lpdPickerHTML('lpdPMC','PMC',pmcOpts,f.pmc)}
+      ${lpdPickerHTML('lpdBuyer','Buyer',buyerOpts,f.buyer)}
+      ${lpdPickerHTML('lpdOTD','OTD',otdOpts,f.otd)}
+      ${lpdPickerHTML('lpdReason','DETAIL REASON',reasonOpts,f.reason,true)}
+      ${lpdPickerHTML('lpdResponsible','RESPONSIBLE',respOpts,f.responsible)}
+      ${lpdPickerHTML('lpdWeek','Week',weekOpts,f.week)}
+      ${lpdPickerHTML('lpdStatus','Status',statusOpts,f.status)}
       <div class="filter-group"><span class="mini-label">FILTERS</span><button class="btn" id="lpdResetBtn" type="button">Reset all</button></div>
     </div>
-    <div class="lock-filter-note">${eventMode?'<b>Event Detail:</b> Booking No. filtering is available here for single/multiple booking investigation.':'<b>Board:</b> Booking No. is intentionally excluded so management KPIs are not narrowed by an individual booking selection.'} OTD uses the source Start/End OTD fields as authoritative. Pending/Waiting are display statuses for unevaluated events.</div>
+    <div class="lock-filter-note"><b>Filter sequence:</b> Month → Lock Plan Date Range → remaining criteria. Every later filter only shows values still valid after the filters before it. ${eventMode?'<b>Booking No.</b> is available only in Event Detail.':'Booking No. is intentionally excluded from the Board.'}</div>
   </div>`
 }
 
 function lpdBindFilters(mode='board'){
-  const pairs=[['lpdEvent','event'],['lpdFloor','floor'],['lpdPMC','pmc'],['lpdBuyer','buyer'],['lpdOTD','otd'],['lpdReason','reason'],['lpdResponsible','responsible'],['lpdMonth','month'],['lpdWeek','week'],['lpdStatus','status']];
-  if(mode==='event')pairs.splice(1,0,['lpdBooking','booking']);
+  const pairs=[['lpdMonth','month'],['lpdEvent','event'],['lpdFloor','floor'],['lpdPMC','pmc'],['lpdBuyer','buyer'],['lpdOTD','otd'],['lpdReason','reason'],['lpdResponsible','responsible'],['lpdWeek','week'],['lpdStatus','status']];
+  if(mode==='event')pairs.splice(2,0,['lpdBooking','booking']);
   pairs.forEach(([id,key])=>lpdBindPicker(id,key));
-  if($('#lpdLockPlan'))$('#lpdLockPlan').onchange=()=>{state.lockDetailFilters.lockPlan=$('#lpdLockPlan').value;render()};
+  if($('#lpdLockFrom'))$('#lpdLockFrom').onchange=()=>{state.lockDetailFilters.lockPlanFrom=$('#lpdLockFrom').value;render()};
+  if($('#lpdLockTo'))$('#lpdLockTo').onchange=()=>{state.lockDetailFilters.lockPlanTo=$('#lpdLockTo').value;render()};
   if($('#lpdResetBtn'))$('#lpdResetBtn').onclick=()=>{state.lockDetailFilters=lpdDefaultFilters();render()};
   if($('#lpdExportBtn'))$('#lpdExportBtn').onclick=()=>exportLockPlanDetailsCSV(mode);
   if(mode==='board'&&$('#lpdManagementBtn'))$('#lpdManagementBtn').onclick=openLockPlanDetailsSnapshot
@@ -4593,50 +4943,63 @@ function renderLockPlanDetailsBoard(){
   const body=$('#lpdBody');
   if(!all.length){body.innerHTML='<div class="alert">No Lock Plan Details data uploaded yet. Go to Data Management → Lock Plan Details Data Upload and upload <b>Lock Plan Details.xlsx</b>.</div>';return}
   const rows=lpdFilteredRows('board'),ss=lpdEventStats(rows,'START'),es=lpdEventStats(rows,'END'),ts=lpdEventStats(rows),
-        gap=ss.rate!==null&&es.rate!==null?es.rate-ss.rate:null,pending=rows.filter(r=>['PENDING','WAITING'].includes(lpdClassifyOTD(r))).length,
+        gap=ss.rate!==null&&es.rate!==null?es.rate-ss.rate:null,pending=ts.pending+ts.waiting,
         monthly=lpdMonthTrend(rows),daily=lpdDailyCounts(rows),weekly=lpdWeekTrend(rows),
         buyer=lpdGroup(rows,'Buyer').filter(x=>x.label!=='(blank)').sort((a,b)=>b.total-a.total).slice(0,12),
         pmc=lpdGroup(rows,'PMC').filter(x=>x.label!=='(blank)').sort((a,b)=>b.total-a.total).slice(0,12),
-        floor=lpdGroup(rows,'Floor').filter(x=>x.label!=='(blank)').sort((a,b)=>b.total-a.total).slice(0,10);
+        floor=lpdGroup(rows,'Floor').filter(x=>x.label!=='(blank)').sort((a,b)=>b.total-a.total).slice(0,10),
+        failArea=lpdGroup(rows,'FailArea').filter(x=>x.label!=='(blank)').sort((a,b)=>b.total-a.total).slice(0,10);
   const cards=[
-    lpdKpi('Start OTD',pct(ss.rate),`${ss.total.toLocaleString()} evaluated • ${ss.pass.toLocaleString()} Pass • ${ss.fail.toLocaleString()} Fail`,'blue'),
-    lpdKpi('End OTD',pct(es.rate),`${es.total.toLocaleString()} evaluated • ${es.pass.toLocaleString()} Pass • ${es.fail.toLocaleString()} Fail`,'purple'),
-    lpdKpi('Overall OTD',pct(ts.rate),`${ts.total.toLocaleString()} evaluated events`,'teal'),
+    lpdKpi('Start OTD',pct(ss.rate),`${ss.pass.toLocaleString()} Pass / ${ss.total.toLocaleString()} total events`,'blue'),
+    lpdKpi('End OTD',pct(es.rate),`${es.pass.toLocaleString()} Pass / ${es.total.toLocaleString()} total events`,'purple'),
+    lpdKpi('Overall OTD',pct(ts.rate),`${ts.pass.toLocaleString()} Pass / ${ts.total.toLocaleString()} total events`,'teal'),
     lpdKpi('End vs Start',gap===null?'—':`${gap>=0?'+':''}${(gap*100).toFixed(1)} pp`,'End OTD minus Start OTD','orange'),
-    lpdKpi('Fail Events',ts.fail.toLocaleString(),`${ts.total?((ts.fail/ts.total)*100).toFixed(1):'0.0'}% of evaluated events`,'red'),
-    lpdKpi('Pending / Waiting',pending.toLocaleString(),`${new Set(rows.map(r=>r.BookingNo)).size.toLocaleString()} unique bookings in current view`)
+    lpdKpi('Fail Events',ts.fail.toLocaleString(),`${ts.pending.toLocaleString()} Pending • ${ts.waiting.toLocaleString()} Waiting`,'red'),
+    lpdKpi('Total Events',ts.total.toLocaleString(),`${new Set(rows.map(r=>r.BookingNo)).size.toLocaleString()} unique bookings in current view`)
   ].join('');
   const p=(title,note,id,wide=false)=>panel(title,note,`<div class="chart-wrap"><canvas id="${id}"></canvas></div>`,wide,true);
   body.innerHTML=`<div class="lock-management" id="lpdManagementArea">
     <div class="lock-card-grid">${cards}</div>
-    <div class="lock-report-grid">${lpdEventSummaryTable(rows)}${lpdPFTable(rows,'Floor','Floor / Start + End + Total (Pass / Fail OTD%)',10)}</div>
+    <div class="lock-first-report-grid">
+      ${p('Fail Area / Start + End + Overall','OTD% by Fail Area • labels show Pass/Total event','lpdFailAreaChart')}
+      ${lpdPFTable(rows,'Floor','Floor / Start + End + Overall (Pass / Total OTD%)',10)}
+    </div>
     <div class="lock-chart-grid" style="margin-top:8px">
       ${p('Monthly OTD / Start vs End','Start, End and Overall OTD across Lock Plan months','lpdMonthly')}
-      ${p('Daily Events / Pass vs Fail','Daily evaluated event counts'+(lpdList(state.lockDetailFilters.month).length?' • selected month/filter view':' • latest 31 Lock Plan dates'),'lpdDaily')}
-      ${p('Weekly OTD Trend','Start, End and Overall OTD by Lock Plan week','lpdWeekly')}
-      ${p('Floor OTD Comparison','Overall OTD by floor','lpdFloorChart')}
-      ${p('Buyer OTD Performance','Top buyers by evaluated event count','lpdBuyerChart')}
-      ${p('PMC OTD Performance','Top PMC by evaluated event count','lpdPMCChart')}
+      ${p('Daily Events / Pass vs Fail','START / END / OVERALL legend • solid = Pass, light = Fail','lpdDaily')}
+      ${p('Weekly OTD Trend','Start / End / Overall OTD • point labels show Pass/Total','lpdWeekly')}
+      ${p('Floor OTD Comparison','Start / End / Overall • labels show Pass/Total event','lpdFloorChart')}
+      ${p('Buyer OTD Performance','Start / End / Overall • labels show Pass/Total event','lpdBuyerChart')}
+      ${p('PMC OTD Performance','Start / End / Overall • labels show Pass/Total event','lpdPMCChart')}
     </div>
     <div class="lock-report-grid">
-      ${lpdSimpleTable(rows,'Buyer','Buyer / Events + OTD',12)}
-      ${lpdSimpleTable(rows,'PMC','PMC / Events + OTD',12)}
-      ${lpdPFTable(rows,'OrderType','Order / Start + End + Total (Pass / Fail OTD%)',10)}
       ${lpdSimpleTable(rows,'FabricType','Fabric / Events + OTD',12)}
-      ${lpdPFTable(rows,'FailArea','Fail Area / Start + End + Total (Pass / Fail OTD%)',8)}
       ${lpdRootCauseTable(rows)}
       ${lpdResponsibleTable(rows)}
       ${lpdSimpleTable(rows,'FinishType','Finish Type / Events + OTD',10)}
     </div>
   </div>`;
   lineChartPct('lpdMonthly',monthly.labels,[{label:'START',data:monthly.start},{label:'END',data:monthly.end},{label:'OVERALL',data:monthly.overall}]);
-  lpdDailyPFChart('lpdDaily',daily.labels,daily.pass,daily.fail);
-  lineChartPct('lpdWeekly',weekly.labels,[{label:'START',data:weekly.start},{label:'END',data:weekly.end},{label:'OVERALL',data:weekly.overall}]);
-  barChartPct('lpdFloorChart',floor.map(x=>x.label),floor.map(x=>x.rate),'OTD');
-  barChartPct('lpdBuyerChart',buyer.map(x=>x.label),buyer.map(x=>x.rate),'OTD');
-  barChartPct('lpdPMCChart',pmc.map(x=>x.label),pmc.map(x=>x.rate),'OTD')
+  lpdDailyPFChart('lpdDaily',daily);
+  lpdRateLineCountChart('lpdWeekly',weekly);
+  lpdGroupedRateChart('lpdFailAreaChart',failArea);
+  lpdGroupedRateChart('lpdFloorChart',floor);
+  lpdGroupedRateChart('lpdBuyerChart',buyer);
+  lpdGroupedRateChart('lpdPMCChart',pmc)
 }
-
+function lpdOttBookingStatusHTML(row){
+  const tabs=['ott_yarn','ott_knitting','ott_dyeing','ott_delivery'],key=ottBookingKey(row.BookingNo);
+  return`<div class="lpd-ott-section"><div class="label">OTT BOARD — SAME BOOKING STATUS</div><div class="lpd-ott-grid">${tabs.map(tab=>{
+    const cfg=OTT_CONFIG[tab],rs=ottSource(tab).filter(x=>ottBookingKey(x.BookingNo)===key);
+    if(!rs.length)return`<div class="lpd-ott-card"><b>${esc(cfg.short)}</b><span class="no-data">No booking data</span></div>`;
+    const eventRows=['Start','End'].map(ev=>({ev,rows:rs.filter(x=>ottNormType(x.Type)===ev)})).filter(x=>x.rows.length);
+    return`<div class="lpd-ott-card"><b>${esc(cfg.short)}</b>${eventRows.map(x=>x.rows.map(r=>`<div class="lpd-ott-event ${String(r.Result||'').toLowerCase()}">
+      <strong>${esc(x.ev)} — ${esc(r.Result||'—')}</strong>
+      <span>Plan: ${esc(ottFmtDate(r.Plan))} • Actual: ${esc(ottFmtDate(r.Actual))}</span>
+      ${r.Result==='Fail'?`<span><b>Reason:</b> ${esc(r.FailReason||'—')}</span><span><b>Dept:</b> ${esc(r.RelatedDept||'—')}</span>`:''}
+    </div>`).join('')).join('')}</div>`
+  }).join('')}</div></div>`
+}
 
 function lpdReasonPopupHTML(){
   return`<div class="lpd-row-popup hidden" id="lpdReasonPopup">
@@ -4646,6 +5009,7 @@ function lpdReasonPopupHTML(){
     </div>
   </div>`
 }
+
 function openLpdReasonPopup(row){
   const modal=$('#lpdReasonPopup'),body=$('#lpdReasonBody');if(!modal||!body||!row)return;
   body.innerHTML=`<div class="lpd-row-popup-meta">
@@ -4655,12 +5019,54 @@ function openLpdReasonPopup(row){
       <div><span>Week</span><b>${esc(row.Week||'—')}</b></div>
     </div>
     <div class="lpd-row-popup-section reason"><div class="label">DETAIL REASON</div><div class="value">${esc(row.DetailReason||'No detail reason recorded.')}</div></div>
-    <div class="lpd-row-popup-section responsible"><div class="label">RESPONSIBLE</div><div class="value">${esc(row.Responsible||'No responsible department recorded.')}</div></div>`;
+    <div class="lpd-row-popup-section responsible"><div class="label">RESPONSIBLE</div><div class="value">${esc(row.Responsible||'No responsible department recorded.')}</div></div>
+    ${lpdOttBookingStatusHTML(row)}`;
   modal.classList.remove('hidden')
 }
 function closeLpdReasonPopup(){
   $('#lpdReasonPopup')?.classList.add('hidden')
 }
+
+function lpdMeetingZoomHTML(){
+  return`<div class="lpd-meeting-modal hidden" id="lpdMeetingModal"><div class="lpd-meeting-card">
+    <div class="lpd-meeting-head"><div><h3>Selected Lock Plan Events</h3><span id="lpdMeetingMeta"></span></div><button id="lpdMeetingClose" type="button">×</button></div>
+    <div class="lpd-meeting-body" id="lpdMeetingBody"></div>
+  </div></div>`
+}
+function selectedLpdRowIndexes(){return $$('.lpd-row-select').filter(x=>x.checked).map(x=>Number(x.dataset.rowIndex))}
+function updateLpdSelectionUI(){
+  const idx=selectedLpdRowIndexes(),set=new Set(idx);
+  $$('.lock-detail-table tbody tr[data-lpd-row]').forEach(tr=>tr.classList.toggle('meeting-selected',set.has(Number(tr.dataset.lpdRow))));
+  if($('#lpdSelectedCount'))$('#lpdSelectedCount').textContent=`${idx.length} selected`;
+  if($('#lpdSelectAllRows'))$('#lpdSelectAllRows').checked=$$('.lpd-row-select').length>0&&idx.length===$$('.lpd-row-select').length
+}
+function clearLpdSelection(){
+  $$('.lpd-row-select').forEach(x=>x.checked=false);$('#lpdEventTableWrap')?.classList.remove('meeting-focus');updateLpdSelectionUI()
+}
+function openLpdMeetingZoom(){
+  const idx=selectedLpdRowIndexes();if(!idx.length)return alert('Select one or more rows first.');
+  const modal=$('#lpdMeetingModal'),body=$('#lpdMeetingBody'),rows=idx.map(i=>state.lpdPopupRows?.[i]).filter(Boolean);if(!modal||!body)return;
+  const cols=[['Event','Event'],['Booking No.','BookingNo'],['Floor','Floor'],['PMC','PMC'],['Buyer','Buyer'],['Lock Plan','LockPlan'],['OTD','OTD'],['Booking','BookingQty'],['Delivery','DeliveryQty'],['Del. Bal','DeliveryBal'],['RFD','RFD'],['NRFD','NRFD'],['WIP','WIP'],['Knit ok','KnitOk'],['Knit Bal','KnitBal'],['Dye Ok','DyeOk'],['Dye Bal','DyeBal'],['Week','Week'],['Status','Status']];
+  body.innerHTML=`<div class="lpd-meeting-table-wrap"><table><thead><tr>${cols.map(c=>`<th>${esc(c[0])}</th>`).join('')}</tr></thead><tbody>${rows.map(r=>`<tr>${cols.map(c=>{
+    let v=r[c[1]];if(c[1]==='LockPlan')v=r.LockPlan?lpdDateLabel(r.LockPlan):(r.LockPlanRaw||'—');else if(['BookingQty','DeliveryQty','DeliveryBal','RFD','NRFD','WIP','KnitOk','KnitBal','DyeOk','DyeBal'].includes(c[1]))v=lpdQty(v);else if(c[1]==='OTD')v=lpdClassifyOTD(r);return`<td>${esc(v||'—')}</td>`
+  }).join('')}</tr>`).join('')}</tbody></table></div>`;
+  $('#lpdMeetingMeta').textContent=`${rows.length} selected row${rows.length===1?'':'s'} • meeting view`;
+  modal.classList.remove('hidden')
+}
+function bindLpdMeetingSelection(){
+  $$('.lpd-row-select').forEach(x=>x.onchange=updateLpdSelectionUI);
+  if($('#lpdSelectAllRows'))$('#lpdSelectAllRows').onchange=e=>{$$('.lpd-row-select').forEach(x=>x.checked=e.target.checked);updateLpdSelectionUI()};
+  if($('#lpdClearSelected'))$('#lpdClearSelected').onclick=clearLpdSelection;
+  if($('#lpdFocusSelected'))$('#lpdFocusSelected').onclick=()=>{
+    if(!selectedLpdRowIndexes().length)return alert('Select one or more rows first.');
+    $('#lpdEventTableWrap')?.classList.toggle('meeting-focus')
+  };
+  if($('#lpdZoomSelected'))$('#lpdZoomSelected').onclick=openLpdMeetingZoom;
+  if($('#lpdMeetingClose'))$('#lpdMeetingClose').onclick=()=>$('#lpdMeetingModal')?.classList.add('hidden');
+  const modal=$('#lpdMeetingModal');if(modal)modal.onclick=e=>{if(e.target===modal)modal.classList.add('hidden')};
+  updateLpdSelectionUI()
+}
+
 function bindLpdReasonPopups(){
   $$('.lpd-info-btn[data-lpd-popup]').forEach(b=>b.onclick=()=>{
     const i=Number(b.dataset.lpdPopup);openLpdReasonPopup(state.lpdPopupRows?.[i])
@@ -4671,17 +5077,17 @@ function bindLpdReasonPopups(){
 }
 
 
+
 function renderLockPlanEventDetail(){
   metricCardSet([]);lpdEnsureFilters();
   const all=lpdEvents();
-  $('#content').innerHTML=`<div class="lock-detail-page lock-event-only">${lpdFilterPanel('event')}<div id="lpdBody"></div>${lpdReasonPopupHTML()}</div>`;lpdBindFilters('event');
+  $('#content').innerHTML=`<div class="lock-detail-page lock-event-only">${lpdFilterPanel('event')}<div id="lpdBody"></div>${lpdReasonPopupHTML()}${lpdMeetingZoomHTML()}</div>`;lpdBindFilters('event');
   const body=$('#lpdBody');
   if(!all.length){body.innerHTML='<div class="alert">No Lock Plan Details data uploaded yet. Go to Data Management → Lock Plan Details Data Upload and upload <b>Lock Plan Details.xlsx</b>.</div>';return}
   const rows=lpdFilteredRows('event');
-  body.innerHTML=`<div class="panel lock-detail-table"><h3>Lock Plan Event Detail</h3><div class="note">Operational quantities are copied unchanged to both Start and End event rows. Use the ⓘ button for that event’s Detail Reason and Responsible department.</div>${lpdDetailTable(rows)}</div>`;
-  bindLpdReasonPopups()
+  body.innerHTML=`<div class="panel lock-detail-table"><h3>Lock Plan Event Detail</h3><div class="note">Select rows to highlight them or open a larger Meeting Zoom view. The ⓘ popup includes this row’s reason/responsible data plus matching Yarn Dyeing, Knitting, Dyeing and Delivery OTT status when the same booking exists.</div>${lpdDetailTable(rows)}</div>`;
+  bindLpdReasonPopups();bindLpdMeetingSelection()
 }
-
 function exportLockPlanDetailsCSV(mode=(state.tab==='lock_event'?'event':'board')){
   const rows=lpdFilteredRows(mode);if(!rows.length)return;
   const out=rows.map(r=>{const st=lpdClassifyOTD(r),delay=lpdDelay(r);return{
@@ -4701,9 +5107,11 @@ function lockPlanManagementHeader(rows){
   const dates=rows.map(r=>r.LockPlan).filter(Boolean).sort(),from=dates[0]||'—',to=dates.slice(-1)[0]||'—';
   return`<div class="lock-management-title"><div><h1>Lock Plan Details</h1><small>PLANNING · MONITORING · CONTROL</small></div><div class="lock-management-period">Management Snapshot<b>${esc(from)} → ${esc(to)}</b></div></div>`
 }
+
 function buildLockPlanDetailsSnapshot(){
   const source=$('#lpdManagementArea');if(!source)throw new Error('Lock Plan Details management area is not available.');
-  const clone=cloneWithCanvasImages(source),wrap=document.createElement('div');wrap.className='lock-snapshot-inner';
+  const clone=cloneWithCanvasImages(source);clone.querySelectorAll('.lpd-table-fs-btn').forEach(x=>x.remove());
+  const wrap=document.createElement('div');wrap.className='lock-snapshot-inner';
   wrap.innerHTML=lockPlanManagementHeader(lpdFilteredRows('board'));wrap.appendChild(clone);return wrap
 }
 function openLockPlanDetailsSnapshot(){
@@ -5039,7 +5447,10 @@ function bindUI(){initUtilityControls();
     if(ottWrap&&!ottWrap.contains(e.target))ottWrap.classList.remove('open');
     if(lockWrap&&!lockWrap.contains(e.target))lockWrap.classList.remove('open')
   });
-  ['search','buyerFilter','fromDate','toDate'].forEach(id=>$('#'+id).addEventListener('input',render));$('#resetBtn').onclick=()=>{setFilterDefaults();$('#search').value='';$('#buyerFilter').value='';render()};
+  if($('#kpiMonthFilter'))$('#kpiMonthFilter').addEventListener('change',()=>{applyKpiMonthRange($('#kpiMonthFilter').value);syncBuyerOptions(false);render()});
+  ['fromDate','toDate'].forEach(id=>$('#'+id).addEventListener('change',()=>{syncBuyerOptions(false);render()}));
+  ['search','buyerFilter'].forEach(id=>$('#'+id).addEventListener('input',render));
+  $('#resetBtn').onclick=()=>{setFilterDefaults();$('#search').value='';$('#buyerFilter').value='';render()};
   $('#exportBtn').onclick=exportCurrent;
   if($('#overviewSnapshotBtn'))$('#overviewSnapshotBtn').onclick=openOverviewSnapshot;
   if($('#overviewCopyImageBtn'))$('#overviewCopyImageBtn').onclick=copyOverviewSnapshotImage;
@@ -5120,7 +5531,27 @@ async function handleTargetUpload(){
 async function loadProfile(user){const {data,error}=await sb.from('profiles').select('id,display_name,role,permissions,active').eq('id',user.id).single();if(error)throw error;if(data.active===false)throw new Error('Your dashboard access is disabled. Please contact an administrator.');state.profile=data;return data}
 async function loadData(){const {data,error}=await sb.from('dashboard_data').select('file_name,data,uploaded_at').eq('id',1).maybeSingle();if(error)throw error;if(!data){state.data={sheets:Object.fromEntries([...REQUIRED_SHEETS,...DYEING_SHEETS,...KNITTING_SHEETS,...FINISHING_SHEETS,...DELIVERY_SHEETS,...YARN_DYEING_SHEETS,...CHEMICAL_LAB_SHEETS,...ETL_SHEETS].map(s=>[s,[]])),departmentFiles:{},targets:[],ottSources:{},lockPlanDetails:{events:[],meta:{}},fileName:'No workbook uploaded',uploadedAt:null}}else{state.data={...data.data,fileName:data.file_name,uploadedAt:data.uploaded_at};state.data.sheets=state.data.sheets||{};for(const s of [...REQUIRED_SHEETS,...DYEING_SHEETS,...KNITTING_SHEETS,...FINISHING_SHEETS,...DELIVERY_SHEETS,...YARN_DYEING_SHEETS,...CHEMICAL_LAB_SHEETS,...ETL_SHEETS])state.data.sheets[s]=state.data.sheets[s]||[];state.data.departmentFiles=state.data.departmentFiles||{};state.data.targets=state.data.targets||[];state.data.ottSources=state.data.ottSources||{};state.data.lockPlanDetails=state.data.lockPlanDetails||{events:[],meta:{}}}setFilterDefaults();document.getElementById('lastUpdated').textContent=state.data.uploadedAt?'Last updated: '+new Date(state.data.uploadedAt).toLocaleString():'';render()}
 async function start(){const {data:{session}}=await sb.auth.getSession();if(!session)return;await enter(session.user)}
-async function enter(user){try{const p=await loadProfile(user);document.getElementById('login').classList.add('hidden');document.getElementById('app').classList.remove('hidden');document.getElementById('greeting').textContent='Good morning, '+(p.display_name||user.email);bindUI();await loadData()}catch(e){document.getElementById('loginError').textContent=e.message}}
+
+function timeGreetingLabel(d=new Date()){
+  const h=d.getHours();
+  if(h>=5&&h<12)return'Good morning';
+  if(h>=12&&h<14)return'Good noon';
+  if(h>=14&&h<17)return'Good afternoon';
+  if(h>=17&&h<21)return'Good evening';
+  return'Good night'
+}
+function updateHeaderGreeting(){
+  const el=$('#greeting');if(!el)return;
+  const name=state.profile?.display_name||'';
+  el.textContent=`${timeGreetingLabel()}${name?', '+name:''}`
+}
+function startGreetingClock(){
+  if(state.greetingTimer)clearInterval(state.greetingTimer);
+  updateHeaderGreeting();
+  state.greetingTimer=setInterval(updateHeaderGreeting,60000)
+}
+
+async function enter(user){try{const p=await loadProfile(user);document.getElementById('login').classList.add('hidden');document.getElementById('app').classList.remove('hidden');startGreetingClock();bindUI();await loadData()}catch(e){document.getElementById('loginError').textContent=e.message}}
 document.getElementById('loginBtn').onclick=async()=>{document.getElementById('loginError').textContent='';const email=document.getElementById('email').value.trim(),password=document.getElementById('password').value;const {data,error}=await sb.auth.signInWithPassword({email,password});if(error)return document.getElementById('loginError').textContent=error.message;enter(data.user)};
 document.getElementById('signOutBtn').onclick=async()=>{await sb.auth.signOut();location.reload()};document.getElementById('refreshBtn').onclick=loadData;
 async function handleDyeingUpload(){const inp=document.getElementById('dyeingFileInput'),f=inp?.files?.[0],st=document.getElementById('dyeingUploadStatus');if(!f)return st.textContent='Choose the Dyeing Excel file first.';if(f.size>MAX_DYEING_FILE_MB*1024*1024)return st.textContent=`File is larger than the recommended ${MAX_DYEING_FILE_MB} MB limit.`;try{st.textContent='Reading and validating Dyeing workbook...';const wb=XLSX.read(await f.arrayBuffer(),{type:'array'});const dyeSheets=normalizeDyeingWorkbook(wb);const buyerRows=dyeSheets['Dyeing_Date_Buyer'],dateRows=dyeSheets['Dyeing_Date'];const dateFrom=dateRows.length?dateRows[0].Date:null,dateTo=dateRows.length?dateRows[dateRows.length-1].Date:null;const now=new Date().toISOString();const merged={...(state.data||{}),sheets:{...(state.data?.sheets||{}),...dyeSheets},departmentFiles:{...(state.data?.departmentFiles||{}),dyeing:{fileName:f.name,uploadedAt:now,dateFrom,dateTo,buyerRows:buyerRows.length,dateRows:dateRows.length}},fileName:state.data?.fileName||'Department-wise data',uploadedAt:now};st.textContent=`Validated ${buyerRows.length.toLocaleString()} buyer/date rows and ${dateRows.length.toLocaleString()} date rows. Publishing...`;const {data:{user}}=await sb.auth.getUser();const {error}=await sb.from('dashboard_data').upsert({id:1,file_name:merged.fileName||f.name,data:merged,uploaded_by:user.id,uploaded_at:now},{onConflict:'id'});if(error)throw error;st.textContent=`Dyeing published successfully (${dateFrom||'—'} to ${dateTo||'—'}). Future placeholder rows were ignored; other department data was preserved.`;await loadData()}catch(e){st.textContent='Dyeing upload failed: '+e.message}}
