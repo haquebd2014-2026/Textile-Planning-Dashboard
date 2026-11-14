@@ -1002,6 +1002,169 @@ body.dark-mode .kpi-submenu button:hover,body.dark-mode .kpi-submenu button.acti
   margin:0!important
 }
 
+
+/* ========================= OTT BOARD v30 ========================= */
+.ott-menu-wrap{position:relative;height:52px;display:flex;align-items:stretch}
+.ott-menu-toggle{
+  height:52px;border:0;background:transparent;color:#49554f;padding:0 18px;
+  border-bottom:3px solid transparent;font-size:12px;font-weight:600;
+  display:flex;align-items:center;gap:7px
+}
+.ott-menu-toggle.active{color:#07563f;border-bottom-color:#8b6bc6;font-weight:800}
+.ott-menu-arrow{font-size:15px;transition:transform .16s ease}
+.ott-menu-wrap.open .ott-menu-arrow,.ott-menu-wrap:hover .ott-menu-arrow{transform:rotate(180deg)}
+.ott-submenu{
+  display:none;position:absolute;left:0;top:49px;width:455px;padding:10px;background:#fff;
+  border:1px solid #dce5e0;border-top:3px solid #7a5cc0;border-radius:0 0 10px 10px;
+  box-shadow:0 14px 35px rgba(24,61,48,.18);grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:5px;z-index:3100
+}
+.ott-menu-wrap.open .ott-submenu,.ott-menu-wrap:hover .ott-submenu{display:grid}
+.ott-submenu button{
+  height:39px!important;border:0!important;border-radius:5px;padding:0 12px!important;
+  text-align:left;background:#faf8ff!important;color:#3d3850!important;font-size:11px!important
+}
+.ott-submenu button:hover,.ott-submenu button.active{
+  background:#eee9fb!important;color:#59409a!important;font-weight:800
+}
+body.dark-mode .ott-submenu{background:#17231e;border-color:#594c7e}
+body.dark-mode .ott-submenu button{background:#201e29!important;color:#d8d1ec!important}
+body.dark-mode .ott-submenu button:hover,body.dark-mode .ott-submenu button.active{
+  background:#312a45!important;color:#f1ecff!important
+}
+
+.ott-page{grid-column:1/-1;width:100%;min-width:0}
+.ott-filter-panel{
+  background:var(--card);border:1px solid var(--line);border-top:3px solid #7a5cc0;
+  padding:11px 12px;border-radius:6px;margin-bottom:10px;box-shadow:0 3px 10px rgba(31,54,45,.05)
+}
+.ott-filter-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:9px}
+.ott-filter-head h2{margin:0;font:700 19px Georgia,serif;color:#07563f}
+.ott-filter-head .meta{font-size:9px;color:var(--muted)}
+.ott-filter-actions{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.ott-filter-grid{
+  display:grid;grid-template-columns:1.5fr repeat(4,minmax(120px,1fr));
+  gap:7px;align-items:end
+}
+.ott-filter-grid .wide{grid-column:span 2}
+.ott-filter-grid input,.ott-filter-grid select{
+  width:100%;height:34px;border:1px solid #cfdad5;border-radius:4px;padding:0 8px;background:var(--card);color:var(--text);font-size:10.5px
+}
+.ott-booking-picker{position:relative}
+.ott-booking-picker>summary{
+  height:34px;display:flex;align-items:center;justify-content:space-between;gap:8px;
+  border:1px solid #cfdad5;border-radius:4px;padding:0 9px;background:var(--card);
+  color:var(--text);font-size:10.5px;cursor:pointer;list-style:none
+}
+.ott-booking-picker>summary::-webkit-details-marker{display:none}
+.ott-booking-pop{
+  position:absolute;z-index:2400;left:0;top:38px;width:360px;max-width:80vw;
+  background:var(--card);border:1px solid #cfdad5;border-radius:7px;padding:8px;
+  box-shadow:0 12px 28px rgba(26,60,48,.18)
+}
+.ott-booking-search{width:100%!important;margin-bottom:6px}
+.ott-booking-list{max-height:230px;overflow:auto;border:1px solid var(--line);border-radius:4px;padding:4px}
+.ott-booking-option{display:flex;align-items:center;gap:6px;padding:4px 5px;font-size:10px;border-radius:3px}
+.ott-booking-option:hover{background:var(--soft)}
+.ott-booking-option input{width:auto!important;height:auto!important;margin:0}
+.ott-booking-actions{display:flex;justify-content:space-between;align-items:center;margin-top:7px;gap:6px}
+.ott-filter-note{margin-top:8px;font-size:9px;color:var(--muted)}
+.ott-upload-inline{
+  display:flex;align-items:center;gap:6px;padding:6px 8px;border:1px dashed #b8c9c1;border-radius:5px;background:var(--soft)
+}
+.ott-upload-inline input{max-width:205px;font-size:9px}
+.ott-upload-status{font-size:8.5px;color:var(--muted);max-width:280px}
+
+.ott-management-area{
+  background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:8px;
+  margin-bottom:10px;box-shadow:0 3px 12px rgba(22,64,48,.05)
+}
+.ott-management-title{
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+  padding:9px 12px;background:linear-gradient(110deg,#064c3a,#0c8062);color:#fff;border-radius:7px;margin-bottom:8px
+}
+.ott-management-title h2{margin:0;font:700 20px Georgia,serif;color:#fff}
+.ott-management-title small{display:block;margin-top:2px;font-size:9px;letter-spacing:1.2px;color:#d9efe6}
+.ott-period{text-align:right;font-size:9px;color:#d5e9e1}.ott-period b{display:block;color:#fff;font-size:12px;margin-top:2px}
+.ott-card-grid{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:6px;margin-bottom:7px}
+.ott-card{
+  --ottAccent:#0b7d5c;background:var(--card);border:1px solid var(--line);border-top:3px solid var(--ottAccent);
+  border-radius:7px;padding:9px 10px;min-width:0;min-height:86px
+}
+.ott-card.orange{--ottAccent:#e89a28}.ott-card.red{--ottAccent:#d95340}.ott-card.blue{--ottAccent:#3c7fb5}
+.ott-card.purple{--ottAccent:#8064bd}.ott-card.teal{--ottAccent:#16939b}
+.ott-card .label{font-size:8.5px;text-transform:uppercase;letter-spacing:.45px;color:var(--muted);font-weight:700}
+.ott-card .value{font:700 22px Georgia,serif;color:#075d45;margin:3px 0 2px}
+.ott-card .sub{font-size:8.5px;color:var(--muted);line-height:1.35}
+.ott-chart-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}
+.ott-chart-grid .panel{margin:0;min-height:260px}
+.ott-chart-grid .chart-wrap{height:205px!important}
+.ott-chart-grid .panel.wide{grid-column:1/-1}
+.ott-status-section{grid-column:1/-1;border:1px solid var(--line);background:var(--card);border-radius:7px;padding:9px;margin-top:1px}
+.ott-status-section h3{margin:0 0 4px;font:700 14px Georgia,serif;color:#075d45}
+.ott-result-pass{background:#ddf4e9;color:#0a6a49;border:1px solid #b8e4d0;padding:2px 6px;border-radius:99px;font-weight:800;font-size:8.5px}
+.ott-result-fail{background:#fde5df;color:#bd3f29;border:1px solid #f4c5ba;padding:2px 6px;border-radius:99px;font-weight:800;font-size:8.5px}
+.ott-result-na{background:#edf1ef;color:#697770;border:1px solid #dce5e0;padding:2px 6px;border-radius:99px;font-weight:700;font-size:8.5px}
+.ott-cross-table td{vertical-align:top;min-width:125px}
+.ott-cross-cell{display:grid;gap:3px}
+.ott-cross-line{font-size:8.5px;line-height:1.25;padding:3px 4px;border-radius:4px;background:var(--soft)}
+.ott-cross-line.fail{border-left:3px solid #d95340}.ott-cross-line.pass{border-left:3px solid #20a46c}
+.ott-cross-line b{font-size:8px}.ott-cross-line span{color:var(--muted)}
+.ott-detail-wrap{grid-column:1/-1}
+.ott-detail-wrap .table-wrap{max-height:560px}
+.ott-detail-wrap td,.ott-detail-wrap th{font-size:9px}
+.ott-detail-wrap .fail-row{background:rgba(217,83,64,.045)}
+.ott-detail-wrap .booking-cell{font-weight:800;color:#075d45}
+.ott-floor-note{font-size:8.5px;color:#8b6500;background:#fff7d9;border-left:3px solid #eab400;padding:5px 7px;border-radius:3px}
+
+.ott-snapshot-modal{
+  position:fixed;inset:0;z-index:5200;background:rgba(5,25,18,.76);
+  display:flex;align-items:stretch;justify-content:center;padding:12px
+}
+.ott-snapshot-modal.hidden{display:none!important}
+.ott-snapshot-dialog{
+  width:min(1550px,100%);height:calc(100vh - 24px);background:#e7ece9;border-radius:10px;overflow:hidden;
+  display:flex;flex-direction:column;box-shadow:0 18px 60px rgba(0,0,0,.34)
+}
+.ott-snapshot-toolbar{
+  flex:none;padding:9px 14px;background:#fff;border-bottom:1px solid #dce5e0;
+  display:flex;align-items:center;justify-content:space-between;gap:12px
+}
+.ott-snapshot-toolbar h3{margin:0;font:700 15px Georgia,serif;color:#075d45}
+.ott-snapshot-help,.ott-copy-status{font-size:9px;color:#718079}
+.ott-snapshot-actions{display:flex;align-items:center;gap:7px}
+.ott-snapshot-scroll{flex:1;overflow:auto;padding:10px;background:#dfe6e2}
+.ott-snapshot-capture{
+  width:1400px;max-width:none;margin:0 auto;padding:7px;background:#f4f7f5;color:#17352c;box-sizing:border-box
+}
+.ott-snapshot-capture .ott-management-area{margin:0;background:#f4f7f5!important;box-shadow:none}
+.ott-snapshot-capture .panel-chart-actions{display:none!important}
+.ott-snapshot-capture .chart-wrap img{display:block;width:100%;height:100%;object-fit:contain}
+body.dark-mode .ott-snapshot-capture .ott-management-area,
+body.dark-mode .ott-snapshot-capture .ott-card,
+body.dark-mode .ott-snapshot-capture .panel,
+body.dark-mode .ott-snapshot-capture .ott-status-section{background:#fff!important;color:#17352c!important}
+body.dark-mode .ott-snapshot-capture .ott-card .value,
+body.dark-mode .ott-snapshot-capture h3{color:#075d45!important}
+
+body.dark-mode .ott-filter-panel,body.dark-mode .ott-card,body.dark-mode .ott-management-area,body.dark-mode .ott-status-section{background:#17231e}
+body.dark-mode .ott-booking-pop{background:#17231e;border-color:#3b5248}
+body.dark-mode .ott-result-pass{background:#17382b;color:#b9f0d7;border-color:#265b45}
+body.dark-mode .ott-result-fail{background:#43251f;color:#ffc6ba;border-color:#6c382d}
+body.dark-mode .ott-floor-note{background:#3b3418;color:#f3d76c}
+
+@media(max-width:1100px){
+  .ott-filter-grid{grid-template-columns:repeat(3,minmax(120px,1fr))}
+  .ott-card-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+}
+@media(max-width:800px){
+  .ott-submenu{width:min(92vw,455px);grid-template-columns:1fr}
+  .ott-filter-grid{grid-template-columns:repeat(2,minmax(120px,1fr))}
+  .ott-card-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .ott-chart-grid{grid-template-columns:1fr}
+  .ott-chart-grid .panel.wide{grid-column:auto}
+}
+
 </style></head><body><div id="app" class="hidden"><div class="app-sticky-header"><div class="top-accent"></div><header class="header"><div class="header-left"><div class="brand-mark">TP</div><div><div class="brand-title">Textile Planning Dashboard</div><div class="brand-sub">Planning, Monitoring & Control</div></div></div><div class="header-actions"><div class="utility-tools"><button class="tool-btn stopwatch-btn" id="stopwatchBtn" title="Click to start/pause • Double-click to reset">⏱ <span id="stopwatchText">00:00</span></button><button class="tool-btn" id="fullscreenBtn" title="Enter full screen">⛶ Full</button><button class="tool-btn" id="themeBtn" title="Switch dark/light mode">☾ Dark</button></div><span class="greeting" id="greeting">Good morning</span><button class="btn" id="exportBtn">Export CSV</button><button class="btn" id="signOutBtn">Sign out</button><button class="btn primary" id="refreshBtn">Refresh</button></div></header><nav class="nav">
   <div class="kpi-menu-wrap" id="kpiMenuWrap">
     <button class="kpi-menu-toggle active" id="kpiBoardBtn" type="button">KPI Board <span class="kpi-menu-arrow">⌄</span></button>
@@ -1014,6 +1177,17 @@ body.dark-mode .kpi-submenu button:hover,body.dark-mode .kpi-submenu button.acti
       <button data-tab="finishing">Finishing</button>
       <button data-tab="chemical">Chemical Lab</button>
       <button data-tab="etl">ETL</button>
+    </div>
+  </div>
+  <div class="ott-menu-wrap" id="ottMenuWrap">
+    <button class="ott-menu-toggle" id="ottBoardBtn" type="button">OTT Board <span class="ott-menu-arrow">⌄</span></button>
+    <div class="ott-submenu" id="ottSubmenu">
+      <button data-tab="ott_yarn">Yarn Dyeing OTT</button>
+      <button data-tab="ott_knitting">Knitting OTT</button>
+      <button data-tab="ott_dyeing">Dyeing OTT</button>
+      <button data-tab="ott_delivery">Delivery OTT</button>
+      <button data-tab="ott_lock">Lock Plan OTT</button>
+      <button data-tab="ott_overall">Overall OTT</button>
     </div>
   </div>
   <button data-tab="data" class="main-nav-btn">Data Management</button>
@@ -1042,6 +1216,24 @@ body.dark-mode .kpi-submenu button:hover,body.dark-mode .kpi-submenu button.acti
     </div>
     <div class="overview-snapshot-scroll">
       <div id="overviewSnapshotCapture" class="overview-snapshot-capture"></div>
+    </div>
+  </div>
+</div>
+<div id="ottSnapshotModal" class="ott-snapshot-modal hidden" role="dialog" aria-modal="true" aria-labelledby="ottSnapshotTitle">
+  <div class="ott-snapshot-dialog">
+    <div class="ott-snapshot-toolbar">
+      <div>
+        <h3 id="ottSnapshotTitle">OTT Management View</h3>
+        <div class="ott-snapshot-help">Management-ready dashboard • full-page image snapshot</div>
+      </div>
+      <div class="ott-snapshot-actions">
+        <span id="ottCopyStatus" class="ott-copy-status"></span>
+        <button class="btn primary" id="ottCopyImageBtn" type="button">▣ Copy Image</button>
+        <button class="btn" id="ottSnapshotClose" type="button">Close</button>
+      </div>
+    </div>
+    <div class="ott-snapshot-scroll">
+      <div id="ottSnapshotCapture" class="ott-snapshot-capture"></div>
     </div>
   </div>
 </div>
@@ -1130,6 +1322,17 @@ const TARGET_KPI_DEFS=[
 ];
 
 const KPI_TABS=['overview','delivery','yarn','knitting','dyeing','finishing','chemical','etl'];
+const OTT_TABS=['ott_yarn','ott_knitting','ott_dyeing','ott_delivery','ott_lock','ott_overall'];
+const OTT_SOURCE_TABS=['ott_yarn','ott_knitting','ott_dyeing','ott_delivery','ott_lock'];
+const OTT_CONFIG={
+  ott_yarn:{key:'yarn',label:'Yarn Dyeing OTT',short:'YD',fileName:'Yarn Dyeing OTT_2026-2027.xlsx',hasFloor:false},
+  ott_knitting:{key:'knitting',label:'Knitting OTT',short:'Knitting',fileName:'Knitting OTT_2026-2027.xlsx',hasFloor:false},
+  ott_dyeing:{key:'dyeing',label:'Dyeing OTT',short:'Dyeing',fileName:'Dyeing OTT_2026-2027.xlsx',hasFloor:true},
+  ott_delivery:{key:'delivery',label:'Delivery OTT',short:'Delivery',fileName:'Delivery Floor OTT_2026-2027.xlsx',hasFloor:true},
+  ott_lock:{key:'lock',label:'Lock Plan OTT',short:'Lock Plan',fileName:'Lock Plan OTT_2026-2027.xlsx',hasFloor:true},
+  ott_overall:{key:'overall',label:'Overall OTT',short:'Overall',fileName:'',hasFloor:true}
+};
+const MAX_OTT_FILE_MB=20;
 const MENU_DEFS=[
   {key:'overview',label:'Overview'},
   {key:'delivery',label:'Delivery'},
@@ -1139,10 +1342,23 @@ const MENU_DEFS=[
   {key:'finishing',label:'Finishing'},
   {key:'chemical',label:'Chemical Lab'},
   {key:'etl',label:'ETL'},
+  {key:'ott_yarn',label:'Yarn Dyeing OTT'},
+  {key:'ott_knitting',label:'Knitting OTT'},
+  {key:'ott_dyeing',label:'Dyeing OTT'},
+  {key:'ott_delivery',label:'Delivery OTT'},
+  {key:'ott_lock',label:'Lock Plan OTT'},
+  {key:'ott_overall',label:'Overall OTT'},
   {key:'data',label:'Data Management'}
 ];
-const DEFAULT_PERMISSIONS={overview:true,dyeing:true,knitting:true,finishing:true,delivery:true,yarn:true,chemical:true,etl:true,data:false,users:false};
-const state={data:null,filtered:null,tab:'overview',charts:[],profile:null,userList:[],editingUserId:null,ydViewMode:'date'};
+const DEFAULT_PERMISSIONS={
+  overview:true,dyeing:true,knitting:true,finishing:true,delivery:true,yarn:true,chemical:true,etl:true,
+  ott_yarn:true,ott_knitting:true,ott_dyeing:true,ott_delivery:true,ott_lock:true,ott_overall:true,
+  data:false,users:false
+};
+const state={
+  data:null,filtered:null,tab:'overview',charts:[],profile:null,userList:[],editingUserId:null,ydViewMode:'date',
+  ottFilters:{bookings:[],buyer:'',plan:'',result:'',failReason:'',relatedDept:'',floor:'',type:'',month:'',from:'',to:''}
+};
 const $=s=>document.querySelector(s); const $$=s=>[...document.querySelectorAll(s)];
 const safeNum=v=>{if(v===null||v===undefined||v===''||String(v).trim().startsWith('#'))return null;if(typeof v==='number')return Number.isFinite(v)?v:null;let s=String(v).trim().replace(/,/g,'');if(!s)return null;if(s.endsWith('%')){const n=parseFloat(s.slice(0,-1));return Number.isFinite(n)?n/100:null}const n=Number(s);return Number.isFinite(n)?n:null};
 const vals=(rows,key)=>rows.map(r=>safeNum(r[key])).filter(v=>v!==null);
@@ -1203,6 +1419,24 @@ function barChartPct(id,labels,data,label='Value'){
 function barChart(id,labels,data,label='Value'){const ctx=document.getElementById(id);if(!ctx)return;const dark=document.body.classList.contains('dark-mode'),grid=dark?'#31453c':'#eef1ef',txt=dark?'#b9c9c1':'#58635e';state.charts.push(new Chart(ctx,{type:'bar',data:{labels,datasets:[{label,data,backgroundColor:'#087252'}]},options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{color:grid},ticks:{font:{size:9},color:txt}},y:{grid:{display:false},ticks:{font:{size:9},color:txt}}}}}))}
 
 function lineChartPct(id,labels,sets){const ctx=document.getElementById(id);if(!ctx)return;const dark=document.body.classList.contains('dark-mode'),grid=dark?'#31453c':'#eef1ef',txt=dark?'#b9c9c1':'#58635e';const c=new Chart(ctx,{type:'line',data:{labels,datasets:sets.map((s,i)=>({label:s.label,data:s.data,borderColor:color[i%color.length],backgroundColor:color[i%color.length],tension:.25,pointRadius:2,borderWidth:2}))},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{boxWidth:10,font:{size:10},color:txt}},tooltip:{callbacks:{label:c=>`${c.dataset.label}: ${c.parsed.y===null?'—':(c.parsed.y*100).toFixed(1)+'%'}`}}},scales:{x:{ticks:{font:{size:9},maxRotation:0,color:txt},grid:{display:false}},y:{ticks:{font:{size:9},color:txt,callback:v=>(v*100).toFixed(0)+'%'},grid:{color:grid}}}}});c.$tpPercent=true;state.charts.push(c)}
+
+function doughnutChart(id,labels,data){
+  const ctx=document.getElementById(id);if(!ctx)return;
+  const dark=document.body.classList.contains('dark-mode'),txt=dark?'#c5d5cd':'#58635e';
+  const c=new Chart(ctx,{type:'doughnut',data:{labels,datasets:[{data,backgroundColor:['#20a46c','#dc5b42','#8f9b98'],borderWidth:0}]},
+    options:{responsive:true,maintainAspectRatio:false,cutout:'66%',plugins:{legend:{position:'bottom',labels:{boxWidth:10,font:{size:10},color:txt}}}}});
+  state.charts.push(c)
+}
+function groupedBarChartPct(id,labels,sets){
+  const ctx=document.getElementById(id);if(!ctx)return;
+  const dark=document.body.classList.contains('dark-mode'),grid=dark?'#31453c':'#eef1ef',txt=dark?'#b9c9c1':'#58635e';
+  const c=new Chart(ctx,{type:'bar',data:{labels,datasets:sets.map((x,i)=>({label:x.label,data:x.data,backgroundColor:color[i%color.length],borderWidth:0}))},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{boxWidth:10,font:{size:10},color:txt}},
+      tooltip:{callbacks:{label:c=>`${c.dataset.label}: ${c.parsed.y===null?'—':(c.parsed.y*100).toFixed(1)+'%'}`}}},
+      scales:{x:{grid:{display:false},ticks:{font:{size:9},color:txt}},y:{min:0,max:1,grid:{color:grid},ticks:{font:{size:9},color:txt,callback:v=>(v*100).toFixed(0)+'%'}}}}});
+  c.$tpPercent=true;state.charts.push(c)
+}
+
 function groupedBarChart(id,labels,sets){const ctx=document.getElementById(id);if(!ctx)return;const dark=document.body.classList.contains('dark-mode'),grid=dark?'#31453c':'#eef1ef',txt=dark?'#b9c9c1':'#58635e';state.charts.push(new Chart(ctx,{type:'bar',data:{labels,datasets:sets.map((x,i)=>({label:x.label,data:x.data,backgroundColor:color[i%color.length],borderWidth:0}))},options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{boxWidth:10,font:{size:10},color:txt}}},scales:{x:{grid:{color:grid},ticks:{font:{size:9},color:txt}},y:{grid:{display:false},ticks:{font:{size:9},color:txt,autoSkip:false}}}}}))}
 function normalizeWorkbook(wb){const sheets={};for(const s of REQUIRED_SHEETS){if(!wb.SheetNames.includes(s))throw new Error(`Missing sheet: ${s}`);const rows=XLSX.utils.sheet_to_json(wb.Sheets[s],{defval:null,raw:true});for(const r of rows){if('Date' in r)r.Date=parseDate(r.Date)}sheets[s]=rows}return{sheets,fileName:'Uploaded workbook',uploadedAt:new Date().toISOString()}}
 function normalizeDyeingWorkbook(wb){const sheets={};for(const s of DYEING_SHEETS){if(!wb.SheetNames.includes(s))throw new Error(`Missing sheet: ${s}`);const rows=XLSX.utils.sheet_to_json(wb.Sheets[s],{defval:null,raw:true});for(const r of rows){if('Date' in r)r.Date=parseDate(r.Date);if('Buyer' in r&&r.Buyer!==null)r.Buyer=String(r.Buyer).trim()}sheets[s]=rows.filter(r=>Object.values(r).some(v=>v!==null&&v!==''))}const requiredBuyer=['Date','Buyer','Prod. (EFL)','Prod. (EKL+Ext)','Pluvia','Capacity Utilization (EFL)','Capacity Utilization (EKL+Ext)','On Time Target','Reprocess (EFL)','Reprocess (EKL+Ext)','Batch/MC/Day (EFL)','Batch/MC/Day (EKL)','Batch/MC/Day (Ext)'];const requiredDate=['Date','Dyeing RFT (EFL)','Dyeing RFT (EKL+Ext.)','Loading (EFL)','Loading (EKL+Ext)','On Time Target','Reprocess (EFL)','Reprocess (EKL+Ext)'];for(const [s,req] of [['Dyeing_Date_Buyer',requiredBuyer],['Dyeing_Date',requiredDate]]){const cols=sheets[s].length?Object.keys(sheets[s][0]):[];const miss=req.filter(c=>!cols.includes(c));if(miss.length)throw new Error(`${s} missing column(s): ${miss.join(', ')}`)}
@@ -1594,6 +1828,411 @@ function kpiMulti(label,value,lines=[],tone='green'){return`<div class="kpi tone
 function tableHTML(rows,limit=500,percentCols=[]){if(!rows.length)return'<div class="alert">No records match the current filters.</div>';const cols=Object.keys(rows[0]);const pctSet=new Set(percentCols);return`<div class="table-wrap"><table><thead><tr>${cols.map(c=>`<th>${esc(c)}</th>`).join('')}</tr></thead><tbody>${rows.slice(0,limit).map(r=>`<tr>${cols.map(c=>{const v=r[c];const n=safeNum(v);let out=esc(v??'');if(c==='Date')out=esc(parseDate(v)||v||'');else if((pctSet.has(c)||/%|OTT|RFT|Util|uti|Efficiency|Loading|MLT|OTD|One Shot|Pass/i.test(c))&&n!==null)out=pct(n);else if(n!==null)out=n.toLocaleString(undefined,{maximumFractionDigits:2});return`<td class="${n!==null?'num':''}">${out}</td>`}).join('')}</tr>`).join('')}</tbody></table></div>`}
 function metricCardSet(items){$('#kpis').innerHTML=items.join('')}
 function panel(title,note,body,wide=false,zoomable=false){const controls=zoomable?`<div class="panel-chart-actions"><button class="panel-data-btn" type="button" title="Show chart data" aria-label="Show ${esc(title)} chart data" onclick="showPanelChartData(this)">▦</button><button class="panel-expand-btn" type="button" title="Open this chart full screen" aria-label="Open ${esc(title)} full screen" onclick="togglePanelFullscreen(this)">⛶</button></div>`:'';return`<section class="panel ${wide?'wide':''} ${zoomable?'zoomable-panel':''}">${controls}<h3>${esc(title)}</h3><div class="note">${esc(note)}</div>${body}</section>`}
+
+/* ======================== OTT CORE ======================== */
+function ottBlankFilters(){return{bookings:[],buyer:'',plan:'',result:'',failReason:'',relatedDept:'',floor:'',type:'',month:'',from:'',to:''}}
+function ottClean(v){const s=String(v??'').trim();return s==='11'?'':s}
+function ottNorm(v){return ottClean(v).toLowerCase().replace(/\s+/g,' ')}
+function ottBookingKey(v){return ottClean(v).toUpperCase()}
+function ottNormType(v){const s=ottNorm(v);return s==='start'?'Start':s==='end'?'End':ottClean(v)}
+function ottNormResult(v){const s=ottNorm(v);return s==='pass'?'Pass':s==='fail'?'Fail':ottClean(v)}
+function ottParseDate(v){
+  if(v===null||v===undefined||v==='')return null;
+  if(typeof v==='number'&&window.XLSX){
+    const d=XLSX.SSF.parse_date_code(v);
+    return d&&d.y>2000?`${d.y}-${String(d.m).padStart(2,'0')}-${String(d.d).padStart(2,'0')}`:null
+  }
+  if(v instanceof Date&&!isNaN(v))return v.toISOString().slice(0,10);
+  const s=String(v).trim();
+  if(!s||s==='11'||/^\d{1,2}$/.test(s))return null;
+  if(/^\d{4}-\d{2}-\d{2}/.test(s))return s.slice(0,10);
+  const m=s.match(/^(\d{1,2})[\/-](\d{1,2})[\/-](\d{4})$/);
+  if(m){
+    const d=new Date(Number(m[3]),Number(m[2])-1,Number(m[1]));
+    if(!isNaN(d))return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`
+  }
+  return null
+}
+function ottFmtDate(s){
+  if(!s)return'—';const d=new Date(s+'T00:00:00');if(isNaN(d))return s;
+  return d.toLocaleDateString(undefined,{day:'2-digit',month:'short',year:'2-digit'})
+}
+function ottDelayDays(r){
+  if(!r?.Plan||!r?.Actual)return null;
+  const a=new Date(r.Actual+'T00:00:00'),p=new Date(r.Plan+'T00:00:00');
+  if(isNaN(a)||isNaN(p))return null;return Math.round((a-p)/86400000)
+}
+function ottHeaderSig(v){return String(v??'').trim().toLowerCase().replace(/[^a-z0-9]+/g,'')}
+function normalizeOTTWorkbook(wb,tab){
+  const cfg=OTT_CONFIG[tab];if(!cfg||tab==='ott_overall')throw new Error('Invalid OTT source');
+  const sn='Data';if(!wb.SheetNames.includes(sn))throw new Error('Missing sheet: Data');
+  const raw=XLSX.utils.sheet_to_json(wb.Sheets[sn],{defval:null,raw:true});
+  if(!raw.length)throw new Error('Data sheet has no rows.');
+  const headers=Object.keys(raw[0]),bySig=new Map(headers.map(h=>[ottHeaderSig(h),h]));
+  const find=(name)=>bySig.get(ottHeaderSig(name));
+  const req=['Booking No.','Buyer','Plan','Actual','Result','Fail Reason','Related Dept.','Type','Month'];
+  if(cfg.hasFloor)req.push('Floor');
+  const miss=req.filter(x=>!find(x));if(miss.length)throw new Error(`Data missing column(s): ${miss.join(', ')}`);
+  const detailsH=find('Details Remarks');
+  const rows=[];
+  for(const rr of raw){
+    const booking=ottClean(rr[find('Booking No.')]);if(!booking)continue;
+    const plan=ottParseDate(rr[find('Plan')]);
+    const actual=ottParseDate(rr[find('Actual')]);
+    rows.push({
+      BookingNo:booking,
+      Buyer:ottClean(rr[find('Buyer')]),
+      Plan:plan,
+      Actual:actual,
+      Result:ottNormResult(rr[find('Result')]),
+      FailReason:ottClean(rr[find('Fail Reason')]),
+      RelatedDept:ottClean(rr[find('Related Dept.')]),
+      Floor:cfg.hasFloor?ottClean(rr[find('Floor')]):'',
+      Type:ottNormType(rr[find('Type')]),
+      Month:ottClean(rr[find('Month')]),
+      DetailsRemarks:detailsH?ottClean(rr[detailsH]):''
+    })
+  }
+  if(!rows.length)throw new Error('No usable OTT rows found.');
+  rows.sort((a,b)=>(a.Plan||'').localeCompare(b.Plan||'')||a.BookingNo.localeCompare(b.BookingNo));
+  return rows
+}
+function ottSource(tab){
+  const cfg=OTT_CONFIG[tab];if(!cfg||tab==='ott_overall')return[];
+  return state.data?.ottSources?.[cfg.key]?.rows||[]
+}
+function ottRowsWithDept(tab){
+  if(tab==='ott_overall'){
+    return OTT_SOURCE_TABS.flatMap(t=>{
+      const cfg=OTT_CONFIG[t];return ottSource(t).map(r=>({...r,DepartmentKey:cfg.key,Department:cfg.short}))
+    })
+  }
+  const cfg=OTT_CONFIG[tab];
+  return ottSource(tab).map(r=>({...r,DepartmentKey:cfg.key,Department:cfg.short}))
+}
+function ottCanonicalOptions(rows,key){
+  const map=new Map();
+  rows.forEach(r=>{
+    const v=ottClean(r[key]);if(!v)return;const n=ottNorm(v);
+    const x=map.get(n)||{label:v,count:0};x.count++;if(v.length<x.label.length)x.label=v;map.set(n,x)
+  });
+  return [...map.values()].sort((a,b)=>a.label.localeCompare(b.label,undefined,{sensitivity:'base'})).map(x=>x.label)
+}
+function ottBookingOptions(tab){
+  const rows=ottRowsWithDept(tab);return [...new Set(rows.map(r=>r.BookingNo).filter(Boolean))].sort((a,b)=>a.localeCompare(b,undefined,{numeric:true,sensitivity:'base'}))
+}
+function ottFilterRows(tab){
+  const f=state.ottFilters||ottBlankFilters(),selected=new Set((f.bookings||[]).map(ottBookingKey));
+  return ottRowsWithDept(tab).filter(r=>{
+    if(selected.size&&!selected.has(ottBookingKey(r.BookingNo)))return false;
+    if(f.buyer&&ottNorm(r.Buyer)!==ottNorm(f.buyer))return false;
+    if(f.plan&&r.Plan!==f.plan)return false;
+    if(f.result&&ottNorm(r.Result)!==ottNorm(f.result))return false;
+    if(f.failReason&&ottNorm(r.FailReason)!==ottNorm(f.failReason))return false;
+    if(f.relatedDept&&ottNorm(r.RelatedDept)!==ottNorm(f.relatedDept))return false;
+    if(f.floor){
+      if(!['knitting','yarn'].includes(r.DepartmentKey)&&ottNorm(r.Floor)!==ottNorm(f.floor))return false;
+    }
+    if(f.type&&ottNormType(r.Type)!==ottNormType(f.type))return false;
+    if(f.month&&ottNorm(r.Month)!==ottNorm(f.month))return false;
+    if(f.from&&(!r.Plan||r.Plan<f.from))return false;
+    if(f.to&&(!r.Plan||r.Plan>f.to))return false;
+    return true
+  })
+}
+function ottRate(rows){if(!rows.length)return null;const p=rows.filter(r=>r.Result==='Pass').length;return p/rows.length}
+function ottStats(rows){
+  const pass=rows.filter(r=>r.Result==='Pass').length,fail=rows.filter(r=>r.Result==='Fail').length;
+  const starts=rows.filter(r=>r.Type==='Start'),ends=rows.filter(r=>r.Type==='End');
+  const delay=rows.filter(r=>r.Result==='Fail').map(ottDelayDays).filter(v=>v!==null&&v>0);
+  return{
+    checks:rows.length,pass,fail,rate:rows.length?pass/rows.length:null,
+    startChecks:starts.length,startRate:ottRate(starts),endChecks:ends.length,endRate:ottRate(ends),
+    bookings:new Set(rows.map(r=>ottBookingKey(r.BookingNo))).size,
+    avgDelay:delay.length?delay.reduce((a,b)=>a+b,0)/delay.length:null
+  }
+}
+function ottCard(label,value,sub='',tone='green'){
+  return `<div class="ott-card ${tone}"><div class="label">${esc(label)}</div><div class="value">${value}</div><div class="sub">${esc(sub)}</div></div>`
+}
+function ottGroup(rows,key){
+  const m=new Map();
+  rows.forEach(r=>{
+    const raw=ottClean(r[key])||'(blank)',k=raw==='(blank)'?'(blank)':ottNorm(raw);
+    if(!m.has(k))m.set(k,{rows:[],labels:new Map()});
+    const x=m.get(k);x.rows.push(r);x.labels.set(raw,(x.labels.get(raw)||0)+1)
+  });
+  return [...m.values()].map(x=>{
+    const label=[...x.labels.entries()].sort((a,b)=>b[1]-a[1]||a[0].localeCompare(b[0]))[0]?.[0]||'(blank)',rs=x.rows;
+    return{label,rows:rs,count:rs.length,rate:ottRate(rs),fail:rs.filter(r=>r.Result==='Fail').length}
+  })
+}
+function ottMonthGroups(rows){
+  const m=new Map();
+  rows.forEach(r=>{
+    const k=r.Month||((r.Plan||'').slice(0,7));if(!k)return;
+    if(!m.has(k))m.set(k,[]);m.get(k).push(r)
+  });
+  return [...m.entries()].map(([label,rs])=>({label,rows:rs,rate:ottRate(rs),min:rs.map(r=>r.Plan).filter(Boolean).sort()[0]||label}))
+    .sort((a,b)=>String(a.min).localeCompare(String(b.min)))
+}
+function ottTopCounts(rows,key,n=10){
+  return ottGroup(rows.filter(r=>r.Result==='Fail'&&ottClean(r[key])),key).sort((a,b)=>b.count-a.count).slice(0,n)
+}
+function ottBookingPickerHTML(tab){
+  const opts=ottBookingOptions(tab),sel=new Set((state.ottFilters.bookings||[]).map(ottBookingKey));
+  const summary=sel.size?`${sel.size} booking${sel.size===1?'':'s'} selected`:'All bookings';
+  return `<details class="ott-booking-picker" id="ottBookingPicker"><summary id="ottBookingSummary">${esc(summary)} <span>⌄</span></summary>
+    <div class="ott-booking-pop">
+      <input class="ott-booking-search" id="ottBookingSearch" placeholder="Type booking number...">
+      <div class="ott-booking-list" id="ottBookingList">${opts.map(b=>`<label class="ott-booking-option" data-booking-search="${esc(b.toLowerCase())}"><input type="checkbox" class="ott-booking-box" value="${esc(b)}" ${sel.has(ottBookingKey(b))?'checked':''}><span>${esc(b)}</span></label>`).join('')}</div>
+      <div class="ott-booking-actions"><span class="muted" id="ottBookingCount">${sel.size} selected</span><div><button class="btn" id="ottBookingClear" type="button">Clear</button> <button class="btn primary" id="ottBookingApply" type="button">Apply</button></div></div>
+    </div></details>`
+}
+function ottSelectHTML(id,label,values,current,disabled=false){
+  return `<div class="filter-group"><span class="mini-label">${esc(label)}</span><select id="${id}" ${disabled?'disabled':''}><option value="">All</option>${values.map(v=>`<option value="${esc(v)}" ${ottNorm(v)===ottNorm(current)?'selected':''}>${esc(v)}</option>`).join('')}</select></div>`
+}
+function ottFilterPanel(tab){
+  const cfg=OTT_CONFIG[tab],base=ottRowsWithDept(tab),f=state.ottFilters;
+  const buyers=ottCanonicalOptions(base,'Buyer'),reasons=ottCanonicalOptions(base.filter(r=>r.FailReason),'FailReason'),
+        related=ottCanonicalOptions(base.filter(r=>r.RelatedDept),'RelatedDept'),
+        floors=ottCanonicalOptions(base.filter(r=>r.Floor),'Floor'),types=ottCanonicalOptions(base,'Type'),months=ottCanonicalOptions(base,'Month');
+  const noFloor=tab!=='ott_overall'&&!cfg.hasFloor;
+  const meta=tab==='ott_overall'
+    ?`${base.length.toLocaleString()} checks combined from 5 OTT sources`
+    :`${base.length.toLocaleString()} checks • ${(state.data?.ottSources?.[cfg.key]?.meta?.bookings||0).toLocaleString()} bookings`;
+  const upload=state.profile?.role==='admin'&&tab!=='ott_overall'
+    ?`<div class="ott-upload-inline"><input id="ottFileInput" type="file" accept=".xlsx,.xls,.xlsb"><button class="btn primary" id="ottUploadBtn" type="button">Upload / Replace</button><span class="ott-upload-status" id="ottUploadStatus">${esc(state.data?.ottSources?.[cfg.key]?.meta?.fileName||cfg.fileName)}</span></div>`:'';
+  return `<div class="ott-filter-panel">
+    <div class="ott-filter-head"><div><h2>${esc(cfg.label)}</h2><div class="meta">${esc(meta)}</div></div>
+      <div class="ott-filter-actions">${upload}<button class="btn" id="ottCsvBtn" type="button">Export CSV</button><button class="btn primary" id="ottSnapshotBtn" type="button">▣ Management View</button></div></div>
+    <div class="ott-filter-grid">
+      <div class="filter-group wide"><span class="mini-label">Booking No. (single / multiple)</span>${ottBookingPickerHTML(tab)}</div>
+      ${ottSelectHTML('ottBuyer','Buyer',buyers,f.buyer)}
+      <div class="filter-group"><span class="mini-label">Plan</span><input id="ottPlan" type="date" value="${esc(f.plan||'')}"></div>
+      ${ottSelectHTML('ottResult','Result',['Pass','Fail'],f.result)}
+      ${ottSelectHTML('ottFailReason','Fail Reason',reasons,f.failReason)}
+      ${ottSelectHTML('ottRelatedDept','Related Dept.',related,f.relatedDept)}
+      ${ottSelectHTML('ottFloor','Floor',floors,f.floor,noFloor)}
+      ${ottSelectHTML('ottType','Type',types,f.type)}
+      ${ottSelectHTML('ottMonth','Month',months,f.month)}
+      <div class="filter-group"><span class="mini-label">Date Range — From</span><input id="ottFrom" type="date" value="${esc(f.from||'')}"></div>
+      <div class="filter-group"><span class="mini-label">Date Range — To</span><input id="ottTo" type="date" value="${esc(f.to||'')}"></div>
+      <div class="filter-group"><span class="mini-label">Filters</span><button class="btn" id="ottResetBtn" type="button">Reset all</button></div>
+    </div>
+    <div class="ott-filter-note">Date Range is applied to <b>Plan date</b>. ${noFloor?'<span class="ott-floor-note">Floor is not available in this source, so Floor filtering does not affect this dashboard.</span>':tab==='ott_overall'?'<span class="ott-floor-note">For Overall OTT, Floor filtering applies to Dyeing / Delivery / Lock Plan only; Knitting and Yarn Dyeing remain included.</span>':''}</div>
+  </div>`
+}
+function ottBindFilters(tab){
+  const map={ottBuyer:'buyer',ottPlan:'plan',ottResult:'result',ottFailReason:'failReason',ottRelatedDept:'relatedDept',ottFloor:'floor',ottType:'type',ottMonth:'month',ottFrom:'from',ottTo:'to'};
+  Object.entries(map).forEach(([id,key])=>{const el=$('#'+id);if(el)el.onchange=()=>{state.ottFilters[key]=el.value;render()}});
+  const search=$('#ottBookingSearch');if(search)search.oninput=()=>{
+    const q=search.value.trim().toLowerCase();$$('.ott-booking-option').forEach(x=>x.classList.toggle('hidden',q&&!x.dataset.bookingSearch.includes(q)))
+  };
+  $$('.ott-booking-box').forEach(c=>c.onchange=()=>{
+    const s=new Set(state.ottFilters.bookings||[]);
+    if(c.checked)s.add(c.value);else s.delete(c.value);
+    state.ottFilters.bookings=[...s];
+    const n=state.ottFilters.bookings.length;
+    if($('#ottBookingCount'))$('#ottBookingCount').textContent=`${n} selected`;
+    if($('#ottBookingSummary'))$('#ottBookingSummary').innerHTML=`${n?n+' booking'+(n===1?'':'s')+' selected':'All bookings'} <span>⌄</span>`
+  });
+  if($('#ottBookingApply'))$('#ottBookingApply').onclick=()=>render();
+  if($('#ottBookingClear'))$('#ottBookingClear').onclick=()=>{state.ottFilters.bookings=[];render()};
+  if($('#ottResetBtn'))$('#ottResetBtn').onclick=()=>{state.ottFilters=ottBlankFilters();render()};
+  if($('#ottSnapshotBtn'))$('#ottSnapshotBtn').onclick=openOttSnapshot;
+  if($('#ottCsvBtn'))$('#ottCsvBtn').onclick=()=>exportOttCSV(tab);
+  if($('#ottUploadBtn'))$('#ottUploadBtn').onclick=()=>handleOTTUpload(tab)
+}
+function ottTableHTML(rows,overall=false,limit=350){
+  if(!rows.length)return'<div class="empty">No records match the current filters.</div>';
+  const show=rows.slice(0,limit),hasRemarks=rows.some(r=>r.DetailsRemarks),showFloor=overall||rows.some(r=>r.Floor);
+  const cols=[
+    ...(overall?[['Department','Department']]:[]),['Booking No.','BookingNo'],['Buyer','Buyer'],['Plan','Plan'],['Actual','Actual'],
+    ['Result','Result'],['Fail Reason','FailReason'],['Related Dept.','RelatedDept'],
+    ...(showFloor?[['Floor','Floor']]:[]),['Type','Type'],['Month','Month'],...(hasRemarks?[['Details Remarks','DetailsRemarks']]:[])
+  ];
+  let h=`<div class="table-wrap"><table><thead><tr>${cols.map(c=>`<th>${esc(c[0])}</th>`).join('')}</tr></thead><tbody>`;
+  for(const r of show){
+    h+=`<tr class="${r.Result==='Fail'?'fail-row':''}">`+cols.map(([label,key])=>{
+      let v=r[key]??'';
+      if(key==='Plan'||key==='Actual')v=ottFmtDate(v);
+      if(key==='Result')return`<td>${v==='Pass'?'<span class="ott-result-pass">Pass</span>':v==='Fail'?'<span class="ott-result-fail">Fail</span>':'<span class="ott-result-na">—</span>'}</td>`;
+      return`<td class="${key==='BookingNo'?'booking-cell':''}">${esc(v||'—')}</td>`
+    }).join('')+'</tr>'
+  }
+  h+='</tbody></table></div>';
+  if(rows.length>limit)h+=`<div class="muted" style="padding-top:5px">Showing first ${limit.toLocaleString()} of ${rows.length.toLocaleString()} filtered records.</div>`;
+  return h
+}
+function ottDeptBookingSummary(rows){
+  if(!rows.length)return'<span class="ott-result-na">No data</span>';
+  const order=['Start','End'],parts=[];
+  for(const t of order){
+    const rs=rows.filter(r=>r.Type===t);if(!rs.length)continue;
+    const fail=rs.some(r=>r.Result==='Fail'),pass=rs.every(r=>r.Result==='Pass'),status=fail?'Fail':pass?'Pass':'—';
+    const plan=rs.map(r=>r.Plan).filter(Boolean).sort()[0]||null,actual=rs.map(r=>r.Actual).filter(Boolean).sort().slice(-1)[0]||null;
+    parts.push(`<div class="ott-cross-line ${status.toLowerCase()}"><b>${t}: ${status}</b><br><span>P ${ottFmtDate(plan)} • A ${ottFmtDate(actual)}</span></div>`)
+  }
+  if(!parts.length){
+    const fail=rows.some(r=>r.Result==='Fail'),status=fail?'Fail':'Pass';
+    return`<div class="ott-cross-line ${status.toLowerCase()}"><b>${status}</b></div>`
+  }
+  return`<div class="ott-cross-cell">${parts.join('')}</div>`
+}
+function ottCrossStatusHTML(){
+  const selected=(state.ottFilters.bookings||[]);if(!selected.length)return'';
+  const all=ottRowsWithDept('ott_overall'),byBooking=new Map();
+  selected.forEach(b=>byBooking.set(ottBookingKey(b),[]));
+  all.forEach(r=>{const k=ottBookingKey(r.BookingNo);if(byBooking.has(k))byBooking.get(k).push(r)});
+  let h=`<div class="ott-status-section"><h3>Selected Booking — All Department OTT Status</h3><div class="note">${selected.length} selected booking${selected.length===1?'':'s'} • Yarn Dyeing / Knitting / Dyeing / Delivery / Lock Plan</div><div class="table-wrap"><table class="ott-cross-table"><thead><tr><th>Booking No.</th><th>Buyer</th><th>YD</th><th>Knitting</th><th>Dyeing</th><th>Delivery</th><th>Lock Plan</th></tr></thead><tbody>`;
+  for(const b of selected){
+    const rs=byBooking.get(ottBookingKey(b))||[],buyer=rs.find(r=>r.Buyer)?.Buyer||'—';
+    const cell=k=>ottDeptBookingSummary(rs.filter(r=>r.DepartmentKey===k));
+    h+=`<tr><td class="booking-cell">${esc(b)}</td><td>${esc(buyer)}</td><td>${cell('yarn')}</td><td>${cell('knitting')}</td><td>${cell('dyeing')}</td><td>${cell('delivery')}</td><td>${cell('lock')}</td></tr>`
+  }
+  return h+'</tbody></table></div></div>'
+}
+function ottManagementHeader(title,rows){
+  const plans=rows.map(r=>r.Plan).filter(Boolean).sort(),from=state.ottFilters.from||plans[0]||'—',to=state.ottFilters.to||plans.slice(-1)[0]||'—';
+  return `<div class="ott-management-title"><div><h2>${esc(title)}</h2><small>TEXTILE OTT MANAGEMENT BOARD</small></div><div class="ott-period">Plan date range<b>${esc(from)} → ${esc(to)}</b></div></div>`
+}
+function renderOTTDept(tab){
+  metricCardSet([]);const cfg=OTT_CONFIG[tab],source=ottSource(tab);
+  $('#content').innerHTML=`<div class="ott-page">${ottFilterPanel(tab)}<div id="ottBody"></div></div>`;ottBindFilters(tab);
+  const body=$('#ottBody');
+  if(!source.length){
+    body.innerHTML=`<div class="alert">No ${esc(cfg.label)} source has been uploaded yet.${state.profile?.role==='admin'?' Use the Upload / Replace control above and select '+esc(cfg.fileName)+'.':''}</div>`;
+    return
+  }
+  const rows=ottFilterRows(tab),s=ottStats(rows),monthly=ottMonthGroups(rows),
+        buyer=ottGroup(rows,'Buyer').filter(x=>x.label!=='(blank)').sort((a,b)=>b.count-a.count).slice(0,12),
+        reasons=ottTopCounts(rows,'FailReason',10),related=ottTopCounts(rows,'RelatedDept',10),
+        floors=cfg.hasFloor?ottGroup(rows.filter(r=>r.Floor),'Floor').sort((a,b)=>b.count-a.count).slice(0,12):[];
+  const cards=[
+    ottCard('Overall OTT',pct(s.rate),`${s.pass.toLocaleString()} Pass • ${s.fail.toLocaleString()} Fail`,'green'),
+    ottCard('Start OTT',pct(s.startRate),`${s.startChecks.toLocaleString()} Start checks`,'blue'),
+    ottCard('End OTT',pct(s.endRate),`${s.endChecks.toLocaleString()} End checks`,'purple'),
+    ottCard('Checks',s.checks.toLocaleString(),'Filtered event checks','teal'),
+    ottCard('Unique Bookings',s.bookings.toLocaleString(),'Booking numbers in current view','orange'),
+    ottCard('Avg Late Days',s.avgDelay===null?'—':fmt1(s.avgDelay),`Positive delay among failed rows with valid Actual`,'red')
+  ].join('');
+  const p=(title,note,id,wide=false)=>panel(title,note,`<div class="chart-wrap"><canvas id="${id}"></canvas></div>`,wide,true);
+  body.innerHTML=`<div class="ott-management-area" id="ottManagementArea">${ottManagementHeader(cfg.label,rows)}
+    <div class="ott-card-grid">${cards}</div><div class="ott-chart-grid">
+      ${p('Pass / Fail','Current filtered checks','ottResult')}
+      ${p('Start vs End OTT','Pass rate by event type','ottType')}
+      ${p('Monthly OTT Trend','Pass rate by source Month','ottMonth')}
+      ${p('Buyer OTT Performance','Top buyers by number of checks','ottBuyerChart')}
+      ${p('Major Fail Reasons','Top fail reasons','ottFailReason')}
+      ${p('Fail Responsible / Related Dept.','Top departments on failed rows','ottRelated')}
+      ${cfg.hasFloor?p('Floor OTT','Pass rate by Floor','ottFloor'):''}
+      ${ottCrossStatusHTML()}
+    </div></div>
+    <div class="panel ott-detail-wrap"><h3>${esc(cfg.label)} Detail</h3><div class="note">Filters apply to the table. Source Result is authoritative; Actual placeholders such as “11” are treated as blank dates.</div>${ottTableHTML(rows,false)}</div>`;
+  doughnutChart('ottResult',['Pass','Fail'],[s.pass,s.fail]);
+  groupedBarChartPct('ottType',['Start','End'],[{label:'Pass rate',data:[s.startRate,s.endRate]}]);
+  lineChartPct('ottMonth',monthly.map(x=>x.label),[{label:'OTT',data:monthly.map(x=>x.rate)}]);
+  barChartPct('ottBuyerChart',buyer.map(x=>x.label),buyer.map(x=>x.rate),'Pass rate');
+  barChart('ottFailReason',reasons.map(x=>x.label),reasons.map(x=>x.count),'Fail checks');
+  barChart('ottRelated',related.map(x=>x.label),related.map(x=>x.count),'Fail checks');
+  if(cfg.hasFloor)barChartPct('ottFloor',floors.map(x=>x.label),floors.map(x=>x.rate),'Pass rate')
+}
+function renderOTTOverall(){
+  metricCardSet([]);const tab='ott_overall',all=ottRowsWithDept(tab);
+  $('#content').innerHTML=`<div class="ott-page">${ottFilterPanel(tab)}<div id="ottBody"></div></div>`;ottBindFilters(tab);
+  const body=$('#ottBody');
+  if(!all.length){body.innerHTML='<div class="alert">No OTT source files have been uploaded yet. Upload the five OTT files from their individual OTT Board submenus.</div>';return}
+  const rows=ottFilterRows(tab),overall=ottStats(rows);
+  const deptStats=OTT_SOURCE_TABS.map(t=>{const cfg=OTT_CONFIG[t],rs=rows.filter(r=>r.DepartmentKey===cfg.key);return{tab:t,cfg,rows:rs,s:ottStats(rs)}});
+  const cards=[
+    ottCard('Overall OTT',pct(overall.rate),`${overall.checks.toLocaleString()} combined checks`,'green'),
+    ...deptStats.map((x,i)=>ottCard(x.cfg.short,pct(x.s.rate),`${x.s.pass.toLocaleString()} Pass • ${x.s.fail.toLocaleString()} Fail`,['teal','blue','purple','orange','red'][i]))
+  ].join('');
+  const monthlyLabels=[...new Set(rows.map(r=>r.Month).filter(Boolean))].sort((a,b)=>{
+    const ar=rows.find(r=>r.Month===a)?.Plan||a,br=rows.find(r=>r.Month===b)?.Plan||b;return ar.localeCompare(br)
+  });
+  const monthSets=deptStats.map(x=>({label:x.cfg.short,data:monthlyLabels.map(m=>ottRate(x.rows.filter(r=>r.Month===m)))}));
+  const reasons=ottTopCounts(rows,'FailReason',12),related=ottTopCounts(rows,'RelatedDept',12);
+  const p=(title,note,id,wide=false)=>panel(title,note,`<div class="chart-wrap"><canvas id="${id}"></canvas></div>`,wide,true);
+  body.innerHTML=`<div class="ott-management-area" id="ottManagementArea">${ottManagementHeader('Overall OTT',rows)}
+    <div class="ott-card-grid">${cards}</div><div class="ott-chart-grid">
+      ${p('Department OTT Comparison','Pass rate across the five OTT sources','ottDeptRate')}
+      ${p('Start vs End by Department','Pass rate comparison','ottDeptType')}
+      ${p('Monthly OTT by Department','Monthly pass-rate trend','ottOverallMonth',true)}
+      ${p('Major Fail Reasons — Overall','Combined failed checks','ottOverallFail')}
+      ${p('Related Department — Overall','Combined failed checks','ottOverallRelated')}
+      ${ottCrossStatusHTML()}
+    </div></div>
+    <div class="panel ott-detail-wrap"><h3>Overall OTT Detail</h3><div class="note">Data is extracted directly from the five uploaded OTT sources. Floor filtering does not exclude Yarn Dyeing or Knitting because those sources have no Floor column.</div>${ottTableHTML(rows,true)}</div>`;
+  barChartPct('ottDeptRate',deptStats.map(x=>x.cfg.short),deptStats.map(x=>x.s.rate),'Pass rate');
+  groupedBarChartPct('ottDeptType',deptStats.map(x=>x.cfg.short),[
+    {label:'Start',data:deptStats.map(x=>x.s.startRate)},{label:'End',data:deptStats.map(x=>x.s.endRate)}
+  ]);
+  lineChartPct('ottOverallMonth',monthlyLabels,monthSets);
+  barChart('ottOverallFail',reasons.map(x=>x.label),reasons.map(x=>x.count),'Fail checks');
+  barChart('ottOverallRelated',related.map(x=>x.label),related.map(x=>x.count),'Fail checks')
+}
+function exportOttCSV(tab){
+  const rows=ottFilterRows(tab);if(!rows.length)return;
+  const out=rows.map(r=>({
+    ...(tab==='ott_overall'?{Department:r.Department}:{}),
+    'Booking No.':r.BookingNo,Buyer:r.Buyer,Plan:r.Plan||'',Actual:r.Actual||'',Result:r.Result,
+    'Fail Reason':r.FailReason,'Related Dept.':r.RelatedDept,Floor:r.Floor,Type:r.Type,Month:r.Month,
+    ...(r.DetailsRemarks?{'Details Remarks':r.DetailsRemarks}:{})
+  }));
+  const ws=XLSX.utils.json_to_sheet(out),csv=XLSX.utils.sheet_to_csv(ws),a=document.createElement('a');
+  a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));
+  a.download=`Textile_OTT_${OTT_CONFIG[tab].key}_${new Date().toISOString().slice(0,10)}.csv`;a.click();URL.revokeObjectURL(a.href)
+}
+async function handleOTTUpload(tab){
+  const cfg=OTT_CONFIG[tab],inp=$('#ottFileInput'),f=inp?.files?.[0],st=$('#ottUploadStatus');
+  if(!f)return st.textContent='Choose the OTT Excel file first.';
+  if(f.size>MAX_OTT_FILE_MB*1024*1024)return st.textContent=`File is larger than ${MAX_OTT_FILE_MB} MB.`;
+  try{
+    st.textContent='Reading and validating Data sheet...';
+    const wb=XLSX.read(await f.arrayBuffer(),{type:'array'}),rows=normalizeOTTWorkbook(wb,tab);
+    const plans=rows.map(r=>r.Plan).filter(Boolean).sort(),now=new Date().toISOString();
+    const meta={fileName:f.name,uploadedAt:now,rows:rows.length,bookings:new Set(rows.map(r=>ottBookingKey(r.BookingNo))).size,dateFrom:plans[0]||null,dateTo:plans.slice(-1)[0]||null};
+    const merged={...(state.data||{}),ottSources:{...(state.data?.ottSources||{}),[cfg.key]:{rows,meta}},uploadedAt:now};
+    st.textContent=`Validated ${rows.length.toLocaleString()} checks / ${meta.bookings.toLocaleString()} bookings. Publishing...`;
+    const {data:{user}}=await sb.auth.getUser();
+    const {error}=await sb.from('dashboard_data').upsert({id:1,file_name:merged.fileName||'Department-wise data',data:merged,uploaded_by:user.id,uploaded_at:now},{onConflict:'id'});
+    if(error)throw error;
+    st.textContent=`${cfg.label} published successfully (${meta.dateFrom||'—'} to ${meta.dateTo||'—'}).`;
+    await loadData()
+  }catch(e){st.textContent='OTT upload failed: '+e.message}
+}
+function buildOttSnapshotClone(){
+  const source=$('#ottManagementArea');if(!source)throw new Error('OTT management view is not available.');
+  const clone=source.cloneNode(true),srcCanvases=[...source.querySelectorAll('canvas')],cloneCanvases=[...clone.querySelectorAll('canvas')];
+  cloneCanvases.forEach((c,i)=>{const src=srcCanvases[i];if(!src)return;const img=document.createElement('img');try{img.src=src.toDataURL('image/png')}catch(e){};c.replaceWith(img)});
+  clone.querySelectorAll('.panel-chart-actions').forEach(x=>x.remove());return clone
+}
+function openOttSnapshot(){
+  const modal=$('#ottSnapshotModal'),capture=$('#ottSnapshotCapture');if(!modal||!capture)return;
+  try{
+    capture.innerHTML='';capture.appendChild(buildOttSnapshotClone());
+    $('#ottSnapshotTitle').textContent=`${OTT_CONFIG[state.tab]?.label||'OTT'} — Management View`;
+    $('#ottCopyStatus').textContent='';modal.classList.remove('hidden');document.body.style.overflow='hidden'
+  }catch(e){alert('Unable to open OTT management view: '+e.message)}
+}
+function closeOttSnapshot(){const m=$('#ottSnapshotModal');if(m)m.classList.add('hidden');document.body.style.overflow=''}
+async function copyOttSnapshotImage(){
+  const capture=$('#ottSnapshotCapture'),status=$('#ottCopyStatus'),btn=$('#ottCopyImageBtn');if(!capture||typeof html2canvas!=='function')return;
+  const old=btn?.textContent;
+  try{
+    if(btn){btn.disabled=true;btn.textContent='Creating image…'}if(status)status.textContent='Rendering full OTT dashboard…';
+    await new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)));
+    const canvas=await html2canvas(capture,{backgroundColor:'#f4f7f5',scale:2,useCORS:true,logging:false,windowWidth:1500,scrollX:0,scrollY:0});
+    const blob=await new Promise((resolve,reject)=>canvas.toBlob(b=>b?resolve(b):reject(new Error('PNG creation failed')),'image/png'));
+    let copied=false;if(navigator.clipboard&&window.ClipboardItem){try{await navigator.clipboard.write([new ClipboardItem({'image/png':blob})]);copied=true}catch(e){}}
+    if(copied){if(status)status.textContent='✓ Image copied to clipboard';if(btn)btn.textContent='✓ Copied'}
+    else{const a=document.createElement('a'),url=URL.createObjectURL(blob);a.href=url;a.download=`Textile_OTT_${OTT_CONFIG[state.tab]?.key||'board'}_${new Date().toISOString().slice(0,10)}.png`;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);if(status)status.textContent='Clipboard blocked — PNG saved instead';if(btn)btn.textContent='PNG saved'}
+  }catch(e){if(status)status.textContent='Copy failed: '+e.message}
+  finally{if(btn){btn.disabled=false;setTimeout(()=>btn.textContent=old||'▣ Copy Image',1300)}}
+}
+
 function renderOverview(){
   const del=deliveryDateRows(),ydDate=yarnDyeingDateRows(),ydBuyerAll=currentDateRows('YD_Date_Buyer'),
         kn=knittingDateRows(),dyeBuyerAll=currentDateRows('Dyeing_Date_Buyer'),dyeDate=dyeingDateRows(),
@@ -2018,22 +2657,16 @@ function effectivePermissions(){if(state.profile?.role==='admin')return {...DEFA
 function canAccess(tab){const p=effectivePermissions();return tab==='users'?state.profile?.role==='admin':p[tab]===true;}
 function applyMenuPermissions(){
   const p=effectivePermissions();
-  $$('.kpi-submenu button[data-tab]').forEach(b=>{
-    const tab=b.dataset.tab;
-    b.classList.toggle('hidden',p[tab]!==true)
-  });
-  const board=$('#kpiMenuWrap');
-  if(board)board.classList.toggle('hidden',!KPI_TABS.some(t=>p[t]===true));
-  const dataBtn=$('.nav>button[data-tab="data"]');
-  if(dataBtn)dataBtn.classList.toggle('hidden',p.data!==true);
-  const usersBtn=$('.nav>button[data-tab="users"]');
-  if(usersBtn)usersBtn.classList.toggle('hidden',state.profile?.role!=='admin');
+  $$('.kpi-submenu button[data-tab]').forEach(b=>b.classList.toggle('hidden',p[b.dataset.tab]!==true));
+  $$('.ott-submenu button[data-tab]').forEach(b=>b.classList.toggle('hidden',p[b.dataset.tab]!==true));
+  const kBoard=$('#kpiMenuWrap');if(kBoard)kBoard.classList.toggle('hidden',!KPI_TABS.some(t=>p[t]===true));
+  const oBoard=$('#ottMenuWrap');if(oBoard)oBoard.classList.toggle('hidden',!OTT_TABS.some(t=>p[t]===true));
+  const dataBtn=$('.nav>button[data-tab="data"]');if(dataBtn)dataBtn.classList.toggle('hidden',p.data!==true);
+  const usersBtn=$('.nav>button[data-tab="users"]');if(usersBtn)usersBtn.classList.toggle('hidden',state.profile?.role!=='admin');
   if(!canAccess(state.tab)){
-    const firstKpi=KPI_TABS.find(t=>canAccess(t));
-    if(firstKpi)state.tab=firstKpi;
-    else if(canAccess('data'))state.tab='data';
-    else if(state.profile?.role==='admin')state.tab='users';
-    else state.tab='overview'
+    const firstKpi=KPI_TABS.find(t=>canAccess(t)),firstOtt=OTT_TABS.find(t=>canAccess(t));
+    if(firstKpi)state.tab=firstKpi;else if(firstOtt)state.tab=firstOtt;else if(canAccess('data'))state.tab='data';
+    else if(state.profile?.role==='admin')state.tab='users';else state.tab='overview'
   }
 }
 function permissionCheckboxes(perms={},role='viewer'){return MENU_DEFS.map(m=>`<label class="perm-item"><input type="checkbox" class="perm-box" data-perm="${m.key}" ${role==='admin'||perms?.[m.key]?'checked':''} ${role==='admin'?'disabled':''}><span>${esc(m.label)}</span></label>`).join('')}
@@ -2048,13 +2681,17 @@ function resetUserForm(){state.editingUserId=null;$('#userFormTitle').textConten
 async function saveUser(){const st=$('#userStatus');const name=$('#userName').value.trim(),email=$('#userEmail').value.trim(),password=$('#userPassword').value,role=$('#userRole').value,active=$('#userActive').checked,permissions=collectPermissions();if(!name)return st.textContent='Enter a display name.';if(!state.editingUserId&&!email)return st.textContent='Enter an email address.';if(!state.editingUserId&&password.length<6)return st.textContent='Password must be at least 6 characters.';const payload=state.editingUserId?{action:'update',user_id:state.editingUserId,display_name:name,role,active,permissions,password:password||undefined}:{action:'create',email,password,display_name:name,role,active,permissions};try{$('#saveUserBtn').disabled=true;st.textContent=state.editingUserId?'Saving changes...':'Creating user...';await invokeUserAdmin(payload);st.textContent='Saved successfully.';resetUserForm();await loadUsers()}catch(e){st.textContent='Failed: '+e.message}finally{$('#saveUserBtn').disabled=false}}
 async function deleteUser(id){const u=state.userList.find(x=>x.id===id);if(!u||id===state.profile?.id)return;if(!confirm(`Delete ${u.display_name||u.email}? This removes the login account.`))return;try{await invokeUserAdmin({action:'delete',user_id:id});await loadUsers()}catch(e){alert('Delete failed: '+e.message)}}
 function renderData(){metricCardSet([]);$('#kpis').classList.remove('knitting-kpis','finishing-kpis');const d=state.data,dyeMeta=d?.departmentFiles?.dyeing,knitMeta=d?.departmentFiles?.knitting,finMeta=d?.departmentFiles?.finishing,delMeta=d?.departmentFiles?.delivery,ydMeta=d?.departmentFiles?.yarn,chemMeta=d?.departmentFiles?.chemical,etlMeta=d?.departmentFiles?.etl,targetMeta=d?.departmentFiles?.targets;$('#content').innerHTML=`<div class="section-title"><h2>Data Management</h2><span>Department-wise source files</span></div>${state.profile?.role==='admin'?`<div class="dept-upload-grid"><div class="dept-card"><h3>Dyeing Data</h3><div class="meta">Required workbook: <b>Dyeing_Dashboard</b><br>Required sheets: <b>Dyeing_Date_Buyer</b> and <b>Dyeing_Date</b><br>Recommended maximum: ${MAX_DYEING_FILE_MB} MB</div><input id="dyeingFileInput" type="file" accept=".xlsx,.xls,.xlsb"><br><button class="btn primary" id="dyeingUploadBtn">Upload / Replace Dyeing</button><div id="dyeingUploadStatus" style="margin-top:10px"></div></div><div class="dept-card"><h3>Knitting Data</h3><div class="meta">Required workbook: <b>Knitting_Dashboard</b><br>Required sheets: <b>Knitting_Date</b> and <b>Knitting_Date_Buyer</b><br>Recommended maximum: ${MAX_KNITTING_FILE_MB} MB</div><input id="knittingFileInput" type="file" accept=".xlsx,.xls,.xlsb"><br><button class="btn primary" id="knittingUploadBtn">Upload / Replace Knitting</button><div id="knittingUploadStatus" style="margin-top:10px"></div></div><div class="dept-card"><h3>Finishing Data</h3><div class="meta">Required workbook: <b>Finishing_Dashboard</b><br>Required sheet: <b>Finishing_Date</b><br>Recommended maximum: ${MAX_FINISHING_FILE_MB} MB</div><input id="finishingFileInput" type="file" accept=".xlsx,.xls,.xlsb"><br><button class="btn primary" id="finishingUploadBtn">Upload / Replace Finishing</button><div id="finishingUploadStatus" style="margin-top:10px"></div></div><div class="dept-card"><h3>Delivery Data</h3><div class="meta">Required workbook: <b>Delivery_Dashboard</b><br>Required sheets: <b>Delivery_Date</b> and <b>Delivery_Date_Buyer</b><br>Recommended maximum: ${MAX_DELIVERY_FILE_MB} MB</div><input id="deliveryFileInput" type="file" accept=".xlsx,.xls,.xlsb"><br><button class="btn primary" id="deliveryUploadBtn">Upload / Replace Delivery</button><div id="deliveryUploadStatus" style="margin-top:10px"></div></div><div class="dept-card"><h3>Yarn Dyeing Data</h3><div class="meta">Required workbook: <b>Yarn_Dyeing_Dashboard</b><br>Required sheets: <b>YD_Date</b> and <b>YD_Date_Buyer</b><br>Recommended maximum: ${MAX_YARN_DYEING_FILE_MB} MB</div><input id="yarnDyeingFileInput" type="file" accept=".xlsx,.xls,.xlsb"><br><button class="btn primary" id="yarnDyeingUploadBtn">Upload / Replace Yarn Dyeing</button><div id="yarnDyeingUploadStatus" style="margin-top:10px"></div></div><div class="dept-card"><h3>Chemical Lab Data</h3><div class="meta">Required workbook: <b>Chemical_Lab_Dashboard</b><br>Required sheet: <b>C_Lab_Date</b><br>Recommended maximum: ${MAX_CHEMICAL_LAB_FILE_MB} MB</div><input id="chemicalLabFileInput" type="file" accept=".xlsx,.xls,.xlsb"><br><button class="btn primary" id="chemicalLabUploadBtn">Upload / Replace Chemical Lab</button><div id="chemicalLabUploadStatus" style="margin-top:10px"></div></div><div class="dept-card"><h3>ETL Data</h3><div class="meta">Required workbook: <b>ETL_Dashboard</b><br>Required sheet: <b>ETL_Date</b><br>Recommended maximum: ${MAX_ETL_FILE_MB} MB</div><input id="etlFileInput" type="file" accept=".xlsx,.xls,.xlsb"><br><button class="btn primary" id="etlUploadBtn">Upload / Replace ETL</button><div id="etlUploadStatus" style="margin-top:10px"></div></div><div class="dept-card" style="border-top:3px solid #f0b400"><h3>Target Data</h3><div class="meta">Required workbook: <b>Dashboard_Target.xlsx</b><br>Required sheet: <b>Target</b><br>Required columns: <b>Department | Topics | Target</b><br>The dashboard reads ≥ / ≤ / %, Ton, kg and Hr targets automatically.</div><input id="targetFileInput" type="file" accept=".xlsx,.xls,.xlsb"><br><button class="btn primary" id="targetUploadBtn">Upload / Replace Targets</button><div id="targetUploadStatus" style="margin-top:10px"></div></div></div>`:`<div class="alert">Viewer access: data upload is restricted to Admin users.</div>`}<div style="height:14px"></div><div class="panel"><h3>Current Dyeing dataset</h3><div class="note">Visible to authenticated users with Dyeing menu permission</div><p><b>File:</b> ${esc(dyeMeta?.fileName||((d?.sheets?.Dyeing_Date_Buyer||[]).length?'Dyeing file uploaded':'—'))}</p><p><b>Last updated:</b> ${dyeMeta?.uploadedAt?new Date(dyeMeta.uploadedAt).toLocaleString():'—'}</p><p><b>Usable source period:</b> ${esc(dyeMeta?.dateFrom||'—')} to ${esc(dyeMeta?.dateTo||'—')}</p><span class="status-pill" style="margin:4px">Dyeing_Date_Buyer: ${(d?.sheets?.Dyeing_Date_Buyer||[]).length} rows</span><span class="status-pill" style="margin:4px">Dyeing_Date: ${(d?.sheets?.Dyeing_Date||[]).length} rows</span></div><div class="panel"><h3>Current Knitting dataset</h3><div class="note">Visible to authenticated users with Knitting menu permission</div><p><b>File:</b> ${esc(knitMeta?.fileName||((d?.sheets?.Knitting_Date||[]).length?'Knitting file uploaded':'—'))}</p><p><b>Last updated:</b> ${knitMeta?.uploadedAt?new Date(knitMeta.uploadedAt).toLocaleString():'—'}</p><p><b>Usable source period:</b> ${esc(knitMeta?.dateFrom||'—')} to ${esc(knitMeta?.dateTo||'—')}</p><span class="status-pill" style="margin:4px">Knitting_Date: ${(d?.sheets?.Knitting_Date||[]).length} rows</span><span class="status-pill" style="margin:4px">Knitting_Date_Buyer: ${(d?.sheets?.Knitting_Date_Buyer||[]).length} rows</span>${knitMeta?.buyerEvenAllocation?'<p class="muted"><b>Buyer source notice:</b> equal daily allocation detected across buyers.</p>':''}</div><div class="panel"><h3>Current Finishing dataset</h3><div class="note">Visible to authenticated users with Finishing menu permission</div><p><b>File:</b> ${esc(finMeta?.fileName||((d?.sheets?.Finishing_Date||[]).length?'Finishing file uploaded':'—'))}</p><p><b>Last updated:</b> ${finMeta?.uploadedAt?new Date(finMeta.uploadedAt).toLocaleString():'—'}</p><p><b>Usable source period:</b> ${esc(finMeta?.dateFrom||'—')} to ${esc(finMeta?.dateTo||'—')}</p><span class="status-pill" style="margin:4px">Finishing_Date: ${(d?.sheets?.Finishing_Date||[]).length} rows</span></div><div class="panel"><h3>Current Delivery dataset</h3><div class="note">Visible to authenticated users with Delivery menu permission</div><p><b>File:</b> ${esc(delMeta?.fileName||((d?.sheets?.Delivery_Date||[]).length?'Delivery file uploaded':'—'))}</p><p><b>Last updated:</b> ${delMeta?.uploadedAt?new Date(delMeta.uploadedAt).toLocaleString():'—'}</p><p><b>Usable source period:</b> ${esc(delMeta?.dateFrom||'—')} to ${esc(delMeta?.dateTo||'—')}</p><span class="status-pill" style="margin:4px">Delivery_Date: ${(d?.sheets?.Delivery_Date||[]).length} rows</span><span class="status-pill" style="margin:4px">Delivery_Date_Buyer: ${(d?.sheets?.Delivery_Date_Buyer||[]).length} rows</span>${delMeta?.buyerEvenAllocation?'<p class="muted"><b>Buyer source notice:</b> draft/equal buyer allocation detected. Replace later with actual buyer-wise data.</p>':''}</div><div class="panel"><h3>Current Yarn Dyeing dataset</h3><div class="note">Visible to authenticated users with Yarn Dyeing menu permission</div><p><b>File:</b> ${esc(ydMeta?.fileName||((d?.sheets?.YD_Date||[]).length?'Yarn Dyeing file uploaded':'—'))}</p><p><b>Last updated:</b> ${ydMeta?.uploadedAt?new Date(ydMeta.uploadedAt).toLocaleString():'—'}</p><p><b>Usable source period:</b> ${esc(ydMeta?.dateFrom||'—')} to ${esc(ydMeta?.dateTo||'—')}</p><span class="status-pill" style="margin:4px">YD_Date: ${(d?.sheets?.YD_Date||[]).length} rows</span><span class="status-pill" style="margin:4px">YD_Date_Buyer: ${(d?.sheets?.YD_Date_Buyer||[]).length} rows</span>${ydMeta?.buyerEvenAllocation?'<p class="muted"><b>Buyer source notice:</b> demo/equal buyer allocation detected. Date totals are protected from multiplication; replace later with actual buyer-wise data.</p>':''}</div><div class="panel"><h3>Current Chemical Lab dataset</h3><div class="note">Visible to authenticated users with Chemical Lab menu permission</div><p><b>File:</b> ${esc(chemMeta?.fileName||((d?.sheets?.C_Lab_Date||[]).length?'Chemical Lab file uploaded':'—'))}</p><p><b>Last updated:</b> ${chemMeta?.uploadedAt?new Date(chemMeta.uploadedAt).toLocaleString():'—'}</p><p><b>Usable source period:</b> ${esc(chemMeta?.dateFrom||'—')} to ${esc(chemMeta?.dateTo||'—')}</p><span class="status-pill" style="margin:4px">C_Lab_Date: ${(d?.sheets?.C_Lab_Date||[]).length} rows</span></div><div class="panel"><h3>Current ETL dataset</h3><div class="note">Visible to authenticated users with ETL menu permission</div><p><b>File:</b> ${esc(etlMeta?.fileName||((d?.sheets?.ETL_Date||[]).length?'ETL file uploaded':'—'))}</p><p><b>Last updated:</b> ${etlMeta?.uploadedAt?new Date(etlMeta.uploadedAt).toLocaleString():'—'}</p><p><b>Usable source period:</b> ${esc(etlMeta?.dateFrom||'—')} to ${esc(etlMeta?.dateTo||'—')}</p><span class="status-pill" style="margin:4px">ETL_Date: ${(d?.sheets?.ETL_Date||[]).length} rows</span></div><div class="panel"><h3>Current Target dataset</h3><div class="note">Controls Overview green / amber / red KPI status</div><p><b>File:</b> ${esc(targetMeta?.fileName||((d?.targets||[]).length?'Target file uploaded':'—'))}</p><p><b>Last updated:</b> ${targetMeta?.uploadedAt?new Date(targetMeta.uploadedAt).toLocaleString():'—'}</p><span class="status-pill" style="margin:4px">Active targets: ${(d?.targets||[]).length}</span><p class="muted">Target direction and unit are inferred from your source values (for example ≥90%, ≤8%, 24 Hr, 59.3 Ton). Watch = within 10% of target; beyond that = Critical. KPIs without a matching target remain neutral.</p></div>`;if($('#dyeingUploadBtn'))$('#dyeingUploadBtn').onclick=handleDyeingUpload;if($('#knittingUploadBtn'))$('#knittingUploadBtn').onclick=handleKnittingUpload;if($('#finishingUploadBtn'))$('#finishingUploadBtn').onclick=handleFinishingUpload;if($('#deliveryUploadBtn'))$('#deliveryUploadBtn').onclick=handleDeliveryUpload;if($('#yarnDyeingUploadBtn'))$('#yarnDyeingUploadBtn').onclick=handleYarnDyeingUpload;if($('#chemicalLabUploadBtn'))$('#chemicalLabUploadBtn').onclick=handleChemicalLabUpload;if($('#etlUploadBtn'))$('#etlUploadBtn').onclick=handleETLUpload;if($('#targetUploadBtn'))$('#targetUploadBtn').onclick=handleTargetUpload;}
-function render(){if(!state.data)return;destroyCharts();applyMenuPermissions();syncBuyerOptions(false);const special=['data','users'].includes(state.tab);$('.toolbar').classList.toggle('hidden',special);$('#exportBtn').classList.toggle('hidden',special);
+function render(){if(!state.data)return;destroyCharts();applyMenuPermissions();syncBuyerOptions(false);const isOtt=OTT_TABS.includes(state.tab),special=['data','users'].includes(state.tab)||isOtt;$('.toolbar').classList.toggle('hidden',special);$('#exportBtn').classList.toggle('hidden',special);
   const isOverview=state.tab==='overview';
   $('.toolbar')?.classList.toggle('overview-toolbar',isOverview);
   $('#searchFilterGroup')?.classList.toggle('hidden',isOverview);
   $('#buyerFilterGroup')?.classList.toggle('hidden',isOverview);
-  const osg=$('#overviewSnapshotGroup');if(osg)osg.classList.toggle('hidden',!isOverview);$('#kpis').classList.toggle('overview-kpis',state.tab==='overview');$('#kpis').classList.toggle('knitting-kpis',state.tab==='knitting');$('#kpis').classList.toggle('finishing-kpis',state.tab==='finishing');$('#kpis').classList.toggle('delivery-kpis',state.tab==='delivery');$('#kpis').classList.toggle('yarn-kpis',state.tab==='yarn');$('#kpis').classList.toggle('chemical-kpis',state.tab==='chemical');$('#kpis').classList.toggle('etl-kpis',state.tab==='etl');$$('.kpi-submenu button[data-tab],.nav>button[data-tab]').forEach(b=>b.classList.toggle('active',b.dataset.tab===state.tab));
-  const kb=$('#kpiBoardBtn');if(kb)kb.classList.toggle('active',KPI_TABS.includes(state.tab));const fns={overview:renderOverview,dyeing:renderDyeing,knitting:renderKnitting,finishing:renderFinishing,delivery:renderDelivery,yarn:renderYarnDyeing,chemical:renderChemicalLab,etl:renderETL,data:renderData,users:renderUsers};(fns[state.tab]||renderOverview)();if(special){$('#countText').textContent='';return}if(state.tab==='dyeing')$('#countText').textContent=`${dyeingBuyerRows().length} buyer/date records • ${dyeingDateRows().length} overall date records`;else if(state.tab==='knitting')$('#countText').textContent=`${knittingBuyerRows().length} buyer/date records • ${knittingDateRows().length} overall date records`;else if(state.tab==='finishing')$('#countText').textContent=`${finishingDateRows().length} finishing date records`;else if(state.tab==='delivery')$('#countText').textContent=`${deliveryBuyerRows().length} buyer/date records • ${deliveryDateRows().length} delivery date records`;else if(state.tab==='yarn')$('#countText').textContent=`${yarnDyeingBuyerRows().length} buyer/date records • ${yarnDyeingDateRows().length} Yarn Dyeing date records`;else if(state.tab==='chemical')$('#countText').textContent=`${chemicalLabRows().length} Chemical Lab date records`;else if(state.tab==='etl')$('#countText').textContent=`${etlRows().length} ETL date records`;else if(state.tab==='overview')$('#countText').textContent='Executive summary • 7 departments • date-wise view';else $('#countText').textContent=`${currentDateRows('Dyeing').length} daily records`;}
+  const osg=$('#overviewSnapshotGroup');if(osg)osg.classList.toggle('hidden',!isOverview);$('#kpis').classList.toggle('overview-kpis',state.tab==='overview');$('#kpis').classList.toggle('knitting-kpis',state.tab==='knitting');$('#kpis').classList.toggle('finishing-kpis',state.tab==='finishing');$('#kpis').classList.toggle('delivery-kpis',state.tab==='delivery');$('#kpis').classList.toggle('yarn-kpis',state.tab==='yarn');$('#kpis').classList.toggle('chemical-kpis',state.tab==='chemical');$('#kpis').classList.toggle('etl-kpis',state.tab==='etl');$$('.kpi-submenu button[data-tab],.ott-submenu button[data-tab],.nav>button[data-tab]').forEach(b=>b.classList.toggle('active',b.dataset.tab===state.tab));
+  const kb=$('#kpiBoardBtn');if(kb)kb.classList.toggle('active',KPI_TABS.includes(state.tab));
+  const ob=$('#ottBoardBtn');if(ob)ob.classList.toggle('active',OTT_TABS.includes(state.tab));
+  const fns={overview:renderOverview,dyeing:renderDyeing,knitting:renderKnitting,finishing:renderFinishing,delivery:renderDelivery,yarn:renderYarnDyeing,chemical:renderChemicalLab,etl:renderETL,
+    ott_yarn:()=>renderOTTDept('ott_yarn'),ott_knitting:()=>renderOTTDept('ott_knitting'),ott_dyeing:()=>renderOTTDept('ott_dyeing'),ott_delivery:()=>renderOTTDept('ott_delivery'),ott_lock:()=>renderOTTDept('ott_lock'),ott_overall:renderOTTOverall,
+    data:renderData,users:renderUsers};(fns[state.tab]||renderOverview)();if(special){$('#countText').textContent='';return}if(state.tab==='dyeing')$('#countText').textContent=`${dyeingBuyerRows().length} buyer/date records • ${dyeingDateRows().length} overall date records`;else if(state.tab==='knitting')$('#countText').textContent=`${knittingBuyerRows().length} buyer/date records • ${knittingDateRows().length} overall date records`;else if(state.tab==='finishing')$('#countText').textContent=`${finishingDateRows().length} finishing date records`;else if(state.tab==='delivery')$('#countText').textContent=`${deliveryBuyerRows().length} buyer/date records • ${deliveryDateRows().length} delivery date records`;else if(state.tab==='yarn')$('#countText').textContent=`${yarnDyeingBuyerRows().length} buyer/date records • ${yarnDyeingDateRows().length} Yarn Dyeing date records`;else if(state.tab==='chemical')$('#countText').textContent=`${chemicalLabRows().length} Chemical Lab date records`;else if(state.tab==='etl')$('#countText').textContent=`${etlRows().length} ETL date records`;else if(state.tab==='overview')$('#countText').textContent='Executive summary • 7 departments • date-wise view';else $('#countText').textContent=`${currentDateRows('Dyeing').length} daily records`;}
 let swElapsed=0,swStartedAt=null,swTimer=null;
 function updateStopwatch(){const el=$('#stopwatchText');if(!el)return;const ms=swElapsed+(swStartedAt?Date.now()-swStartedAt:0),sec=Math.floor(ms/1000),m=Math.floor(sec/60),s=sec%60;el.textContent=`${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`}
 function toggleStopwatch(){const btn=$('#stopwatchBtn');if(swTimer){swElapsed+=Date.now()-swStartedAt;swStartedAt=null;clearInterval(swTimer);swTimer=null;btn?.classList.remove('active-tool')}else{swStartedAt=Date.now();swTimer=setInterval(updateStopwatch,250);btn?.classList.add('active-tool')}updateStopwatch()}
@@ -2178,16 +2815,18 @@ async function copyOverviewSnapshotImage(){
 }
 
 function bindUI(){initUtilityControls();
-  $$('.kpi-submenu button[data-tab],.nav>button[data-tab]').forEach(b=>b.onclick=()=>{
+  $$('.kpi-submenu button[data-tab],.ott-submenu button[data-tab],.nav>button[data-tab]').forEach(b=>b.onclick=()=>{
     if(!canAccess(b.dataset.tab))return;
     state.tab=b.dataset.tab;
-    $('#kpiMenuWrap')?.classList.remove('open');
+    $('#kpiMenuWrap')?.classList.remove('open');$('#ottMenuWrap')?.classList.remove('open');
     render()
   });
-  const kpiWrap=$('#kpiMenuWrap'),kpiBtn=$('#kpiBoardBtn');
-  if(kpiBtn)kpiBtn.onclick=e=>{e.stopPropagation();kpiWrap?.classList.toggle('open')};
+  const kpiWrap=$('#kpiMenuWrap'),kpiBtn=$('#kpiBoardBtn'),ottWrap=$('#ottMenuWrap'),ottBtn=$('#ottBoardBtn');
+  if(kpiBtn)kpiBtn.onclick=e=>{e.stopPropagation();kpiWrap?.classList.toggle('open');ottWrap?.classList.remove('open')};
+  if(ottBtn)ottBtn.onclick=e=>{e.stopPropagation();ottWrap?.classList.toggle('open');kpiWrap?.classList.remove('open')};
   if(kpiWrap)kpiWrap.addEventListener('mouseleave',()=>kpiWrap.classList.remove('open'));
-  document.addEventListener('click',e=>{if(kpiWrap&&!kpiWrap.contains(e.target))kpiWrap.classList.remove('open')});
+  if(ottWrap)ottWrap.addEventListener('mouseleave',()=>ottWrap.classList.remove('open'));
+  document.addEventListener('click',e=>{if(kpiWrap&&!kpiWrap.contains(e.target))kpiWrap.classList.remove('open');if(ottWrap&&!ottWrap.contains(e.target))ottWrap.classList.remove('open')});
   ['search','buyerFilter','fromDate','toDate'].forEach(id=>$('#'+id).addEventListener('input',render));$('#resetBtn').onclick=()=>{setFilterDefaults();$('#search').value='';$('#buyerFilter').value='';render()};
   $('#exportBtn').onclick=exportCurrent;
   if($('#overviewSnapshotBtn'))$('#overviewSnapshotBtn').onclick=openOverviewSnapshot;
@@ -2195,7 +2834,13 @@ function bindUI(){initUtilityControls();
   if($('#overviewSnapshotClose'))$('#overviewSnapshotClose').onclick=closeOverviewSnapshot;
   const osm=$('#overviewSnapshotModal');
   if(osm)osm.addEventListener('click',e=>{if(e.target===osm)closeOverviewSnapshot()});
-  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('#overviewSnapshotModal')?.classList.contains('hidden'))closeOverviewSnapshot()});
+  if($('#ottCopyImageBtn'))$('#ottCopyImageBtn').onclick=copyOttSnapshotImage;
+  if($('#ottSnapshotClose'))$('#ottSnapshotClose').onclick=closeOttSnapshot;
+  const otsm=$('#ottSnapshotModal');if(otsm)otsm.addEventListener('click',e=>{if(e.target===otsm)closeOttSnapshot()});
+  document.addEventListener('keydown',e=>{
+    if(e.key==='Escape'&&!$('#overviewSnapshotModal')?.classList.contains('hidden'))closeOverviewSnapshot();
+    if(e.key==='Escape'&&!$('#ottSnapshotModal')?.classList.contains('hidden'))closeOttSnapshot()
+  });
 }
 function exportCurrent(){let rows=state.tab==='dyeing'?dyeingBuyerRows():state.tab==='knitting'?knittingDateRows():state.tab==='finishing'?finishingDateRows():state.tab==='delivery'?(($('#buyerFilter')?.value||'')?deliveryBuyerRows():deliveryDateRows()):state.tab==='yarn'?(($('#buyerFilter')?.value||'')?yarnDyeingBuyerRows():yarnDyeingDateRows()):state.tab==='chemical'?chemicalLabRows().map(r=>{const o={...r};for(const c of CHEMICAL_LAB_DURATION)o[c]=formatDuration(r[c],true);for(const c of CHEMICAL_LAB_PERCENT)o[c]=pct(safeNum(r[c]));return o}):state.tab==='etl'?etlRows().map(r=>{const o={...r};for(const c of ETL_DURATION)o[c]=formatDuration(r[c],true);for(const c of ETL_PERCENT)o[c]=pct(safeNum(r[c]));return o}):filteredBuyers();if(!rows.length)return;const ws=XLSX.utils.json_to_sheet(rows);const csv=XLSX.utils.sheet_to_csv(ws);const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));a.download=`Textile_Planning_${state.tab}_${new Date().toISOString().slice(0,10)}.csv`;a.click();URL.revokeObjectURL(a.href)}
 
@@ -2261,7 +2906,7 @@ async function handleTargetUpload(){
 }
 
 async function loadProfile(user){const {data,error}=await sb.from('profiles').select('id,display_name,role,permissions,active').eq('id',user.id).single();if(error)throw error;if(data.active===false)throw new Error('Your dashboard access is disabled. Please contact an administrator.');state.profile=data;return data}
-async function loadData(){const {data,error}=await sb.from('dashboard_data').select('file_name,data,uploaded_at').eq('id',1).maybeSingle();if(error)throw error;if(!data){state.data={sheets:Object.fromEntries([...REQUIRED_SHEETS,...DYEING_SHEETS,...KNITTING_SHEETS,...FINISHING_SHEETS,...DELIVERY_SHEETS,...YARN_DYEING_SHEETS,...CHEMICAL_LAB_SHEETS,...ETL_SHEETS].map(s=>[s,[]])),departmentFiles:{},targets:[],fileName:'No workbook uploaded',uploadedAt:null}}else{state.data={...data.data,fileName:data.file_name,uploadedAt:data.uploaded_at};state.data.sheets=state.data.sheets||{};for(const s of [...REQUIRED_SHEETS,...DYEING_SHEETS,...KNITTING_SHEETS,...FINISHING_SHEETS,...DELIVERY_SHEETS,...YARN_DYEING_SHEETS,...CHEMICAL_LAB_SHEETS,...ETL_SHEETS])state.data.sheets[s]=state.data.sheets[s]||[];state.data.departmentFiles=state.data.departmentFiles||{};state.data.targets=state.data.targets||[]}setFilterDefaults();document.getElementById('lastUpdated').textContent=state.data.uploadedAt?'Last updated: '+new Date(state.data.uploadedAt).toLocaleString():'';render()}
+async function loadData(){const {data,error}=await sb.from('dashboard_data').select('file_name,data,uploaded_at').eq('id',1).maybeSingle();if(error)throw error;if(!data){state.data={sheets:Object.fromEntries([...REQUIRED_SHEETS,...DYEING_SHEETS,...KNITTING_SHEETS,...FINISHING_SHEETS,...DELIVERY_SHEETS,...YARN_DYEING_SHEETS,...CHEMICAL_LAB_SHEETS,...ETL_SHEETS].map(s=>[s,[]])),departmentFiles:{},targets:[],ottSources:{},fileName:'No workbook uploaded',uploadedAt:null}}else{state.data={...data.data,fileName:data.file_name,uploadedAt:data.uploaded_at};state.data.sheets=state.data.sheets||{};for(const s of [...REQUIRED_SHEETS,...DYEING_SHEETS,...KNITTING_SHEETS,...FINISHING_SHEETS,...DELIVERY_SHEETS,...YARN_DYEING_SHEETS,...CHEMICAL_LAB_SHEETS,...ETL_SHEETS])state.data.sheets[s]=state.data.sheets[s]||[];state.data.departmentFiles=state.data.departmentFiles||{};state.data.targets=state.data.targets||[];state.data.ottSources=state.data.ottSources||{}}setFilterDefaults();document.getElementById('lastUpdated').textContent=state.data.uploadedAt?'Last updated: '+new Date(state.data.uploadedAt).toLocaleString():'';render()}
 async function start(){const {data:{session}}=await sb.auth.getSession();if(!session)return;await enter(session.user)}
 async function enter(user){try{const p=await loadProfile(user);document.getElementById('login').classList.add('hidden');document.getElementById('app').classList.remove('hidden');document.getElementById('greeting').textContent='Good morning, '+(p.display_name||user.email);bindUI();await loadData()}catch(e){document.getElementById('loginError').textContent=e.message}}
 document.getElementById('loginBtn').onclick=async()=>{document.getElementById('loginError').textContent='';const email=document.getElementById('email').value.trim(),password=document.getElementById('password').value;const {data,error}=await sb.auth.signInWithPassword({email,password});if(error)return document.getElementById('loginError').textContent=error.message;enter(data.user)};
