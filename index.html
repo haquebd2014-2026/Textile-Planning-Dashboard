@@ -1316,6 +1316,112 @@ body.dark-mode .data-status-card b.title{color:#d8eee4}
   .data-status-grid{grid-template-columns:1fr}
 }
 
+
+/* ===== OTT workflow + compact filters v34 ===== */
+.ott-filter-panel{padding:8px 10px!important;margin-bottom:8px!important}
+.ott-filter-head{margin-bottom:6px!important}
+.ott-filter-head h2{font-size:18px!important}
+.ott-filter-grid{
+  grid-template-columns:repeat(6,minmax(108px,1fr))!important;
+  gap:5px 6px!important
+}
+.ott-filter-grid .wide{grid-column:span 2!important}
+.ott-filter-grid input,.ott-filter-grid select,
+.ott-booking-picker>summary,.ott-multi-picker>summary{
+  height:29px!important;
+  min-height:29px!important;
+  font-size:9.5px!important;
+  padding:0 7px!important
+}
+.ott-filter-grid .mini-label{font-size:7.8px!important;letter-spacing:.55px}
+.ott-filter-note{margin-top:5px!important;font-size:8.2px!important}
+.ott-booking-pop,.ott-multi-pop{font-size:9px}
+.ott-multi-picker{position:relative}
+.ott-multi-picker>summary{
+  display:flex;align-items:center;justify-content:space-between;gap:6px;
+  border:1px solid #cfdad5;border-radius:4px;background:var(--card);color:var(--text);
+  cursor:pointer;list-style:none;white-space:nowrap;overflow:hidden;text-overflow:ellipsis
+}
+.ott-multi-picker>summary::-webkit-details-marker{display:none}
+.ott-multi-pop{
+  position:absolute;z-index:2450;left:0;top:33px;width:330px;max-width:82vw;
+  background:var(--card);border:1px solid #cfdad5;border-radius:7px;padding:7px;
+  box-shadow:0 12px 28px rgba(26,60,48,.18)
+}
+.ott-multi-search{width:100%!important;height:28px!important;margin-bottom:5px}
+.ott-multi-list{max-height:210px;overflow:auto;border:1px solid var(--line);border-radius:4px;padding:3px}
+.ott-multi-option{display:flex;align-items:center;gap:6px;padding:3px 4px;font-size:9px;border-radius:3px}
+.ott-multi-option:hover{background:var(--soft)}
+.ott-multi-option input{width:auto!important;height:auto!important;margin:0}
+.ott-multi-actions{display:flex;justify-content:space-between;align-items:center;gap:5px;margin-top:6px}
+.ott-booking-pop{width:390px!important}
+.ott-booking-actions .btn,.ott-multi-actions .btn{padding:5px 8px!important;font-size:8.5px!important}
+.ott-filter-grid .btn{min-height:29px!important;padding:4px 9px!important}
+.ott-filter-head .btn{padding:6px 10px!important;font-size:9px!important}
+
+/* Booking status page */
+.ott-booking-status-page .ott-status-section{margin-top:0}
+.ott-cross-table .ott-fail-extra{
+  display:block;margin-top:3px;padding-top:3px;border-top:1px dashed rgba(190,65,40,.28);
+  color:#9b3d2d;font-size:7.8px;line-height:1.35
+}
+.ott-cross-table .ott-fail-extra b{color:#8d3325}
+.ott-booking-status-table .table-wrap{max-height:650px}
+.ott-booking-status-table table{min-width:1180px}
+
+/* Daily / monthly OTT trend charts */
+.ott-trend-wide{grid-column:1/-1!important}
+.ott-trend-wide .chart-wrap{height:240px!important}
+
+/* KPI submenu page heading, matching OTT heading language */
+.kpi-page-heading{
+  grid-column:1/-1;
+  width:100%;
+  border:1px solid var(--line);
+  border-top:3px solid var(--green);
+  background:var(--card);
+  border-radius:7px;
+  padding:9px 12px;
+  margin-bottom:7px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  box-shadow:0 2px 8px rgba(22,64,48,.04)
+}
+.kpi-page-heading h2{
+  margin:0;
+  font:700 19px Georgia,serif;
+  color:#075d45
+}
+.kpi-page-heading .meta{
+  margin-top:2px;
+  font-size:8.8px;
+  color:var(--muted)
+}
+.kpi-page-heading .badge{
+  white-space:nowrap;
+  padding:4px 8px;
+  border:1px solid #cfe0d8;
+  border-radius:999px;
+  background:#eef7f3;
+  color:#17694f;
+  font-size:8px;
+  font-weight:700
+}
+body.dark-mode .ott-multi-pop{background:#17231e;border-color:#3b5248}
+body.dark-mode .kpi-page-heading{background:#17231e}
+body.dark-mode .kpi-page-heading h2{color:#dff2e9}
+body.dark-mode .kpi-page-heading .badge{background:#20352c;border-color:#355247;color:#bfe6d5}
+
+@media(max-width:1200px){
+  .ott-filter-grid{grid-template-columns:repeat(4,minmax(105px,1fr))!important}
+}
+@media(max-width:760px){
+  .ott-filter-grid{grid-template-columns:repeat(2,minmax(105px,1fr))!important}
+  .ott-filter-grid .wide{grid-column:span 2!important}
+}
+
 </style></head><body><div id="app" class="hidden"><div class="app-sticky-header"><div class="top-accent"></div><header class="header"><div class="header-left"><div class="brand-mark">TP</div><div><div class="brand-title">Textile Planning Dashboard</div><div class="brand-sub">Planning, Monitoring & Control</div></div></div><div class="header-actions"><div class="utility-tools"><button class="tool-btn stopwatch-btn" id="stopwatchBtn" title="Click to start/pause • Double-click to reset">⏱ <span id="stopwatchText">00:00</span></button><button class="tool-btn" id="fullscreenBtn" title="Enter full screen">⛶ Full</button><button class="tool-btn" id="themeBtn" title="Switch dark/light mode">☾ Dark</button></div><span class="greeting" id="greeting">Good morning</span><button class="btn" id="exportBtn">Export CSV</button><button class="btn" id="signOutBtn">Sign out</button><button class="btn primary" id="refreshBtn">Refresh</button></div></header><nav class="nav">
   <div class="kpi-menu-wrap" id="kpiMenuWrap">
     <button class="kpi-menu-toggle active" id="kpiBoardBtn" type="button">KPI Board <span class="kpi-menu-arrow">⌄</span></button>
@@ -1338,6 +1444,7 @@ body.dark-mode .data-status-card b.title{color:#d8eee4}
       <button data-tab="ott_dyeing">Dyeing OTT</button>
       <button data-tab="ott_delivery">Delivery OTT</button>
       <button data-tab="ott_lock">Lock Plan OTT</button>
+      <button data-tab="ott_booking">Booking OTT Status</button>
       <button data-tab="ott_overall">Overall OTT</button>
     </div>
   </div>
@@ -1473,7 +1580,7 @@ const TARGET_KPI_DEFS=[
 ];
 
 const KPI_TABS=['overview','delivery','yarn','knitting','dyeing','finishing','chemical','etl'];
-const OTT_TABS=['ott_yarn','ott_knitting','ott_dyeing','ott_delivery','ott_lock','ott_overall'];
+const OTT_TABS=['ott_yarn','ott_knitting','ott_dyeing','ott_delivery','ott_lock','ott_booking','ott_overall'];
 const OTT_SOURCE_TABS=['ott_yarn','ott_knitting','ott_dyeing','ott_delivery','ott_lock'];
 const OTT_CONFIG={
   ott_yarn:{key:'yarn',label:'Yarn Dyeing OTT',short:'YD',fileName:'Yarn Dyeing OTT_2026-2027.xlsx',hasFloor:false},
@@ -1481,6 +1588,7 @@ const OTT_CONFIG={
   ott_dyeing:{key:'dyeing',label:'Dyeing OTT',short:'Dyeing',fileName:'Dyeing OTT_2026-2027.xlsx',hasFloor:true},
   ott_delivery:{key:'delivery',label:'Delivery OTT',short:'Delivery',fileName:'Delivery Floor OTT_2026-2027.xlsx',hasFloor:true},
   ott_lock:{key:'lock',label:'Lock Plan OTT',short:'Lock Plan',fileName:'Lock Plan OTT_2026-2027.xlsx',hasFloor:true},
+  ott_booking:{key:'booking',label:'Booking OTT Status',short:'Booking Status',fileName:'',hasFloor:true},
   ott_overall:{key:'overall',label:'Overall OTT',short:'Overall',fileName:'',hasFloor:true}
 };
 const MAX_OTT_FILE_MB=20;
@@ -1498,17 +1606,18 @@ const MENU_DEFS=[
   {key:'ott_dyeing',label:'Dyeing OTT'},
   {key:'ott_delivery',label:'Delivery OTT'},
   {key:'ott_lock',label:'Lock Plan OTT'},
+  {key:'ott_booking',label:'Booking OTT Status'},
   {key:'ott_overall',label:'Overall OTT'},
   {key:'data',label:'Data Management'}
 ];
 const DEFAULT_PERMISSIONS={
   overview:true,dyeing:true,knitting:true,finishing:true,delivery:true,yarn:true,chemical:true,etl:true,
-  ott_yarn:true,ott_knitting:true,ott_dyeing:true,ott_delivery:true,ott_lock:true,ott_overall:true,
+  ott_yarn:true,ott_knitting:true,ott_dyeing:true,ott_delivery:true,ott_lock:true,ott_booking:true,ott_overall:true,
   data:false,users:false
 };
 const state={
   data:null,filtered:null,tab:'overview',charts:[],profile:null,userList:[],editingUserId:null,ydViewMode:'date',
-  ottFilters:{bookings:[],buyer:'',plan:'',result:'',failReason:'',relatedDept:'',floor:'',type:'',month:'',from:'',to:''}
+  ottFilters:{_initialized:false,bookingAll:true,bookings:[],buyer:[],plan:'',result:'',failReason:[],relatedDept:[],floor:[],type:'',month:'__RUNNING__',from:'',to:''}
 };
 const $=s=>document.querySelector(s); const $$=s=>[...document.querySelectorAll(s)];
 const safeNum=v=>{if(v===null||v===undefined||v===''||String(v).trim().startsWith('#'))return null;if(typeof v==='number')return Number.isFinite(v)?v:null;let s=String(v).trim().replace(/,/g,'');if(!s)return null;if(s.endsWith('%')){const n=parseFloat(s.slice(0,-1));return Number.isFinite(n)?n/100:null}const n=Number(s);return Number.isFinite(n)?n:null};
@@ -2158,7 +2267,41 @@ function ottCountBarChart(id,labels,data,label='Checks'){
   state.charts.push(c)
 }
 
-function ottBlankFilters(){return{bookings:[],buyer:'',plan:'',result:'',failReason:'',relatedDept:'',floor:'',type:'',month:'',from:'',to:''}}
+
+function ottBlankFilters(){
+  return{_initialized:true,bookingAll:true,bookings:[],buyer:[],plan:'',result:'',failReason:[],relatedDept:[],floor:[],type:'',month:'__RUNNING__',from:'',to:''}
+}
+
+function ottLocalISO(d){
+  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`
+}
+function ottRunningMonthKey(){
+  const d=new Date();return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`
+}
+function ottRunningMonthLabel(){
+  const d=new Date();return d.toLocaleDateString(undefined,{month:'long',year:'numeric'})
+}
+function ottDefaultFilters(tab){
+  const now=new Date(),first=new Date(now.getFullYear(),now.getMonth(),1),yesterday=new Date(now);
+  yesterday.setDate(now.getDate()-1);
+  return{
+    _initialized:true,bookingAll:true,bookings:[],buyer:[],plan:'',result:'',
+    failReason:[],relatedDept:[],floor:[],type:'',month:'__RUNNING__',
+    from:ottLocalISO(first),to:ottLocalISO(yesterday)
+  }
+}
+function ottEnsureDefaults(tab){
+  if(!state.ottFilters||!state.ottFilters._initialized)state.ottFilters=ottDefaultFilters(tab)
+}
+function ottAsList(v){
+  if(Array.isArray(v))return v.filter(x=>String(x??'').trim()!=='');
+  if(v===null||v===undefined||v==='')return[];
+  return[String(v)]
+}
+function ottMultiMatch(value,selected){
+  const list=ottAsList(selected);if(!list.length)return true;
+  const n=ottNorm(value);return list.some(x=>ottNorm(x)===n)
+}
 function ottClean(v){const s=String(v??'').trim();return s==='11'?'':s}
 function ottNorm(v){return ottClean(v).toLowerCase().replace(/\s+/g,' ')}
 function ottBookingKey(v){return ottClean(v).toUpperCase()}
@@ -2192,7 +2335,7 @@ function ottDelayDays(r){
 }
 function ottHeaderSig(v){return String(v??'').trim().toLowerCase().replace(/[^a-z0-9]+/g,'')}
 function normalizeOTTWorkbook(wb,tab){
-  const cfg=OTT_CONFIG[tab];if(!cfg||tab==='ott_overall')throw new Error('Invalid OTT source');
+  const cfg=OTT_CONFIG[tab];if(!cfg||!OTT_SOURCE_TABS.includes(tab))throw new Error('Invalid OTT source');
   const sn='Data';if(!wb.SheetNames.includes(sn))throw new Error('Missing sheet: Data');
   const raw=XLSX.utils.sheet_to_json(wb.Sheets[sn],{defval:null,raw:true});
   if(!raw.length)throw new Error('Data sheet has no rows.');
@@ -2225,12 +2368,15 @@ function normalizeOTTWorkbook(wb,tab){
   rows.sort((a,b)=>(a.Plan||'').localeCompare(b.Plan||'')||a.BookingNo.localeCompare(b.BookingNo));
   return rows
 }
+
 function ottSource(tab){
-  const cfg=OTT_CONFIG[tab];if(!cfg||tab==='ott_overall')return[];
+  if(!OTT_SOURCE_TABS.includes(tab))return[];
+  const cfg=OTT_CONFIG[tab];
   return state.data?.ottSources?.[cfg.key]?.rows||[]
 }
+
 function ottRowsWithDept(tab){
-  if(tab==='ott_overall'){
+  if(tab==='ott_overall'||tab==='ott_booking'){
     return OTT_SOURCE_TABS.flatMap(t=>{
       const cfg=OTT_CONFIG[t];return ottSource(t).map(r=>({...r,DepartmentKey:cfg.key,Department:cfg.short}))
     })
@@ -2249,20 +2395,28 @@ function ottCanonicalOptions(rows,key){
 function ottBookingOptions(tab){
   const rows=ottRowsWithDept(tab);return [...new Set(rows.map(r=>r.BookingNo).filter(Boolean))].sort((a,b)=>a.localeCompare(b,undefined,{numeric:true,sensitivity:'base'}))
 }
+
 function ottFilterRows(tab){
-  const f=state.ottFilters||ottBlankFilters(),selected=new Set((f.bookings||[]).map(ottBookingKey));
+  ottEnsureDefaults(tab);
+  const f=state.ottFilters,bookingPage=tab==='ott_booking';
+  const selected=new Set((f.bookings||[]).map(ottBookingKey));
+  const runningKey=ottRunningMonthKey();
   return ottRowsWithDept(tab).filter(r=>{
-    if(selected.size&&!selected.has(ottBookingKey(r.BookingNo)))return false;
-    if(f.buyer&&ottNorm(r.Buyer)!==ottNorm(f.buyer))return false;
+    if(bookingPage&&!f.bookingAll){
+      if(!selected.size)return false;
+      if(!selected.has(ottBookingKey(r.BookingNo)))return false
+    }
+    if(!ottMultiMatch(r.Buyer,f.buyer))return false;
     if(f.plan&&r.Plan!==f.plan)return false;
     if(f.result&&ottNorm(r.Result)!==ottNorm(f.result))return false;
-    if(f.failReason&&ottNorm(r.FailReason)!==ottNorm(f.failReason))return false;
-    if(f.relatedDept&&ottNorm(r.RelatedDept)!==ottNorm(f.relatedDept))return false;
-    if(f.floor){
-      if(!['knitting','yarn'].includes(r.DepartmentKey)&&ottNorm(r.Floor)!==ottNorm(f.floor))return false;
-    }
+    if(!ottMultiMatch(r.FailReason,f.failReason))return false;
+    if(!ottMultiMatch(r.RelatedDept,f.relatedDept))return false;
+    const floorSel=ottAsList(f.floor);
+    if(floorSel.length&&!['knitting','yarn'].includes(r.DepartmentKey)&&!ottMultiMatch(r.Floor,floorSel))return false;
     if(f.type&&ottNormType(r.Type)!==ottNormType(f.type))return false;
-    if(f.month&&ottNorm(r.Month)!==ottNorm(f.month))return false;
+    if(f.month==='__RUNNING__'){
+      if(!r.Plan||!r.Plan.startsWith(runningKey))return false
+    }else if(f.month&&ottNorm(r.Month)!==ottNorm(f.month))return false;
     if(f.from&&(!r.Plan||r.Plan<f.from))return false;
     if(f.to&&(!r.Plan||r.Plan>f.to))return false;
     return true
@@ -2304,68 +2458,149 @@ function ottMonthGroups(rows){
   return [...m.entries()].map(([label,rs])=>({label,rows:rs,rate:ottRate(rs),min:rs.map(r=>r.Plan).filter(Boolean).sort()[0]||label}))
     .sort((a,b)=>String(a.min).localeCompare(String(b.min)))
 }
+
+function ottDailyFlow(rows){
+  const f=state.ottFilters||{},byDate=new Map();
+  rows.forEach(r=>{if(!r.Plan)return;if(!byDate.has(r.Plan))byDate.set(r.Plan,[]);byDate.get(r.Plan).push(r)});
+  let from=f.from,to=f.to;
+  const dates=[...byDate.keys()].sort();
+  if(!from)from=dates[0]||'';
+  if(!to)to=dates.slice(-1)[0]||'';
+  const labels=[],start=[],end=[],overall=[];
+  if(from&&to&&from<=to){
+    let d=new Date(from+'T00:00:00'),last=new Date(to+'T00:00:00'),guard=0;
+    while(d<=last&&guard<550){
+      const iso=ottLocalISO(d),rs=byDate.get(iso)||[];
+      labels.push(d.toLocaleDateString(undefined,{day:'2-digit',month:'short'}));
+      start.push(ottRate(rs.filter(r=>r.Type==='Start')));
+      end.push(ottRate(rs.filter(r=>r.Type==='End')));
+      overall.push(ottRate(rs));
+      d.setDate(d.getDate()+1);guard++
+    }
+  }
+  return{labels,start,end,overall}
+}
+function ottMonthlyFlow(rows){
+  const groups=ottMonthGroups(rows);
+  return{
+    labels:groups.map(g=>g.label),
+    start:groups.map(g=>ottRate(g.rows.filter(r=>r.Type==='Start'))),
+    end:groups.map(g=>ottRate(g.rows.filter(r=>r.Type==='End'))),
+    overall:groups.map(g=>ottRate(g.rows))
+  }
+}
 function ottTopCounts(rows,key,n=10){
   return ottGroup(rows.filter(r=>r.Result==='Fail'&&ottClean(r[key])),key).sort((a,b)=>b.count-a.count).slice(0,n)
 }
+
 function ottBookingPickerHTML(tab){
-  const opts=ottBookingOptions(tab),sel=new Set((state.ottFilters.bookings||[]).map(ottBookingKey));
-  const summary=sel.size?`${sel.size} booking${sel.size===1?'':'s'} selected`:'All bookings';
+  const opts=ottBookingOptions('ott_booking'),f=state.ottFilters,all=!!f.bookingAll,
+        sel=new Set((f.bookings||[]).map(ottBookingKey));
+  const checkedCount=all?opts.length:opts.filter(b=>sel.has(ottBookingKey(b))).length;
+  const summary=all?`All ${opts.length.toLocaleString()} bookings selected`:`${checkedCount.toLocaleString()} booking${checkedCount===1?'':'s'} selected`;
   return `<details class="ott-booking-picker" id="ottBookingPicker"><summary id="ottBookingSummary">${esc(summary)} <span>⌄</span></summary>
     <div class="ott-booking-pop">
       <input class="ott-booking-search" id="ottBookingSearch" placeholder="Type booking number...">
-      <div class="ott-booking-list" id="ottBookingList">${opts.map(b=>`<label class="ott-booking-option" data-booking-search="${esc(b.toLowerCase())}"><input type="checkbox" class="ott-booking-box" value="${esc(b)}" ${sel.has(ottBookingKey(b))?'checked':''}><span>${esc(b)}</span></label>`).join('')}</div>
-      <div class="ott-booking-actions"><span class="muted" id="ottBookingCount">${sel.size} selected</span><div><button class="btn" id="ottBookingClear" type="button">Clear</button> <button class="btn primary" id="ottBookingApply" type="button">Apply</button></div></div>
+      <div class="ott-booking-list" id="ottBookingList">${opts.map(b=>`<label class="ott-booking-option" data-booking-search="${esc(b.toLowerCase())}"><input type="checkbox" class="ott-booking-box" value="${esc(b)}" ${all||sel.has(ottBookingKey(b))?'checked':''}><span>${esc(b)}</span></label>`).join('')}</div>
+      <div class="ott-booking-actions"><span class="muted" id="ottBookingCount">${checkedCount.toLocaleString()} selected</span><div><button class="btn" id="ottBookingSelectAll" type="button">Select all</button> <button class="btn" id="ottBookingClear" type="button">Clear</button> <button class="btn primary" id="ottBookingApply" type="button">Apply</button></div></div>
     </div></details>`
+}
+
+function ottMultiPickerHTML(id,label,values,current){
+  const selected=new Set(ottAsList(current).map(ottNorm)),all=selected.size===0;
+  const summary=all?'All':`${selected.size} selected`;
+  return `<div class="filter-group"><span class="mini-label">${esc(label)}</span>
+    <details class="ott-multi-picker" id="${id}Picker"><summary id="${id}Summary">${esc(summary)} <span>⌄</span></summary>
+      <div class="ott-multi-pop">
+        <input class="ott-multi-search" id="${id}Search" placeholder="Search ${esc(label.toLowerCase())}...">
+        <div class="ott-multi-list" id="${id}List">${values.map(v=>`<label class="ott-multi-option" data-multi-search="${esc(v.toLowerCase())}"><input type="checkbox" class="${id}Box" value="${esc(v)}" ${selected.has(ottNorm(v))?'checked':''}><span>${esc(v)}</span></label>`).join('')}</div>
+        <div class="ott-multi-actions"><span class="muted">${all?'All values':'Multiple allowed'}</span><div><button class="btn" id="${id}Clear" type="button">All</button> <button class="btn primary" id="${id}Apply" type="button">Apply</button></div></div>
+      </div>
+    </details>
+  </div>`
+}
+function ottBindMultiPicker(id,key){
+  const search=$('#'+id+'Search');
+  if(search)search.oninput=()=>{
+    const q=search.value.trim().toLowerCase();
+    $$(`#${id}List .ott-multi-option`).forEach(x=>x.classList.toggle('hidden',q&&!x.dataset.multiSearch.includes(q)))
+  };
+  const apply=$('#'+id+'Apply');
+  if(apply)apply.onclick=()=>{
+    state.ottFilters[key]=$$('.'+id+'Box').filter(x=>x.checked).map(x=>x.value);render()
+  };
+  const clear=$('#'+id+'Clear');
+  if(clear)clear.onclick=()=>{state.ottFilters[key]=[];render()}
 }
 function ottSelectHTML(id,label,values,current,disabled=false){
   return `<div class="filter-group"><span class="mini-label">${esc(label)}</span><select id="${id}" ${disabled?'disabled':''}><option value="">All</option>${values.map(v=>`<option value="${esc(v)}" ${ottNorm(v)===ottNorm(current)?'selected':''}>${esc(v)}</option>`).join('')}</select></div>`
 }
+
 function ottFilterPanel(tab){
-  const cfg=OTT_CONFIG[tab],base=ottRowsWithDept(tab),f=state.ottFilters;
+  ottEnsureDefaults(tab);
+  const cfg=OTT_CONFIG[tab],base=ottRowsWithDept(tab),f=state.ottFilters,bookingPage=tab==='ott_booking';
   const buyers=ottCanonicalOptions(base,'Buyer'),reasons=ottCanonicalOptions(base.filter(r=>r.FailReason),'FailReason'),
         related=ottCanonicalOptions(base.filter(r=>r.RelatedDept),'RelatedDept'),
         floors=ottCanonicalOptions(base.filter(r=>r.Floor),'Floor'),types=ottCanonicalOptions(base,'Type'),months=ottCanonicalOptions(base,'Month');
-  const noFloor=tab!=='ott_overall'&&!cfg.hasFloor;
-  const meta=tab==='ott_overall'
-    ?`${base.length.toLocaleString()} checks combined from 5 OTT sources`
-    :`${base.length.toLocaleString()} checks • ${(state.data?.ottSources?.[cfg.key]?.meta?.bookings||0).toLocaleString()} bookings`;
+  const noFloor=!bookingPage&&tab!=='ott_overall'&&!cfg.hasFloor;
+  const meta=bookingPage
+    ?`${ottBookingOptions('ott_booking').length.toLocaleString()} unique bookings combined from 5 OTT sources`
+    :tab==='ott_overall'
+      ?`${base.length.toLocaleString()} checks combined from 5 OTT sources`
+      :`${base.length.toLocaleString()} checks • ${(state.data?.ottSources?.[cfg.key]?.meta?.bookings||0).toLocaleString()} bookings`;
+  const monthOptions=`<div class="filter-group"><span class="mini-label">Month</span><select id="ottMonth">
+      <option value="__RUNNING__" ${f.month==='__RUNNING__'?'selected':''}>Running Month — ${esc(ottRunningMonthLabel())}</option>
+      ${months.map(v=>`<option value="${esc(v)}" ${ottNorm(v)===ottNorm(f.month)?'selected':''}>${esc(v)}</option>`).join('')}
+    </select></div>`;
   return `<div class="ott-filter-panel">
     <div class="ott-filter-head"><div><h2>${esc(cfg.label)}</h2><div class="meta">${esc(meta)} • Source upload is managed from Data Management</div></div>
       <div class="ott-filter-actions"><button class="btn" id="ottCsvBtn" type="button">Export CSV</button><button class="btn primary" id="ottSnapshotBtn" type="button">▣ Management View</button></div></div>
     <div class="ott-filter-grid">
-      <div class="filter-group wide"><span class="mini-label">Booking No. (single / multiple)</span>${ottBookingPickerHTML(tab)}</div>
-      ${ottSelectHTML('ottBuyer','Buyer',buyers,f.buyer)}
+      ${bookingPage?`<div class="filter-group wide"><span class="mini-label">Booking No. (single / multiple)</span>${ottBookingPickerHTML(tab)}</div>`:''}
+      ${ottMultiPickerHTML('ottBuyer','Buyer',buyers,f.buyer)}
       <div class="filter-group"><span class="mini-label">Plan</span><input id="ottPlan" type="date" value="${esc(f.plan||'')}"></div>
       ${ottSelectHTML('ottResult','Result',['Pass','Fail'],f.result)}
-      ${ottSelectHTML('ottFailReason','Fail Reason',reasons,f.failReason)}
-      ${ottSelectHTML('ottRelatedDept','Related Dept.',related,f.relatedDept)}
-      ${ottSelectHTML('ottFloor','Floor',floors,f.floor,noFloor)}
+      ${ottMultiPickerHTML('ottFailReason','Fail Reason',reasons,f.failReason)}
+      ${ottMultiPickerHTML('ottRelatedDept','Related Dept.',related,f.relatedDept)}
+      ${ottMultiPickerHTML('ottFloor','Floor',floors,f.floor)}
       ${ottSelectHTML('ottType','Type',types,f.type)}
-      ${ottSelectHTML('ottMonth','Month',months,f.month)}
+      ${monthOptions}
       <div class="filter-group"><span class="mini-label">Date Range — From</span><input id="ottFrom" type="date" value="${esc(f.from||'')}"></div>
       <div class="filter-group"><span class="mini-label">Date Range — To</span><input id="ottTo" type="date" value="${esc(f.to||'')}"></div>
       <div class="filter-group"><span class="mini-label">Filters</span><button class="btn" id="ottResetBtn" type="button">Reset all</button></div>
     </div>
-    <div class="ott-filter-note">Date Range is applied to <b>Plan date</b>. ${noFloor?'<span class="ott-floor-note">Floor is not available in this source, so Floor filtering does not affect this dashboard.</span>':tab==='ott_overall'?'<span class="ott-floor-note">For Overall OTT, Floor filtering applies to Dyeing / Delivery / Lock Plan only; Knitting and Yarn Dyeing remain included.</span>':''}</div>
+    <div class="ott-filter-note">Default: <b>Running Month</b> and <b>1st day → yesterday</b>. Date Range is applied to <b>Plan date</b>. ${noFloor?'<span class="ott-floor-note">Floor is not available in this source, so Floor filtering does not affect this dashboard.</span>':(tab==='ott_overall'||bookingPage)?'<span class="ott-floor-note">Floor applies to Dyeing / Delivery / Lock Plan only; Knitting and Yarn Dyeing remain included.</span>':''}</div>
   </div>`
 }
+
 function ottBindFilters(tab){
-  const map={ottBuyer:'buyer',ottPlan:'plan',ottResult:'result',ottFailReason:'failReason',ottRelatedDept:'relatedDept',ottFloor:'floor',ottType:'type',ottMonth:'month',ottFrom:'from',ottTo:'to'};
+  const map={ottPlan:'plan',ottResult:'result',ottType:'type',ottMonth:'month',ottFrom:'from',ottTo:'to'};
   Object.entries(map).forEach(([id,key])=>{const el=$('#'+id);if(el)el.onchange=()=>{state.ottFilters[key]=el.value;render()}});
-  const search=$('#ottBookingSearch');if(search)search.oninput=()=>{
-    const q=search.value.trim().toLowerCase();$$('.ott-booking-option').forEach(x=>x.classList.toggle('hidden',q&&!x.dataset.bookingSearch.includes(q)))
-  };
-  $$('.ott-booking-box').forEach(c=>c.onchange=()=>{
-    const s=new Set(state.ottFilters.bookings||[]);
-    if(c.checked)s.add(c.value);else s.delete(c.value);
-    state.ottFilters.bookings=[...s];
-    const n=state.ottFilters.bookings.length;
-    if($('#ottBookingCount'))$('#ottBookingCount').textContent=`${n} selected`;
-    if($('#ottBookingSummary'))$('#ottBookingSummary').innerHTML=`${n?n+' booking'+(n===1?'':'s')+' selected':'All bookings'} <span>⌄</span>`
-  });
-  if($('#ottBookingApply'))$('#ottBookingApply').onclick=()=>render();
-  if($('#ottBookingClear'))$('#ottBookingClear').onclick=()=>{state.ottFilters.bookings=[];render()};
-  if($('#ottResetBtn'))$('#ottResetBtn').onclick=()=>{state.ottFilters=ottBlankFilters();render()};
+  ottBindMultiPicker('ottBuyer','buyer');
+  ottBindMultiPicker('ottFailReason','failReason');
+  ottBindMultiPicker('ottRelatedDept','relatedDept');
+  ottBindMultiPicker('ottFloor','floor');
+
+  if(tab==='ott_booking'){
+    const search=$('#ottBookingSearch');
+    if(search)search.oninput=()=>{
+      const q=search.value.trim().toLowerCase();
+      $$('.ott-booking-option').forEach(x=>x.classList.toggle('hidden',q&&!x.dataset.bookingSearch.includes(q)))
+    };
+    if($('#ottBookingApply'))$('#ottBookingApply').onclick=()=>{
+      const allBoxes=$$('.ott-booking-box'),checked=allBoxes.filter(x=>x.checked);
+      state.ottFilters.bookingAll=allBoxes.length>0&&checked.length===allBoxes.length;
+      state.ottFilters.bookings=state.ottFilters.bookingAll?[]:checked.map(x=>x.value);
+      render()
+    };
+    if($('#ottBookingSelectAll'))$('#ottBookingSelectAll').onclick=()=>{
+      state.ottFilters.bookingAll=true;state.ottFilters.bookings=[];render()
+    };
+    if($('#ottBookingClear'))$('#ottBookingClear').onclick=()=>{
+      state.ottFilters.bookingAll=false;state.ottFilters.bookings=[];render()
+    }
+  }
+  if($('#ottResetBtn'))$('#ottResetBtn').onclick=()=>{state.ottFilters=ottDefaultFilters(tab);render()};
   if($('#ottSnapshotBtn'))$('#ottSnapshotBtn').onclick=openOttSnapshot;
   if($('#ottCsvBtn'))$('#ottCsvBtn').onclick=()=>exportOttCSV(tab);
 }
@@ -2390,6 +2625,7 @@ function ottTableHTML(rows,overall=false,limit=350){
   if(rows.length>limit)h+=`<div class="muted" style="padding-top:5px">Showing first ${limit.toLocaleString()} of ${rows.length.toLocaleString()} filtered records.</div>`;
   return h
 }
+
 function ottDeptBookingSummary(rows){
   if(!rows.length)return'<span class="ott-result-na">No data</span>';
   const order=['Start','End'],parts=[];
@@ -2397,20 +2633,26 @@ function ottDeptBookingSummary(rows){
     const rs=rows.filter(r=>r.Type===t);if(!rs.length)continue;
     const fail=rs.some(r=>r.Result==='Fail'),pass=rs.every(r=>r.Result==='Pass'),status=fail?'Fail':pass?'Pass':'—';
     const plan=rs.map(r=>r.Plan).filter(Boolean).sort()[0]||null,actual=rs.map(r=>r.Actual).filter(Boolean).sort().slice(-1)[0]||null;
-    parts.push(`<div class="ott-cross-line ${status.toLowerCase()}"><b>${t}: ${status}</b><br><span>P ${ottFmtDate(plan)} • A ${ottFmtDate(actual)}</span></div>`)
+    const failRows=rs.filter(r=>r.Result==='Fail'),
+          reasons=[...new Set(failRows.map(r=>r.FailReason).filter(Boolean))],
+          depts=[...new Set(failRows.map(r=>r.RelatedDept).filter(Boolean))];
+    const extra=fail?`<span class="ott-fail-extra"><b>Fail Reason:</b> ${esc(reasons.join(' | ')||'—')}<br><b>Related Dept.:</b> ${esc(depts.join(' | ')||'—')}</span>`:'';
+    parts.push(`<div class="ott-cross-line ${status.toLowerCase()}"><b>${t}: ${status}</b><br><span>P ${ottFmtDate(plan)} • A ${ottFmtDate(actual)}</span>${extra}</div>`)
   }
   if(!parts.length){
-    const fail=rows.some(r=>r.Result==='Fail'),status=fail?'Fail':'Pass';
-    return`<div class="ott-cross-line ${status.toLowerCase()}"><b>${status}</b></div>`
+    const fail=rows.some(r=>r.Result==='Fail'),status=fail?'Fail':'Pass',
+          reasons=[...new Set(rows.filter(r=>r.Result==='Fail').map(r=>r.FailReason).filter(Boolean))],
+          depts=[...new Set(rows.filter(r=>r.Result==='Fail').map(r=>r.RelatedDept).filter(Boolean))];
+    return`<div class="ott-cross-line ${status.toLowerCase()}"><b>${status}</b>${fail?`<span class="ott-fail-extra"><b>Fail Reason:</b> ${esc(reasons.join(' | ')||'—')}<br><b>Related Dept.:</b> ${esc(depts.join(' | ')||'—')}</span>`:''}</div>`
   }
   return`<div class="ott-cross-cell">${parts.join('')}</div>`
 }
-function ottCrossStatusHTML(){
-  const selected=(state.ottFilters.bookings||[]);if(!selected.length)return'';
-  const all=ottRowsWithDept('ott_overall'),byBooking=new Map();
-  selected.forEach(b=>byBooking.set(ottBookingKey(b),[]));
-  all.forEach(r=>{const k=ottBookingKey(r.BookingNo);if(byBooking.has(k))byBooking.get(k).push(r)});
-  let h=`<div class="ott-status-section"><h3>Selected Booking — All Department OTT Status</h3><div class="note">${selected.length} selected booking${selected.length===1?'':'s'} • Yarn Dyeing / Knitting / Dyeing / Delivery / Lock Plan</div><div class="table-wrap"><table class="ott-cross-table"><thead><tr><th>Booking No.</th><th>Buyer</th><th>YD</th><th>Knitting</th><th>Dyeing</th><th>Delivery</th><th>Lock Plan</th></tr></thead><tbody>`;
+
+function ottCrossStatusHTML(rows,bookingList){
+  const selected=bookingList||[];if(!selected.length)return'<div class="ott-status-section"><h3>Selected Booking — All Department OTT Status</h3><div class="empty">No booking selected / no booking matches the current filters.</div></div>';
+  const byBooking=new Map(selected.map(b=>[ottBookingKey(b),[]]));
+  rows.forEach(r=>{const k=ottBookingKey(r.BookingNo);if(byBooking.has(k))byBooking.get(k).push(r)});
+  let h=`<div class="ott-status-section ott-booking-status-table"><h3>Selected Booking — All Department OTT Status</h3><div class="note">${selected.length.toLocaleString()} booking${selected.length===1?'':'s'} in current view • Fail events include Fail Reason and Related Dept.</div><div class="table-wrap"><table class="ott-cross-table"><thead><tr><th>Booking No.</th><th>Buyer</th><th>YD</th><th>Knitting</th><th>Dyeing</th><th>Delivery</th><th>Lock Plan</th></tr></thead><tbody>`;
   for(const b of selected){
     const rs=byBooking.get(ottBookingKey(b))||[],buyer=rs.find(r=>r.Buyer)?.Buyer||'—';
     const cell=k=>ottDeptBookingSummary(rs.filter(r=>r.DepartmentKey===k));
@@ -2423,8 +2665,9 @@ function ottManagementHeader(title,rows){
   return `<div class="ott-management-title"><div><h2>${esc(title)}</h2><small>TEXTILE OTT MANAGEMENT BOARD</small></div><div class="ott-period">Plan date range<b>${esc(from)} → ${esc(to)}</b></div></div>`
 }
 
+
 function ottAssertUniqueChartTargets(){
-  const ids=['ottChartResult','ottChartType','ottChartMonth','ottBuyerChart','ottChartFailReason','ottRelated','ottChartFloor'];
+  const ids=['ottChartDaily','ottChartMonth','ottBuyerChart','ottChartFailReason','ottRelated','ottChartFloor','ottChartResult','ottDeptType','ottDeptRate'];
   ids.forEach(id=>{
     const nodes=document.querySelectorAll(`#${id}`);
     if(nodes.length>1)console.warn(`Duplicate OTT chart id detected: ${id}`,nodes)
@@ -2432,14 +2675,15 @@ function ottAssertUniqueChartTargets(){
 }
 
 function renderOTTDept(tab){
-  metricCardSet([]);const cfg=OTT_CONFIG[tab],source=ottSource(tab);
+  metricCardSet([]);ottEnsureDefaults(tab);
+  const cfg=OTT_CONFIG[tab],source=ottSource(tab);
   $('#content').innerHTML=`<div class="ott-page">${ottFilterPanel(tab)}<div id="ottBody"></div></div>`;ottBindFilters(tab);
   const body=$('#ottBody');
   if(!source.length){
-    body.innerHTML=`<div class="alert">No ${esc(cfg.label)} source has been uploaded yet.${state.profile?.role==='admin'?' Use the Upload / Replace control above and select '+esc(cfg.fileName)+'.':''}</div>`;
+    body.innerHTML=`<div class="alert">No ${esc(cfg.label)} source has been uploaded yet. Go to Data Management → OTT Board Data Upload.</div>`;
     return
   }
-  const rows=ottFilterRows(tab),s=ottStats(rows),monthly=ottMonthGroups(rows),
+  const rows=ottFilterRows(tab),s=ottStats(rows),daily=ottDailyFlow(rows),monthly=ottMonthlyFlow(rows),
         buyer=ottGroup(rows,'Buyer').filter(x=>x.label!=='(blank)').sort((a,b)=>b.count-a.count).slice(0,12),
         reasons=ottTopCounts(rows,'FailReason',10),related=ottTopCounts(rows,'RelatedDept',10),
         floors=cfg.hasFloor?ottGroup(rows.filter(r=>r.Floor),'Floor').sort((a,b)=>b.count-a.count).slice(0,12):[];
@@ -2456,66 +2700,95 @@ function renderOTTDept(tab){
   const p=(title,note,id,wide=false)=>panel(title,note,`<div class="chart-wrap"><canvas id="${id}"></canvas></div>`,wide,true);
   body.innerHTML=`<div class="ott-management-area" id="ottManagementArea">${ottManagementHeader(cfg.label,rows)}
     <div class="ott-card-grid">${cards}</div><div class="ott-chart-grid">
-      ${p('Pass / Fail','Current filtered checks','ottChartResult')}
-      ${p('Start vs End OTT','Pass rate by event type','ottChartType')}
-      ${p('Monthly OTT Trend','Pass rate by source Month','ottChartMonth')}
+      <div class="ott-trend-wide">${p('Daily OTT Trend','Start / End / Overall OTT for every date in the selected range','ottChartDaily',true)}</div>
+      <div class="ott-trend-wide">${p('Monthly OTT Trend','Start / End / Overall OTT flow','ottChartMonth',true)}</div>
       ${p('Buyer OTT Performance','Top buyers by number of checks','ottBuyerChart')}
       ${p('Major Fail Reasons','Top fail reasons','ottChartFailReason')}
       ${p('Fail Responsible / Related Dept.','Top departments on failed rows','ottRelated')}
       ${cfg.hasFloor?p('Floor OTT','Pass rate by Floor','ottChartFloor'):''}
-      ${ottCrossStatusHTML()}
     </div></div>
-    <div class="panel ott-detail-wrap"><h3>${esc(cfg.label)} Detail</h3><div class="note">Filters apply to the table. Source Result is authoritative; Actual placeholders such as “11” are treated as blank dates.</div>${ottTableHTML(rows,false)}</div>`;
+    <div class="panel ott-detail-wrap"><h3>${esc(cfg.label)} Detail</h3><div class="note">Booking No. filtering is handled only in OTT Board → Booking OTT Status.</div>${ottTableHTML(rows,false)}</div>`;
   ottAssertUniqueChartTargets();
-  ottDoughnutChart('ottChartResult',['Pass','Fail'],[s.pass,s.fail]);
-  ottPercentBarChart('ottChartType',['Start','End'],[s.startRate,s.endRate],'Pass rate',false);
-  ottPercentLineChart('ottChartMonth',monthly.map(x=>x.label),[{label:'OTT',data:monthly.map(x=>x.rate)}]);
+  ottPercentLineChart('ottChartDaily',daily.labels,[
+    {label:'Start OTT',data:daily.start},{label:'End OTT',data:daily.end},{label:'Overall OTT',data:daily.overall}
+  ]);
+  ottPercentLineChart('ottChartMonth',monthly.labels,[
+    {label:'Start OTT',data:monthly.start},{label:'End OTT',data:monthly.end},{label:'Overall OTT',data:monthly.overall}
+  ]);
   ottPercentBarChart('ottBuyerChart',buyer.map(x=>x.label),buyer.map(x=>x.rate),'Pass rate',true);
   ottCountBarChart('ottChartFailReason',safeReasons.map(x=>x.label),safeReasons.map(x=>x.count),'Fail checks');
   ottCountBarChart('ottRelated',safeRelated.map(x=>x.label),safeRelated.map(x=>x.count),'Fail checks');
   if(cfg.hasFloor)ottPercentBarChart('ottChartFloor',floors.map(x=>x.label),floors.map(x=>x.rate),'Pass rate',true)
 }
+
+
+function renderOTTBooking(){
+  metricCardSet([]);const tab='ott_booking';ottEnsureDefaults(tab);
+  const all=ottRowsWithDept(tab);
+  $('#content').innerHTML=`<div class="ott-page ott-booking-status-page">${ottFilterPanel(tab)}<div id="ottBody"></div></div>`;ottBindFilters(tab);
+  const body=$('#ottBody');
+  if(!all.length){body.innerHTML='<div class="alert">No OTT source files have been uploaded yet. Upload the five OTT source files from Data Management.</div>';return}
+  const rows=ottFilterRows(tab),
+        selected=state.ottFilters.bookingAll
+          ?[...new Set(rows.map(r=>r.BookingNo).filter(Boolean))].sort((a,b)=>a.localeCompare(b,undefined,{numeric:true,sensitivity:'base'}))
+          :(state.ottFilters.bookings||[]).filter(b=>rows.some(r=>ottBookingKey(r.BookingNo)===ottBookingKey(b))),
+        overall=ottStats(rows),
+        deptStats=OTT_SOURCE_TABS.map(t=>{const cfg=OTT_CONFIG[t],rs=rows.filter(r=>r.DepartmentKey===cfg.key);return{cfg,s:ottStats(rs)}});
+  const cards=[
+    ottCard('Bookings in View',selected.length.toLocaleString(),state.ottFilters.bookingAll?'All unique bookings selected by default':'Selected booking numbers','green'),
+    ...deptStats.map((x,i)=>ottCard(x.cfg.short,pct(x.s.rate),`${x.s.checks.toLocaleString()} checks`,['teal','blue','purple','orange','red'][i]))
+  ].join('');
+  body.innerHTML=`<div class="ott-management-area" id="ottManagementArea">${ottManagementHeader('Booking OTT Status',rows)}
+    <div class="ott-card-grid">${cards}</div>
+    ${ottCrossStatusHTML(rows,selected)}
+  </div>
+  <div class="panel ott-detail-wrap"><h3>Selected Booking — Combined Event Detail</h3><div class="note">All unique booking numbers are selected by default. Use the Booking No. picker for single or multiple selection.</div>${ottTableHTML(rows,true,500)}</div>`
+}
 function renderOTTOverall(){
-  metricCardSet([]);const tab='ott_overall',all=ottRowsWithDept(tab);
+  metricCardSet([]);const tab='ott_overall';ottEnsureDefaults(tab);
+  const all=ottRowsWithDept(tab);
   $('#content').innerHTML=`<div class="ott-page">${ottFilterPanel(tab)}<div id="ottBody"></div></div>`;ottBindFilters(tab);
   const body=$('#ottBody');
-  if(!all.length){body.innerHTML='<div class="alert">No OTT source files have been uploaded yet. Upload the five OTT files from their individual OTT Board submenus.</div>';return}
-  const rows=ottFilterRows(tab),overall=ottStats(rows);
+  if(!all.length){body.innerHTML='<div class="alert">No OTT source files have been uploaded yet. Upload the five files from Data Management → OTT Board Data Upload.</div>';return}
+  const rows=ottFilterRows(tab),overall=ottStats(rows),daily=ottDailyFlow(rows),monthly=ottMonthlyFlow(rows);
   const deptStats=OTT_SOURCE_TABS.map(t=>{const cfg=OTT_CONFIG[t],rs=rows.filter(r=>r.DepartmentKey===cfg.key);return{tab:t,cfg,rows:rs,s:ottStats(rs)}});
   const cards=[
     ottCard('Overall OTT',pct(overall.rate),`${overall.checks.toLocaleString()} combined checks`,'green'),
     ...deptStats.map((x,i)=>ottCard(x.cfg.short,pct(x.s.rate),`${x.s.pass.toLocaleString()} Pass • ${x.s.fail.toLocaleString()} Fail`,['teal','blue','purple','orange','red'][i]))
   ].join('');
-  const monthlyLabels=[...new Set(rows.map(r=>r.Month).filter(Boolean))].sort((a,b)=>{
-    const ar=rows.find(r=>r.Month===a)?.Plan||a,br=rows.find(r=>r.Month===b)?.Plan||b;return ar.localeCompare(br)
-  });
-  const monthSets=deptStats.map(x=>({label:x.cfg.short,data:monthlyLabels.map(m=>ottRate(x.rows.filter(r=>r.Month===m)))}));
   const reasons=ottTopCounts(rows,'FailReason',12),related=ottTopCounts(rows,'RelatedDept',12),
         safeReasons=reasons.length?reasons:[{label:'No fail reason available',count:0}],
         safeRelated=related.length?related:[{label:'No related department available',count:0}];
   const p=(title,note,id,wide=false)=>panel(title,note,`<div class="chart-wrap"><canvas id="${id}"></canvas></div>`,wide,true);
   body.innerHTML=`<div class="ott-management-area" id="ottManagementArea">${ottManagementHeader('Overall OTT',rows)}
     <div class="ott-card-grid">${cards}</div><div class="ott-chart-grid">
-      ${p('Department OTT Comparison','Pass rate across the five OTT sources','ottDeptRate')}
+      ${p('Pass / Fail','Combined filtered checks','ottChartResult')}
       ${p('Start vs End by Department','Pass rate comparison','ottDeptType')}
-      ${p('Monthly OTT by Department','Monthly pass-rate trend','ottOverallMonth',true)}
+      ${p('Department OTT Comparison','Overall pass rate across the five OTT sources','ottDeptRate')}
+      <div class="ott-trend-wide">${p('Daily OTT Trend','Start / End / Overall OTT for every date in the selected range','ottChartDaily',true)}</div>
+      <div class="ott-trend-wide">${p('Monthly OTT Trend','Start / End / Overall OTT flow','ottChartMonth',true)}</div>
       ${p('Major Fail Reasons — Overall','Combined failed checks','ottOverallFail')}
       ${p('Related Department — Overall','Combined failed checks','ottOverallRelated')}
-      ${ottCrossStatusHTML()}
     </div></div>
-    <div class="panel ott-detail-wrap"><h3>Overall OTT Detail</h3><div class="note">Data is extracted directly from the five uploaded OTT sources. Floor filtering does not exclude Yarn Dyeing or Knitting because those sources have no Floor column.</div>${ottTableHTML(rows,true)}</div>`;
-  ottPercentBarChart('ottDeptRate',deptStats.map(x=>x.cfg.short),deptStats.map(x=>x.s.rate),'Pass rate',false);
+    <div class="panel ott-detail-wrap"><h3>Overall OTT Detail</h3><div class="note">Booking No. filtering is handled only in OTT Board → Booking OTT Status. Floor does not exclude Yarn Dyeing or Knitting.</div>${ottTableHTML(rows,true)}</div>`;
+  ottDoughnutChart('ottChartResult',['Pass','Fail'],[overall.pass,overall.fail]);
   ottGroupedPercentBarChart('ottDeptType',deptStats.map(x=>x.cfg.short),[
     {label:'Start',data:deptStats.map(x=>x.s.startRate)},{label:'End',data:deptStats.map(x=>x.s.endRate)}
   ]);
-  ottPercentLineChart('ottOverallMonth',monthlyLabels,monthSets);
+  ottPercentBarChart('ottDeptRate',deptStats.map(x=>x.cfg.short),deptStats.map(x=>x.s.rate),'Pass rate',false);
+  ottPercentLineChart('ottChartDaily',daily.labels,[
+    {label:'Start OTT',data:daily.start},{label:'End OTT',data:daily.end},{label:'Overall OTT',data:daily.overall}
+  ]);
+  ottPercentLineChart('ottChartMonth',monthly.labels,[
+    {label:'Start OTT',data:monthly.start},{label:'End OTT',data:monthly.end},{label:'Overall OTT',data:monthly.overall}
+  ]);
   ottCountBarChart('ottOverallFail',safeReasons.map(x=>x.label),safeReasons.map(x=>x.count),'Fail checks');
   ottCountBarChart('ottOverallRelated',safeRelated.map(x=>x.label),safeRelated.map(x=>x.count),'Fail checks')
 }
 function exportOttCSV(tab){
   const rows=ottFilterRows(tab);if(!rows.length)return;
   const out=rows.map(r=>({
-    ...(tab==='ott_overall'?{Department:r.Department}:{}),
+    ...((tab==='ott_overall'||tab==='ott_booking')?{Department:r.Department}:{}),
     'Booking No.':r.BookingNo,Buyer:r.Buyer,Plan:r.Plan||'',Actual:r.Actual||'',Result:r.Result,
     'Fail Reason':r.FailReason,'Related Dept.':r.RelatedDept,Floor:r.Floor,Type:r.Type,Month:r.Month,
     ...(r.DetailsRemarks?{'Details Remarks':r.DetailsRemarks}:{})
@@ -3130,6 +3403,19 @@ function renderData(){
   if($('#ottDeliveryUploadBtn'))$('#ottDeliveryUploadBtn').onclick=()=>handleOTTUpload('ott_delivery','ottDeliveryFileInput','ottDeliveryUploadStatus');
   if($('#ottLockUploadBtn'))$('#ottLockUploadBtn').onclick=()=>handleOTTUpload('ott_lock','ottLockFileInput','ottLockUploadStatus');
 }
+
+function addKpiPageHeading(tab){
+  if(!KPI_TABS.includes(tab))return;
+  const labels={overview:'Overview',delivery:'Delivery',yarn:'Yarn Dyeing',knitting:'Knitting',dyeing:'Dyeing',finishing:'Finishing',chemical:'Chemical Lab',etl:'ETL'};
+  const content=$('#content');if(!content||content.querySelector('.kpi-page-heading'))return;
+  const title=labels[tab]||tab,meta=tab==='overview'
+    ?'Executive KPI summary • 7 departments • source files managed from Data Management'
+    :'Department KPI dashboard • source upload is managed from Data Management';
+  const el=document.createElement('div');el.className='kpi-page-heading';
+  el.innerHTML=`<div><h2>${esc(title)}</h2><div class="meta">${esc(meta)}</div></div><span class="badge">KPI Board</span>`;
+  content.prepend(el)
+}
+
 function render(){if(!state.data)return;destroyCharts();applyMenuPermissions();syncBuyerOptions(false);const isOtt=OTT_TABS.includes(state.tab),special=['data','users'].includes(state.tab)||isOtt;$('.toolbar').classList.toggle('hidden',special);$('#exportBtn').classList.toggle('hidden',special);
   const isOverview=state.tab==='overview';
   $('.toolbar')?.classList.toggle('overview-toolbar',isOverview);
@@ -3139,8 +3425,8 @@ function render(){if(!state.data)return;destroyCharts();applyMenuPermissions();s
   const kb=$('#kpiBoardBtn');if(kb)kb.classList.toggle('active',KPI_TABS.includes(state.tab));
   const ob=$('#ottBoardBtn');if(ob)ob.classList.toggle('active',OTT_TABS.includes(state.tab));
   const fns={overview:renderOverview,dyeing:renderDyeing,knitting:renderKnitting,finishing:renderFinishing,delivery:renderDelivery,yarn:renderYarnDyeing,chemical:renderChemicalLab,etl:renderETL,
-    ott_yarn:()=>renderOTTDept('ott_yarn'),ott_knitting:()=>renderOTTDept('ott_knitting'),ott_dyeing:()=>renderOTTDept('ott_dyeing'),ott_delivery:()=>renderOTTDept('ott_delivery'),ott_lock:()=>renderOTTDept('ott_lock'),ott_overall:renderOTTOverall,
-    data:renderData,users:renderUsers};(fns[state.tab]||renderOverview)();if(special){$('#countText').textContent='';return}if(state.tab==='dyeing')$('#countText').textContent=`${dyeingBuyerRows().length} buyer/date records • ${dyeingDateRows().length} overall date records`;else if(state.tab==='knitting')$('#countText').textContent=`${knittingBuyerRows().length} buyer/date records • ${knittingDateRows().length} overall date records`;else if(state.tab==='finishing')$('#countText').textContent=`${finishingDateRows().length} finishing date records`;else if(state.tab==='delivery')$('#countText').textContent=`${deliveryBuyerRows().length} buyer/date records • ${deliveryDateRows().length} delivery date records`;else if(state.tab==='yarn')$('#countText').textContent=`${yarnDyeingBuyerRows().length} buyer/date records • ${yarnDyeingDateRows().length} Yarn Dyeing date records`;else if(state.tab==='chemical')$('#countText').textContent=`${chemicalLabRows().length} Chemical Lab date records`;else if(state.tab==='etl')$('#countText').textContent=`${etlRows().length} ETL date records`;else if(state.tab==='overview')$('#countText').textContent='Executive summary • 7 departments • date-wise view';else $('#countText').textContent=`${currentDateRows('Dyeing').length} daily records`;}
+    ott_yarn:()=>renderOTTDept('ott_yarn'),ott_knitting:()=>renderOTTDept('ott_knitting'),ott_dyeing:()=>renderOTTDept('ott_dyeing'),ott_delivery:()=>renderOTTDept('ott_delivery'),ott_lock:()=>renderOTTDept('ott_lock'),ott_booking:renderOTTBooking,ott_overall:renderOTTOverall,
+    data:renderData,users:renderUsers};(fns[state.tab]||renderOverview)();if(KPI_TABS.includes(state.tab))addKpiPageHeading(state.tab);if(special){$('#countText').textContent='';return}if(state.tab==='dyeing')$('#countText').textContent=`${dyeingBuyerRows().length} buyer/date records • ${dyeingDateRows().length} overall date records`;else if(state.tab==='knitting')$('#countText').textContent=`${knittingBuyerRows().length} buyer/date records • ${knittingDateRows().length} overall date records`;else if(state.tab==='finishing')$('#countText').textContent=`${finishingDateRows().length} finishing date records`;else if(state.tab==='delivery')$('#countText').textContent=`${deliveryBuyerRows().length} buyer/date records • ${deliveryDateRows().length} delivery date records`;else if(state.tab==='yarn')$('#countText').textContent=`${yarnDyeingBuyerRows().length} buyer/date records • ${yarnDyeingDateRows().length} Yarn Dyeing date records`;else if(state.tab==='chemical')$('#countText').textContent=`${chemicalLabRows().length} Chemical Lab date records`;else if(state.tab==='etl')$('#countText').textContent=`${etlRows().length} ETL date records`;else if(state.tab==='overview')$('#countText').textContent='Executive summary • 7 departments • date-wise view';else $('#countText').textContent=`${currentDateRows('Dyeing').length} daily records`;}
 let swElapsed=0,swStartedAt=null,swTimer=null;
 function updateStopwatch(){const el=$('#stopwatchText');if(!el)return;const ms=swElapsed+(swStartedAt?Date.now()-swStartedAt:0),sec=Math.floor(ms/1000),m=Math.floor(sec/60),s=sec%60;el.textContent=`${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`}
 function toggleStopwatch(){const btn=$('#stopwatchBtn');if(swTimer){swElapsed+=Date.now()-swStartedAt;swStartedAt=null;clearInterval(swTimer);swTimer=null;btn?.classList.remove('active-tool')}else{swStartedAt=Date.now();swTimer=setInterval(updateStopwatch,250);btn?.classList.add('active-tool')}updateStopwatch()}
