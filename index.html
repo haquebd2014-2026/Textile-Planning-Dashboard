@@ -1865,6 +1865,113 @@ body.dark-mode .user-active-line b{color:#d9ebe3}
   .user-stat-row{justify-content:flex-start}
 }
 
+
+/* ===== Event Detail operational columns v40 ===== */
+.lock-event-only .lock-detail-table{
+  overflow:hidden
+}
+.lock-event-only .lock-detail-table .table-wrap{
+  max-height:720px;
+  overflow:auto;
+  border:1px solid var(--line);
+  border-radius:6px
+}
+.lock-event-only .lock-detail-table table{
+  width:max-content!important;
+  min-width:100%!important;
+  table-layout:auto!important;
+  border-collapse:separate;
+  border-spacing:0
+}
+.lock-event-only .lock-detail-table thead th{
+  position:sticky;
+  top:0;
+  z-index:3;
+  padding:5px 6px!important;
+  font-size:7.4px!important;
+  line-height:1.1;
+  white-space:nowrap!important
+}
+.lock-event-only .lock-detail-table tbody td{
+  padding:4px 6px!important;
+  font-size:7.8px!important;
+  line-height:1.15!important;
+  white-space:nowrap!important;
+  max-width:none!important;
+  min-width:0!important;
+  vertical-align:middle
+}
+.lock-event-only .lock-detail-table td.num,
+.lock-event-only .lock-detail-table th.num{
+  text-align:right;
+  font-variant-numeric:tabular-nums
+}
+.lock-event-only .lock-detail-table td.week-col{
+  font-weight:800;
+  color:#155f7d
+}
+.lock-event-only .lock-detail-table td.booking-no{
+  font-weight:800;
+  color:#153f34
+}
+.lpd-info-btn{
+  width:25px;height:23px;padding:0!important;border:1px solid #9bc9bc;border-radius:5px;
+  background:#f2faf7;color:#087252;font-weight:900;font-size:11px;cursor:pointer
+}
+.lpd-info-btn:hover{background:#e0f4ec;border-color:#66ae98}
+.lpd-info-btn.has-fail{background:#fff0ec;border-color:#e8b0a5;color:#c34431}
+.lpd-row-popup{
+  position:fixed;inset:0;z-index:6200;background:rgba(15,31,26,.44);
+  display:flex;align-items:center;justify-content:center;padding:18px
+}
+.lpd-row-popup.hidden{display:none!important}
+.lpd-row-popup-card{
+  width:min(620px,94vw);max-height:80vh;overflow:auto;background:var(--card);
+  border:1px solid var(--line);border-radius:10px;box-shadow:0 22px 60px rgba(0,0,0,.28)
+}
+.lpd-row-popup-head{
+  display:flex;align-items:center;justify-content:space-between;gap:10px;
+  padding:11px 13px;border-bottom:1px solid var(--line);
+  background:linear-gradient(90deg,#155f7d,#0b7e89);color:#fff
+}
+.lpd-row-popup-head h3{margin:0;font:700 16px Georgia,serif;color:#fff}
+.lpd-row-popup-head button{
+  width:29px;height:29px;border:1px solid rgba(255,255,255,.4);border-radius:50%;
+  background:rgba(255,255,255,.12);color:#fff;font-size:18px;cursor:pointer
+}
+.lpd-row-popup-body{padding:13px}
+.lpd-row-popup-meta{
+  display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;margin-bottom:10px
+}
+.lpd-row-popup-meta div{
+  border:1px solid var(--line);border-radius:6px;padding:7px 8px;background:var(--bg)
+}
+.lpd-row-popup-meta span{
+  display:block;font-size:7px;text-transform:uppercase;letter-spacing:.45px;color:var(--muted)
+}
+.lpd-row-popup-meta b{
+  display:block;margin-top:3px;font-size:10px;color:#24463b;word-break:break-word
+}
+.lpd-row-popup-section{
+  border:1px solid var(--line);border-radius:7px;padding:9px 10px;margin-top:8px
+}
+.lpd-row-popup-section .label{
+  font-size:7.5px;text-transform:uppercase;letter-spacing:.55px;font-weight:800;color:var(--muted)
+}
+.lpd-row-popup-section .value{
+  margin-top:5px;font-size:10px;line-height:1.45;color:var(--text);white-space:pre-wrap;word-break:break-word
+}
+.lpd-row-popup-section.reason{border-left:4px solid #d6503d}
+.lpd-row-popup-section.responsible{border-left:4px solid #2e6be6}
+body.dark-mode .lpd-info-btn{background:#183229;color:#9ae0c5;border-color:#356452}
+body.dark-mode .lpd-info-btn.has-fail{background:#38241f;color:#ffad9c;border-color:#75483d}
+body.dark-mode .lpd-row-popup-card{background:#17231e}
+body.dark-mode .lpd-row-popup-meta div{background:#111b17}
+body.dark-mode .lpd-row-popup-meta b{color:#d8eee5}
+@media(max-width:720px){
+  .lpd-row-popup-meta{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+
 </style></head><body><div id="app" class="hidden"><div class="app-sticky-header"><div class="top-accent"></div><header class="header"><div class="header-left"><div class="brand-mark">TP</div><div><div class="brand-title">Textile Planning Dashboard</div><div class="brand-sub">Planning, Monitoring & Control</div></div></div><div class="header-actions"><div class="utility-tools"><button class="tool-btn stopwatch-btn" id="stopwatchBtn" title="Click to start/pause • Double-click to reset">⏱ <span id="stopwatchText">00:00</span></button><button class="tool-btn" id="fullscreenBtn" title="Enter full screen">⛶ Full</button><button class="tool-btn" id="themeBtn" title="Switch dark/light mode">☾ Dark</button></div><span class="greeting" id="greeting">Good morning</span><button class="btn" id="exportBtn">Export CSV</button><button class="btn" id="signOutBtn">Sign out</button><button class="btn primary" id="refreshBtn">Refresh</button></div></header><nav class="nav">
   <div class="kpi-menu-wrap" id="kpiMenuWrap">
     <button class="kpi-menu-toggle active" id="kpiBoardBtn" type="button">KPI Board <span class="kpi-menu-arrow">⌄</span></button>
@@ -2044,7 +2151,7 @@ const OTT_CONFIG={
 const MAX_OTT_FILE_MB=20;
 const LOCK_PLAN_DETAILS_SHEET='Data';
 const MAX_LOCK_PLAN_DETAILS_MB=30;
-const LOCK_PLAN_DETAILS_REQUIRED=['Booking No.','FLOOR','PMC','Buyer','Start','End','A-Start','A-End','S-OTD','E-OTD','Status','LS-Remarks/Fail Reason','LS-Dept','LE-Remarks/Fail Reason','LE-Dept','Lock.Start. Month','Lock. End Month','Start Week','End Week','Order Type','Fabric Type','Finish Type','Fail Area'];
+const LOCK_PLAN_DETAILS_REQUIRED=['Booking No.','FLOOR','PMC','Buyer','Start','End','A-Start','A-End','S-OTD','E-OTD','Status','Booking','Delivery','Del. Bal','RFD','NRFD','WIP','Knit ok','Knit Bal','Dye Ok','Dye Bal','LS-Remarks/Fail Reason','LS-Dept','LE-Remarks/Fail Reason','LE-Dept','Lock.Start. Month','Lock. End Month','Start Week','End Week','Order Type','Fabric Type','Finish Type','Fail Area'];
 const MENU_DEFS=[
   {key:'overview',label:'Overview'},
   {key:'delivery',label:'Delivery'},
@@ -4196,6 +4303,32 @@ function lpdDelay(r){
   }
   return null
 }
+
+function lpdKeepValue(v){
+  if(v===null||v===undefined||v==='')return'';
+  if(typeof v==='string'&&v.trim()==='-')return'';
+  return v
+}
+function lpdQty(v){
+  if(v===null||v===undefined||v==='')return'—';
+  const n=Number(v);
+  if(Number.isFinite(n))return Math.round(n).toLocaleString();
+  return String(v)
+}
+function lpdWeekFY(plan,weekRaw,monthSource=''){
+  const w=lpdClean(weekRaw);if(!w)return'';
+  let year='';
+  if(plan&&/^\d{4}-/.test(plan))year=plan.slice(0,4);
+  if(!year){
+    const m=String(monthSource||'').match(/(?:^|\D)(20)?(\d{2})(?:\D|$)/);
+    if(m)year=m[1]?`${m[1]}${m[2]}`:`20${m[2]}`
+  }
+  if(!year)year=String(new Date().getFullYear());
+  const normalized=/^W/i.test(w)?w.toUpperCase():`W${w}`;
+  return`FY${year}-${normalized}`
+}
+
+
 function normalizeLockPlanDetailsWorkbook(wb){
   const sn=LOCK_PLAN_DETAILS_SHEET;if(!wb.SheetNames.includes(sn))throw new Error(`Missing sheet: ${sn}`);
   const raw=XLSX.utils.sheet_to_json(wb.Sheets[sn],{defval:null,raw:true}).filter(r=>Object.values(r).some(v=>v!==null&&v!==''));
@@ -4207,7 +4340,11 @@ function normalizeLockPlanDetailsWorkbook(wb){
     const common={
       BookingNo:lpdBooking(r['Booking No.']),Floor:lpdClean(r['FLOOR']),PMC:lpdClean(r['PMC']),Buyer:lpdClean(r['Buyer']),
       Status:lpdClean(r['Status']),OrderType:lpdClean(r['Order Type']),FabricType:lpdClean(r['Fabric Type']),
-      FinishType:lpdClean(r['Finish Type']),FailArea:lpdClean(r['Fail Area'])
+      FinishType:lpdClean(r['Finish Type']),FailArea:lpdClean(r['Fail Area']),
+      BookingQty:lpdKeepValue(r['Booking']),DeliveryQty:lpdKeepValue(r['Delivery']),DeliveryBal:lpdKeepValue(r['Del. Bal']),
+      RFD:lpdKeepValue(r['RFD']),NRFD:lpdKeepValue(r['NRFD']),WIP:lpdKeepValue(r['WIP']),
+      KnitOk:lpdKeepValue(r['Knit ok']),KnitBal:lpdKeepValue(r['Knit Bal']),
+      DyeOk:lpdKeepValue(r['Dye Ok']),DyeBal:lpdKeepValue(r['Dye Bal'])
     };
     for(const ev of ['START','END']){
       const start=ev==='START',planRaw=r[start?'Start':'End'],actualRaw=r[start?'A-Start':'A-End'],
@@ -4215,12 +4352,13 @@ function normalizeLockPlanDetailsWorkbook(wb){
             reason=lpdClean(r[start?'LS-Remarks/Fail Reason':'LE-Remarks/Fail Reason']),
             responsible=lpdClean(r[start?'LS-Dept':'LE-Dept']),
             monthSource=lpdClean(r[start?'Lock.Start. Month':'Lock. End Month']),
-            week=lpdClean(r[start?'Start Week':'End Week']),
-            planText=plan||lpdClean(planRaw);
-      if(!(planText||actual||otd||reason||responsible||monthSource||week))continue;
+            weekRaw=lpdClean(r[start?'Start Week':'End Week']),
+            planText=plan||lpdClean(planRaw),
+            week=lpdWeekFY(plan,weekRaw,monthSource);
+      if(!(planText||actual||otd||reason||responsible||monthSource||weekRaw))continue;
       events.push({...common,Event:ev,LockPlan:plan,LockPlanRaw:planText,Actual:actual,OTD:otd,
         DetailReason:reason,Responsible:responsible,MonthKey:lpdMonthKey(plan,monthSource),
-        MonthSource:monthSource,Week:week})
+        MonthSource:monthSource,Week:week,WeekRaw:weekRaw})
     }
   });
   if(!events.length)throw new Error('No usable Start/End event rows found.');
@@ -4366,18 +4504,46 @@ function lpdDailyPFChart(id,labels,pass,fail){
     plugins:{tpChartValueLabels:{display:true},legend:{position:'right',labels:{boxWidth:9,font:{size:9},color:txt}}},
     scales:{x:{grid:{display:false},ticks:{font:{size:8},color:txt,maxRotation:90,minRotation:90}},y:{beginAtZero:true,grid:{color:grid},ticks:{font:{size:8},color:txt}}}}}))
 }
+
 function lpdDetailTable(rows,limit=600){
   const sorted=rows.slice().sort((a,b)=>(a.LockPlan||'9999').localeCompare(b.LockPlan||'9999')||a.BookingNo.localeCompare(b.BookingNo,undefined,{numeric:true})).slice(0,limit);
-  const body=sorted.map(r=>{
-    const st=lpdClassifyOTD(r),delay=lpdDelay(r),actual=r.Actual?lpdDateLabel(r.Actual):(st==='PENDING'?'Pending':st==='WAITING'?'Waiting':'—');
-    return`<tr><td>${esc(r.Event)}</td><td><b>${esc(r.BookingNo)}</b></td><td>${esc(r.Floor||'—')}</td><td>${esc(r.PMC||'—')}</td><td>${esc(r.Buyer||'—')}</td>
-      <td>${esc(r.LockPlan?lpdDateLabel(r.LockPlan):(r.LockPlanRaw||'—'))}</td><td>${esc(actual)}</td><td>${delay===null?'—':delay}</td>
+  state.lpdPopupRows=sorted;
+  const body=sorted.map((r,i)=>{
+    const st=lpdClassifyOTD(r),delay=lpdDelay(r),actual=r.Actual?lpdDateLabel(r.Actual):(st==='PENDING'?'Pending':st==='WAITING'?'Waiting':'—'),
+          hasInfo=!!(r.DetailReason||r.Responsible);
+    return`<tr>
+      <td>${esc(r.Event)}</td>
+      <td class="booking-no">${esc(r.BookingNo)}</td>
+      <td>${esc(r.Floor||'—')}</td>
+      <td>${esc(r.PMC||'—')}</td>
+      <td>${esc(r.Buyer||'—')}</td>
+      <td>${esc(r.LockPlan?lpdDateLabel(r.LockPlan):(r.LockPlanRaw||'—'))}</td>
+      <td>${esc(actual)}</td>
+      <td class="num">${delay===null?'—':delay}</td>
       <td class="${st==='FAIL'?'fail':st==='PASS'?'pass':''}"><span class="lock-badge ${st.toLowerCase()}">${esc(st)}</span></td>
-      <td class="reason-cell">${esc(r.DetailReason||'—')}</td><td>${esc(r.Responsible||'—')}</td><td>${esc(lpdMonthLabel(r.MonthKey)||'—')}</td><td>${esc(r.Week||'—')}</td><td>${esc(r.Status||'—')}</td></tr>`
+      <td class="num">${esc(lpdQty(r.BookingQty))}</td>
+      <td class="num">${esc(lpdQty(r.DeliveryQty))}</td>
+      <td class="num">${esc(lpdQty(r.DeliveryBal))}</td>
+      <td class="num">${esc(lpdQty(r.RFD))}</td>
+      <td class="num">${esc(lpdQty(r.NRFD))}</td>
+      <td class="num">${esc(lpdQty(r.WIP))}</td>
+      <td class="num">${esc(lpdQty(r.KnitOk))}</td>
+      <td class="num">${esc(lpdQty(r.KnitBal))}</td>
+      <td class="num">${esc(lpdQty(r.DyeOk))}</td>
+      <td class="num">${esc(lpdQty(r.DyeBal))}</td>
+      <td class="week-col">${esc(r.Week||'—')}</td>
+      <td>${esc(r.Status||'—')}</td>
+      <td><button class="lpd-info-btn ${hasInfo?'has-fail':''}" type="button" data-lpd-popup="${i}" title="Show Detail Reason & Responsible">ⓘ</button></td>
+    </tr>`
   }).join('');
-  return`<div class="table-wrap"><table><thead><tr><th>EVENT</th><th>Booking No.</th><th>FLOOR</th><th>PMC</th><th>Buyer</th><th>LOCK PLAN</th><th>ACTUAL</th><th>DELAY</th><th>OTD</th><th>DETAIL REASON</th><th>RESPONSIBLE</th><th>Month</th><th>Week</th><th>Status</th></tr></thead><tbody>${body||'<tr><td colspan="14">No records match the current filters.</td></tr>'}</tbody></table></div>${rows.length>limit?`<div class="note">Showing first ${limit.toLocaleString()} of ${rows.length.toLocaleString()} filtered event rows.</div>`:''}`
+  return`<div class="table-wrap"><table><thead><tr>
+    <th>EVENT</th><th>Booking No.</th><th>FLOOR</th><th>PMC</th><th>Buyer</th><th>LOCK PLAN</th><th>ACTUAL</th><th class="num">DELAY</th><th>OTD</th>
+    <th class="num">Booking</th><th class="num">Delivery</th><th class="num">Del. Bal</th><th class="num">RFD</th><th class="num">NRFD</th><th class="num">WIP</th>
+    <th class="num">Knit ok</th><th class="num">Knit Bal</th><th class="num">Dye Ok</th><th class="num">Dye Bal</th>
+    <th>Week</th><th>Status</th><th>Details</th>
+  </tr></thead><tbody>${body||'<tr><td colspan="22">No records match the current filters.</td></tr>'}</tbody></table></div>
+  ${rows.length>limit?`<div class="note">Showing first ${limit.toLocaleString()} of ${rows.length.toLocaleString()} filtered event rows.</div>`:''}`
 }
-
 function lpdFilterPanel(mode='board'){
   lpdEnsureFilters();const all=lpdEvents(),f=state.lockDetailFilters,eventMode=mode==='event';
   const lockVals=[...new Set(all.map(r=>r.LockPlanRaw).filter(Boolean))].sort((a,b)=>{
@@ -4471,24 +4637,62 @@ function renderLockPlanDetailsBoard(){
   barChartPct('lpdPMCChart',pmc.map(x=>x.label),pmc.map(x=>x.rate),'OTD')
 }
 
+
+function lpdReasonPopupHTML(){
+  return`<div class="lpd-row-popup hidden" id="lpdReasonPopup">
+    <div class="lpd-row-popup-card">
+      <div class="lpd-row-popup-head"><h3>Event Reason & Responsibility</h3><button id="lpdReasonClose" type="button">×</button></div>
+      <div class="lpd-row-popup-body" id="lpdReasonBody"></div>
+    </div>
+  </div>`
+}
+function openLpdReasonPopup(row){
+  const modal=$('#lpdReasonPopup'),body=$('#lpdReasonBody');if(!modal||!body||!row)return;
+  body.innerHTML=`<div class="lpd-row-popup-meta">
+      <div><span>Booking No.</span><b>${esc(row.BookingNo||'—')}</b></div>
+      <div><span>Event</span><b>${esc(row.Event||'—')}</b></div>
+      <div><span>OTD</span><b>${esc(lpdClassifyOTD(row))}</b></div>
+      <div><span>Week</span><b>${esc(row.Week||'—')}</b></div>
+    </div>
+    <div class="lpd-row-popup-section reason"><div class="label">DETAIL REASON</div><div class="value">${esc(row.DetailReason||'No detail reason recorded.')}</div></div>
+    <div class="lpd-row-popup-section responsible"><div class="label">RESPONSIBLE</div><div class="value">${esc(row.Responsible||'No responsible department recorded.')}</div></div>`;
+  modal.classList.remove('hidden')
+}
+function closeLpdReasonPopup(){
+  $('#lpdReasonPopup')?.classList.add('hidden')
+}
+function bindLpdReasonPopups(){
+  $$('.lpd-info-btn[data-lpd-popup]').forEach(b=>b.onclick=()=>{
+    const i=Number(b.dataset.lpdPopup);openLpdReasonPopup(state.lpdPopupRows?.[i])
+  });
+  if($('#lpdReasonClose'))$('#lpdReasonClose').onclick=closeLpdReasonPopup;
+  const modal=$('#lpdReasonPopup');
+  if(modal)modal.onclick=e=>{if(e.target===modal)closeLpdReasonPopup()}
+}
+
+
 function renderLockPlanEventDetail(){
   metricCardSet([]);lpdEnsureFilters();
   const all=lpdEvents();
-  $('#content').innerHTML=`<div class="lock-detail-page lock-event-only">${lpdFilterPanel('event')}<div id="lpdBody"></div></div>`;lpdBindFilters('event');
+  $('#content').innerHTML=`<div class="lock-detail-page lock-event-only">${lpdFilterPanel('event')}<div id="lpdBody"></div>${lpdReasonPopupHTML()}</div>`;lpdBindFilters('event');
   const body=$('#lpdBody');
   if(!all.length){body.innerHTML='<div class="alert">No Lock Plan Details data uploaded yet. Go to Data Management → Lock Plan Details Data Upload and upload <b>Lock Plan Details.xlsx</b>.</div>';return}
   const rows=lpdFilteredRows('event');
-  body.innerHTML=`<div class="panel lock-detail-table"><h3>Lock Plan Event Detail</h3><div class="note">Event-level detail generated dynamically from the latest uploaded Lock Plan Details workbook. Booking No. filtering is available only in this submenu.</div>${lpdDetailTable(rows)}</div>`
+  body.innerHTML=`<div class="panel lock-detail-table"><h3>Lock Plan Event Detail</h3><div class="note">Operational quantities are copied unchanged to both Start and End event rows. Use the ⓘ button for that event’s Detail Reason and Responsible department.</div>${lpdDetailTable(rows)}</div>`;
+  bindLpdReasonPopups()
 }
-
 
 function exportLockPlanDetailsCSV(mode=(state.tab==='lock_event'?'event':'board')){
   const rows=lpdFilteredRows(mode);if(!rows.length)return;
   const out=rows.map(r=>{const st=lpdClassifyOTD(r),delay=lpdDelay(r);return{
     EVENT:r.Event,'Booking No.':r.BookingNo,FLOOR:r.Floor,PMC:r.PMC,Buyer:r.Buyer,
     'LOCK PLAN':r.LockPlan||r.LockPlanRaw||'',ACTUAL:r.Actual||(st==='PENDING'?'Pending':st==='WAITING'?'Waiting':''),
-    DELAY:delay===null?'':delay,OTD:st,'DETAIL REASON':r.DetailReason,RESPONSIBLE:r.Responsible,
-    Month:lpdMonthLabel(r.MonthKey),Week:r.Week,Status:r.Status,'Order Type':r.OrderType,'Fabric Type':r.FabricType,'Finish Type':r.FinishType,'Fail Area':r.FailArea
+    DELAY:delay===null?'':delay,OTD:st,
+    Booking:r.BookingQty,Delivery:r.DeliveryQty,'Del. Bal':r.DeliveryBal,RFD:r.RFD,NRFD:r.NRFD,WIP:r.WIP,
+    'Knit ok':r.KnitOk,'Knit Bal':r.KnitBal,'Dye Ok':r.DyeOk,'Dye Bal':r.DyeBal,
+    Week:r.Week,Status:r.Status,
+    'DETAIL REASON':r.DetailReason,RESPONSIBLE:r.Responsible,Month:lpdMonthLabel(r.MonthKey),
+    'Order Type':r.OrderType,'Fabric Type':r.FabricType,'Finish Type':r.FinishType,'Fail Area':r.FailArea
   }});
   const ws=XLSX.utils.json_to_sheet(out),csv=XLSX.utils.sheet_to_csv(ws),a=document.createElement('a');
   a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));a.download=`Lock_Plan_${mode==='event'?'Event_Detail':'Details_Board'}_${new Date().toISOString().slice(0,10)}.csv`;a.click();URL.revokeObjectURL(a.href)
