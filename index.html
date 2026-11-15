@@ -2742,6 +2742,21 @@ body.dark-mode .daily-mini-card .value{color:#fff6b8!important}
   }
 }
 
+
+/* ================= v49 Dyeing Batch/MC/Day ================= */
+.kpi-inline-triple{
+  display:inline-flex!important;
+  align-items:baseline!important;
+  gap:7px!important;
+  white-space:nowrap!important;
+  font-weight:900!important;
+  font-size:.86em!important;
+}
+.kpi-inline-triple .slash{
+  opacity:.55;
+  font-weight:700!important;
+}
+
 </style></head><body><div id="app" class="hidden"><div class="app-sticky-header"><div class="top-accent"></div><header class="header"><div class="header-left"><div class="brand-mark">TP</div><div><div class="brand-title">Textile Planning Dashboard</div><div class="brand-sub">Planning, Monitoring & Control</div></div></div><div class="header-actions"><div class="utility-tools"><button class="tool-btn stopwatch-btn" id="stopwatchBtn" title="Click to start/pause • Double-click to reset">⏱ <span id="stopwatchText">00:00</span></button><button class="tool-btn" id="fullscreenBtn" title="Enter full screen">⛶ Full</button><button class="tool-btn" id="themeBtn" title="Switch dark/light mode">☾ Dark</button></div><span class="greeting" id="greeting">Good morning</span><button class="btn" id="exportBtn">Export CSV</button><button class="btn" id="signOutBtn">Sign out</button><button class="btn primary" id="refreshBtn">Refresh</button></div></header><nav class="nav">
   <button data-tab="daily_summary" class="main-nav-btn">Daily Summary</button>
   <div class="kpi-menu-wrap" id="kpiMenuWrap">
@@ -4392,17 +4407,13 @@ async function handleOTTUpload(tab,inputId='ottFileInput',statusId='ottUploadSta
   if(f.size>MAX_OTT_FILE_MB*1024*1024){if(st)st.textContent=`File is larger than ${MAX_OTT_FILE_MB} MB.`;return}
   try{
     if(st)st.textContent='Reading and validating Data sheet...';
-    const wb=XLSX.read(await f.arrayBuffer(),{type:'array'}),rows=normalizeOTTWorkbook(wb,tab);
-    const plans=rows.map(r=>r.Plan).filter(Boolean).sort(),now=new Date().toISOString();
+    const wb=XLSX.read(await f.arrayBuffer(),{type:'array'}),rows=normalizeOTTWorkbook(wb,tab),plans=rows.map(r=>r.Plan).filter(Boolean).sort(),now=new Date().toISOString();
     const meta={fileName:f.name,uploadedAt:now,rows:rows.length,bookings:new Set(rows.map(r=>ottBookingKey(r.BookingNo))).size,dateFrom:plans[0]||null,dateTo:plans.slice(-1)[0]||null};
-    const merged={...mainDashboardData(),ottSources:{...(state.data?.ottSources||{}),[cfg.key]:{rows,meta}},uploadedAt:now};
-    if(st)st.textContent=`Validated ${rows.length.toLocaleString()} checks / ${meta.bookings.toLocaleString()} bookings. Publishing...`;
-    const {data:{user}}=await sb.auth.getUser();
-    const {error}=await sb.from('dashboard_data').upsert({id:1,file_name:merged.fileName||'Department-wise data',data:merged,uploaded_by:user.id,uploaded_at:now},{onConflict:'id'});
-    if(error)throw error;
-    if(st)st.textContent=`${cfg.label} published successfully (${meta.dateFrom||'—'} to ${meta.dateTo||'—'}).`;
+    if(st)st.textContent=`Validated ${rows.length.toLocaleString()} checks / ${meta.bookings.toLocaleString()} bookings. Publishing lightweight source row...`;
+    await saveDashboardSource(`ott_${cfg.key}`,f.name,{ottSources:{[cfg.key]:{rows,meta}}},now);
+    if(st)st.textContent=`${cfg.label} published successfully (${meta.dateFrom||'—'} to ${meta.dateTo||'—'}). No other dashboard source was rewritten.`;
     await loadData()
-  }catch(e){if(st)st.textContent='OTT upload failed: '+e.message}
+  }catch(e){if(st)st.textContent=uploadErrorMessage(e,'OTT upload')}
 }
 function buildOttSnapshotClone(){
   const source=$('#ottManagementArea');if(!source)throw new Error('OTT management view is not available.');
@@ -4671,7 +4682,8 @@ function renderDyeing(){
   const repE=sum(br,'Reprocess (EFL)'),repX=sum(br,'Reprocess (EKL+Ext)'),repEPct=prodE>0?repE/prodE:null,repXPct=prodX>0?repX/prodX:null;
   const rftE=avg(dr,'Dyeing RFT (EFL)'),rftX=avg(dr,'Dyeing RFT (EKL+Ext.)'),loadE=avg(dr,'Loading (EFL)'),loadX=avg(dr,'Loading (EKL+Ext)');
   const batchE=avg(daily,'Batch/MC/Day (EFL)');
-  const batchX=daily.length?daily.reduce((a,r)=>a+(safeNum(r['Batch/MC/Day (EKL)'])||0)+(safeNum(r['Batch/MC/Day (Ext)'])||0),0)/daily.length:null;
+  const batchK=avg(daily,'Batch/MC/Day (EKL)');
+  const batchExt=avg(daily,'Batch/MC/Day (Ext)');
   const ontimeValue=ontime===null?'—':`<span class="kpi-inline-target"><span class="good">Pass ${pct(ontime)}</span><span class="slash">•</span><span class="bad">Fail ${pct(Math.max(0,1-ontime))}</span></span>`;
   const buyerText=buyers.length===1?buyers[0]:buyers.length?`${buyers.length} buyers`:'All buyers';
   metricCardSet([
@@ -4686,7 +4698,7 @@ function renderDyeing(){
     kpi('Reprocess EFL / EKL+Ext',`<span class="kpi-inline-pair">${ton(repE)} <span class="slash">/</span> ${ton(repX)}</span>`,`% of Prod.: EFL ${pct(repEPct)} • EKL+Ext ${pct(repXPct)}`,'amber'),
     kpi('RFT EFL / EKL+Ext',`<span class="kpi-inline-pair">${pct(rftE)} <span class="slash">/</span> ${pct(rftX)}</span>`,'EFL / EKL+Ext • Overall date-wise','purple'),
     kpi('Loading EFL / EKL+Ext',`${pct(loadE)} <span class="slash">/</span> ${pct(loadX)}`,'EFL / EKL+Ext • Overall date-wise','blue'),
-    kpi('Batch / MC / Day — EFL / EKL+Ext',`<span class="kpi-inline-pair">${batchE===null?'—':batchE.toFixed(2)} <span class="slash">/</span> ${batchX===null?'—':batchX.toFixed(2)}</span>`,'Average of daily buyer-summed values • EFL / EKL+Ext','teal')
+    kpi('Batch / MC / Day — EFL / EKL / Ext',`<span class="kpi-inline-triple">${batchE===null?'—':batchE.toFixed(2)} <span class="slash">/</span> ${batchK===null?'—':batchK.toFixed(2)} <span class="slash">/</span> ${batchExt===null?'—':batchExt.toFixed(2)}</span>`,'Average of daily buyer-summed values • EFL / EKL / Ext','teal')
   ]);
   const buyerSummary=buyerDyeingSummary(currentDateRows('Dyeing_Date_Buyer')).slice(0,12);
   $('#content').innerHTML=`<div class="section-band">Buyer / Date Production & Capacity <span class="source-tag">Dyeing_Date_Buyer</span></div>`+
@@ -5656,22 +5668,13 @@ async function handleDailySummaryUpload(){
   if(f.size>MAX_DAILY_SUMMARY_MB*1024*1024)return st.textContent=`File is larger than ${MAX_DAILY_SUMMARY_MB} MB.`;
   try{
     st.textContent='Reading and validating Data sheet...';
-    const wb=XLSX.read(await f.arrayBuffer(),{type:'array'}),rows=normalizeDailySummaryWorkbook(wb),
-          dates=rows.map(r=>r.Date).filter(Boolean).sort(),now=new Date().toISOString(),
+    const wb=XLSX.read(await f.arrayBuffer(),{type:'array'}),rows=normalizeDailySummaryWorkbook(wb),dates=rows.map(r=>r.Date).filter(Boolean).sort(),now=new Date().toISOString(),
           meta={fileName:f.name,uploadedAt:now,rows:rows.length,dateFrom:dates[0]||null,dateTo:dates.slice(-1)[0]||null};
-    st.textContent=`Validated ${rows.length.toLocaleString()} compact date rows. Publishing Daily Summary separately...`;
-    const {data:{user}}=await sb.auth.getUser();
-    const payload={dailySummary:{rows,meta}};
-    const {error}=await sb.from('dashboard_data').upsert({id:2,file_name:f.name,data:payload,uploaded_by:user.id,uploaded_at:now},{onConflict:'id'});
-    if(error)throw error;
+    st.textContent=`Validated ${rows.length.toLocaleString()} compact date rows. Publishing lightweight source row...`;
+    await saveDashboardSource('daily',f.name,{dailySummary:{rows,meta}},now);
     st.textContent=`Daily Summary published successfully (${meta.dateFrom||'—'} to ${meta.dateTo||'—'}).`;
     state.dailySummaryFilters._initialized=false;await loadData()
-  }catch(e){
-    const msg=String(e?.message||e||'');
-    if(msg.includes('dashboard_data_id_check')||msg.includes('violates check constraint')){
-      st.innerHTML='Daily Summary upload blocked by the current database ID constraint. Run the supplied <b>supabase_daily_summary_fix.sql</b> once in Supabase SQL Editor, then upload again.';
-    }else st.textContent='Daily Summary upload failed: '+msg
-  }
+  }catch(e){st.textContent=uploadErrorMessage(e,'Daily Summary upload')}
 }
 function lpdClean(v){
   if(v===null||v===undefined)return'';
@@ -6413,21 +6416,14 @@ async function handleLockPlanDetailsUpload(){
   if(f.size>MAX_LOCK_PLAN_DETAILS_MB*1024*1024)return st.textContent=`File is larger than ${MAX_LOCK_PLAN_DETAILS_MB} MB.`;
   try{
     st.textContent='Reading and validating Lock Plan Details workbook...';
-    const wb=XLSX.read(await f.arrayBuffer(),{type:'array'}),events=normalizeLockPlanDetailsWorkbook(wb),
-          plans=events.map(r=>r.LockPlan).filter(Boolean).sort(),actual=events.map(r=>r.Actual).filter(Boolean).sort(),now=new Date().toISOString(),
-          meta={fileName:f.name,uploadedAt:now,eventRows:events.length,bookings:new Set(events.map(r=>r.BookingNo)).size,
-            dateFrom:plans[0]||null,dateTo:plans.slice(-1)[0]||null,actualTo:actual.slice(-1)[0]||null};
-    const merged={...mainDashboardData(),lockPlanDetails:{events,meta},fileName:state.data?.fileName||'Department-wise data',uploadedAt:now};
-    st.textContent=`Validated ${events.length.toLocaleString()} Start/End events / ${meta.bookings.toLocaleString()} bookings. Publishing...`;
-    const {data:{user}}=await sb.auth.getUser();
-    const {error}=await sb.from('dashboard_data').upsert({id:1,file_name:merged.fileName||f.name,data:merged,uploaded_by:user.id,uploaded_at:now},{onConflict:'id'});
-    if(error)throw error;
+    const wb=XLSX.read(await f.arrayBuffer(),{type:'array'}),events=normalizeLockPlanDetailsWorkbook(wb),plans=events.map(r=>r.LockPlan).filter(Boolean).sort(),actual=events.map(r=>r.Actual).filter(Boolean).sort(),now=new Date().toISOString(),
+          meta={fileName:f.name,uploadedAt:now,eventRows:events.length,bookings:new Set(events.map(r=>r.BookingNo)).size,dateFrom:plans[0]||null,dateTo:plans.slice(-1)[0]||null,actualTo:actual.slice(-1)[0]||null};
+    st.textContent=`Validated ${events.length.toLocaleString()} Start/End events / ${meta.bookings.toLocaleString()} bookings. Publishing lightweight source row...`;
+    await saveDashboardSource('lock_details',f.name,{lockPlanDetails:{events,meta}},now);
     st.textContent=`Lock Plan Details published successfully. Plan range ${meta.dateFrom||'—'} to ${meta.dateTo||'—'}; actual data through ${meta.actualTo||'—'}.`;
     await loadData()
-  }catch(e){st.textContent='Lock Plan Details upload failed: '+e.message}
+  }catch(e){st.textContent=uploadErrorMessage(e,'Lock Plan Details upload')}
 }
-
-
 function renderData(){
   metricCardSet([]);
   const d=state.data||{},df=d.departmentFiles||{},ott=d.ottSources||{},lockDetails=d.lockPlanDetails||{},dailySummary=d.dailySummary||{},p=effectivePermissions();
@@ -6495,7 +6491,7 @@ function renderData(){
   const loadedOtt=OTT_SOURCE_TABS.filter(t=>(ott?.[OTT_CONFIG[t].key]?.rows||[]).length).length;
   const combinedRows=OTT_SOURCE_TABS.reduce((n,t)=>n+(ott?.[OTT_CONFIG[t].key]?.rows||[]).length,0);
 
-  $('#content').innerHTML=`<div class="section-title"><h2>Data Management</h2><span>Source access follows the permissions assigned in User Management</span></div>
+  $('#content').innerHTML=`<div class="section-title"><h2>Data Management</h2><span>Source access follows the permissions assigned in User Management • v50 stores each upload independently to prevent timeout</span></div>
     ${uploadSections}
     ${noUploads?'<div class="alert">No upload source has been assigned to this user. Current source status is available below.</div>':''}
     <div class="data-current-section kpi-current"><div class="data-current-head"><h3>KPI Board — Current Sources</h3><span class="data-upload-count">Department source status</span></div><div class="data-status-grid">${kpiStatus}</div></div>
@@ -6739,87 +6735,109 @@ function exportCurrent(){
 
 const sb=supabase.createClient(window.APP_CONFIG.SUPABASE_URL,window.APP_CONFIG.SUPABASE_ANON_KEY);
 
-async function handleYarnDyeingUpload(){const inp=document.getElementById('yarnDyeingFileInput'),f=inp?.files?.[0],st=document.getElementById('yarnDyeingUploadStatus');if(!f)return st.textContent='Choose the Yarn Dyeing Excel file first.';if(f.size>MAX_YARN_DYEING_FILE_MB*1024*1024)return st.textContent=`File is larger than the recommended ${MAX_YARN_DYEING_FILE_MB} MB limit.`;try{st.textContent='Reading and validating Yarn Dyeing workbook...';const wb=XLSX.read(await f.arrayBuffer(),{type:'array'}),ydSheets=normalizeYarnDyeingWorkbook(wb),dateRows=ydSheets['YD_Date'],buyerRows=ydSheets['YD_Date_Buyer'];const dateFrom=dateRows.length?dateRows[0].Date:null,dateTo=dateRows.length?dateRows[dateRows.length-1].Date:null,even=yarnDyeingBuyerSourceEvenlyAllocated(buyerRows),now=new Date().toISOString();const merged={...mainDashboardData(),sheets:{...(state.data?.sheets||{}),...ydSheets},departmentFiles:{...(state.data?.departmentFiles||{}),yarn:{fileName:f.name,uploadedAt:now,dateFrom,dateTo,dateRows:dateRows.length,buyerRows:buyerRows.length,buyerEvenAllocation:even}},fileName:state.data?.fileName||'Department-wise data',uploadedAt:now};st.textContent=`Validated ${dateRows.length.toLocaleString()} date rows and ${buyerRows.length.toLocaleString()} buyer/date rows. Publishing...`;const {data:{user}}=await sb.auth.getUser();const {error}=await sb.from('dashboard_data').upsert({id:1,file_name:merged.fileName||f.name,data:merged,uploaded_by:user.id,uploaded_at:now},{onConflict:'id'});if(error)throw error;st.textContent=`Yarn Dyeing published successfully (${dateFrom||'—'} to ${dateTo||'—'}). ${even?'Demo/equal buyer allocation detected; Date View will prevent multiplied totals until real buyer data is uploaded. ':''}Other department data was preserved.`;await loadData()}catch(e){st.textContent='Yarn Dyeing upload failed: '+e.message}}
+const DASHBOARD_SOURCE_ROWS={
+  main:1,daily:2,
+  dyeing:10,knitting:11,finishing:12,delivery:13,yarn:14,chemical:15,etl:16,targets:17,
+  ott_yarn:20,ott_knitting:21,ott_dyeing:22,ott_delivery:23,ott_lock:24,lock_details:25
+};
+const DASHBOARD_SOURCE_IDS=Object.values(DASHBOARD_SOURCE_ROWS);
+function dashboardSourceRowId(key){return DASHBOARD_SOURCE_ROWS[key]||null}
+async function saveDashboardSource(key,fileName,payload,now=new Date().toISOString()){
+  const id=dashboardSourceRowId(key);if(!id)throw new Error(`Unknown dashboard source: ${key}`);
+  const {data:{user}}=await sb.auth.getUser();if(!user)throw new Error('Your login session is not available. Please sign in again.');
+  const {error}=await sb.from('dashboard_data').upsert({id,file_name:fileName||key,data:payload,uploaded_by:user.id,uploaded_at:now},{onConflict:'id'});
+  if(error)throw error;
+  return id
+}
+function emptyDashboardData(){
+  return{
+    sheets:Object.fromEntries([...REQUIRED_SHEETS,...DYEING_SHEETS,...KNITTING_SHEETS,...FINISHING_SHEETS,...DELIVERY_SHEETS,...YARN_DYEING_SHEETS,...CHEMICAL_LAB_SHEETS,...ETL_SHEETS].map(s=>[s,[]])),
+    departmentFiles:{},targets:[],ottSources:{},lockPlanDetails:{events:[],meta:{}},dailySummary:{rows:[],meta:{}},
+    fileName:'No workbook uploaded',uploadedAt:null
+  }
+}
+function mergeDashboardSource(target,payload){
+  if(!payload||typeof payload!=='object')return target;
+  if(payload.sheets)target.sheets={...(target.sheets||{}),...payload.sheets};
+  if(payload.departmentFiles)target.departmentFiles={...(target.departmentFiles||{}),...payload.departmentFiles};
+  if(Object.prototype.hasOwnProperty.call(payload,'targets'))target.targets=payload.targets||[];
+  if(payload.ottSources)target.ottSources={...(target.ottSources||{}),...payload.ottSources};
+  if(payload.lockPlanDetails)target.lockPlanDetails=payload.lockPlanDetails;
+  if(payload.dailySummary)target.dailySummary=payload.dailySummary;
+  return target
+}
+function uploadErrorMessage(e,label='Upload'){
+  const msg=String(e?.message||e||'');
+  if(msg.includes('dashboard_data_id_check')||msg.includes('violates check constraint'))return`${label} is blocked by the old dashboard_data ID constraint. Run supabase_upload_storage_fix.sql once, refresh, then upload again.`;
+  if(msg.toLowerCase().includes('statement timeout')||msg.toLowerCase().includes('canceling statement'))return`${label} reached the database timeout. Run supabase_upload_storage_fix.sql once; v50 already stores this source separately so future replacements stay lightweight.`;
+  return`${label} failed: ${msg}`
+}
 
 
+async function handleYarnDyeingUpload(){
+  const inp=$('#yarnDyeingFileInput'),f=inp?.files?.[0],st=$('#yarnDyeingUploadStatus');if(!f)return st.textContent='Choose the Yarn Dyeing Excel file first.';
+  if(f.size>MAX_YARN_DYEING_FILE_MB*1024*1024)return st.textContent=`File is larger than the recommended ${MAX_YARN_DYEING_FILE_MB} MB limit.`;
+  try{
+    st.textContent='Reading and validating Yarn Dyeing workbook...';
+    const wb=XLSX.read(await f.arrayBuffer(),{type:'array'}),sheets=normalizeYarnDyeingWorkbook(wb),dateRows=sheets['YD_Date'],buyerRows=sheets['YD_Date_Buyer'],dateFrom=dateRows[0]?.Date||null,dateTo=dateRows.at(-1)?.Date||null,even=yarnDyeingBuyerSourceEvenlyAllocated(buyerRows),now=new Date().toISOString(),
+          meta={fileName:f.name,uploadedAt:now,dateFrom,dateTo,dateRows:dateRows.length,buyerRows:buyerRows.length,buyerEvenAllocation:even};
+    st.textContent=`Validated ${dateRows.length.toLocaleString()} date rows and ${buyerRows.length.toLocaleString()} buyer/date rows. Publishing lightweight source row...`;
+    await saveDashboardSource('yarn',f.name,{sheets,departmentFiles:{yarn:meta}},now);
+    st.textContent=`Yarn Dyeing published successfully (${dateFrom||'—'} to ${dateTo||'—'}). ${even?'Demo/equal buyer allocation detected. ':''}No other dashboard source was rewritten.`;await loadData()
+  }catch(e){st.textContent=uploadErrorMessage(e,'Yarn Dyeing upload')}
+}
 async function handleChemicalLabUpload(){
-  const inp=document.getElementById('chemicalLabFileInput'),f=inp?.files?.[0],st=document.getElementById('chemicalLabUploadStatus');
-  if(!f)return st.textContent='Choose the Chemical Lab Excel file first.';
+  const inp=$('#chemicalLabFileInput'),f=inp?.files?.[0],st=$('#chemicalLabUploadStatus');if(!f)return st.textContent='Choose the Chemical Lab Excel file first.';
   if(f.size>MAX_CHEMICAL_LAB_FILE_MB*1024*1024)return st.textContent=`File is larger than the recommended ${MAX_CHEMICAL_LAB_FILE_MB} MB limit.`;
   try{
     st.textContent='Reading and validating Chemical Lab workbook...';
-    const wb=XLSX.read(await f.arrayBuffer(),{type:'array'}),chemSheets=normalizeChemicalLabWorkbook(wb),rows=chemSheets['C_Lab_Date'];
-    const dateFrom=rows.length?rows[0].Date:null,dateTo=rows.length?rows[rows.length-1].Date:null,now=new Date().toISOString();
-    const merged={...mainDashboardData(),sheets:{...(state.data?.sheets||{}),...chemSheets},departmentFiles:{...(state.data?.departmentFiles||{}),chemical:{fileName:f.name,uploadedAt:now,dateFrom,dateTo,dateRows:rows.length}},fileName:state.data?.fileName||'Department-wise data',uploadedAt:now};
-    st.textContent=`Validated ${rows.length.toLocaleString()} Chemical Lab date rows. Publishing...`;
-    const {data:{user}}=await sb.auth.getUser();
-    const {error}=await sb.from('dashboard_data').upsert({id:1,file_name:merged.fileName||f.name,data:merged,uploaded_by:user.id,uploaded_at:now},{onConflict:'id'});
-    if(error)throw error;
-    st.textContent=`Chemical Lab published successfully (${dateFrom||'—'} to ${dateTo||'—'}). Other department data was preserved.`;
-    await loadData()
-  }catch(e){st.textContent='Chemical Lab upload failed: '+e.message}
+    const wb=XLSX.read(await f.arrayBuffer(),{type:'array'}),sheets=normalizeChemicalLabWorkbook(wb),rows=sheets['C_Lab_Date'],dateFrom=rows[0]?.Date||null,dateTo=rows.at(-1)?.Date||null,now=new Date().toISOString(),meta={fileName:f.name,uploadedAt:now,dateFrom,dateTo,dateRows:rows.length};
+    st.textContent=`Validated ${rows.length.toLocaleString()} Chemical Lab date rows. Publishing lightweight source row...`;
+    await saveDashboardSource('chemical',f.name,{sheets,departmentFiles:{chemical:meta}},now);
+    st.textContent=`Chemical Lab published successfully (${dateFrom||'—'} to ${dateTo||'—'}). No other dashboard source was rewritten.`;await loadData()
+  }catch(e){st.textContent=uploadErrorMessage(e,'Chemical Lab upload')}
 }
-
-
 async function handleETLUpload(){
-  const inp=document.getElementById('etlFileInput'),f=inp?.files?.[0],st=document.getElementById('etlUploadStatus');
-  if(!f)return st.textContent='Choose the ETL Excel file first.';
+  const inp=$('#etlFileInput'),f=inp?.files?.[0],st=$('#etlUploadStatus');if(!f)return st.textContent='Choose the ETL Excel file first.';
   if(f.size>MAX_ETL_FILE_MB*1024*1024)return st.textContent=`File is larger than the recommended ${MAX_ETL_FILE_MB} MB limit.`;
   try{
-    st.textContent='Reading ETL workbook and matching headers (line breaks / spacing are handled automatically)...';
-    const wb=XLSX.read(await f.arrayBuffer(),{type:'array'}),etlSheets=normalizeETLWorkbook(wb),rows=etlSheets['ETL_Date'];
-    const dateFrom=rows.length?rows[0].Date:null,dateTo=rows.length?rows[rows.length-1].Date:null,now=new Date().toISOString();
-    const merged={...mainDashboardData(),sheets:{...(state.data?.sheets||{}),...etlSheets},departmentFiles:{...(state.data?.departmentFiles||{}),etl:{fileName:f.name,uploadedAt:now,dateFrom,dateTo,dateRows:rows.length}},fileName:state.data?.fileName||'Department-wise data',uploadedAt:now};
-    st.textContent=`Validated ${rows.length.toLocaleString()} ETL date rows. Publishing...`;
-    const {data:{user}}=await sb.auth.getUser();
-    const {error}=await sb.from('dashboard_data').upsert({id:1,file_name:merged.fileName||f.name,data:merged,uploaded_by:user.id,uploaded_at:now},{onConflict:'id'});
-    if(error)throw error;
-    st.textContent=`ETL published successfully (${dateFrom||'—'} to ${dateTo||'—'}). Blank placeholder dates were ignored; other department data was preserved.`;
-    await loadData()
-  }catch(e){st.textContent='ETL upload failed: '+e.message}
+    st.textContent='Reading ETL workbook and matching headers...';
+    const wb=XLSX.read(await f.arrayBuffer(),{type:'array'}),sheets=normalizeETLWorkbook(wb),rows=sheets['ETL_Date'],dateFrom=rows[0]?.Date||null,dateTo=rows.at(-1)?.Date||null,now=new Date().toISOString(),meta={fileName:f.name,uploadedAt:now,dateFrom,dateTo,dateRows:rows.length};
+    st.textContent=`Validated ${rows.length.toLocaleString()} ETL date rows. Publishing lightweight source row...`;
+    await saveDashboardSource('etl',f.name,{sheets,departmentFiles:{etl:meta}},now);
+    st.textContent=`ETL published successfully (${dateFrom||'—'} to ${dateTo||'—'}). No other dashboard source was rewritten.`;await loadData()
+  }catch(e){st.textContent=uploadErrorMessage(e,'ETL upload')}
 }
-
-
 async function handleTargetUpload(){
-  const inp=document.getElementById('targetFileInput'),f=inp?.files?.[0],st=document.getElementById('targetUploadStatus');
-  if(!f)return st.textContent='Choose Dashboard_Target.xlsx first.';
+  const inp=$('#targetFileInput'),f=inp?.files?.[0],st=$('#targetUploadStatus');if(!f)return st.textContent='Choose Dashboard_Target.xlsx first.';
   if(f.size>MAX_TARGET_FILE_MB*1024*1024)return st.textContent=`Target file is larger than ${MAX_TARGET_FILE_MB} MB.`;
   try{
     st.textContent='Reading Dashboard_Target.xlsx and mapping Department / Topics / Target values...';
-    const wb=XLSX.read(await f.arrayBuffer(),{type:'array'}),targets=normalizeTargetWorkbook(wb),now=new Date().toISOString();
-    if(!targets.length)throw new Error('No usable mapped targets were found in the Target sheet.');
-    const sourceRows=sourceTargetRows(wb).length;
-    const merged={...mainDashboardData(),targets,departmentFiles:{...(state.data?.departmentFiles||{}),targets:{fileName:f.name,uploadedAt:now,targetRows:targets.length,sourceRows}},uploadedAt:now};
-    const {data:{user}}=await sb.auth.getUser();
-    const {error}=await sb.from('dashboard_data').upsert({id:1,file_name:merged.fileName||'Department-wise data',data:merged,uploaded_by:user.id,uploaded_at:now},{onConflict:'id'});
-    if(error)throw error;
-    st.textContent=`Target file published successfully: ${sourceRows} source rows read, ${targets.length} dashboard KPI targets mapped. Overview status colors are active.`;
-    await loadData()
-  }catch(e){st.textContent='Target upload failed: '+e.message}
+    const wb=XLSX.read(await f.arrayBuffer(),{type:'array'}),targets=normalizeTargetWorkbook(wb),now=new Date().toISOString();if(!targets.length)throw new Error('No usable mapped targets were found in the Target sheet.');
+    const sourceRows=sourceTargetRows(wb).length,meta={fileName:f.name,uploadedAt:now,targetRows:targets.length,sourceRows};
+    st.textContent=`Validated ${sourceRows.toLocaleString()} source rows / ${targets.length.toLocaleString()} KPI targets. Publishing lightweight source row...`;
+    await saveDashboardSource('targets',f.name,{targets,departmentFiles:{targets:meta}},now);
+    st.textContent=`Target file published successfully: ${sourceRows} source rows read, ${targets.length} dashboard KPI targets mapped.`;await loadData()
+  }catch(e){st.textContent=uploadErrorMessage(e,'Target upload')}
 }
-
 function mainDashboardData(){const src=state.data||{},out={...src};delete out.dailySummary;return out}
 async function loadProfile(user){const {data,error}=await sb.from('profiles').select('id,display_name,role,permissions,active').eq('id',user.id).single();if(error)throw error;if(data.active===false)throw new Error('Your dashboard access is disabled. Please contact an administrator.');state.profile=data;return data}
 
 async function loadData(){
-  const {data:rows,error}=await sb.from('dashboard_data').select('id,file_name,data,uploaded_at').in('id',[1,2]);
+  const {data:rows,error}=await sb.from('dashboard_data').select('id,file_name,data,uploaded_at').in('id',DASHBOARD_SOURCE_IDS);
   if(error)throw error;
-  const main=(rows||[]).find(r=>Number(r.id)===1)||null,daily=(rows||[]).find(r=>Number(r.id)===2)||null;
-  if(!main){
-    state.data={sheets:Object.fromEntries([...REQUIRED_SHEETS,...DYEING_SHEETS,...KNITTING_SHEETS,...FINISHING_SHEETS,...DELIVERY_SHEETS,...YARN_DYEING_SHEETS,...CHEMICAL_LAB_SHEETS,...ETL_SHEETS].map(s=>[s,[]])),departmentFiles:{},targets:[],ottSources:{},lockPlanDetails:{events:[],meta:{}},dailySummary:{rows:[],meta:{}},fileName:'No workbook uploaded',uploadedAt:null}
-  }else{
-    state.data={...main.data,fileName:main.file_name,uploadedAt:main.uploaded_at};
-    state.data.sheets=state.data.sheets||{};
-    for(const s of [...REQUIRED_SHEETS,...DYEING_SHEETS,...KNITTING_SHEETS,...FINISHING_SHEETS,...DELIVERY_SHEETS,...YARN_DYEING_SHEETS,...CHEMICAL_LAB_SHEETS,...ETL_SHEETS])state.data.sheets[s]=state.data.sheets[s]||[];
-    state.data.departmentFiles=state.data.departmentFiles||{};
-    state.data.targets=state.data.targets||[];
-    state.data.ottSources=state.data.ottSources||{};
-    state.data.lockPlanDetails=state.data.lockPlanDetails||{events:[],meta:{}};
-    state.data.dailySummary=state.data.dailySummary||{rows:[],meta:{}}
-  }
-  if(daily?.data?.dailySummary)state.data.dailySummary=daily.data.dailySummary;
+  const byId=new Map((rows||[]).map(r=>[Number(r.id),r])),main=byId.get(DASHBOARD_SOURCE_ROWS.main)||null;
+  let merged=emptyDashboardData();
+  if(main?.data){merged=mergeDashboardSource(merged,main.data);merged.fileName=main.file_name||merged.fileName}
+  const overlayIds=DASHBOARD_SOURCE_IDS.filter(id=>id!==DASHBOARD_SOURCE_ROWS.main).sort((a,b)=>a-b);
+  overlayIds.forEach(id=>{const row=byId.get(id);if(row?.data)mergeDashboardSource(merged,row.data)});
+  for(const s of [...REQUIRED_SHEETS,...DYEING_SHEETS,...KNITTING_SHEETS,...FINISHING_SHEETS,...DELIVERY_SHEETS,...YARN_DYEING_SHEETS,...CHEMICAL_LAB_SHEETS,...ETL_SHEETS])merged.sheets[s]=merged.sheets[s]||[];
+  merged.departmentFiles=merged.departmentFiles||{};merged.targets=merged.targets||[];merged.ottSources=merged.ottSources||{};
+  merged.lockPlanDetails=merged.lockPlanDetails||{events:[],meta:{}};merged.dailySummary=merged.dailySummary||{rows:[],meta:{}};
+  const latest=(rows||[]).map(r=>r.uploaded_at).filter(Boolean).sort().at(-1)||main?.uploaded_at||null;
+  merged.uploadedAt=latest;state.data=merged;
   setFilterDefaults();
-  document.getElementById('lastUpdated').textContent=state.data.uploadedAt?'Last updated: '+new Date(state.data.uploadedAt).toLocaleString():'';
+  document.getElementById('lastUpdated').textContent=latest?'Last updated: '+new Date(latest).toLocaleString():'';
   render()
 }
 async function start(){const {data:{session}}=await sb.auth.getSession();if(!session)return;await enter(session.user)}
@@ -6846,12 +6864,50 @@ function startGreetingClock(){
 async function enter(user){try{const p=await loadProfile(user);document.getElementById('login').classList.add('hidden');document.getElementById('app').classList.remove('hidden');startGreetingClock();bindUI();await loadData()}catch(e){document.getElementById('loginError').textContent=e.message}}
 document.getElementById('loginBtn').onclick=async()=>{document.getElementById('loginError').textContent='';const email=document.getElementById('email').value.trim(),password=document.getElementById('password').value;const {data,error}=await sb.auth.signInWithPassword({email,password});if(error)return document.getElementById('loginError').textContent=error.message;enter(data.user)};
 document.getElementById('signOutBtn').onclick=async()=>{await sb.auth.signOut();location.reload()};document.getElementById('refreshBtn').onclick=loadData;
-async function handleDyeingUpload(){const inp=document.getElementById('dyeingFileInput'),f=inp?.files?.[0],st=document.getElementById('dyeingUploadStatus');if(!f)return st.textContent='Choose the Dyeing Excel file first.';if(f.size>MAX_DYEING_FILE_MB*1024*1024)return st.textContent=`File is larger than the recommended ${MAX_DYEING_FILE_MB} MB limit.`;try{st.textContent='Reading and validating Dyeing workbook...';const wb=XLSX.read(await f.arrayBuffer(),{type:'array'});const dyeSheets=normalizeDyeingWorkbook(wb);const buyerRows=dyeSheets['Dyeing_Date_Buyer'],dateRows=dyeSheets['Dyeing_Date'];const dateFrom=dateRows.length?dateRows[0].Date:null,dateTo=dateRows.length?dateRows[dateRows.length-1].Date:null;const now=new Date().toISOString();const merged={...mainDashboardData(),sheets:{...(state.data?.sheets||{}),...dyeSheets},departmentFiles:{...(state.data?.departmentFiles||{}),dyeing:{fileName:f.name,uploadedAt:now,dateFrom,dateTo,buyerRows:buyerRows.length,dateRows:dateRows.length}},fileName:state.data?.fileName||'Department-wise data',uploadedAt:now};st.textContent=`Validated ${buyerRows.length.toLocaleString()} buyer/date rows and ${dateRows.length.toLocaleString()} date rows. Publishing...`;const {data:{user}}=await sb.auth.getUser();const {error}=await sb.from('dashboard_data').upsert({id:1,file_name:merged.fileName||f.name,data:merged,uploaded_by:user.id,uploaded_at:now},{onConflict:'id'});if(error)throw error;st.textContent=`Dyeing published successfully (${dateFrom||'—'} to ${dateTo||'—'}). Future placeholder rows were ignored; other department data was preserved.`;await loadData()}catch(e){st.textContent='Dyeing upload failed: '+e.message}}
-
-async function handleKnittingUpload(){const inp=document.getElementById('knittingFileInput'),f=inp?.files?.[0],st=document.getElementById('knittingUploadStatus');if(!f)return st.textContent='Choose the Knitting Excel file first.';if(f.size>MAX_KNITTING_FILE_MB*1024*1024)return st.textContent=`File is larger than the recommended ${MAX_KNITTING_FILE_MB} MB limit.`;try{st.textContent='Reading and validating Knitting workbook...';const wb=XLSX.read(await f.arrayBuffer(),{type:'array'});const knitSheets=normalizeKnittingWorkbook(wb),dateRows=knitSheets['Knitting_Date'],buyerRows=knitSheets['Knitting_Date_Buyer'];const dateFrom=dateRows.length?dateRows[0].Date:null,dateTo=dateRows.length?dateRows[dateRows.length-1].Date:null,even=knittingBuyerSourceEvenlyAllocated(buyerRows),now=new Date().toISOString();const merged={...mainDashboardData(),sheets:{...(state.data?.sheets||{}),...knitSheets},departmentFiles:{...(state.data?.departmentFiles||{}),knitting:{fileName:f.name,uploadedAt:now,dateFrom,dateTo,dateRows:dateRows.length,buyerRows:buyerRows.length,buyerEvenAllocation:even}},fileName:state.data?.fileName||'Department-wise data',uploadedAt:now};st.textContent=`Validated ${dateRows.length.toLocaleString()} date rows and ${buyerRows.length.toLocaleString()} buyer/date rows. Publishing...`;const {data:{user}}=await sb.auth.getUser();const {error}=await sb.from('dashboard_data').upsert({id:1,file_name:merged.fileName||f.name,data:merged,uploaded_by:user.id,uploaded_at:now},{onConflict:'id'});if(error)throw error;st.textContent=`Knitting published successfully (${dateFrom||'—'} to ${dateTo||'—'}). ${even?'Note: equal buyer allocation was detected in the source. ':''}Other department data was preserved.`;await loadData()}catch(e){st.textContent='Knitting upload failed: '+e.message}}
-
-async function handleFinishingUpload(){const inp=document.getElementById('finishingFileInput'),f=inp?.files?.[0],st=document.getElementById('finishingUploadStatus');if(!f)return st.textContent='Choose the Finishing Excel file first.';if(f.size>MAX_FINISHING_FILE_MB*1024*1024)return st.textContent=`File is larger than the recommended ${MAX_FINISHING_FILE_MB} MB limit.`;try{st.textContent='Reading and validating Finishing workbook...';const wb=XLSX.read(await f.arrayBuffer(),{type:'array'}),finSheets=normalizeFinishingWorkbook(wb),dateRows=finSheets['Finishing_Date'];const dateFrom=dateRows.length?dateRows[0].Date:null,dateTo=dateRows.length?dateRows[dateRows.length-1].Date:null,now=new Date().toISOString();const merged={...mainDashboardData(),sheets:{...(state.data?.sheets||{}),...finSheets},departmentFiles:{...(state.data?.departmentFiles||{}),finishing:{fileName:f.name,uploadedAt:now,dateFrom,dateTo,dateRows:dateRows.length}},fileName:state.data?.fileName||'Department-wise data',uploadedAt:now};st.textContent=`Validated ${dateRows.length.toLocaleString()} Finishing date rows. Publishing...`;const {data:{user}}=await sb.auth.getUser();const {error}=await sb.from('dashboard_data').upsert({id:1,file_name:merged.fileName||f.name,data:merged,uploaded_by:user.id,uploaded_at:now},{onConflict:'id'});if(error)throw error;st.textContent=`Finishing published successfully (${dateFrom||'—'} to ${dateTo||'—'}). Other department data was preserved.`;await loadData()}catch(e){st.textContent='Finishing upload failed: '+e.message}}
-
-async function handleDeliveryUpload(){const inp=document.getElementById('deliveryFileInput'),f=inp?.files?.[0],st=document.getElementById('deliveryUploadStatus');if(!f)return st.textContent='Choose the Delivery Excel file first.';if(f.size>MAX_DELIVERY_FILE_MB*1024*1024)return st.textContent=`File is larger than the recommended ${MAX_DELIVERY_FILE_MB} MB limit.`;try{st.textContent='Reading and validating Delivery workbook...';const wb=XLSX.read(await f.arrayBuffer(),{type:'array'}),delSheets=normalizeDeliveryWorkbook(wb),dateRows=delSheets['Delivery_Date'],buyerRows=delSheets['Delivery_Date_Buyer'];const dateFrom=dateRows.length?dateRows[0].Date:null,dateTo=dateRows.length?dateRows[dateRows.length-1].Date:null,even=deliveryBuyerSourceEvenlyAllocated(buyerRows),now=new Date().toISOString();const merged={...mainDashboardData(),sheets:{...(state.data?.sheets||{}),...delSheets},departmentFiles:{...(state.data?.departmentFiles||{}),delivery:{fileName:f.name,uploadedAt:now,dateFrom,dateTo,dateRows:dateRows.length,buyerRows:buyerRows.length,buyerEvenAllocation:even}},fileName:state.data?.fileName||'Department-wise data',uploadedAt:now};st.textContent=`Validated ${dateRows.length.toLocaleString()} date rows and ${buyerRows.length.toLocaleString()} buyer/date rows. Publishing...`;const {data:{user}}=await sb.auth.getUser();const {error}=await sb.from('dashboard_data').upsert({id:1,file_name:merged.fileName||f.name,data:merged,uploaded_by:user.id,uploaded_at:now},{onConflict:'id'});if(error)throw error;st.textContent=`Delivery published successfully (${dateFrom||'—'} to ${dateTo||'—'}). ${even?'Draft/equal buyer allocation detected; you can replace it later with actual buyer data. ':''}Other department data was preserved.`;await loadData()}catch(e){st.textContent='Delivery upload failed: '+e.message}}
-
-start();</script></body></html>
+async function handleDyeingUpload(){
+  const inp=$('#dyeingFileInput'),f=inp?.files?.[0],st=$('#dyeingUploadStatus');if(!f)return st.textContent='Choose the Dyeing Excel file first.';
+  if(f.size>MAX_DYEING_FILE_MB*1024*1024)return st.textContent=`File is larger than the recommended ${MAX_DYEING_FILE_MB} MB limit.`;
+  try{
+    st.textContent='Reading and validating Dyeing workbook...';
+    const wb=XLSX.read(await f.arrayBuffer(),{type:'array'}),sheets=normalizeDyeingWorkbook(wb),buyerRows=sheets['Dyeing_Date_Buyer'],dateRows=sheets['Dyeing_Date'],dateFrom=dateRows[0]?.Date||null,dateTo=dateRows.at(-1)?.Date||null,now=new Date().toISOString(),
+          meta={fileName:f.name,uploadedAt:now,dateFrom,dateTo,buyerRows:buyerRows.length,dateRows:dateRows.length};
+    st.textContent=`Validated ${buyerRows.length.toLocaleString()} buyer/date rows and ${dateRows.length.toLocaleString()} date rows. Publishing lightweight source row...`;
+    await saveDashboardSource('dyeing',f.name,{sheets,departmentFiles:{dyeing:meta}},now);
+    st.textContent=`Dyeing published successfully (${dateFrom||'—'} to ${dateTo||'—'}). No other dashboard source was rewritten.`;await loadData()
+  }catch(e){st.textContent=uploadErrorMessage(e,'Dyeing upload')}
+}
+async function handleKnittingUpload(){
+  const inp=$('#knittingFileInput'),f=inp?.files?.[0],st=$('#knittingUploadStatus');if(!f)return st.textContent='Choose the Knitting Excel file first.';
+  if(f.size>MAX_KNITTING_FILE_MB*1024*1024)return st.textContent=`File is larger than the recommended ${MAX_KNITTING_FILE_MB} MB limit.`;
+  try{
+    st.textContent='Reading and validating Knitting workbook...';
+    const wb=XLSX.read(await f.arrayBuffer(),{type:'array'}),sheets=normalizeKnittingWorkbook(wb),dateRows=sheets['Knitting_Date'],buyerRows=sheets['Knitting_Date_Buyer'],dateFrom=dateRows[0]?.Date||null,dateTo=dateRows.at(-1)?.Date||null,even=knittingBuyerSourceEvenlyAllocated(buyerRows),now=new Date().toISOString(),
+          meta={fileName:f.name,uploadedAt:now,dateFrom,dateTo,dateRows:dateRows.length,buyerRows:buyerRows.length,buyerEvenAllocation:even};
+    st.textContent=`Validated ${dateRows.length.toLocaleString()} date rows and ${buyerRows.length.toLocaleString()} buyer/date rows. Publishing lightweight source row...`;
+    await saveDashboardSource('knitting',f.name,{sheets,departmentFiles:{knitting:meta}},now);
+    st.textContent=`Knitting published successfully (${dateFrom||'—'} to ${dateTo||'—'}). ${even?'Equal/draft buyer allocation detected. ':''}No other dashboard source was rewritten.`;await loadData()
+  }catch(e){st.textContent=uploadErrorMessage(e,'Knitting upload')}
+}
+async function handleFinishingUpload(){
+  const inp=$('#finishingFileInput'),f=inp?.files?.[0],st=$('#finishingUploadStatus');if(!f)return st.textContent='Choose the Finishing Excel file first.';
+  if(f.size>MAX_FINISHING_FILE_MB*1024*1024)return st.textContent=`File is larger than the recommended ${MAX_FINISHING_FILE_MB} MB limit.`;
+  try{
+    st.textContent='Reading and validating Finishing workbook...';
+    const wb=XLSX.read(await f.arrayBuffer(),{type:'array'}),sheets=normalizeFinishingWorkbook(wb),rows=sheets['Finishing_Date'],dateFrom=rows[0]?.Date||null,dateTo=rows.at(-1)?.Date||null,now=new Date().toISOString(),meta={fileName:f.name,uploadedAt:now,dateFrom,dateTo,dateRows:rows.length};
+    st.textContent=`Validated ${rows.length.toLocaleString()} Finishing date rows. Publishing lightweight source row...`;
+    await saveDashboardSource('finishing',f.name,{sheets,departmentFiles:{finishing:meta}},now);
+    st.textContent=`Finishing published successfully (${dateFrom||'—'} to ${dateTo||'—'}). No other dashboard source was rewritten.`;await loadData()
+  }catch(e){st.textContent=uploadErrorMessage(e,'Finishing upload')}
+}
+async function handleDeliveryUpload(){
+  const inp=$('#deliveryFileInput'),f=inp?.files?.[0],st=$('#deliveryUploadStatus');if(!f)return st.textContent='Choose the Delivery Excel file first.';
+  if(f.size>MAX_DELIVERY_FILE_MB*1024*1024)return st.textContent=`File is larger than the recommended ${MAX_DELIVERY_FILE_MB} MB limit.`;
+  try{
+    st.textContent='Reading and validating Delivery workbook...';
+    const wb=XLSX.read(await f.arrayBuffer(),{type:'array'}),sheets=normalizeDeliveryWorkbook(wb),dateRows=sheets['Delivery_Date'],buyerRows=sheets['Delivery_Date_Buyer'],dateFrom=dateRows[0]?.Date||null,dateTo=dateRows.at(-1)?.Date||null,even=deliveryBuyerSourceEvenlyAllocated(buyerRows),now=new Date().toISOString(),
+          meta={fileName:f.name,uploadedAt:now,dateFrom,dateTo,dateRows:dateRows.length,buyerRows:buyerRows.length,buyerEvenAllocation:even};
+    st.textContent=`Validated ${dateRows.length.toLocaleString()} date rows and ${buyerRows.length.toLocaleString()} buyer/date rows. Publishing lightweight source row...`;
+    await saveDashboardSource('delivery',f.name,{sheets,departmentFiles:{delivery:meta}},now);
+    st.textContent=`Delivery published successfully (${dateFrom||'—'} to ${dateTo||'—'}). ${even?'Draft/equal buyer allocation detected. ':''}No other dashboard source was rewritten.`;await loadData()
+  }catch(e){st.textContent=uploadErrorMessage(e,'Delivery upload')}
+}
