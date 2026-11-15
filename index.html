@@ -2325,7 +2325,173 @@ body.dark-mode .daily-mini-card .value{color:#fff6b8!important}
   .daily-working-grid{grid-template-columns:repeat(2,minmax(100px,1fr))}
 }
 
+
+/* ================= v45 Daily Summary + Lock Board refinements ================= */
+.daily-summary-management{
+  max-width:1200px!important;
+  margin:0 auto!important;
+}
+.daily-working-grid{
+  grid-template-columns:repeat(5,minmax(190px,1fr))!important;
+}
+.daily-working-item{
+  padding:7px 8px!important;
+}
+.daily-working-item>label{
+  font-size:8.6px!important;
+  color:#173f33!important;
+  margin-bottom:5px!important;
+}
+.daily-working-duo{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:5px;
+}
+.daily-day-edit,.daily-day-gone{
+  border:1px solid var(--line);
+  border-radius:5px;
+  padding:4px 5px;
+  background:var(--card);
+  text-align:center;
+}
+.daily-day-edit span,.daily-day-gone span{
+  display:block;
+  font-size:6.6px;
+  color:var(--muted);
+  line-height:1.15;
+  min-height:16px;
+}
+.daily-day-edit input{
+  margin-top:2px!important;
+  height:25px!important;
+  font-size:10px!important;
+  font-weight:900!important;
+  background:#fff86b!important;
+  color:#1d3029!important;
+  border-color:#ded23b!important;
+}
+.daily-day-gone b{
+  display:block;
+  margin-top:4px;
+  font:800 11px Georgia,serif;
+  color:#173f33;
+}
+.daily-working-item small{
+  font-size:6.5px!important;
+}
+.daily-mini-card .label{
+  font-size:8.7px!important;
+  font-weight:900!important;
+  letter-spacing:.15px!important;
+}
+.daily-mini-card .value{
+  font-size:18px!important;
+  font-weight:900!important;
+}
+.daily-mini-card .sub{
+  font-size:7.9px!important;
+  font-weight:900!important;
+}
+.daily-mini-card.critical .sub{color:#c8372a!important}
+.daily-mini-card.watch .sub{color:#9c6a00!important}
+.daily-mini-card.ontrack .sub{color:#087252!important}
+
+.daily-management-head{
+  min-height:76px!important;
+  padding:14px 18px!important;
+}
+.daily-management-head h1{
+  font-size:31px!important;
+  line-height:1.02!important;
+}
+.daily-management-head small{
+  font-size:9px!important;
+  letter-spacing:1.8px!important;
+  margin-top:5px!important;
+}
+.daily-management-date{
+  font-size:10px!important;
+}
+.daily-management-date b{
+  font-size:14px!important;
+  margin-top:5px!important;
+}
+
+/* Bigger report text while keeping the report narrower */
+.daily-summary-table th{
+  font-size:9.8px!important;
+  padding:7px 4px!important;
+}
+.daily-summary-table td{
+  font-size:10.8px!important;
+  padding:7px 4px!important;
+}
+.daily-summary-table td:first-child{
+  font-size:10.2px!important;
+}
+.daily-status-card .title{
+  font-size:9.8px!important;
+  font-weight:900!important;
+}
+.daily-status-card .today{
+  font-size:22px!important;
+}
+.daily-status-card .pace{
+  font-size:8.8px!important;
+  font-weight:900!important;
+}
+.daily-snapshot-compact{
+  width:1180px!important;
+  max-width:1180px!important;
+  margin:0 auto!important;
+}
+.daily-snapshot-compact .daily-summary-management{
+  max-width:1160px!important;
+}
+.daily-snapshot-compact .daily-summary-table th{
+  font-size:11px!important;
+}
+.daily-snapshot-compact .daily-summary-table td{
+  font-size:11.6px!important;
+}
+.daily-snapshot-compact .daily-mini-card .label{
+  font-size:9.5px!important;
+}
+.daily-snapshot-compact .daily-mini-card .value{
+  font-size:20px!important;
+}
+.daily-snapshot-compact .daily-mini-card .sub{
+  font-size:8.5px!important;
+}
+.daily-snapshot-compact .daily-status-card .title{
+  font-size:10.5px!important;
+}
+.daily-snapshot-compact .daily-status-card .today{
+  font-size:24px!important;
+}
+.daily-snapshot-compact .daily-status-card .pace{
+  font-size:9.2px!important;
+}
+
+/* New Lock Plan daily pass/fail chart slightly taller */
+.lock-primary-chart-grid .panel:nth-child(2){
+  min-height:410px!important;
+}
+.lock-primary-chart-grid .panel:nth-child(2) .chart-wrap{
+  height:340px!important;
+}
+
+@media(max-width:1250px){
+  .daily-working-grid{grid-template-columns:repeat(3,minmax(180px,1fr))!important}
+}
+@media(max-width:760px){
+  .daily-working-grid{grid-template-columns:1fr!important}
+  .daily-working-duo{grid-template-columns:1fr 1fr}
+  .daily-summary-management{max-width:100%!important}
+}
+
 </style></head><body><div id="app" class="hidden"><div class="app-sticky-header"><div class="top-accent"></div><header class="header"><div class="header-left"><div class="brand-mark">TP</div><div><div class="brand-title">Textile Planning Dashboard</div><div class="brand-sub">Planning, Monitoring & Control</div></div></div><div class="header-actions"><div class="utility-tools"><button class="tool-btn stopwatch-btn" id="stopwatchBtn" title="Click to start/pause • Double-click to reset">⏱ <span id="stopwatchText">00:00</span></button><button class="tool-btn" id="fullscreenBtn" title="Enter full screen">⛶ Full</button><button class="tool-btn" id="themeBtn" title="Switch dark/light mode">☾ Dark</button></div><span class="greeting" id="greeting">Good morning</span><button class="btn" id="exportBtn">Export CSV</button><button class="btn" id="signOutBtn">Sign out</button><button class="btn primary" id="refreshBtn">Refresh</button></div></header><nav class="nav">
+  <button data-tab="daily_summary" class="main-nav-btn">Daily Summary</button>
   <div class="kpi-menu-wrap" id="kpiMenuWrap">
     <button class="kpi-menu-toggle active" id="kpiBoardBtn" type="button">KPI Board <span class="kpi-menu-arrow">⌄</span></button>
     <div class="kpi-submenu" id="kpiSubmenu">
@@ -2358,7 +2524,6 @@ body.dark-mode .daily-mini-card .value{color:#fff6b8!important}
       <button data-tab="lock_event">Event Detail</button>
     </div>
   </div>
-  <button data-tab="daily_summary" class="main-nav-btn">Daily Summary</button>
   <button data-tab="data" class="main-nav-btn">Data Management</button>
   <button data-tab="users" class="main-nav-btn">User Management</button>
 </nav></div><main class="page"><section class="toolbar"><div class="kpi-toolbar-head hidden" id="kpiToolbarHead"></div><div class="filters">
@@ -2566,10 +2731,10 @@ const DEFAULT_PERMISSIONS={
   users:false
 };
 const state={
-  data:null,filtered:null,tab:'overview',charts:[],profile:null,userList:[],editingUserId:null,ydViewMode:'date',
+  data:null,filtered:null,tab:'daily_summary',charts:[],profile:null,userList:[],editingUserId:null,ydViewMode:'date',
   ottFilters:{_initialized:false,bookingAll:true,bookings:[],buyer:[],result:'',failReason:[],relatedDept:[],floor:[],type:'',month:['__RUNNING__'],from:'',to:''},
   lockDetailFilters:{_initialized:false,event:[],booking:[],floor:[],pmc:[],buyer:[],lockPlanFrom:'',lockPlanTo:'',otd:[],reason:[],responsible:[],month:[],week:[],status:[]},
-  dailySummaryFilters:{_initialized:false,month:'',reportDate:'',trendFrom:'',trendTo:'',manualDays:{}},
+  dailySummaryFilters:{_initialized:false,month:'',reportDate:'',trendFrom:'',trendTo:'',monthDays:{}},
   greetingTimer:null
 };
 const $=s=>document.querySelector(s); const $$=s=>[...document.querySelectorAll(s)];
@@ -3901,7 +4066,7 @@ async function handleOTTUpload(tab,inputId='ottFileInput',statusId='ottUploadSta
     const wb=XLSX.read(await f.arrayBuffer(),{type:'array'}),rows=normalizeOTTWorkbook(wb,tab);
     const plans=rows.map(r=>r.Plan).filter(Boolean).sort(),now=new Date().toISOString();
     const meta={fileName:f.name,uploadedAt:now,rows:rows.length,bookings:new Set(rows.map(r=>ottBookingKey(r.BookingNo))).size,dateFrom:plans[0]||null,dateTo:plans.slice(-1)[0]||null};
-    const merged={...(state.data||{}),ottSources:{...(state.data?.ottSources||{}),[cfg.key]:{rows,meta}},uploadedAt:now};
+    const merged={...mainDashboardData(),ottSources:{...(state.data?.ottSources||{}),[cfg.key]:{rows,meta}},uploadedAt:now};
     if(st)st.textContent=`Validated ${rows.length.toLocaleString()} checks / ${meta.bookings.toLocaleString()} bookings. Publishing...`;
     const {data:{user}}=await sb.auth.getUser();
     const {error}=await sb.from('dashboard_data').upsert({id:1,file_name:merged.fileName||'Department-wise data',data:merged,uploaded_by:user.id,uploaded_at:now},{onConflict:'id'});
@@ -4402,11 +4567,12 @@ function applyMenuPermissions(){
   const oBoard=$('#ottMenuWrap');if(oBoard)oBoard.classList.toggle('hidden',!OTT_TABS.some(t=>p[t]===true));
   $$('.lock-submenu button[data-tab]').forEach(b=>b.classList.toggle('hidden',p[b.dataset.tab]!==true));
   const lockWrap=$('#lockMenuWrap');if(lockWrap)lockWrap.classList.toggle('hidden',!(p.lock_board===true||p.lock_event===true));
+  const dailyBtn=$('.nav>button[data-tab="daily_summary"]');if(dailyBtn)dailyBtn.classList.toggle('hidden',p.daily_summary!==true);
   const dataBtn=$('.nav>button[data-tab="data"]');if(dataBtn)dataBtn.classList.toggle('hidden',!(p.data===true||DATA_UPLOAD_PERMISSION_KEYS.some(k=>p[k]===true)));
   const usersBtn=$('.nav>button[data-tab="users"]');if(usersBtn)usersBtn.classList.toggle('hidden',state.profile?.role!=='admin');
   if(!canAccess(state.tab)){
     const firstKpi=KPI_TABS.find(t=>canAccess(t)),firstOtt=OTT_TABS.find(t=>canAccess(t));
-    if(firstKpi)state.tab=firstKpi;else if(firstOtt)state.tab=firstOtt;else if(canAccess('lock_board'))state.tab='lock_board';else if(canAccess('lock_event'))state.tab='lock_event';else if(canAccess('data'))state.tab='data';
+    if(canAccess('daily_summary'))state.tab='daily_summary';else if(firstKpi)state.tab=firstKpi;else if(firstOtt)state.tab=firstOtt;else if(canAccess('lock_board'))state.tab='lock_board';else if(canAccess('lock_event'))state.tab='lock_event';else if(canAccess('data'))state.tab='data';
     else if(state.profile?.role==='admin')state.tab='users';else state.tab='overview'
   }
 }
@@ -4759,17 +4925,18 @@ async function deleteUser(id){const u=state.userList.find(x=>x.id===id);if(!u||i
 
 
 /* ================= DAILY SUMMARY CORE ================= */
+
 function normalizeDailySummaryWorkbook(wb){
   const sn='Data';if(!wb.SheetNames.includes(sn))throw new Error('Missing sheet: Data');
   const matrix=XLSX.utils.sheet_to_json(wb.Sheets[sn],{header:1,defval:null,raw:true});
   if(matrix.length<3)throw new Error('Data sheet does not contain enough rows.');
-  const headers=(matrix[1]||[]).map(v=>String(v??'').trim());
-  const miss=DAILY_SUMMARY_REQUIRED.filter(c=>!headers.includes(c));
+  const headers=(matrix[1]||[]).map(v=>String(v??'').trim()),idx=new Map(headers.map((h,i)=>[h,i]));
+  const miss=DAILY_SUMMARY_REQUIRED.filter(c=>!idx.has(c));
   if(miss.length)throw new Error(`Data sheet missing column(s): ${miss.join(', ')}`);
+  const keep=[...DAILY_SUMMARY_REQUIRED];
   const rows=matrix.slice(2).map(arr=>{
-    const r={};headers.forEach((h,i)=>{if(h)r[h]=arr[i]??null});
-    r.Date=parseDate(r.Date);r.Month=r.Month?String(r.Month).trim():'';
-    return r
+    const r={};keep.forEach(h=>r[h]=arr[idx.get(h)]??null);
+    r.Date=parseDate(r.Date);return r
   }).filter(r=>r.Date);
   if(!rows.length)throw new Error('No usable dated rows found in Data sheet.');
   rows.sort((a,b)=>a.Date.localeCompare(b.Date));
@@ -4800,9 +4967,9 @@ function dailySetTrendFromReport(){
 }
 function dailySummaryEnsureFilters(){
   const months=dailySummaryMonths(),f=state.dailySummaryFilters;
-  if(f?._initialized&&months.includes(f.month)){f.manualDays=f.manualDays||{};return}
+  if(f?._initialized&&months.includes(f.month)){f.monthDays=f.monthDays||{};return}
   const yKey=dailyYesterdayISO().slice(0,7),month=months.includes(yKey)?yKey:(months.slice(-1)[0]||'');
-  state.dailySummaryFilters={_initialized:true,month,reportDate:dailyDefaultReportDate(month),trendFrom:'',trendTo:'',manualDays:{}};
+  state.dailySummaryFilters={_initialized:true,month,reportDate:dailyDefaultReportDate(month),trendFrom:'',trendTo:'',monthDays:{}};
   dailySetTrendFromReport()
 }
 function dailyRowsThroughReport(){
@@ -4846,64 +5013,76 @@ function dailyTargetOverride(metric){
   return t&&Number.isFinite(Number(t.Target))?Number(t.Target):metric.daily
 }
 
+
 function dailyAutoWorkingDays(){return dailyDaysGone()}
-function dailyWorkingDaysFor(metric){
+function dailyDefaultMonthDays(metric){
+  return metric.basis==='delivery'?dailyDeliveryDays(state.dailySummaryFilters.month):dailyProductionBasisDays()
+}
+function dailyMonthDaysFor(metric){
   dailySummaryEnsureFilters();
-  const raw=state.dailySummaryFilters.manualDays?.[metric.key],n=Number(raw);
-  return Number.isFinite(n)&&n>0?n:dailyAutoWorkingDays()
+  const raw=state.dailySummaryFilters.monthDays?.[metric.key],n=Number(raw);
+  return Number.isFinite(n)&&n>0?n:dailyDefaultMonthDays(metric)
 }
 function dailyWorkingDayInputs(){
   dailySummaryEnsureFilters();
-  const auto=dailyAutoWorkingDays(),m=state.dailySummaryFilters.manualDays||{};
+  const gone=dailyAutoWorkingDays(),m=state.dailySummaryFilters.monthDays||{};
   return DAILY_SUMMARY_TARGETS.map(x=>{
-    const manual=Number(m[x.key]),has=Number.isFinite(manual)&&manual>0,value=has?manual:auto;
-    return`<div class="daily-working-item"><label title="${esc(x.label)}">${esc(x.label)}</label><input class="daily-working-input" data-day-key="${esc(x.key)}" type="number" min="1" max="31" step="1" value="${value}"><small>${has?'Manual':'Auto'} working days</small></div>`
+    const def=dailyDefaultMonthDays(x),manual=Number(m[x.key]),has=Number.isFinite(manual)&&manual>0,value=has?manual:def;
+    return`<div class="daily-working-item">
+      <label title="${esc(x.label)}">${esc(x.label)}</label>
+      <div class="daily-working-duo">
+        <div class="daily-day-edit"><span>Month Day Consider</span><input class="daily-month-days-input" data-day-key="${esc(x.key)}" type="number" min="1" max="31" step="1" value="${value}"></div>
+        <div class="daily-day-gone"><span>Working Days Gone</span><b>${gone}</b></div>
+      </div>
+      <small>${has?`Manual month basis • default ${def}`:`Default month basis ${def}`}</small>
+    </div>`
   }).join('')
 }
 function dailyBindWorkingDayInputs(){
-  $$('.daily-working-input').forEach(inp=>inp.onchange=()=>{
-    const key=inp.dataset.dayKey,n=Number(inp.value),auto=dailyAutoWorkingDays();
-    state.dailySummaryFilters.manualDays=state.dailySummaryFilters.manualDays||{};
-    if(!Number.isFinite(n)||n<=0||n===auto)delete state.dailySummaryFilters.manualDays[key];
-    else state.dailySummaryFilters.manualDays[key]=n;
+  $$('.daily-month-days-input').forEach(inp=>inp.onchange=()=>{
+    const key=inp.dataset.dayKey,n=Number(inp.value),metric=DAILY_SUMMARY_TARGETS.find(x=>x.key===key),def=metric?dailyDefaultMonthDays(metric):null;
+    state.dailySummaryFilters.monthDays=state.dailySummaryFilters.monthDays||{};
+    if(!Number.isFinite(n)||n<=0||n===def)delete state.dailySummaryFilters.monthDays[key];
+    else state.dailySummaryFilters.monthDays[key]=n;
     render()
   });
-  if($('#dailyWorkingReset'))$('#dailyWorkingReset').onclick=()=>{state.dailySummaryFilters.manualDays={};render()}
+  if($('#dailyWorkingReset'))$('#dailyWorkingReset').onclick=()=>{state.dailySummaryFilters.monthDays={};render()}
 }
 
-
 function dailyMetricSummary(metric){
-  const rows=dailyRowsThroughReport(),report=dailyReportRow(),daysUsed=dailyWorkingDaysFor(metric),f=state.dailySummaryFilters,
-        basis=metric.basis==='delivery'?dailyDeliveryDays(f.month):dailyProductionBasisDays(),
+  const rows=dailyRowsThroughReport(),report=dailyReportRow(),daysGone=dailyAutoWorkingDays(),basis=dailyMonthDaysFor(metric),
         dailyTarget=dailyTargetOverride(metric),monthlyTarget=dailyTarget*basis,
-        achieved=dailySumMetric(rows,metric)/1000,tillTarget=dailyTarget*daysUsed,tillAvg=daysUsed?achieved/daysUsed:null,
-        selected=dailyMetricValue(report,metric)/1000,deficit=tillTarget-achieved,daysLeft=Math.max(0,basis-daysUsed),
+        achieved=dailySumMetric(rows,metric)/1000,tillTarget=dailyTarget*daysGone,tillAvg=daysGone?achieved/daysGone:null,
+        selected=dailyMetricValue(report,metric)/1000,deficit=tillTarget-achieved,daysLeft=Math.max(0,basis-daysGone),
         nowRequired=daysLeft?Math.max(0,(monthlyTarget-achieved)/daysLeft):null,pace=tillTarget>0?achieved/tillTarget:null,
         status=pace===null?'nodata':pace>=1?'ontrack':pace>=.9?'watch':'critical';
-  return{...metric,dailyTarget,basis,monthlyTarget,achieved,tillTarget,tillAvg,selected,deficit,daysUsed,daysLeft,nowRequired,pace,status}
+  return{...metric,dailyTarget,basis,monthlyTarget,achieved,tillTarget,tillAvg,selected,deficit,daysGone,daysLeft,nowRequired,pace,status}
 }
 function dailyStatusLabel(s){return s==='ontrack'?'On Track':s==='watch'?'Watch':s==='critical'?'Critical':'No Data'}
 
-function dailyTopStatus(top){
-  const rows=dailyRowsThroughReport(),report=dailyReportRow();
-  const metricKey=top.key==='dyeing'?'efl':top.key;
-  const metric=DAILY_SUMMARY_TARGETS.find(x=>x.key===metricKey);
-  const daysUsed=metric?dailyWorkingDaysFor(metric):dailyAutoWorkingDays();
-  const achieved=rows.reduce((a,r)=>a+(top.value(r)||0),0)/1000,tillTarget=top.target*daysUsed,pace=tillTarget>0?achieved/tillTarget:null,
-        today=(top.value(report||{})||0)/1000,status=pace===null?'nodata':pace>=1?'ontrack':pace>=.9?'watch':'critical';
-  return{...top,achieved,tillTarget,pace,today,status,daysUsed}
-}
 
+function dailyTopStatus(top){
+  const rows=dailyRowsThroughReport(),report=dailyReportRow(),daysGone=dailyAutoWorkingDays(),
+        achieved=rows.reduce((a,r)=>a+(top.value(r)||0),0)/1000,tillTarget=top.target*daysGone,pace=tillTarget>0?achieved/tillTarget:null,
+        today=(top.value(report||{})||0)/1000,status=pace===null?'nodata':pace>=1?'ontrack':pace>=.9?'watch':'critical';
+  return{...top,achieved,tillTarget,pace,today,status,daysGone}
+}
 function dailyStatusCard(x){
   return`<div class="daily-status-card ${x.status}"><div class="title">${esc(x.label)}</div><div class="body">
     <div class="today">${fmt1(x.today)} <small>T today</small></div>
     <div class="pace">${dailyStatusLabel(x.status)} • Achieved ${x.pace===null?'—':(x.pace*100).toFixed(0)+'%'}</div>
   </div></div>`
 }
-function dailyMiniCard(label,value,sub=''){
-  return`<div class="daily-mini-card"><div class="label">${esc(label)}</div><div class="value">${value}</div><div class="sub">${esc(sub)}</div></div>`
-}
 
+function dailyMiniCard(label,value,metricSummary){
+  const achieved=metricSummary?.pace===null||metricSummary?.pace===undefined?'—':`${(metricSummary.pace*100).toFixed(0)}%`,
+        status=metricSummary?dailyStatusLabel(metricSummary.status):'—',cls=metricSummary?.status||'nodata';
+  return`<div class="daily-mini-card ${cls}">
+    <div class="label">${esc(label)}</div>
+    <div class="value">${value}</div>
+    <div class="sub">${esc(status)} • Achieved ${esc(achieved)}</div>
+  </div>`
+}
 function dailySummaryTable(){
   const items=DAILY_SUMMARY_TARGETS.map(dailyMetricSummary);
   return`<div class="daily-table-card"><div class="table-wrap"><table class="daily-summary-table"><thead><tr>
@@ -4973,10 +5152,11 @@ function dailyColumnChart(id){
   state.charts.push(c)
 }
 
+
 function dailyFilterPanel(){
   dailySummaryEnsureFilters();const f=state.dailySummaryFilters,months=dailySummaryMonths(),rows=dailySummaryRows(),
         dates=rows.filter(r=>dailyMonthKey(r.Date)===f.month).map(r=>r.Date).sort(),meta=state.data?.dailySummary?.meta||{},
-        manualCount=Object.keys(f.manualDays||{}).length,autoDays=dailyAutoWorkingDays();
+        manualCount=Object.keys(f.monthDays||{}).length,autoDays=dailyAutoWorkingDays();
   return`<div class="daily-filter-panel"><div class="daily-filter-head"><div><h2>Daily Summary</h2><div class="meta">${(meta.rows||rows.length).toLocaleString()} date rows • Data sheet only • latest admin upload is used automatically</div></div>
     <div class="daily-filter-actions"><button class="btn" id="dailyCsvBtn" type="button">Export CSV</button><button class="btn primary" id="dailyManagementBtn" type="button">▣ Management View</button></div></div>
     <div class="daily-filter-grid">
@@ -4987,9 +5167,9 @@ function dailyFilterPanel(){
       <div class="filter-group"><span class="mini-label">Filters</span><button class="btn" id="dailyResetBtn" type="button">Reset</button></div>
     </div>
     <details class="daily-working-days" ${manualCount?'open':''}>
-      <summary><b>Working Days — Manual Override by Topic</b><span>Default: ${autoDays} working days • ${manualCount?manualCount+' manual override(s)':'all topics automatic'}</span></summary>
+      <summary><b>Day Consideration by Topic</b><span>${autoDays} working days already gone • ${manualCount?manualCount+' manual month basis override(s)':'default month basis active'}</span></summary>
       <div class="daily-working-grid">${dailyWorkingDayInputs()}</div>
-      <div class="daily-working-actions"><button class="btn" id="dailyWorkingReset" type="button">Use Automatic Days for All</button></div>
+      <div class="daily-working-actions"><button class="btn" id="dailyWorkingReset" type="button">Reset Month Days to Default</button></div>
     </details>
   </div>`
 }
@@ -4997,11 +5177,11 @@ function dailyFilterPanel(){
 function dailyBindFilters(){
   if($('#dailyMonth'))$('#dailyMonth').onchange=()=>{
     const month=$('#dailyMonth').value;state.dailySummaryFilters.month=month;state.dailySummaryFilters.reportDate=dailyDefaultReportDate(month);
-    state.dailySummaryFilters.manualDays={};dailySetTrendFromReport();render()
+    state.dailySummaryFilters.monthDays={};dailySetTrendFromReport();render()
   };
   if($('#dailyReportDate'))$('#dailyReportDate').onchange=()=>{
     state.dailySummaryFilters.reportDate=$('#dailyReportDate').value;state.dailySummaryFilters.month=dailyMonthKey(state.dailySummaryFilters.reportDate)||state.dailySummaryFilters.month;
-    state.dailySummaryFilters.manualDays={};dailySetTrendFromReport();render()
+    dailySetTrendFromReport();render()
   };
   if($('#dailyTrendFrom'))$('#dailyTrendFrom').onchange=()=>{state.dailySummaryFilters.trendFrom=$('#dailyTrendFrom').value;render()};
   if($('#dailyTrendTo'))$('#dailyTrendTo').onchange=()=>{state.dailySummaryFilters.trendTo=$('#dailyTrendTo').value;render()};
@@ -5017,27 +5197,25 @@ function renderDailySummary(){
   $('#content').innerHTML=`<div class="daily-summary-page">${dailyFilterPanel()}<div id="dailySummaryBody"></div></div>`;dailyBindFilters();
   const body=$('#dailySummaryBody');
   if(!rows.length){body.innerHTML='<div class="alert">No Daily Summary source is uploaded. Go to Data Management → Daily Summary Data Upload and upload the workbook containing the <b>Data</b> sheet.</div>';return}
-  const report=dailyReportRow(),top=DAILY_SUMMARY_TOP.map(dailyTopStatus),mtd=dailyRowsThroughReport(),
+  const report=dailyReportRow(),top=DAILY_SUMMARY_TOP.map(dailyTopStatus),
         dayVal=(key)=>(safeNum(report?.[key])||0)/1000,
-        mtdVal=(key)=>sum(mtd,key)/1000,
-        eklExt=((safeNum(report?.['EKL'])||0)+(safeNum(report?.['EFL-Ext'])||0))/1000;
+        eklExt=((safeNum(report?.['EKL'])||0)+(safeNum(report?.['EFL-Ext'])||0))/1000,
+        metricByKey=Object.fromEntries(DAILY_SUMMARY_TARGETS.map(m=>[m.key,dailyMetricSummary(m)]));
   const topHtml=top.map(dailyStatusCard).join('');
   const mini=[
-    dailyMiniCard('Fabric Delivery',`${fmt1(dayVal('Fabric Delivery'))} T`,`MTD ${fmt1(mtdVal('Fabric Delivery'))} T`),
-    dailyMiniCard('Weight Sheet Release',`${fmt1(dayVal('Weight Sheet Release'))} T`,`MTD ${fmt1(mtdVal('Weight Sheet Release'))} T`),
-    dailyMiniCard('Handedover to QAD',`${fmt1(dayVal('Handedover to QAD'))} T`,`MTD ${fmt1(mtdVal('Handedover to QAD'))} T`),
-    dailyMiniCard('Dyeing EFL',`${fmt1(dayVal('EFL'))} T`,`EKL+Ext ${fmt1(eklExt)} T`),
-    dailyMiniCard('Outside Dyeing',`${fmt1(dayVal('Sub-Dyeing'))} T`,`MTD ${fmt1(mtdVal('Sub-Dyeing'))} T`),
-    dailyMiniCard('YD In-house',`${fmt1(dayVal('YD'))} T`,`YD Sub ${fmt1(dayVal('YD Sub'))} T`)
+    dailyMiniCard('Fabric Delivery',`${fmt1(dayVal('Fabric Delivery'))} T`,metricByKey.delivery),
+    dailyMiniCard('Weight Sheet Release',`${fmt1(dayVal('Weight Sheet Release'))} T`,metricByKey.weight),
+    dailyMiniCard('Handedover to QAD',`${fmt1(dayVal('Handedover to QAD'))} T`,metricByKey.handover),
+    dailyMiniCard('Dyeing EFL',`${fmt1(dayVal('EFL'))} T`,metricByKey.efl),
+    dailyMiniCard('Outside Dyeing',`${fmt1(dayVal('Sub-Dyeing'))} T`,metricByKey.outsideDye),
+    dailyMiniCard('YD In-house',`${fmt1(dayVal('YD'))} T`,metricByKey.yd)
   ].join('');
   const p=(title,id)=>panel(title,'',`<div class="chart-wrap"><canvas id="${id}"></canvas></div>`,true,true);
   body.innerHTML=`<div class="daily-summary-management" id="dailySummaryManagementArea">
     <div class="daily-summary-top">${topHtml}</div>
     <div class="daily-current-strip">${mini}</div>
     ${dailySummaryTable()}
-    <div class="daily-chart-grid">
-      ${p('Last 7 Days — Production Trend','dailyTrendLine')}
-    </div>
+    <div class="daily-chart-grid">${p('Last 7 Days — Production Trend','dailyTrendLine')}</div>
   </div>`;
   dailyLineChart('dailyTrendLine')
 }
@@ -5045,10 +5223,10 @@ function renderDailySummary(){
 function exportDailySummaryCSV(){
   const items=DAILY_SUMMARY_TARGETS.map(dailyMetricSummary);
   const out=items.map(x=>({
-    Topic:x.label,'Working Days Used':x.daysUsed,'Target Ton':Number(x.monthlyTarget.toFixed(2)),'MTD Achieved Ton':Number(x.achieved.toFixed(2)),
-    'MTD Avg Ton':x.tillAvg===null?'':Number(x.tillAvg.toFixed(2)),'Selected Day Ton':Number(x.selected.toFixed(2)),
-    'Plan-to-Date Gap Ton':Number(x.deficit.toFixed(2)),'Now Avg Required':x.nowRequired===null?'':Number(x.nowRequired.toFixed(2)),
-    Status:dailyStatusLabel(x.status)
+    Topic:x.label,'Month Days Considered':x.basis,'Working Days Gone':x.daysGone,'Target Ton':Number(x.monthlyTarget.toFixed(2)),
+    'MTD Achieved Ton':Number(x.achieved.toFixed(2)),'MTD Avg Ton':x.tillAvg===null?'':Number(x.tillAvg.toFixed(2)),
+    'Selected Day Ton':Number(x.selected.toFixed(2)),'Plan-to-Date Gap Ton':Number(x.deficit.toFixed(2)),
+    'Now Avg Required':x.nowRequired===null?'':Number(x.nowRequired.toFixed(2)),Status:dailyStatusLabel(x.status)
   }));
   const ws=XLSX.utils.json_to_sheet(out),csv=XLSX.utils.sheet_to_csv(ws),a=document.createElement('a');
   a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));a.download=`Daily_Summary_${state.dailySummaryFilters.reportDate||new Date().toISOString().slice(0,10)}.csv`;a.click();URL.revokeObjectURL(a.href)
@@ -5057,9 +5235,10 @@ function dailySnapshotHeader(){
   const f=state.dailySummaryFilters,d=dailyDateParts(f.reportDate),dateText=d?d.toLocaleDateString(undefined,{weekday:'long',month:'long',day:'numeric',year:'numeric'}):(f.reportDate||'—');
   return`<div class="daily-management-head"><div><h1>Textile Daily Production Scenario</h1><small>PLANNING · MONITORING · CONTROL</small></div><div class="daily-management-date">${esc(dailyMonthLabel(f.month))}<b>${esc(dateText)}</b></div></div>`
 }
+
 function buildDailySummarySnapshotClone(){
   const source=$('#dailySummaryManagementArea');if(!source)throw new Error('Daily Summary management area is not available.');
-  const clone=cloneWithCanvasImages(source),wrap=document.createElement('div');wrap.className='lock-snapshot-inner';
+  const clone=cloneWithCanvasImages(source),wrap=document.createElement('div');wrap.className='lock-snapshot-inner daily-snapshot-compact';
   wrap.innerHTML=dailySnapshotHeader();wrap.appendChild(clone);return wrap
 }
 function openDailySummarySnapshot(){
@@ -5071,6 +5250,7 @@ function openDailySummarySnapshot(){
     modal.classList.remove('hidden');document.body.style.overflow='hidden'
   }catch(e){alert('Unable to open Daily Summary management view: '+e.message)}
 }
+
 async function handleDailySummaryUpload(){
   const inp=$('#dailySummaryFileInput'),f=inp?.files?.[0],st=$('#dailySummaryUploadStatus');
   if(!f)return st.textContent='Choose the Daily Report Excel file first.';
@@ -5080,17 +5260,15 @@ async function handleDailySummaryUpload(){
     const wb=XLSX.read(await f.arrayBuffer(),{type:'array'}),rows=normalizeDailySummaryWorkbook(wb),
           dates=rows.map(r=>r.Date).filter(Boolean).sort(),now=new Date().toISOString(),
           meta={fileName:f.name,uploadedAt:now,rows:rows.length,dateFrom:dates[0]||null,dateTo:dates.slice(-1)[0]||null};
-    const merged={...(state.data||{}),dailySummary:{rows,meta},fileName:state.data?.fileName||'Department-wise data',uploadedAt:now};
-    st.textContent=`Validated ${rows.length.toLocaleString()} dated rows from Data sheet. Publishing...`;
+    st.textContent=`Validated ${rows.length.toLocaleString()} compact date rows. Publishing Daily Summary separately...`;
     const {data:{user}}=await sb.auth.getUser();
-    const {error}=await sb.from('dashboard_data').upsert({id:1,file_name:merged.fileName||f.name,data:merged,uploaded_by:user.id,uploaded_at:now},{onConflict:'id'});
+    const payload={dailySummary:{rows,meta}};
+    const {error}=await sb.from('dashboard_data').upsert({id:2,file_name:f.name,data:payload,uploaded_by:user.id,uploaded_at:now},{onConflict:'id'});
     if(error)throw error;
-    st.textContent=`Daily Summary published successfully (${meta.dateFrom||'—'} to ${meta.dateTo||'—'}). Summary sheet was not used.`;
+    st.textContent=`Daily Summary published successfully (${meta.dateFrom||'—'} to ${meta.dateTo||'—'}). Separate storage avoids the previous large-row statement timeout.`;
     state.dailySummaryFilters._initialized=false;await loadData()
   }catch(e){st.textContent='Daily Summary upload failed: '+e.message}
 }
-
-/* ================= LOCK PLAN DETAILS CORE ================= */
 function lpdClean(v){
   if(v===null||v===undefined)return'';
   const s=String(v).trim();
@@ -5510,6 +5688,26 @@ function lpdFailShareChart(id,groups){
   state.charts.push(c)
 }
 
+
+function lpdDailyPassFailOverallChart(id,data){
+  const ctx=document.querySelector(`canvas#${id}`);if(!ctx)return;
+  const dark=document.body.classList.contains('dark-mode'),grid=dark?'#31453c':'#e7ece9',txt=dark?'#c6d8cf':'#58635e';
+  const pass=data.overall.map(s=>s.total?s.pass/s.total:null);
+  const fail=data.overall.map(s=>s.total?s.fail/s.total:null);
+  const evaluated=data.overall.map(s=>s.evaluated?s.pass/s.evaluated:null);
+  const sets=[
+    {label:'PASS %',data:pass,borderColor:'#15939b',backgroundColor:'#15939b',_countLabels:pass.map(v=>v===null?'':pct(v))},
+    {label:'FAIL %',data:fail,borderColor:'#d95845',backgroundColor:'#d95845',_countLabels:fail.map(v=>v===null?'':pct(v))},
+    {label:'OVERALL PASS %',data:evaluated,borderColor:'#285f9a',backgroundColor:'#285f9a',_countLabels:evaluated.map(v=>v===null?'':pct(v))}
+  ].map(s=>({...s,tension:.25,pointRadius:3.5,pointHoverRadius:5,borderWidth:2.2}));
+  const c=new Chart(ctx,{type:'line',data:{labels:data.labels,datasets:sets},options:{responsive:true,maintainAspectRatio:false,animation:false,layout:{padding:{top:28}},
+    plugins:{tpChartValueLabels:{display:false},legend:{position:'bottom',labels:{boxWidth:10,font:{size:10},color:txt}},
+      tooltip:{callbacks:{label:c=>`${c.dataset.label}: ${pct(c.raw)}`}}},
+    scales:{x:{grid:{display:false},ticks:{font:{size:8},color:txt,maxRotation:35}},y:{min:0,max:1,grid:{color:grid},ticks:{font:{size:9},color:txt,callback:v=>(v*100).toFixed(0)+'%'}}}},
+    plugins:[lpdCountLabelPlugin()]});
+  c.$tpPercent=true;state.charts.push(c)
+}
+
 function lpdRateLineCountChart(id,data){
   const ctx=document.querySelector(`canvas#${id}`);if(!ctx)return;
   const dark=document.body.classList.contains('dark-mode'),grid=dark?'#31453c':'#e7ece9',txt=dark?'#c6d8cf':'#58635e',cols=['#15939b','#e77a2f','#285f9a'];
@@ -5611,6 +5809,7 @@ function lpdBindFilters(mode='board'){
   if(mode==='board'&&$('#lpdManagementBtn'))$('#lpdManagementBtn').onclick=openLockPlanDetailsSnapshot
 }
 
+
 function renderLockPlanDetailsBoard(){
   metricCardSet([]);lpdEnsureFilters();
   const all=lpdEvents();
@@ -5638,31 +5837,29 @@ function renderLockPlanDetailsBoard(){
   const p=(title,note,id,wide=false)=>panel(title,note,`<div class="chart-wrap"><canvas id="${id}"></canvas></div>`,wide,true);
   body.innerHTML=`<div class="lock-management lock-all-chart-board" id="lpdManagementArea">
     <div class="lock-card-grid">${cards}</div>
-
     <div class="lock-primary-chart-grid">
       ${p('Floor OTD Comparison','START / END / OVERALL OTD • direct labels show Pass/Total and OTD%','lpdFloorChart')}
-      ${p('Floor / Start + End + Overall (Pass / Total OTD%)','Pass-event volume by Floor • direct labels show Pass/Total and OTD%','lpdFloorPassTotal')}
+      ${p('Daily Pass / Fail / Overall Pass Trend','PASS % uses all events • FAIL % uses all events • Overall Pass % uses evaluated Pass+Fail events','lpdDailyRate')}
     </div>
-
     <div class="lock-chart-grid lock-large-charts">
-      ${p('Monthly OTD / Start vs End','START / END / OVERALL • labels show Pass/Total and OTD%','lpdMonthly')}
+      ${p('Buyer OTD Performance','START / END / OVERALL • labels show Pass/Total and OTD%','lpdBuyerChart')}
       ${p('Daily Events / Pass vs Fail','START / END / OVERALL • direct event counts are shown on bars','lpdDaily')}
       ${p('Weekly OTD Trend','START / END / OVERALL • labels show Pass/Total and OTD%','lpdWeekly')}
-      ${p('Buyer OTD Performance','START / END / OVERALL • labels show Pass/Total and OTD%','lpdBuyerChart')}
+      ${p('Monthly OTD / Start vs End','START / END / OVERALL • labels show Pass/Total and OTD%','lpdMonthly')}
       ${p('PMC OTD Performance','START / END / OVERALL • labels show Pass/Total and OTD%','lpdPMCChart')}
       ${p('Fabric OTD Performance','START / END / OVERALL • labels show Pass/Total and OTD%','lpdFabricChart')}
-      ${p('Fail Area / Start + End + Overall','Replaces Root Causes report • labels show Pass/Total and OTD%','lpdFailAreaChart')}
+      ${p('Fail Area / Start + End + Overall','Labels show Pass/Total and OTD%','lpdFailAreaChart')}
       ${p('Responsible Department — Fail Events','Fail-event count and share of all failures','lpdResponsibleChart')}
       ${p('Finish Type OTD Performance','START / END / OVERALL • labels show Pass/Total and OTD%','lpdFinishChart')}
     </div>
   </div>`;
 
   lpdGroupedRateChart('lpdFloorChart',floor);
-  lpdPassTotalCountChart('lpdFloorPassTotal',floor);
-  lpdRateLineCountChart('lpdMonthly',monthly);
+  lpdDailyPassFailOverallChart('lpdDailyRate',daily);
+  lpdGroupedRateChart('lpdBuyerChart',buyer);
   lpdDailyPFChart('lpdDaily',daily);
   lpdRateLineCountChart('lpdWeekly',weekly);
-  lpdGroupedRateChart('lpdBuyerChart',buyer);
+  lpdRateLineCountChart('lpdMonthly',monthly);
   lpdGroupedRateChart('lpdPMCChart',pmc);
   lpdGroupedRateChart('lpdFabricChart',fabric);
   lpdGroupedRateChart('lpdFailAreaChart',failArea);
@@ -5816,7 +6013,7 @@ async function handleLockPlanDetailsUpload(){
           plans=events.map(r=>r.LockPlan).filter(Boolean).sort(),actual=events.map(r=>r.Actual).filter(Boolean).sort(),now=new Date().toISOString(),
           meta={fileName:f.name,uploadedAt:now,eventRows:events.length,bookings:new Set(events.map(r=>r.BookingNo)).size,
             dateFrom:plans[0]||null,dateTo:plans.slice(-1)[0]||null,actualTo:actual.slice(-1)[0]||null};
-    const merged={...(state.data||{}),lockPlanDetails:{events,meta},fileName:state.data?.fileName||'Department-wise data',uploadedAt:now};
+    const merged={...mainDashboardData(),lockPlanDetails:{events,meta},fileName:state.data?.fileName||'Department-wise data',uploadedAt:now};
     st.textContent=`Validated ${events.length.toLocaleString()} Start/End events / ${meta.bookings.toLocaleString()} bookings. Publishing...`;
     const {data:{user}}=await sb.auth.getUser();
     const {error}=await sb.from('dashboard_data').upsert({id:1,file_name:merged.fileName||f.name,data:merged,uploaded_by:user.id,uploaded_at:now},{onConflict:'id'});
@@ -6121,7 +6318,7 @@ function exportCurrent(){let rows=state.tab==='dyeing'?dyeingBuyerRows():state.t
 
 const sb=supabase.createClient(window.APP_CONFIG.SUPABASE_URL,window.APP_CONFIG.SUPABASE_ANON_KEY);
 
-async function handleYarnDyeingUpload(){const inp=document.getElementById('yarnDyeingFileInput'),f=inp?.files?.[0],st=document.getElementById('yarnDyeingUploadStatus');if(!f)return st.textContent='Choose the Yarn Dyeing Excel file first.';if(f.size>MAX_YARN_DYEING_FILE_MB*1024*1024)return st.textContent=`File is larger than the recommended ${MAX_YARN_DYEING_FILE_MB} MB limit.`;try{st.textContent='Reading and validating Yarn Dyeing workbook...';const wb=XLSX.read(await f.arrayBuffer(),{type:'array'}),ydSheets=normalizeYarnDyeingWorkbook(wb),dateRows=ydSheets['YD_Date'],buyerRows=ydSheets['YD_Date_Buyer'];const dateFrom=dateRows.length?dateRows[0].Date:null,dateTo=dateRows.length?dateRows[dateRows.length-1].Date:null,even=yarnDyeingBuyerSourceEvenlyAllocated(buyerRows),now=new Date().toISOString();const merged={...(state.data||{}),sheets:{...(state.data?.sheets||{}),...ydSheets},departmentFiles:{...(state.data?.departmentFiles||{}),yarn:{fileName:f.name,uploadedAt:now,dateFrom,dateTo,dateRows:dateRows.length,buyerRows:buyerRows.length,buyerEvenAllocation:even}},fileName:state.data?.fileName||'Department-wise data',uploadedAt:now};st.textContent=`Validated ${dateRows.length.toLocaleString()} date rows and ${buyerRows.length.toLocaleString()} buyer/date rows. Publishing...`;const {data:{user}}=await sb.auth.getUser();const {error}=await sb.from('dashboard_data').upsert({id:1,file_name:merged.fileName||f.name,data:merged,uploaded_by:user.id,uploaded_at:now},{onConflict:'id'});if(error)throw error;st.textContent=`Yarn Dyeing published successfully (${dateFrom||'—'} to ${dateTo||'—'}). ${even?'Demo/equal buyer allocation detected; Date View will prevent multiplied totals until real buyer data is uploaded. ':''}Other department data was preserved.`;await loadData()}catch(e){st.textContent='Yarn Dyeing upload failed: '+e.message}}
+async function handleYarnDyeingUpload(){const inp=document.getElementById('yarnDyeingFileInput'),f=inp?.files?.[0],st=document.getElementById('yarnDyeingUploadStatus');if(!f)return st.textContent='Choose the Yarn Dyeing Excel file first.';if(f.size>MAX_YARN_DYEING_FILE_MB*1024*1024)return st.textContent=`File is larger than the recommended ${MAX_YARN_DYEING_FILE_MB} MB limit.`;try{st.textContent='Reading and validating Yarn Dyeing workbook...';const wb=XLSX.read(await f.arrayBuffer(),{type:'array'}),ydSheets=normalizeYarnDyeingWorkbook(wb),dateRows=ydSheets['YD_Date'],buyerRows=ydSheets['YD_Date_Buyer'];const dateFrom=dateRows.length?dateRows[0].Date:null,dateTo=dateRows.length?dateRows[dateRows.length-1].Date:null,even=yarnDyeingBuyerSourceEvenlyAllocated(buyerRows),now=new Date().toISOString();const merged={...mainDashboardData(),sheets:{...(state.data?.sheets||{}),...ydSheets},departmentFiles:{...(state.data?.departmentFiles||{}),yarn:{fileName:f.name,uploadedAt:now,dateFrom,dateTo,dateRows:dateRows.length,buyerRows:buyerRows.length,buyerEvenAllocation:even}},fileName:state.data?.fileName||'Department-wise data',uploadedAt:now};st.textContent=`Validated ${dateRows.length.toLocaleString()} date rows and ${buyerRows.length.toLocaleString()} buyer/date rows. Publishing...`;const {data:{user}}=await sb.auth.getUser();const {error}=await sb.from('dashboard_data').upsert({id:1,file_name:merged.fileName||f.name,data:merged,uploaded_by:user.id,uploaded_at:now},{onConflict:'id'});if(error)throw error;st.textContent=`Yarn Dyeing published successfully (${dateFrom||'—'} to ${dateTo||'—'}). ${even?'Demo/equal buyer allocation detected; Date View will prevent multiplied totals until real buyer data is uploaded. ':''}Other department data was preserved.`;await loadData()}catch(e){st.textContent='Yarn Dyeing upload failed: '+e.message}}
 
 
 async function handleChemicalLabUpload(){
@@ -6132,7 +6329,7 @@ async function handleChemicalLabUpload(){
     st.textContent='Reading and validating Chemical Lab workbook...';
     const wb=XLSX.read(await f.arrayBuffer(),{type:'array'}),chemSheets=normalizeChemicalLabWorkbook(wb),rows=chemSheets['C_Lab_Date'];
     const dateFrom=rows.length?rows[0].Date:null,dateTo=rows.length?rows[rows.length-1].Date:null,now=new Date().toISOString();
-    const merged={...(state.data||{}),sheets:{...(state.data?.sheets||{}),...chemSheets},departmentFiles:{...(state.data?.departmentFiles||{}),chemical:{fileName:f.name,uploadedAt:now,dateFrom,dateTo,dateRows:rows.length}},fileName:state.data?.fileName||'Department-wise data',uploadedAt:now};
+    const merged={...mainDashboardData(),sheets:{...(state.data?.sheets||{}),...chemSheets},departmentFiles:{...(state.data?.departmentFiles||{}),chemical:{fileName:f.name,uploadedAt:now,dateFrom,dateTo,dateRows:rows.length}},fileName:state.data?.fileName||'Department-wise data',uploadedAt:now};
     st.textContent=`Validated ${rows.length.toLocaleString()} Chemical Lab date rows. Publishing...`;
     const {data:{user}}=await sb.auth.getUser();
     const {error}=await sb.from('dashboard_data').upsert({id:1,file_name:merged.fileName||f.name,data:merged,uploaded_by:user.id,uploaded_at:now},{onConflict:'id'});
@@ -6151,7 +6348,7 @@ async function handleETLUpload(){
     st.textContent='Reading ETL workbook and matching headers (line breaks / spacing are handled automatically)...';
     const wb=XLSX.read(await f.arrayBuffer(),{type:'array'}),etlSheets=normalizeETLWorkbook(wb),rows=etlSheets['ETL_Date'];
     const dateFrom=rows.length?rows[0].Date:null,dateTo=rows.length?rows[rows.length-1].Date:null,now=new Date().toISOString();
-    const merged={...(state.data||{}),sheets:{...(state.data?.sheets||{}),...etlSheets},departmentFiles:{...(state.data?.departmentFiles||{}),etl:{fileName:f.name,uploadedAt:now,dateFrom,dateTo,dateRows:rows.length}},fileName:state.data?.fileName||'Department-wise data',uploadedAt:now};
+    const merged={...mainDashboardData(),sheets:{...(state.data?.sheets||{}),...etlSheets},departmentFiles:{...(state.data?.departmentFiles||{}),etl:{fileName:f.name,uploadedAt:now,dateFrom,dateTo,dateRows:rows.length}},fileName:state.data?.fileName||'Department-wise data',uploadedAt:now};
     st.textContent=`Validated ${rows.length.toLocaleString()} ETL date rows. Publishing...`;
     const {data:{user}}=await sb.auth.getUser();
     const {error}=await sb.from('dashboard_data').upsert({id:1,file_name:merged.fileName||f.name,data:merged,uploaded_by:user.id,uploaded_at:now},{onConflict:'id'});
@@ -6171,7 +6368,7 @@ async function handleTargetUpload(){
     const wb=XLSX.read(await f.arrayBuffer(),{type:'array'}),targets=normalizeTargetWorkbook(wb),now=new Date().toISOString();
     if(!targets.length)throw new Error('No usable mapped targets were found in the Target sheet.');
     const sourceRows=sourceTargetRows(wb).length;
-    const merged={...(state.data||{}),targets,departmentFiles:{...(state.data?.departmentFiles||{}),targets:{fileName:f.name,uploadedAt:now,targetRows:targets.length,sourceRows}},uploadedAt:now};
+    const merged={...mainDashboardData(),targets,departmentFiles:{...(state.data?.departmentFiles||{}),targets:{fileName:f.name,uploadedAt:now,targetRows:targets.length,sourceRows}},uploadedAt:now};
     const {data:{user}}=await sb.auth.getUser();
     const {error}=await sb.from('dashboard_data').upsert({id:1,file_name:merged.fileName||'Department-wise data',data:merged,uploaded_by:user.id,uploaded_at:now},{onConflict:'id'});
     if(error)throw error;
@@ -6180,8 +6377,30 @@ async function handleTargetUpload(){
   }catch(e){st.textContent='Target upload failed: '+e.message}
 }
 
+function mainDashboardData(){const src=state.data||{},out={...src};delete out.dailySummary;return out}
 async function loadProfile(user){const {data,error}=await sb.from('profiles').select('id,display_name,role,permissions,active').eq('id',user.id).single();if(error)throw error;if(data.active===false)throw new Error('Your dashboard access is disabled. Please contact an administrator.');state.profile=data;return data}
-async function loadData(){const {data,error}=await sb.from('dashboard_data').select('file_name,data,uploaded_at').eq('id',1).maybeSingle();if(error)throw error;if(!data){state.data={sheets:Object.fromEntries([...REQUIRED_SHEETS,...DYEING_SHEETS,...KNITTING_SHEETS,...FINISHING_SHEETS,...DELIVERY_SHEETS,...YARN_DYEING_SHEETS,...CHEMICAL_LAB_SHEETS,...ETL_SHEETS].map(s=>[s,[]])),departmentFiles:{},targets:[],ottSources:{},lockPlanDetails:{events:[],meta:{}},dailySummary:{rows:[],meta:{}},fileName:'No workbook uploaded',uploadedAt:null}}else{state.data={...data.data,fileName:data.file_name,uploadedAt:data.uploaded_at};state.data.sheets=state.data.sheets||{};for(const s of [...REQUIRED_SHEETS,...DYEING_SHEETS,...KNITTING_SHEETS,...FINISHING_SHEETS,...DELIVERY_SHEETS,...YARN_DYEING_SHEETS,...CHEMICAL_LAB_SHEETS,...ETL_SHEETS])state.data.sheets[s]=state.data.sheets[s]||[];state.data.departmentFiles=state.data.departmentFiles||{};state.data.targets=state.data.targets||[];state.data.ottSources=state.data.ottSources||{};state.data.lockPlanDetails=state.data.lockPlanDetails||{events:[],meta:{}};state.data.dailySummary=state.data.dailySummary||{rows:[],meta:{}}}setFilterDefaults();document.getElementById('lastUpdated').textContent=state.data.uploadedAt?'Last updated: '+new Date(state.data.uploadedAt).toLocaleString():'';render()}
+
+async function loadData(){
+  const {data:rows,error}=await sb.from('dashboard_data').select('id,file_name,data,uploaded_at').in('id',[1,2]);
+  if(error)throw error;
+  const main=(rows||[]).find(r=>Number(r.id)===1)||null,daily=(rows||[]).find(r=>Number(r.id)===2)||null;
+  if(!main){
+    state.data={sheets:Object.fromEntries([...REQUIRED_SHEETS,...DYEING_SHEETS,...KNITTING_SHEETS,...FINISHING_SHEETS,...DELIVERY_SHEETS,...YARN_DYEING_SHEETS,...CHEMICAL_LAB_SHEETS,...ETL_SHEETS].map(s=>[s,[]])),departmentFiles:{},targets:[],ottSources:{},lockPlanDetails:{events:[],meta:{}},dailySummary:{rows:[],meta:{}},fileName:'No workbook uploaded',uploadedAt:null}
+  }else{
+    state.data={...main.data,fileName:main.file_name,uploadedAt:main.uploaded_at};
+    state.data.sheets=state.data.sheets||{};
+    for(const s of [...REQUIRED_SHEETS,...DYEING_SHEETS,...KNITTING_SHEETS,...FINISHING_SHEETS,...DELIVERY_SHEETS,...YARN_DYEING_SHEETS,...CHEMICAL_LAB_SHEETS,...ETL_SHEETS])state.data.sheets[s]=state.data.sheets[s]||[];
+    state.data.departmentFiles=state.data.departmentFiles||{};
+    state.data.targets=state.data.targets||[];
+    state.data.ottSources=state.data.ottSources||{};
+    state.data.lockPlanDetails=state.data.lockPlanDetails||{events:[],meta:{}};
+    state.data.dailySummary=state.data.dailySummary||{rows:[],meta:{}}
+  }
+  if(daily?.data?.dailySummary)state.data.dailySummary=daily.data.dailySummary;
+  setFilterDefaults();
+  document.getElementById('lastUpdated').textContent=state.data.uploadedAt?'Last updated: '+new Date(state.data.uploadedAt).toLocaleString():'';
+  render()
+}
 async function start(){const {data:{session}}=await sb.auth.getSession();if(!session)return;await enter(session.user)}
 
 function timeGreetingLabel(d=new Date()){
@@ -6206,12 +6425,12 @@ function startGreetingClock(){
 async function enter(user){try{const p=await loadProfile(user);document.getElementById('login').classList.add('hidden');document.getElementById('app').classList.remove('hidden');startGreetingClock();bindUI();await loadData()}catch(e){document.getElementById('loginError').textContent=e.message}}
 document.getElementById('loginBtn').onclick=async()=>{document.getElementById('loginError').textContent='';const email=document.getElementById('email').value.trim(),password=document.getElementById('password').value;const {data,error}=await sb.auth.signInWithPassword({email,password});if(error)return document.getElementById('loginError').textContent=error.message;enter(data.user)};
 document.getElementById('signOutBtn').onclick=async()=>{await sb.auth.signOut();location.reload()};document.getElementById('refreshBtn').onclick=loadData;
-async function handleDyeingUpload(){const inp=document.getElementById('dyeingFileInput'),f=inp?.files?.[0],st=document.getElementById('dyeingUploadStatus');if(!f)return st.textContent='Choose the Dyeing Excel file first.';if(f.size>MAX_DYEING_FILE_MB*1024*1024)return st.textContent=`File is larger than the recommended ${MAX_DYEING_FILE_MB} MB limit.`;try{st.textContent='Reading and validating Dyeing workbook...';const wb=XLSX.read(await f.arrayBuffer(),{type:'array'});const dyeSheets=normalizeDyeingWorkbook(wb);const buyerRows=dyeSheets['Dyeing_Date_Buyer'],dateRows=dyeSheets['Dyeing_Date'];const dateFrom=dateRows.length?dateRows[0].Date:null,dateTo=dateRows.length?dateRows[dateRows.length-1].Date:null;const now=new Date().toISOString();const merged={...(state.data||{}),sheets:{...(state.data?.sheets||{}),...dyeSheets},departmentFiles:{...(state.data?.departmentFiles||{}),dyeing:{fileName:f.name,uploadedAt:now,dateFrom,dateTo,buyerRows:buyerRows.length,dateRows:dateRows.length}},fileName:state.data?.fileName||'Department-wise data',uploadedAt:now};st.textContent=`Validated ${buyerRows.length.toLocaleString()} buyer/date rows and ${dateRows.length.toLocaleString()} date rows. Publishing...`;const {data:{user}}=await sb.auth.getUser();const {error}=await sb.from('dashboard_data').upsert({id:1,file_name:merged.fileName||f.name,data:merged,uploaded_by:user.id,uploaded_at:now},{onConflict:'id'});if(error)throw error;st.textContent=`Dyeing published successfully (${dateFrom||'—'} to ${dateTo||'—'}). Future placeholder rows were ignored; other department data was preserved.`;await loadData()}catch(e){st.textContent='Dyeing upload failed: '+e.message}}
+async function handleDyeingUpload(){const inp=document.getElementById('dyeingFileInput'),f=inp?.files?.[0],st=document.getElementById('dyeingUploadStatus');if(!f)return st.textContent='Choose the Dyeing Excel file first.';if(f.size>MAX_DYEING_FILE_MB*1024*1024)return st.textContent=`File is larger than the recommended ${MAX_DYEING_FILE_MB} MB limit.`;try{st.textContent='Reading and validating Dyeing workbook...';const wb=XLSX.read(await f.arrayBuffer(),{type:'array'});const dyeSheets=normalizeDyeingWorkbook(wb);const buyerRows=dyeSheets['Dyeing_Date_Buyer'],dateRows=dyeSheets['Dyeing_Date'];const dateFrom=dateRows.length?dateRows[0].Date:null,dateTo=dateRows.length?dateRows[dateRows.length-1].Date:null;const now=new Date().toISOString();const merged={...mainDashboardData(),sheets:{...(state.data?.sheets||{}),...dyeSheets},departmentFiles:{...(state.data?.departmentFiles||{}),dyeing:{fileName:f.name,uploadedAt:now,dateFrom,dateTo,buyerRows:buyerRows.length,dateRows:dateRows.length}},fileName:state.data?.fileName||'Department-wise data',uploadedAt:now};st.textContent=`Validated ${buyerRows.length.toLocaleString()} buyer/date rows and ${dateRows.length.toLocaleString()} date rows. Publishing...`;const {data:{user}}=await sb.auth.getUser();const {error}=await sb.from('dashboard_data').upsert({id:1,file_name:merged.fileName||f.name,data:merged,uploaded_by:user.id,uploaded_at:now},{onConflict:'id'});if(error)throw error;st.textContent=`Dyeing published successfully (${dateFrom||'—'} to ${dateTo||'—'}). Future placeholder rows were ignored; other department data was preserved.`;await loadData()}catch(e){st.textContent='Dyeing upload failed: '+e.message}}
 
-async function handleKnittingUpload(){const inp=document.getElementById('knittingFileInput'),f=inp?.files?.[0],st=document.getElementById('knittingUploadStatus');if(!f)return st.textContent='Choose the Knitting Excel file first.';if(f.size>MAX_KNITTING_FILE_MB*1024*1024)return st.textContent=`File is larger than the recommended ${MAX_KNITTING_FILE_MB} MB limit.`;try{st.textContent='Reading and validating Knitting workbook...';const wb=XLSX.read(await f.arrayBuffer(),{type:'array'});const knitSheets=normalizeKnittingWorkbook(wb),dateRows=knitSheets['Knitting_Date'],buyerRows=knitSheets['Knitting_Date_Buyer'];const dateFrom=dateRows.length?dateRows[0].Date:null,dateTo=dateRows.length?dateRows[dateRows.length-1].Date:null,even=knittingBuyerSourceEvenlyAllocated(buyerRows),now=new Date().toISOString();const merged={...(state.data||{}),sheets:{...(state.data?.sheets||{}),...knitSheets},departmentFiles:{...(state.data?.departmentFiles||{}),knitting:{fileName:f.name,uploadedAt:now,dateFrom,dateTo,dateRows:dateRows.length,buyerRows:buyerRows.length,buyerEvenAllocation:even}},fileName:state.data?.fileName||'Department-wise data',uploadedAt:now};st.textContent=`Validated ${dateRows.length.toLocaleString()} date rows and ${buyerRows.length.toLocaleString()} buyer/date rows. Publishing...`;const {data:{user}}=await sb.auth.getUser();const {error}=await sb.from('dashboard_data').upsert({id:1,file_name:merged.fileName||f.name,data:merged,uploaded_by:user.id,uploaded_at:now},{onConflict:'id'});if(error)throw error;st.textContent=`Knitting published successfully (${dateFrom||'—'} to ${dateTo||'—'}). ${even?'Note: equal buyer allocation was detected in the source. ':''}Other department data was preserved.`;await loadData()}catch(e){st.textContent='Knitting upload failed: '+e.message}}
+async function handleKnittingUpload(){const inp=document.getElementById('knittingFileInput'),f=inp?.files?.[0],st=document.getElementById('knittingUploadStatus');if(!f)return st.textContent='Choose the Knitting Excel file first.';if(f.size>MAX_KNITTING_FILE_MB*1024*1024)return st.textContent=`File is larger than the recommended ${MAX_KNITTING_FILE_MB} MB limit.`;try{st.textContent='Reading and validating Knitting workbook...';const wb=XLSX.read(await f.arrayBuffer(),{type:'array'});const knitSheets=normalizeKnittingWorkbook(wb),dateRows=knitSheets['Knitting_Date'],buyerRows=knitSheets['Knitting_Date_Buyer'];const dateFrom=dateRows.length?dateRows[0].Date:null,dateTo=dateRows.length?dateRows[dateRows.length-1].Date:null,even=knittingBuyerSourceEvenlyAllocated(buyerRows),now=new Date().toISOString();const merged={...mainDashboardData(),sheets:{...(state.data?.sheets||{}),...knitSheets},departmentFiles:{...(state.data?.departmentFiles||{}),knitting:{fileName:f.name,uploadedAt:now,dateFrom,dateTo,dateRows:dateRows.length,buyerRows:buyerRows.length,buyerEvenAllocation:even}},fileName:state.data?.fileName||'Department-wise data',uploadedAt:now};st.textContent=`Validated ${dateRows.length.toLocaleString()} date rows and ${buyerRows.length.toLocaleString()} buyer/date rows. Publishing...`;const {data:{user}}=await sb.auth.getUser();const {error}=await sb.from('dashboard_data').upsert({id:1,file_name:merged.fileName||f.name,data:merged,uploaded_by:user.id,uploaded_at:now},{onConflict:'id'});if(error)throw error;st.textContent=`Knitting published successfully (${dateFrom||'—'} to ${dateTo||'—'}). ${even?'Note: equal buyer allocation was detected in the source. ':''}Other department data was preserved.`;await loadData()}catch(e){st.textContent='Knitting upload failed: '+e.message}}
 
-async function handleFinishingUpload(){const inp=document.getElementById('finishingFileInput'),f=inp?.files?.[0],st=document.getElementById('finishingUploadStatus');if(!f)return st.textContent='Choose the Finishing Excel file first.';if(f.size>MAX_FINISHING_FILE_MB*1024*1024)return st.textContent=`File is larger than the recommended ${MAX_FINISHING_FILE_MB} MB limit.`;try{st.textContent='Reading and validating Finishing workbook...';const wb=XLSX.read(await f.arrayBuffer(),{type:'array'}),finSheets=normalizeFinishingWorkbook(wb),dateRows=finSheets['Finishing_Date'];const dateFrom=dateRows.length?dateRows[0].Date:null,dateTo=dateRows.length?dateRows[dateRows.length-1].Date:null,now=new Date().toISOString();const merged={...(state.data||{}),sheets:{...(state.data?.sheets||{}),...finSheets},departmentFiles:{...(state.data?.departmentFiles||{}),finishing:{fileName:f.name,uploadedAt:now,dateFrom,dateTo,dateRows:dateRows.length}},fileName:state.data?.fileName||'Department-wise data',uploadedAt:now};st.textContent=`Validated ${dateRows.length.toLocaleString()} Finishing date rows. Publishing...`;const {data:{user}}=await sb.auth.getUser();const {error}=await sb.from('dashboard_data').upsert({id:1,file_name:merged.fileName||f.name,data:merged,uploaded_by:user.id,uploaded_at:now},{onConflict:'id'});if(error)throw error;st.textContent=`Finishing published successfully (${dateFrom||'—'} to ${dateTo||'—'}). Other department data was preserved.`;await loadData()}catch(e){st.textContent='Finishing upload failed: '+e.message}}
+async function handleFinishingUpload(){const inp=document.getElementById('finishingFileInput'),f=inp?.files?.[0],st=document.getElementById('finishingUploadStatus');if(!f)return st.textContent='Choose the Finishing Excel file first.';if(f.size>MAX_FINISHING_FILE_MB*1024*1024)return st.textContent=`File is larger than the recommended ${MAX_FINISHING_FILE_MB} MB limit.`;try{st.textContent='Reading and validating Finishing workbook...';const wb=XLSX.read(await f.arrayBuffer(),{type:'array'}),finSheets=normalizeFinishingWorkbook(wb),dateRows=finSheets['Finishing_Date'];const dateFrom=dateRows.length?dateRows[0].Date:null,dateTo=dateRows.length?dateRows[dateRows.length-1].Date:null,now=new Date().toISOString();const merged={...mainDashboardData(),sheets:{...(state.data?.sheets||{}),...finSheets},departmentFiles:{...(state.data?.departmentFiles||{}),finishing:{fileName:f.name,uploadedAt:now,dateFrom,dateTo,dateRows:dateRows.length}},fileName:state.data?.fileName||'Department-wise data',uploadedAt:now};st.textContent=`Validated ${dateRows.length.toLocaleString()} Finishing date rows. Publishing...`;const {data:{user}}=await sb.auth.getUser();const {error}=await sb.from('dashboard_data').upsert({id:1,file_name:merged.fileName||f.name,data:merged,uploaded_by:user.id,uploaded_at:now},{onConflict:'id'});if(error)throw error;st.textContent=`Finishing published successfully (${dateFrom||'—'} to ${dateTo||'—'}). Other department data was preserved.`;await loadData()}catch(e){st.textContent='Finishing upload failed: '+e.message}}
 
-async function handleDeliveryUpload(){const inp=document.getElementById('deliveryFileInput'),f=inp?.files?.[0],st=document.getElementById('deliveryUploadStatus');if(!f)return st.textContent='Choose the Delivery Excel file first.';if(f.size>MAX_DELIVERY_FILE_MB*1024*1024)return st.textContent=`File is larger than the recommended ${MAX_DELIVERY_FILE_MB} MB limit.`;try{st.textContent='Reading and validating Delivery workbook...';const wb=XLSX.read(await f.arrayBuffer(),{type:'array'}),delSheets=normalizeDeliveryWorkbook(wb),dateRows=delSheets['Delivery_Date'],buyerRows=delSheets['Delivery_Date_Buyer'];const dateFrom=dateRows.length?dateRows[0].Date:null,dateTo=dateRows.length?dateRows[dateRows.length-1].Date:null,even=deliveryBuyerSourceEvenlyAllocated(buyerRows),now=new Date().toISOString();const merged={...(state.data||{}),sheets:{...(state.data?.sheets||{}),...delSheets},departmentFiles:{...(state.data?.departmentFiles||{}),delivery:{fileName:f.name,uploadedAt:now,dateFrom,dateTo,dateRows:dateRows.length,buyerRows:buyerRows.length,buyerEvenAllocation:even}},fileName:state.data?.fileName||'Department-wise data',uploadedAt:now};st.textContent=`Validated ${dateRows.length.toLocaleString()} date rows and ${buyerRows.length.toLocaleString()} buyer/date rows. Publishing...`;const {data:{user}}=await sb.auth.getUser();const {error}=await sb.from('dashboard_data').upsert({id:1,file_name:merged.fileName||f.name,data:merged,uploaded_by:user.id,uploaded_at:now},{onConflict:'id'});if(error)throw error;st.textContent=`Delivery published successfully (${dateFrom||'—'} to ${dateTo||'—'}). ${even?'Draft/equal buyer allocation detected; you can replace it later with actual buyer data. ':''}Other department data was preserved.`;await loadData()}catch(e){st.textContent='Delivery upload failed: '+e.message}}
+async function handleDeliveryUpload(){const inp=document.getElementById('deliveryFileInput'),f=inp?.files?.[0],st=document.getElementById('deliveryUploadStatus');if(!f)return st.textContent='Choose the Delivery Excel file first.';if(f.size>MAX_DELIVERY_FILE_MB*1024*1024)return st.textContent=`File is larger than the recommended ${MAX_DELIVERY_FILE_MB} MB limit.`;try{st.textContent='Reading and validating Delivery workbook...';const wb=XLSX.read(await f.arrayBuffer(),{type:'array'}),delSheets=normalizeDeliveryWorkbook(wb),dateRows=delSheets['Delivery_Date'],buyerRows=delSheets['Delivery_Date_Buyer'];const dateFrom=dateRows.length?dateRows[0].Date:null,dateTo=dateRows.length?dateRows[dateRows.length-1].Date:null,even=deliveryBuyerSourceEvenlyAllocated(buyerRows),now=new Date().toISOString();const merged={...mainDashboardData(),sheets:{...(state.data?.sheets||{}),...delSheets},departmentFiles:{...(state.data?.departmentFiles||{}),delivery:{fileName:f.name,uploadedAt:now,dateFrom,dateTo,dateRows:dateRows.length,buyerRows:buyerRows.length,buyerEvenAllocation:even}},fileName:state.data?.fileName||'Department-wise data',uploadedAt:now};st.textContent=`Validated ${dateRows.length.toLocaleString()} date rows and ${buyerRows.length.toLocaleString()} buyer/date rows. Publishing...`;const {data:{user}}=await sb.auth.getUser();const {error}=await sb.from('dashboard_data').upsert({id:1,file_name:merged.fileName||f.name,data:merged,uploaded_by:user.id,uploaded_at:now},{onConflict:'id'});if(error)throw error;st.textContent=`Delivery published successfully (${dateFrom||'—'} to ${dateTo||'—'}). ${even?'Draft/equal buyer allocation detected; you can replace it later with actual buyer data. ':''}Other department data was preserved.`;await loadData()}catch(e){st.textContent='Delivery upload failed: '+e.message}}
 
 start();</script></body></html>
