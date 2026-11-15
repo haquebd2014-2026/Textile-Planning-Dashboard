@@ -2067,7 +2067,7 @@ body.dark-mode .lock-event-only tbody tr.meeting-selected td{background:#695c18!
 }
 
 /* KPI filter order / compact month */
-#kpiMonthFilter{min-width:150px}
+
 
 /* Filter panels: first controls are month and dates */
 .lock-filter-grid .filter-group,.ott-filter-grid .filter-group{min-width:0}
@@ -2557,6 +2557,191 @@ body.dark-mode .daily-mini-card .value{color:#fff6b8!important}
   margin:0!important;
 }
 
+
+/* ================= v48 global compactness + readability ================= */
+
+/* Less unused vertical space below menu header across the whole app */
+.nav{
+  height:44px!important;
+  padding:0 22px!important;
+  align-items:end!important;
+}
+.nav button{
+  height:44px!important;
+  padding:0 14px!important;
+}
+.page{
+  max-width:1540px!important;
+  padding:7px 18px 30px!important;
+}
+.toolbar,
+.ott-filter-panel,
+.lock-detail-filter,
+.daily-filter-panel{
+  margin-top:0!important;
+}
+.toolbar{
+  padding:9px 11px!important;
+  margin-bottom:9px!important;
+}
+.kpi-toolbar-head{
+  padding:5px 6px 7px!important;
+  margin:-1px -1px 6px!important;
+}
+.ott-filter-panel,
+.lock-detail-filter,
+.daily-filter-panel{
+  padding:8px 9px!important;
+  margin-bottom:7px!important;
+}
+.ott-filter-head,
+.lock-detail-head,
+.daily-filter-head{
+  margin-bottom:6px!important;
+  padding-bottom:6px!important;
+}
+.lock-detail-head h2,.daily-filter-head h2{font-size:19px!important}
+
+/* Filter controls: narrower boxes; don't stretch across unused horizontal space */
+.filters,
+.ott-filter-grid,
+.lock-filter-grid,
+.daily-filter-grid{
+  display:grid!important;
+  grid-template-columns:repeat(auto-fit,minmax(125px,165px))!important;
+  justify-content:start!important;
+  align-items:end!important;
+  gap:5px 7px!important;
+}
+.filter-group{
+  gap:3px!important;
+  min-width:0!important;
+}
+.filters input,.filters select,
+.ott-filter-grid input,.ott-filter-grid select,
+.lock-filter-grid input,.lock-filter-grid select,
+.daily-filter-grid input,.daily-filter-grid select{
+  height:28px!important;
+  min-height:28px!important;
+  padding:0 6px!important;
+  font-size:9px!important;
+}
+.filters .btn,
+.ott-filter-grid .btn,
+.lock-filter-grid .btn,
+.daily-filter-grid .btn{
+  height:28px!important;
+  padding:0 9px!important;
+  font-size:8.8px!important;
+}
+.filters .mini-label,.ott-filter-grid .mini-label,.lock-filter-grid .mini-label,.daily-filter-grid .mini-label{
+  font-size:7.1px!important;
+  letter-spacing:.35px!important;
+}
+.toolbar-bottom{
+  margin-top:6px!important;
+  font-size:8.5px!important;
+}
+
+/* KPI Month/Buyer multi-select */
+.kpi-multi-picker{position:relative;width:100%}
+.kpi-multi-picker>summary{
+  height:28px;display:flex;align-items:center;justify-content:space-between;gap:5px;
+  border:1px solid #cdd9d3;border-radius:4px;background:var(--card);color:var(--text);
+  padding:0 7px;font-size:9px;cursor:pointer;list-style:none;white-space:nowrap;overflow:hidden;text-overflow:ellipsis
+}
+.kpi-multi-picker>summary::-webkit-details-marker{display:none}
+.kpi-multi-pop{
+  position:absolute;z-index:2700;left:0;top:31px;width:280px;max-width:78vw;
+  background:var(--card);border:1px solid #cdd9d3;border-radius:7px;padding:6px;
+  box-shadow:0 12px 28px rgba(20,57,45,.19)
+}
+.kpi-multi-search{
+  width:100%!important;height:27px!important;margin-bottom:5px!important
+}
+.kpi-multi-list{
+  max-height:220px;overflow:auto;border:1px solid var(--line);border-radius:4px;padding:3px
+}
+.kpi-multi-option{
+  display:flex;align-items:center;gap:6px;padding:4px 5px;font-size:9px;border-radius:3px;cursor:pointer
+}
+.kpi-multi-option:hover{background:var(--soft)}
+.kpi-multi-option input{width:13px!important;height:13px!important;min-height:13px!important}
+.kpi-multi-option.hidden{display:none!important}
+.kpi-multi-actions{
+  display:flex;justify-content:flex-end;gap:5px;margin-top:5px
+}
+.kpi-multi-actions .btn{height:25px!important;font-size:7.8px!important}
+
+/* Reduce whitespace inside Lock/OTT selector summaries as well */
+.lpd-picker>summary,.ott-month-picker>summary,.ott-booking-picker>summary,.ott-multi-picker>summary{
+  height:28px!important;
+  min-height:28px!important;
+  padding:0 6px!important;
+  font-size:9px!important;
+}
+
+/* Larger charts and more readable titles/data */
+.panel{
+  padding:13px!important;
+}
+.panel h3{
+  font-size:19px!important;
+  font-weight:800!important;
+}
+.panel .note{
+  font-size:9.5px!important;
+  margin-bottom:10px!important;
+}
+.chart-wrap{
+  height:285px!important;
+}
+.lock-large-charts .chart-wrap{
+  height:315px!important;
+}
+.lock-primary-chart-grid .chart-wrap{
+  height:355px!important;
+}
+.daily-chart-grid .chart-wrap{
+  height:380px!important;
+}
+.panel-chart-actions button{
+  width:30px!important;
+  height:28px!important;
+  font-weight:800!important;
+}
+
+/* Daily Summary table: all values bold for meeting visibility */
+.daily-summary-table td{
+  font-weight:700!important;
+}
+.daily-summary-table th{
+  font-weight:900!important;
+}
+
+/* Dyeing merged pair cards */
+.kpi-inline-pair{
+  white-space:nowrap!important;
+  font-weight:800!important;
+}
+
+/* Avoid excessive full-width filter items from earlier versions */
+.lock-filter-grid .wide,.ott-filter-grid .wide{
+  grid-column:span 2!important;
+  max-width:337px!important;
+}
+
+/* More compact status/card gaps */
+.kpis{margin-bottom:9px!important}
+.grid{gap:10px!important}
+.section-band{margin-top:6px!important}
+
+@media(max-width:1050px){
+  .filters,.ott-filter-grid,.lock-filter-grid,.daily-filter-grid{
+    grid-template-columns:repeat(auto-fit,minmax(125px,1fr))!important
+  }
+}
+
 </style></head><body><div id="app" class="hidden"><div class="app-sticky-header"><div class="top-accent"></div><header class="header"><div class="header-left"><div class="brand-mark">TP</div><div><div class="brand-title">Textile Planning Dashboard</div><div class="brand-sub">Planning, Monitoring & Control</div></div></div><div class="header-actions"><div class="utility-tools"><button class="tool-btn stopwatch-btn" id="stopwatchBtn" title="Click to start/pause • Double-click to reset">⏱ <span id="stopwatchText">00:00</span></button><button class="tool-btn" id="fullscreenBtn" title="Enter full screen">⛶ Full</button><button class="tool-btn" id="themeBtn" title="Switch dark/light mode">☾ Dark</button></div><span class="greeting" id="greeting">Good morning</span><button class="btn" id="exportBtn">Export CSV</button><button class="btn" id="signOutBtn">Sign out</button><button class="btn primary" id="refreshBtn">Refresh</button></div></header><nav class="nav">
   <button data-tab="daily_summary" class="main-nav-btn">Daily Summary</button>
   <div class="kpi-menu-wrap" id="kpiMenuWrap">
@@ -2594,11 +2779,18 @@ body.dark-mode .daily-mini-card .value{color:#fff6b8!important}
   <button data-tab="data" class="main-nav-btn">Data Management</button>
   <button data-tab="users" class="main-nav-btn">User Management</button>
 </nav></div><main class="page"><section class="toolbar"><div class="kpi-toolbar-head hidden" id="kpiToolbarHead"></div><div class="filters">
-  <div class="filter-group" id="monthFilterGroup"><span class="mini-label">Month</span><select id="kpiMonthFilter"><option value="">All months</option></select></div>
+  <div class="filter-group" id="monthFilterGroup"><span class="mini-label">Month</span>
+    <details class="kpi-multi-picker" id="kpiMonthPicker"><summary id="kpiMonthSummary">All months <span>⌄</span></summary>
+      <div class="kpi-multi-pop"><div class="kpi-multi-list" id="kpiMonthList"></div><div class="kpi-multi-actions"><button class="btn" id="kpiMonthAll" type="button">All</button><button class="btn primary" id="kpiMonthApply" type="button">Apply</button></div></div>
+    </details>
+  </div>
   <div class="filter-group"><span class="mini-label">Date Range — From</span><input id="fromDate" type="date"></div>
   <div class="filter-group"><span class="mini-label">Date Range — To</span><input id="toDate" type="date"></div>
-  <div class="filter-group" id="buyerFilterGroup"><span class="mini-label">Buyer</span><select id="buyerFilter"><option value="">All buyers</option></select></div>
-  <div class="filter-group" id="searchFilterGroup"><span class="mini-label">Search</span><input id="search" placeholder="buyer, value..."></div>
+  <div class="filter-group" id="buyerFilterGroup"><span class="mini-label">Buyer</span>
+    <details class="kpi-multi-picker" id="kpiBuyerPicker"><summary id="kpiBuyerSummary">All buyers <span>⌄</span></summary>
+      <div class="kpi-multi-pop"><input id="kpiBuyerSearch" class="kpi-multi-search" placeholder="Type buyer..."><div class="kpi-multi-list" id="kpiBuyerList"></div><div class="kpi-multi-actions"><button class="btn" id="kpiBuyerAll" type="button">All</button><button class="btn primary" id="kpiBuyerApply" type="button">Apply</button></div></div>
+    </details>
+  </div>
   <div class="filter-group snapshot-inline-group" id="overviewSnapshotGroup"><button class="overview-snapshot-open snapshot-inline-btn" id="overviewSnapshotBtn" type="button" title="Open management Overview snapshot" aria-label="Open Overview snapshot">▣</button></div>
   <div class="filter-group"><span class="mini-label">Filters</span><button class="btn" id="resetBtn">Reset all</button></div>
 </div><div class="toolbar-bottom"><span id="countText"></span><span id="lastUpdated"></span></div></section><section class="kpis" id="kpis"></section><section class="grid" id="content"></section></main><div id="chartDataModal" class="chart-data-modal hidden" role="dialog" aria-modal="true" aria-labelledby="chartDataTitle"><div class="chart-data-dialog"><div class="chart-data-head"><div><h3 id="chartDataTitle">Chart Data</h3><div class="meta" id="chartDataMeta"></div></div><button class="chart-data-close" id="chartDataClose" type="button" title="Close">×</button></div><div class="chart-data-body" id="chartDataBody"></div></div></div></div>
@@ -2802,6 +2994,7 @@ const state={
   ottFilters:{_initialized:false,bookingAll:true,bookings:[],buyer:[],result:'',failReason:[],relatedDept:[],floor:[],type:'',month:['__RUNNING__'],from:'',to:''},
   lockDetailFilters:{_initialized:false,event:[],booking:[],floor:[],pmc:[],buyer:[],lockPlanFrom:'',lockPlanTo:'',otd:[],reason:[],responsible:[],month:[],week:[],status:[]},
   dailySummaryFilters:{_initialized:false,month:'',reportDate:'',trendFrom:'',trendTo:'',monthDays:{},goneDays:{}},
+  kpiFilters:{months:[],buyers:[]},
   greetingTimer:null
 };
 const $=s=>document.querySelector(s); const $$=s=>[...document.querySelectorAll(s)];
@@ -3038,70 +3231,139 @@ for(const r of sheets['YD_Date'])for(const c of YARN_DYEING_PERCENT){const n=saf
 const actual=sheets['YD_Date'].filter(r=>r.Date&&['Capacity Utilization','B/M/D','YD OTD'].some(c=>safeNum(r[c])!==null));if(!actual.length)throw new Error('YD_Date has no usable date rows.');actual.sort((a,b)=>a.Date.localeCompare(b.Date));const first=actual[0].Date,last=actual[actual.length-1].Date;sheets['YD_Date']=actual;sheets['YD_Date_Buyer']=sheets['YD_Date_Buyer'].filter(r=>r.Date&&r.Date>=first&&r.Date<=last&&String(r.Buyer||'').trim());
 const seenDate=new Set();for(const r of sheets['YD_Date']){if(seenDate.has(r.Date))throw new Error(`Duplicate Date found in YD_Date: ${r.Date}`);seenDate.add(r.Date)}const seenPair=new Set();for(const r of sheets['YD_Date_Buyer']){const key=`${r.Date}||${r.Buyer}`;if(seenPair.has(key))throw new Error(`Duplicate Date + Buyer found in YD_Date_Buyer: ${r.Date} / ${r.Buyer}`);seenPair.add(key)}return sheets}
 function yarnDyeingDateRows(){return currentDateRows('YD_Date')}
-function yarnDyeingBuyerRows(){let rows=currentDateRows('YD_Date_Buyer');const buyer=$('#buyerFilter')?.value||'',q=($('#search')?.value||'').trim().toLowerCase();if(buyer)rows=rows.filter(r=>String(r.Buyer||'')===buyer);if(q)rows=rows.filter(r=>Object.values(r).some(v=>String(v??'').toLowerCase().includes(q)));return rows}
+
+function yarnDyeingBuyerRows(){
+  let rows=currentDateRows('YD_Date_Buyer');
+  const buyers=new Set((state.kpiFilters?.buyers||[]).map(String));
+  if(buyers.size)rows=rows.filter(r=>buyers.has(String(r.Buyer||'')));
+  return rows
+}
 function yarnDyeingBuyerSourceEvenlyAllocated(rows){const byDate=new Map();for(const r of rows){if(!r.Date)continue;if(!byDate.has(r.Date))byDate.set(r.Date,[]);byDate.get(r.Date).push(r)}let checked=0;for(const rs of byDate.values()){if(rs.length<2)continue;checked++;const f=rs[0],eps=1e-6;if(!rs.every(r=>YARN_DYEING_PROD_FIELDS.every(c=>Math.abs((safeNum(r[c])||0)-(safeNum(f[c])||0))<eps)))return false;if(checked>=8)break}return checked>0}
 function yarnDyeingDailySummary(rows,useRepresentative=false){const m=new Map();for(const r of rows){if(!r.Date)continue;if(!m.has(r.Date))m.set(r.Date,[]);m.get(r.Date).push(r)}return [...m.entries()].sort((a,b)=>a[0].localeCompare(b[0])).map(([Date,rs])=>{const o={Date};if(useRepresentative){const r=rs[0];for(const c of YARN_DYEING_PROD_FIELDS)o[c]=safeNum(r[c])||0}else{for(const c of YARN_DYEING_PROD_FIELDS)o[c]=sum(rs,c)}return o})}
 function yarnDyeingBuyerSummary(rows){const m=new Map();for(const r of rows){const b=String(r.Buyer||'').trim();if(!b)continue;if(!m.has(b))m.set(b,[]);m.get(b).push(r)}return [...m.entries()].map(([Buyer,rs])=>{const o={Buyer};for(const c of YARN_DYEING_PROD_FIELDS)o[c]=sum(rs,c);return o}).sort((a,b)=>b['Overall Total Prod.']-a['Overall Total Prod.'])}
 
 function deliveryDateRows(){return currentDateRows('Delivery_Date')}
-function deliveryBuyerRows(){let rows=currentDateRows('Delivery_Date_Buyer');const buyer=$('#buyerFilter')?.value||'',q=($('#search')?.value||'').trim().toLowerCase();if(buyer)rows=rows.filter(r=>String(r.Buyer||'')===buyer);if(q)rows=rows.filter(r=>Object.values(r).some(v=>String(v??'').toLowerCase().includes(q)));return rows}
+
+function deliveryBuyerRows(){
+  let rows=currentDateRows('Delivery_Date_Buyer');
+  const buyers=new Set((state.kpiFilters?.buyers||[]).map(String));
+  if(buyers.size)rows=rows.filter(r=>buyers.has(String(r.Buyer||'')));
+  return rows
+}
 function deliveryBuyerSummary(rows){const m=new Map();for(const r of rows){const b=String(r.Buyer||'').trim();if(!b)continue;if(!m.has(b))m.set(b,[]);m.get(b).push(r)}return [...m.entries()].map(([Buyer,rs])=>({Buyer,Received:sum(rs,'Received'),Delivered:sum(rs,'delivered')})).sort((a,b)=>b.Delivered-a.Delivered)}
 function deliveryBuyerSourceEvenlyAllocated(rows){const byDate=new Map();for(const r of rows){if(!r.Date)continue;if(!byDate.has(r.Date))byDate.set(r.Date,[]);byDate.get(r.Date).push(r)}let checked=0;for(const rs of byDate.values()){if(rs.length<2)continue;checked++;const f=rs[0],eps=1e-6;if(!rs.every(r=>Math.abs((safeNum(r.Received)||0)-(safeNum(f.Received)||0))<eps&&Math.abs((safeNum(r.delivered)||0)-(safeNum(f.delivered)||0))<eps))return false;if(checked>=8)break}return checked>0}
 function isFridayISO(s){if(!s)return false;const d=new Date(`${s}T00:00:00Z`);return !isNaN(d)&&d.getUTCDay()===5}
 function finishingDateRows(){return currentDateRows('Finishing_Date')}
 function knittingDateRows(){return currentDateRows('Knitting_Date')}
-function knittingBuyerRows(){let rows=currentDateRows('Knitting_Date_Buyer');const buyer=$('#buyerFilter')?.value||'',q=($('#search')?.value||'').trim().toLowerCase();if(buyer)rows=rows.filter(r=>String(r.Buyer||'')===buyer);if(q)rows=rows.filter(r=>Object.values(r).some(v=>String(v??'').toLowerCase().includes(q)));return rows}
+
+function knittingBuyerRows(){
+  let rows=currentDateRows('Knitting_Date_Buyer');
+  const buyers=new Set((state.kpiFilters?.buyers||[]).map(String));
+  if(buyers.size)rows=rows.filter(r=>buyers.has(String(r.Buyer||'')));
+  return rows
+}
 function knittingBuyerSummary(rows){const m=new Map();for(const r of rows){const b=String(r.Buyer||'').trim();if(!b)continue;if(!m.has(b))m.set(b,[]);m.get(b).push(r)}return [...m.entries()].map(([Buyer,rs])=>({Buyer,'In house':sum(rs,'In house'),Subcontract:sum(rs,'Subcontract'),Production:sum(rs,'Production')})).sort((a,b)=>b.Production-a.Production)}
 function knittingBuyerSourceEvenlyAllocated(rows){const byDate=new Map();for(const r of rows){if(!r.Date)continue;if(!byDate.has(r.Date))byDate.set(r.Date,[]);byDate.get(r.Date).push(r)}let checked=0;for(const rs of byDate.values()){if(rs.length<2)continue;checked++;const f=rs[0],eps=1e-6;if(!rs.every(r=>Math.abs((safeNum(r['In house'])||0)-(safeNum(f['In house'])||0))<eps&&Math.abs((safeNum(r.Subcontract)||0)-(safeNum(f.Subcontract)||0))<eps))return false;if(checked>=8)break}return checked>0}
-function currentDateRows(name){let rows=(state.data?.sheets?.[name]||[]).slice();const f=$('#fromDate')?.value,t=$('#toDate')?.value;if(rows.length&&'Date' in rows[0])rows=rows.filter(r=>(!f||r.Date>=f)&&(!t||r.Date<=t));return rows}
-function dyeingBuyerRows(){let rows=currentDateRows('Dyeing_Date_Buyer');const buyer=$('#buyerFilter')?.value||'';const q=($('#search')?.value||'').trim().toLowerCase();if(buyer)rows=rows.filter(r=>String(r.Buyer||'')===buyer);if(q)rows=rows.filter(r=>Object.values(r).some(v=>String(v??'').toLowerCase().includes(q)));return rows}
+
+function currentDateRows(name){
+  let rows=(state.data?.sheets?.[name]||[]).slice();
+  const f=$('#fromDate')?.value,t=$('#toDate')?.value,months=new Set(state.kpiFilters?.months||[]);
+  if(rows.length&&'Date' in rows[0]){
+    rows=rows.filter(r=>(!f||r.Date>=f)&&(!t||r.Date<=t));
+    if(months.size)rows=rows.filter(r=>r.Date&&months.has(r.Date.slice(0,7)))
+  }
+  return rows
+}
+
+function dyeingBuyerRows(){
+  let rows=currentDateRows('Dyeing_Date_Buyer');
+  const buyers=new Set((state.kpiFilters?.buyers||[]).map(String));
+  if(buyers.size)rows=rows.filter(r=>buyers.has(String(r.Buyer||'')));
+  return rows
+}
 function dyeingDateRows(){return currentDateRows('Dyeing_Date')}
-function filteredBuyers(){let rows=(state.data?.sheets?.['Buyer Wise data']||[]).slice();const q=($('#search')?.value||'').trim().toLowerCase();const buyer=$('#buyerFilter')?.value||'';if(q)rows=rows.filter(r=>Object.values(r).some(v=>String(v??'').toLowerCase().includes(q)));if(buyer)rows=rows.filter(r=>r.Buyer===buyer);return rows}
+
+function filteredBuyers(){
+  let rows=(state.data?.sheets?.['Buyer Wise data']||[]).slice();
+  const buyers=new Set((state.kpiFilters?.buyers||[]).map(String));
+  if(buyers.size)rows=rows.filter(r=>buyers.has(String(r.Buyer||'')));
+  return rows
+}
 function allDateValues(){return ['Dyeing_Date_Buyer','Dyeing_Date','Knitting_Date_Buyer','Knitting_Date','Finishing_Date','Delivery_Date_Buyer','Delivery_Date','YD_Date_Buyer','YD_Date','C_Lab_Date','ETL_Date','Dyeing','Knitting','Finishing','FFS'].flatMap(s=>(state.data?.sheets?.[s]||[]).map(r=>r.Date).filter(Boolean)).sort()}
 function buyerSource(){return state.tab==='dyeing'?(state.data?.sheets?.['Dyeing_Date_Buyer']||[]):state.tab==='knitting'?(state.data?.sheets?.['Knitting_Date_Buyer']||[]):state.tab==='delivery'?(state.data?.sheets?.['Delivery_Date_Buyer']||[]):state.tab==='yarn'?(state.data?.sheets?.['YD_Date_Buyer']||[]):state.tab==='chemical'?[]:state.tab==='etl'?[]:state.tab==='finishing'?[]:(state.data?.sheets?.['Buyer Wise data']||[])}
 
-function syncBuyerOptions(reset=false){
-  const sel=$('#buyerFilter');if(!sel)return;
-  const cur=reset?'':sel.value,f=$('#fromDate')?.value||'',t=$('#toDate')?.value||'';
-  let rows=buyerSource().slice();
-  if(rows.length&&'Date' in rows[0])rows=rows.filter(r=>(!f||r.Date>=f)&&(!t||r.Date<=t));
-  const buyers=[...new Set(rows.map(r=>String(r.Buyer||'').trim()).filter(Boolean))].sort((a,b)=>a.localeCompare(b));
-  sel.innerHTML='<option value="">All buyers</option>'+buyers.map(b=>`<option value="${esc(b)}">${esc(b)}</option>`).join('');
-  if(!reset&&buyers.includes(cur))sel.value=cur;else sel.value=''
-}
 
 function kpiMonthValues(){
   return[...new Set(allDateValues().filter(d=>/^\d{4}-\d{2}-\d{2}$/.test(d)).map(d=>d.slice(0,7)))].sort()
 }
 function kpiMonthLabel(key){
-  const d=new Date(key+'-01T00:00:00');return isNaN(d)?key:d.toLocaleDateString(undefined,{month:'long',year:'numeric'})
+  const d=new Date(key+'-01T00:00:00');return isNaN(d)?key:d.toLocaleDateString(undefined,{month:'short',year:'numeric'})
 }
-function syncKpiMonthOptions(reset=false){
-  const sel=$('#kpiMonthFilter');if(!sel)return;
-  const months=kpiMonthValues(),cur=reset?'':sel.value;
-  sel.innerHTML='<option value="">All months</option>'+months.map(m=>`<option value="${m}">${esc(kpiMonthLabel(m))}</option>`).join('');
-  if(!reset&&months.includes(cur))sel.value=cur;
+function kpiSelectedMonths(){return state.kpiFilters?.months||[]}
+function kpiSelectedBuyers(){return state.kpiFilters?.buyers||[]}
+function kpiSummaryText(values,allLabel,singular){
+  if(!values.length)return allLabel;
+  if(values.length===1)return singular(values[0]);
+  return`${values.length} selected`
 }
-function applyKpiMonthRange(key){
-  if(!key)return;
-  const [y,m]=key.split('-').map(Number),first=new Date(y,m-1,1),last=new Date(y,m,0),now=new Date(),yesterday=new Date(now);
-  yesterday.setDate(now.getDate()-1);yesterday.setHours(0,0,0,0);
-  if(y===now.getFullYear()&&m===now.getMonth()+1&&last>yesterday)last.setTime(yesterday.getTime());
+function applyKpiMonthRange(keys){
+  const list=(keys||[]).slice().sort();if(!list.length)return;
+  const now=new Date(),yesterday=new Date(now);yesterday.setDate(now.getDate()-1);yesterday.setHours(0,0,0,0);
+  const [fy,fm]=list[0].split('-').map(Number),[ty,tm]=list[list.length-1].split('-').map(Number);
+  const first=new Date(fy,fm-1,1),last=new Date(ty,tm,0);
+  if(ty===now.getFullYear()&&tm===now.getMonth()+1&&last>yesterday)last.setTime(yesterday.getTime());
   $('#fromDate').value=ottLocalISO(first);$('#toDate').value=ottLocalISO(last)
 }
-
-
+function syncKpiMonthOptions(reset=false){
+  const months=kpiMonthValues();
+  if(reset)state.kpiFilters.months=[];
+  const selected=new Set(kpiSelectedMonths());
+  const host=$('#kpiMonthList');if(host)host.innerHTML=months.map(m=>`<label class="kpi-multi-option"><input type="checkbox" class="kpi-month-box" value="${esc(m)}" ${selected.has(m)?'checked':''}><span>${esc(kpiMonthLabel(m))}</span></label>`).join('');
+  const s=$('#kpiMonthSummary');if(s)s.innerHTML=`${esc(kpiSummaryText(kpiSelectedMonths(),'All months',kpiMonthLabel))} <span>⌄</span>`
+}
+function syncBuyerOptions(reset=false){
+  if(reset)state.kpiFilters.buyers=[];
+  const f=$('#fromDate')?.value||'',t=$('#toDate')?.value||'',months=new Set(kpiSelectedMonths());
+  let rows=buyerSource().slice();
+  if(rows.length&&'Date' in rows[0])rows=rows.filter(r=>(!f||r.Date>=f)&&(!t||r.Date<=t)&&(!months.size||(r.Date&&months.has(r.Date.slice(0,7)))));
+  const buyers=[...new Set(rows.map(r=>String(r.Buyer||'').trim()).filter(Boolean))].sort((a,b)=>a.localeCompare(b));
+  const valid=new Set(buyers),current=kpiSelectedBuyers().filter(b=>valid.has(b));state.kpiFilters.buyers=current;
+  const selected=new Set(current),host=$('#kpiBuyerList');
+  if(host)host.innerHTML=buyers.map(b=>`<label class="kpi-multi-option" data-buyer-search="${esc(b.toLowerCase())}"><input type="checkbox" class="kpi-buyer-box" value="${esc(b)}" ${selected.has(b)?'checked':''}><span>${esc(b)}</span></label>`).join('');
+  const s=$('#kpiBuyerSummary');if(s)s.innerHTML=`${esc(kpiSummaryText(current,'All buyers',x=>x))} <span>⌄</span>`
+}
+function bindKpiMultiFilters(){
+  const monthApply=$('#kpiMonthApply');if(monthApply)monthApply.onclick=()=>{
+    state.kpiFilters.months=$$('.kpi-month-box').filter(x=>x.checked).map(x=>x.value);
+    if(state.kpiFilters.months.length)applyKpiMonthRange(state.kpiFilters.months);
+    syncKpiMonthOptions(false);syncBuyerOptions(false);$('#kpiMonthPicker')?.removeAttribute('open');render()
+  };
+  const monthAll=$('#kpiMonthAll');if(monthAll)monthAll.onclick=()=>{
+    state.kpiFilters.months=[];syncKpiMonthOptions(false);
+    const dated=allDateValues();if(dated.length){$('#fromDate').value=dated[0];$('#toDate').value=dated[dated.length-1]}
+    syncBuyerOptions(false);$('#kpiMonthPicker')?.removeAttribute('open');render()
+  };
+  const buyerApply=$('#kpiBuyerApply');if(buyerApply)buyerApply.onclick=()=>{
+    state.kpiFilters.buyers=$$('.kpi-buyer-box').filter(x=>x.checked).map(x=>x.value);
+    syncBuyerOptions(false);$('#kpiBuyerPicker')?.removeAttribute('open');render()
+  };
+  const buyerAll=$('#kpiBuyerAll');if(buyerAll)buyerAll.onclick=()=>{
+    state.kpiFilters.buyers=[];syncBuyerOptions(false);$('#kpiBuyerPicker')?.removeAttribute('open');render()
+  };
+  const search=$('#kpiBuyerSearch');if(search)search.oninput=()=>{
+    const q=search.value.trim().toLowerCase();$$('#kpiBuyerList .kpi-multi-option').forEach(x=>x.classList.toggle('hidden',q&&!x.dataset.buyerSearch.includes(q)))
+  }
+}
 function setFilterDefaults(){
   const months=kpiMonthValues(),nowKey=`${new Date().getFullYear()}-${String(new Date().getMonth()+1).padStart(2,'0')}`,
         selected=months.includes(nowKey)?nowKey:(months.slice(-1)[0]||'');
-  syncKpiMonthOptions(true);
-  if($('#kpiMonthFilter'))$('#kpiMonthFilter').value=selected;
-  if(selected)applyKpiMonthRange(selected);
-  else{
-    const dated=allDateValues();if(dated.length){$('#fromDate').value=dated[0];$('#toDate').value=dated[dated.length-1]}
-  }
-  syncBuyerOptions(true)
+  state.kpiFilters={months:selected?[selected]:[],buyers:[]};
+  syncKpiMonthOptions(false);
+  if(selected)applyKpiMonthRange([selected]);
+  else{const dated=allDateValues();if(dated.length){$('#fromDate').value=dated[0];$('#toDate').value=dated[dated.length-1]}}
+  syncBuyerOptions(false)
 }
+
 function groupDyeingByDate(rows){const map=new Map();for(const r of rows){if(!r.Date)continue;if(!map.has(r.Date))map.set(r.Date,[]);map.get(r.Date).push(r)}return [...map.entries()].sort((a,b)=>a[0].localeCompare(b[0])).map(([Date,rs])=>{const o={Date};for(const k of DYEING_DAILY_SUM_FIELDS)o[k]=sum(rs,k);o['On Time Target']=avg(rs,'On Time Target');return o})}
 function buyerDyeingSummary(rows){const map=new Map();for(const r of rows){const b=String(r.Buyer||'').trim();if(!b)continue;if(!map.has(b))map.set(b,[]);map.get(b).push(r)}return [...map.entries()].map(([Buyer,rs])=>({Buyer,'Total Production':sum(rs,'Prod. (EFL)')+sum(rs,'Prod. (EKL+Ext)')+sum(rs,'Pluvia'),'Prod. (EFL)':sum(rs,'Prod. (EFL)'),'Prod. (EKL+Ext)':sum(rs,'Prod. (EKL+Ext)'),Pluvia:sum(rs,'Pluvia'),'Capacity Utilization (EFL)':avg(rs,'Capacity Utilization (EFL)'),'Capacity Utilization (EKL+Ext)':avg(rs,'Capacity Utilization (EKL+Ext)'),'On Time Target':avg(rs,'On Time Target')})).sort((a,b)=>b['Total Production']-a['Total Production'])}
 const esc=s=>String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]));
@@ -3324,7 +3586,7 @@ const ottSafeValueLabels={
     const {ctx,chartArea}=chart;if(!chartArea)return;
     const pct=!!pluginOpts?.percent,count=!!pluginOpts?.count;
     ctx.save();
-    ctx.font='700 9px Inter,Arial,sans-serif';
+    ctx.font='800 11px Inter,Arial,sans-serif';
     ctx.fillStyle=document.body.classList.contains('dark-mode')?'#e8f3ee':'#42534c';
     ctx.textBaseline='middle';
     chart.data.datasets.forEach((ds,di)=>{
@@ -4398,29 +4660,53 @@ function renderOverview(){
     {label:'Overall RFT',data:c15.map(r=>safeNum(r['Overall RFT']))}
   ]);
 }
-function renderDyeing(){const br=dyeingBuyerRows(),dr=dyeingDateRows(),buyer=$('#buyerFilter')?.value||'',daily=groupDyeingByDate(br);if(!br.length&&!dr.length){metricCardSet([]);$('#content').innerHTML='<div class="alert">No Dyeing data uploaded yet. Go to Data Management and upload the Dyeing_Dashboard workbook containing Dyeing_Date_Buyer and Dyeing_Date.</div>';return}
-const prodE=sum(br,'Prod. (EFL)'),prodX=sum(br,'Prod. (EKL+Ext)'),pluvia=sum(br,'Pluvia'),totalProd=prodE+prodX+pluvia;const activeDays=daily.length||dr.length||0;const perDay=n=>activeDays?n/activeDays:null;const capE=avg(daily,'Capacity Utilization (EFL)'),capX=avg(daily,'Capacity Utilization (EKL+Ext)');const ontime=buyer?avg(br,'On Time Target'):avg(dr,'On Time Target');const repE=sum(br,'Reprocess (EFL)'),repX=sum(br,'Reprocess (EKL+Ext)');const repEPct=prodE>0?repE/prodE:null,repXPct=prodX>0?repX/prodX:null;const rftE=avg(dr,'Dyeing RFT (EFL)'),rftX=avg(dr,'Dyeing RFT (EKL+Ext.)'),loadE=avg(dr,'Loading (EFL)'),loadX=avg(dr,'Loading (EKL+Ext)');const ontimeValue=ontime===null?'—':`<span class="kpi-inline-target"><span class="good">Pass ${pct(ontime)}</span><span class="slash">•</span><span class="bad">Fail ${pct(Math.max(0,1-ontime))}</span></span>`;
-metricCardSet([
-kpi('Total Dyeing Production',ton(totalProd),activeDays?`Avg/day: EFL ${ton(perDay(prodE))} • EKL+Ext ${ton(perDay(prodX))} • Pluvia ${ton(perDay(pluvia))}`:(buyer?`Buyer: ${buyer}`:'Selected period • All buyers'),'green'),
-kpi('Avg Dyeing Prod. / Day',activeDays?ton((prodE+prodX)/activeDays)+'/day':'—',`${activeDays} active day${activeDays===1?'':'s'} • EFL + EKL+Ext only`,'teal'),
-kpi('Prod. EFL',ton(prodE),`Avg/day: ${activeDays?ton(perDay(prodE)):'—'}`,'blue'),
-kpi('Prod. EKL + Ext',ton(prodX),`Avg/day: ${activeDays?ton(perDay(prodX)):'—'}`,'purple'),
-kpi('Pluvia',ton(pluvia),`Avg/day: ${activeDays?ton(perDay(pluvia)):'—'}`,'orange'),
-kpi('On Time Target',ontimeValue,buyer?'Buyer + date source':'Date summary source','rose'),
-kpi('Capacity Util. EFL',pct(capE),buyer?'Avg daily buyer contribution':'Avg of daily buyer-summed %','green'),
-kpi('Capacity Util. EKL+Ext',pct(capX),buyer?'Avg daily buyer contribution':'Avg of daily buyer-summed %','teal'),
-kpi('Reprocess EFL',ton(repE),`% of Prod. EFL: ${pct(repEPct)}`,'amber'),
-kpi('Reprocess EKL+Ext',ton(repX),`% of Prod. EKL+Ext: ${pct(repXPct)}`,'orange'),
-kpi('RFT EFL / EKL+Ext',`<span class="kpi-inline-pair">${pct(rftE)} <span class="slash">/</span> ${pct(rftX)}</span>`,'EFL / EKL+Ext • Overall date-wise','purple'),
-kpi('Loading EFL / EKL+Ext',`${pct(loadE)} <span class="slash">/</span> ${pct(loadX)}`,'EFL / EKL+Ext • Overall date-wise','blue')]);
-const buyerSummary=buyerDyeingSummary(currentDateRows('Dyeing_Date_Buyer')).slice(0,12);$('#content').innerHTML=`<div class="section-band">Buyer / Date Production & Capacity <span class="source-tag">Dyeing_Date_Buyer</span></div>`+panel('Production Trend','Kg summed by Date'+(buyer?` • ${buyer}`:' • All Buyers'),'<div class="chart-wrap"><canvas id="dyeProdTrend"></canvas></div>',false,true)+panel('Capacity Utilization Trend',buyer?'Buyer contribution by date':'Buyer rows summed for each date','<div class="chart-wrap"><canvas id="dyeCapTrend"></canvas></div>',false,true)+panel('Buyer Production Comparison','Selected date range','<div class="chart-wrap"><canvas id="dyeBuyer"></canvas></div>',false,true)+panel('Batch / MC / Day','Buyer rows summed for each selected date','<div class="chart-wrap"><canvas id="dyeBatch"></canvas></div>',false,true)+`<div class="section-band">Overall Date-wise Quality & Loading <span class="source-tag">Dyeing_Date</span></div>`+panel('RFT / Loading / On Time','All values are percentages; Buyer filter does not alter this source','<div class="chart-wrap"><canvas id="dyeQuality"></canvas></div>',false,true)+panel('Date-wise Reprocess %','Overall EFL vs EKL+Ext','<div class="chart-wrap"><canvas id="dyeRepPct"></canvas></div>',false,true)+panel('Filtered Buyer/Date Detail','Kg and Number fields are summed in summaries; Capacity is a buyer contribution %; On Time is buyer/date %',tableHTML(br,500,DYEING_BUYER_PERCENT),true)+panel('Overall Date Detail','All columns in this sheet are percentages',tableHTML(dr,500,DYEING_DATE_PERCENT),true);
-lineChart('dyeProdTrend',daily.map(x=>x.Date?.slice(5)||x.Date),[{label:'Prod. EFL',data:daily.map(x=>safeNum(x['Prod. (EFL)'])||0)},{label:'Prod. EKL+Ext',data:daily.map(x=>safeNum(x['Prod. (EKL+Ext)'])||0)},{label:'Pluvia',data:daily.map(x=>safeNum(x['Pluvia'])||0)}]);
-lineChart('dyeCapTrend',daily.map(x=>x.Date?.slice(5)||x.Date),[{label:'Capacity EFL',data:daily.map(x=>safeNum(x['Capacity Utilization (EFL)']))},{label:'Capacity EKL+Ext',data:daily.map(x=>safeNum(x['Capacity Utilization (EKL+Ext)']))}]);
-barChart('dyeBuyer',buyerSummary.map(x=>x.Buyer),buyerSummary.map(x=>x['Total Production']),'Production Kg');
-lineChart('dyeBatch',daily.map(x=>x.Date?.slice(5)||x.Date),[{label:'EFL',data:daily.map(x=>safeNum(x['Batch/MC/Day (EFL)'])||0)},{label:'EKL',data:daily.map(x=>safeNum(x['Batch/MC/Day (EKL)'])||0)},{label:'Ext',data:daily.map(x=>safeNum(x['Batch/MC/Day (Ext)'])||0)}]);
-lineChart('dyeQuality',dr.map(x=>x.Date?.slice(5)||x.Date),[{label:'RFT EFL',data:dr.map(x=>safeNum(x['Dyeing RFT (EFL)']))},{label:'RFT EKL+Ext',data:dr.map(x=>safeNum(x['Dyeing RFT (EKL+Ext.)']))},{label:'Loading EFL',data:dr.map(x=>safeNum(x['Loading (EFL)']))},{label:'Loading EKL+Ext',data:dr.map(x=>safeNum(x['Loading (EKL+Ext)']))},{label:'On Time',data:dr.map(x=>safeNum(x['On Time Target']))}]);
-lineChart('dyeRepPct',dr.map(x=>x.Date?.slice(5)||x.Date),[{label:'Reprocess EFL',data:dr.map(x=>safeNum(x['Reprocess (EFL)']))},{label:'Reprocess EKL+Ext',data:dr.map(x=>safeNum(x['Reprocess (EKL+Ext)']))}]);}
-function renderKnitting(){const dr=knittingDateRows(),br=knittingBuyerRows(),buyer=$('#buyerFilter')?.value||'';if(!dr.length&&!(state.data?.sheets?.Knitting_Date_Buyer||[]).length){metricCardSet([]);$('#content').innerHTML='<div class="alert">No Knitting data uploaded yet. Go to Data Management and upload Knitting_Dashboard containing Knitting_Date and Knitting_Date_Buyer.</div>';return}const productionRows=buyer?br:dr;const activeDays=new Set(productionRows.map(r=>r.Date).filter(Boolean)).size||dr.length;const inHouse=buyer?sum(br,'In house'):sum(dr,'Knitting In house Prod.'),subcon=buyer?sum(br,'Subcontract'):sum(dr,'Knitting Subcontract Prod.'),overall=inHouse+subcon;const inShare=overall?inHouse/overall:null,subShare=overall?subcon/overall:null;const perDay=n=>activeDays?n/activeDays:null;const processNote=buyer?'Overall date-wise • buyer filter does not alter':'Average of selected dates';const tones=['green','teal','blue','purple','orange','rose','amber'];metricCardSet([
+
+function renderDyeing(){
+  const br=dyeingBuyerRows(),dr=dyeingDateRows(),buyers=kpiSelectedBuyers(),daily=groupDyeingByDate(br);
+  if(!br.length&&!dr.length){metricCardSet([]);$('#content').innerHTML='<div class="alert">No Dyeing data uploaded yet. Go to Data Management and upload the Dyeing_Dashboard workbook containing Dyeing_Date_Buyer and Dyeing_Date.</div>';return}
+  const prodE=sum(br,'Prod. (EFL)'),prodX=sum(br,'Prod. (EKL+Ext)'),pluvia=sum(br,'Pluvia'),totalProd=prodE+prodX+pluvia;
+  const activeDays=daily.length||dr.length||0,perDay=n=>activeDays?n/activeDays:null;
+  const capE=avg(daily,'Capacity Utilization (EFL)'),capX=avg(daily,'Capacity Utilization (EKL+Ext)');
+  const ontime=buyers.length?avg(br,'On Time Target'):avg(dr,'On Time Target');
+  const repE=sum(br,'Reprocess (EFL)'),repX=sum(br,'Reprocess (EKL+Ext)'),repEPct=prodE>0?repE/prodE:null,repXPct=prodX>0?repX/prodX:null;
+  const rftE=avg(dr,'Dyeing RFT (EFL)'),rftX=avg(dr,'Dyeing RFT (EKL+Ext.)'),loadE=avg(dr,'Loading (EFL)'),loadX=avg(dr,'Loading (EKL+Ext)');
+  const batchE=avg(daily,'Batch/MC/Day (EFL)');
+  const batchX=daily.length?daily.reduce((a,r)=>a+(safeNum(r['Batch/MC/Day (EKL)'])||0)+(safeNum(r['Batch/MC/Day (Ext)'])||0),0)/daily.length:null;
+  const ontimeValue=ontime===null?'—':`<span class="kpi-inline-target"><span class="good">Pass ${pct(ontime)}</span><span class="slash">•</span><span class="bad">Fail ${pct(Math.max(0,1-ontime))}</span></span>`;
+  const buyerText=buyers.length===1?buyers[0]:buyers.length?`${buyers.length} buyers`:'All buyers';
+  metricCardSet([
+    kpi('Total Dyeing Production',ton(totalProd),activeDays?`Avg/day: EFL ${ton(perDay(prodE))} • EKL+Ext ${ton(perDay(prodX))} • Pluvia ${ton(perDay(pluvia))}`:`Selected period • ${buyerText}`,'green'),
+    kpi('Avg Dyeing Prod. / Day',activeDays?ton((prodE+prodX)/activeDays)+'/day':'—',`${activeDays} active day${activeDays===1?'':'s'} • EFL + EKL+Ext only`,'teal'),
+    kpi('Prod. EFL',ton(prodE),`Avg/day: ${activeDays?ton(perDay(prodE)):'—'}`,'blue'),
+    kpi('Prod. EKL + Ext',ton(prodX),`Avg/day: ${activeDays?ton(perDay(prodX)):'—'}`,'purple'),
+    kpi('Pluvia',ton(pluvia),`Avg/day: ${activeDays?ton(perDay(pluvia)):'—'}`,'orange'),
+    kpi('On Time Target',ontimeValue,buyers.length?'Selected buyer(s) + date source':'Date summary source','rose'),
+    kpi('Capacity Util. EFL',pct(capE),buyers.length?'Avg selected buyer contribution':'Avg of daily buyer-summed %','green'),
+    kpi('Capacity Util. EKL+Ext',pct(capX),buyers.length?'Avg selected buyer contribution':'Avg of daily buyer-summed %','teal'),
+    kpi('Reprocess EFL / EKL+Ext',`<span class="kpi-inline-pair">${ton(repE)} <span class="slash">/</span> ${ton(repX)}</span>`,`% of Prod.: EFL ${pct(repEPct)} • EKL+Ext ${pct(repXPct)}`,'amber'),
+    kpi('RFT EFL / EKL+Ext',`<span class="kpi-inline-pair">${pct(rftE)} <span class="slash">/</span> ${pct(rftX)}</span>`,'EFL / EKL+Ext • Overall date-wise','purple'),
+    kpi('Loading EFL / EKL+Ext',`${pct(loadE)} <span class="slash">/</span> ${pct(loadX)}`,'EFL / EKL+Ext • Overall date-wise','blue'),
+    kpi('Batch / MC / Day — EFL / EKL+Ext',`<span class="kpi-inline-pair">${batchE===null?'—':batchE.toFixed(2)} <span class="slash">/</span> ${batchX===null?'—':batchX.toFixed(2)}</span>`,'Average of daily buyer-summed values • EFL / EKL+Ext','teal')
+  ]);
+  const buyerSummary=buyerDyeingSummary(currentDateRows('Dyeing_Date_Buyer')).slice(0,12);
+  $('#content').innerHTML=`<div class="section-band">Buyer / Date Production & Capacity <span class="source-tag">Dyeing_Date_Buyer</span></div>`+
+    panel('Production Trend','Kg summed by Date'+(buyers.length?` • ${buyerText}`:' • All Buyers'),'<div class="chart-wrap"><canvas id="dyeProdTrend"></canvas></div>',false,true)+
+    panel('Capacity Utilization Trend',buyers.length?'Selected buyer contribution by date':'Buyer rows summed for each date','<div class="chart-wrap"><canvas id="dyeCapTrend"></canvas></div>',false,true)+
+    panel('Buyer Production Comparison','Selected date range','<div class="chart-wrap"><canvas id="dyeBuyer"></canvas></div>',false,true)+
+    panel('Batch / MC / Day','Buyer rows summed for each selected date','<div class="chart-wrap"><canvas id="dyeBatch"></canvas></div>',false,true)+
+    `<div class="section-band">Overall Date-wise Quality & Loading <span class="source-tag">Dyeing_Date</span></div>`+
+    panel('RFT / Loading / On Time','All values are percentages; Buyer filter does not alter this source','<div class="chart-wrap"><canvas id="dyeQuality"></canvas></div>',false,true)+
+    panel('Date-wise Reprocess %','Overall EFL vs EKL+Ext','<div class="chart-wrap"><canvas id="dyeRepPct"></canvas></div>',false,true)+
+    panel('Filtered Buyer/Date Detail','Kg and Number fields are summed in summaries; Capacity is a buyer contribution %; On Time is buyer/date %',tableHTML(br,500,DYEING_BUYER_PERCENT),true)+
+    panel('Overall Date Detail','All columns in this sheet are percentages',tableHTML(dr,500,DYEING_DATE_PERCENT),true);
+  lineChart('dyeProdTrend',daily.map(x=>x.Date?.slice(5)||x.Date),[{label:'Prod. EFL',data:daily.map(x=>safeNum(x['Prod. (EFL)'])||0)},{label:'Prod. EKL+Ext',data:daily.map(x=>safeNum(x['Prod. (EKL+Ext)'])||0)},{label:'Pluvia',data:daily.map(x=>safeNum(x['Pluvia'])||0)}]);
+  lineChart('dyeCapTrend',daily.map(x=>x.Date?.slice(5)||x.Date),[{label:'Capacity EFL',data:daily.map(x=>safeNum(x['Capacity Utilization (EFL)']))},{label:'Capacity EKL+Ext',data:daily.map(x=>safeNum(x['Capacity Utilization (EKL+Ext)']))}]);
+  barChart('dyeBuyer',buyerSummary.map(x=>x.Buyer),buyerSummary.map(x=>x['Total Production']),'Production Kg');
+  lineChart('dyeBatch',daily.map(x=>x.Date?.slice(5)||x.Date),[{label:'EFL',data:daily.map(x=>safeNum(x['Batch/MC/Day (EFL)'])||0)},{label:'EKL',data:daily.map(x=>safeNum(x['Batch/MC/Day (EKL)'])||0)},{label:'Ext',data:daily.map(x=>safeNum(x['Batch/MC/Day (Ext)'])||0)}]);
+  lineChart('dyeQuality',dr.map(x=>x.Date?.slice(5)||x.Date),[{label:'RFT EFL',data:dr.map(x=>safeNum(x['Dyeing RFT (EFL)']))},{label:'RFT EKL+Ext',data:dr.map(x=>safeNum(x['Dyeing RFT (EKL+Ext.)']))},{label:'Loading EFL',data:dr.map(x=>safeNum(x['Loading (EFL)']))},{label:'Loading EKL+Ext',data:dr.map(x=>safeNum(x['Loading (EKL+Ext)']))},{label:'On Time',data:dr.map(x=>safeNum(x['On Time Target']))}]);
+  lineChart('dyeRepPct',dr.map(x=>x.Date?.slice(5)||x.Date),[{label:'Reprocess EFL',data:dr.map(x=>safeNum(x['Reprocess (EFL)']))},{label:'Reprocess EKL+Ext',data:dr.map(x=>safeNum(x['Reprocess (EKL+Ext)']))}])
+}
+function renderKnitting(){const dr=knittingDateRows(),br=knittingBuyerRows(),buyers=kpiSelectedBuyers(),buyer=buyers.length===1?buyers[0]:buyers.length?`${buyers.length} buyers`:'';if(!dr.length&&!(state.data?.sheets?.Knitting_Date_Buyer||[]).length){metricCardSet([]);$('#content').innerHTML='<div class="alert">No Knitting data uploaded yet. Go to Data Management and upload Knitting_Dashboard containing Knitting_Date and Knitting_Date_Buyer.</div>';return}const productionRows=buyer?br:dr;const activeDays=new Set(productionRows.map(r=>r.Date).filter(Boolean)).size||dr.length;const inHouse=buyer?sum(br,'In house'):sum(dr,'Knitting In house Prod.'),subcon=buyer?sum(br,'Subcontract'):sum(dr,'Knitting Subcontract Prod.'),overall=inHouse+subcon;const inShare=overall?inHouse/overall:null,subShare=overall?subcon/overall:null;const perDay=n=>activeDays?n/activeDays:null;const processNote=buyer?'Overall date-wise • buyer filter does not alter':'Average of selected dates';const tones=['green','teal','blue','purple','orange','rose','amber'];metricCardSet([
 kpi('Knitting Overall Prod.',ton(overall),`Avg/day: ${ton(perDay(overall))}`,'green'),
 kpi('Knitting In-house Prod.',ton(inHouse),`Avg/day: ${ton(perDay(inHouse))} • Share ${pct(inShare)}`,'teal'),
 kpi('Knitting Subcontract Prod.',ton(subcon),`Avg/day: ${ton(perDay(subcon))} • Share ${pct(subShare)}`,'orange'),
@@ -4575,7 +4861,7 @@ function renderChemicalLab(){
   lineChartPct('chemRFTOverall',labels,[{label:'Overall RFT',data:dr.map(r=>safeNum(r['Overall RFT']))}])
 }
 
-function renderYarnDyeing(){const dr=yarnDyeingDateRows(),br=yarnDyeingBuyerRows(),buyer=$('#buyerFilter')?.value||'',rawAll=currentDateRows('YD_Date_Buyer');if(!dr.length&&!(state.data?.sheets?.YD_Date_Buyer||[]).length){metricCardSet([]);$('#content').innerHTML='<div class="alert">No Yarn Dyeing data uploaded yet. Go to Data Management and upload <b>Yarn_Dyeing_Dashboard.xlsx</b> containing <b>YD_Date</b> and <b>YD_Date_Buyer</b>.</div>';return}
+function renderYarnDyeing(){const dr=yarnDyeingDateRows(),br=yarnDyeingBuyerRows(),buyers=kpiSelectedBuyers(),buyer=buyers.length===1?buyers[0]:buyers.length?`${buyers.length} buyers`:'',rawAll=currentDateRows('YD_Date_Buyer');if(!dr.length&&!(state.data?.sheets?.YD_Date_Buyer||[]).length){metricCardSet([]);$('#content').innerHTML='<div class="alert">No Yarn Dyeing data uploaded yet. Go to Data Management and upload <b>Yarn_Dyeing_Dashboard.xlsx</b> containing <b>YD_Date</b> and <b>YD_Date_Buyer</b>.</div>';return}
 const even=yarnDyeingBuyerSourceEvenlyAllocated(rawAll),useRepresentative=even&&!buyer;const daily=yarnDyeingDailySummary(br,useRepresentative),buyerSummary=yarnDyeingBuyerSummary(br);const days=new Set(daily.map(r=>r.Date).filter(Boolean)).size||dr.length,perDay=n=>days?n/days:null,avgMass=n=>n===null||!Number.isFinite(n)?'—':(Math.abs(n)>=1000?ton(n)+'/day':fmt1(n)+' kg/day');const overall=sum(daily,'Overall Total Prod.'),inhouse=sum(daily,'Total In house Prod.'),subcon=sum(daily,'Sub-Contract  Prod.'),inShare=overall?inhouse/overall:null,subShare=overall?subcon/overall:null;const cotton=sum(daily,'Cotton Dyeing'),space=sum(daily,'Space Dyeing'),thread=sum(daily,'Sewing Thread'),service=sum(daily,'Service Prod.');const twist=sum(daily,'Twisting Total'),twIn=sum(daily,'Twisting In house'),twSub=sum(daily,'Twisting Subcontract'),twInShare=twist?twIn/twist:null,twSubShare=twist?twSub/twist:null;
 metricCardSet([
 kpi('Overall Total Prod.',ton(overall),`Avg/day ${avgMass(perDay(overall))}`,'green'),
@@ -4602,7 +4888,7 @@ panel('YD Buyer / Date Detail','Production and Twisting source; current demo all
 const get=x=>viewRows.map(r=>safeNum(r[x])||0);if(view==='buyer'){groupedBarChart('ydOverall',labels,[{label:'Overall Total Prod.',data:get('Overall Total Prod.')}]);groupedBarChart('ydIn',labels,[{label:'Total In-house Prod.',data:get('Total In house Prod.')}]);groupedBarChart('ydComponents',labels,[{label:'Cotton Dyeing',data:get('Cotton Dyeing')},{label:'Space Dyeing',data:get('Space Dyeing')},{label:'Sewing Thread',data:get('Sewing Thread')},{label:'Service Prod.',data:get('Service Prod.')},{label:'Sub-Contract Prod.',data:get('Sub-Contract  Prod.')}]);groupedBarChart('ydTwist',labels,[{label:'Twisting Total',data:get('Twisting Total')},{label:'Twisting In-house',data:get('Twisting In house')},{label:'Twisting Subcontract',data:get('Twisting Subcontract')}])}else{lineChart('ydOverall',labels,[{label:'Overall Total Prod.',data:get('Overall Total Prod.')}]);lineChart('ydIn',labels,[{label:'Total In-house Prod.',data:get('Total In house Prod.')}]);lineChart('ydComponents',labels,[{label:'Cotton Dyeing',data:get('Cotton Dyeing')},{label:'Space Dyeing',data:get('Space Dyeing')},{label:'Sewing Thread',data:get('Sewing Thread')},{label:'Service Prod.',data:get('Service Prod.')},{label:'Sub-Contract Prod.',data:get('Sub-Contract  Prod.')}]);lineChart('ydTwist',labels,[{label:'Twisting Total',data:get('Twisting Total')},{label:'Twisting In-house',data:get('Twisting In house')},{label:'Twisting Subcontract',data:get('Twisting Subcontract')}])}
 const dl=dr.map(r=>r.Date?.slice(5)||r.Date);lineChartPct('ydCapacity',dl,[{label:'Capacity Utilization',data:dr.map(r=>safeNum(r['Capacity Utilization']))}]);lineChart('ydBMD',dl,[{label:'B/M/D',data:dr.map(r=>safeNum(r['B/M/D']))}]);lineChartPct('ydOTD',dl,[{label:'YD OTD',data:dr.map(r=>safeNum(r['YD OTD']))}]);$('#ydDateView').onclick=()=>{state.ydViewMode='date';render()};$('#ydBuyerView').onclick=()=>{state.ydViewMode='buyer';render()}}
 
-function renderDelivery(){const dr=deliveryDateRows(),br=deliveryBuyerRows(),buyer=$('#buyerFilter')?.value||'';if(!dr.length&&!(state.data?.sheets?.Delivery_Date_Buyer||[]).length){metricCardSet([]);$('#content').innerHTML='<div class="alert">No separate Delivery data uploaded yet. Go to Data Management and upload <b>Delivery_Dashboard.xlsx</b> containing <b>Delivery_Date</b> and <b>Delivery_Date_Buyer</b>.</div>';return}const received=buyer?sum(br,'Received'):sum(dr,'Received'),delivered=buyer?sum(br,'delivered'):sum(dr,'Delivered');const receiveDays=buyer?new Set(br.map(r=>r.Date).filter(Boolean)).size:new Set(dr.map(r=>r.Date).filter(Boolean)).size;const deliveryRowsForAvg=buyer?br.filter(r=>!isFridayISO(r.Date)):dr.filter(r=>!isFridayISO(r.Date));const deliveryDays=new Set(deliveryRowsForAvg.map(r=>r.Date).filter(Boolean)).size;const deliveredForAvg=buyer?sum(deliveryRowsForAvg,'delivered'):sum(deliveryRowsForAvg,'Delivered');const recvAvg=receiveDays?received/receiveDays:null,delAvg=deliveryDays?deliveredForAvg/deliveryDays:null;const otd=avg(dr,'On Time Delivery');const exPO=sum(dr,'Excess Delivery without PO Qty'),additional=sum(dr,'Additional Delivery Qty'),totalEx=sum(dr,'Total Excess (Qty)'),dateDays=new Set(dr.map(r=>r.Date).filter(Boolean)).size;const excessAvg=n=>dateDays?n/dateDays:null,totalDelivered=sum(dr,'Delivered'),share=n=>totalDelivered?n/totalDelivered:null;metricCardSet([
+function renderDelivery(){const dr=deliveryDateRows(),br=deliveryBuyerRows(),buyers=kpiSelectedBuyers(),buyer=buyers.length===1?buyers[0]:buyers.length?`${buyers.length} buyers`:'';if(!dr.length&&!(state.data?.sheets?.Delivery_Date_Buyer||[]).length){metricCardSet([]);$('#content').innerHTML='<div class="alert">No separate Delivery data uploaded yet. Go to Data Management and upload <b>Delivery_Dashboard.xlsx</b> containing <b>Delivery_Date</b> and <b>Delivery_Date_Buyer</b>.</div>';return}const received=buyer?sum(br,'Received'):sum(dr,'Received'),delivered=buyer?sum(br,'delivered'):sum(dr,'Delivered');const receiveDays=buyer?new Set(br.map(r=>r.Date).filter(Boolean)).size:new Set(dr.map(r=>r.Date).filter(Boolean)).size;const deliveryRowsForAvg=buyer?br.filter(r=>!isFridayISO(r.Date)):dr.filter(r=>!isFridayISO(r.Date));const deliveryDays=new Set(deliveryRowsForAvg.map(r=>r.Date).filter(Boolean)).size;const deliveredForAvg=buyer?sum(deliveryRowsForAvg,'delivered'):sum(deliveryRowsForAvg,'Delivered');const recvAvg=receiveDays?received/receiveDays:null,delAvg=deliveryDays?deliveredForAvg/deliveryDays:null;const otd=avg(dr,'On Time Delivery');const exPO=sum(dr,'Excess Delivery without PO Qty'),additional=sum(dr,'Additional Delivery Qty'),totalEx=sum(dr,'Total Excess (Qty)'),dateDays=new Set(dr.map(r=>r.Date).filter(Boolean)).size;const excessAvg=n=>dateDays?n/dateDays:null,totalDelivered=sum(dr,'Delivered'),share=n=>totalDelivered?n/totalDelivered:null;metricCardSet([
 kpiMulti('Received',ton(received),[{label:'Avg/day:',value:ton(recvAvg)},{label:'Average basis:',value:'All selected dates'}],'green'),
 kpiMulti('Delivered',ton(delivered),[{label:'Avg/day:',value:ton(delAvg)},{label:'Average basis:',value:'Friday excluded'}],'teal'),
 kpi('On Time Delivery',pct(otd),'Average of valid selected dates','purple'),
@@ -5201,6 +5487,7 @@ function dailySummaryTable(){
       <td class="status-cell"><span class="daily-badge ${x.status}">${dailyStatusLabel(x.status)}</span></td>
     </tr>`).join('')}</tbody></table></div></div>`
 }
+
 function dailyTrendData(){
   const rows=dailyTrendRows(),labels=rows.map(r=>lpdShortDate(r.Date));
   const series=[
@@ -5208,24 +5495,24 @@ function dailyTrendData(){
     ['Receive','Finish Store Received','#15939b','y'],
     ['Dyeing','Dyeing Production','#8a65c7','y'],
     ['Greige Supply','Knitting Production','#2a8b59','y'],
+    ['Pluvia','Pluvia','#cf4f93','y'],
     ['YD Inhouse','YD','#e49220','yYD']
   ];
   return{rows,labels,series}
 }
-
 function dailyProductionLabelsPlugin(){
   return{
     id:'dailyProductionLabels',
     afterDatasetsDraw(chart){
       const {ctx,chartArea}=chart;if(!chartArea)return;
       const dark=document.body.classList.contains('dark-mode');
-      ctx.save();ctx.font='700 8px Inter,Arial,sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';
+      ctx.save();ctx.font='800 10px Inter,Arial,sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';
       chart.data.datasets.forEach((ds,di)=>{
         const meta=chart.getDatasetMeta(di);if(meta.hidden)return;
         meta.data.forEach((pt,i)=>{
           const v=Number(ds.data[i]);if(!Number.isFinite(v))return;
           const label=v.toFixed(1);
-          const offset=[-16,-8,10,18,26][di]??(-12+di*8);
+          const offset=[-22,-12,0,12,22,30][di]??(-14+di*8);
           const y=Math.max(chartArea.top+8,Math.min(chartArea.bottom-8,pt.y+offset));
           const w=ctx.measureText(label).width+6;
           ctx.fillStyle=dark?'rgba(20,31,27,.82)':'rgba(255,255,255,.86)';
@@ -5736,7 +6023,7 @@ function lpdCountLabelPlugin(){
     id:'lpdCountLabels',
     afterDatasetsDraw(chart){
       const {ctx,chartArea}=chart;if(!chartArea)return;
-      ctx.save();ctx.font='700 8px Inter,Arial,sans-serif';ctx.fillStyle=document.body.classList.contains('dark-mode')?'#e5f0eb':'#42544d';ctx.textBaseline='middle';
+      ctx.save();ctx.font='800 10px Inter,Arial,sans-serif';ctx.fillStyle=document.body.classList.contains('dark-mode')?'#e5f0eb':'#42544d';ctx.textBaseline='middle';
       chart.data.datasets.forEach((ds,di)=>{
         const labels=ds._countLabels||[],meta=chart.getDatasetMeta(di);if(meta.hidden)return;
         meta.data.forEach((el,i)=>{
@@ -5806,25 +6093,25 @@ function lpdFailShareChart(id,groups){
 }
 
 
+
 function lpdDailyPassFailOverallChart(id,data){
   const ctx=document.querySelector(`canvas#${id}`);if(!ctx)return;
   const dark=document.body.classList.contains('dark-mode'),grid=dark?'#31453c':'#e7ece9',txt=dark?'#c6d8cf':'#58635e';
-  const pass=data.overall.map(s=>s.total?s.pass/s.total:null);
-  const fail=data.overall.map(s=>s.total?s.fail/s.total:null);
-  const evaluated=data.overall.map(s=>s.evaluated?s.pass/s.evaluated:null);
+  const rate=(arr,key)=>arr.map(s=>s.total?s[key]/s.total:null);
+  const sp=rate(data.start,'pass'),sf=rate(data.start,'fail'),ep=rate(data.end,'pass'),ef=rate(data.end,'fail'),op=rate(data.overall,'pass'),of=rate(data.overall,'fail');
   const sets=[
-    {label:'PASS %',data:pass,borderColor:'#15939b',backgroundColor:'#15939b',_countLabels:pass.map(v=>v===null?'':pct(v))},
-    {label:'FAIL %',data:fail,borderColor:'#d95845',backgroundColor:'#d95845',_countLabels:fail.map(v=>v===null?'':pct(v))},
-    {label:'OVERALL PASS %',data:evaluated,borderColor:'#285f9a',backgroundColor:'#285f9a',_countLabels:evaluated.map(v=>v===null?'':pct(v))}
-  ].map(s=>({...s,tension:.25,pointRadius:3.5,pointHoverRadius:5,borderWidth:2.2}));
-  const c=new Chart(ctx,{type:'line',data:{labels:data.labels,datasets:sets},options:{responsive:true,maintainAspectRatio:false,animation:false,layout:{padding:{top:28}},
-    plugins:{tpChartValueLabels:{display:false},legend:{position:'bottom',labels:{boxWidth:10,font:{size:10},color:txt}},
+    ['START PASS',sp,'#0b8f83'],['START FAIL',sf,'#75cfc4'],
+    ['END PASS',ep,'#e2702f'],['END FAIL',ef,'#f2ad78'],
+    ['OVERALL PASS',op,'#285f9a'],['OVERALL FAIL',of,'#8faed0']
+  ].map(([label,dataSet,color],i)=>({label,data:dataSet,borderColor:color,backgroundColor:color,tension:.25,pointRadius:3.5,pointHoverRadius:5,borderWidth:2.2,
+      borderDash:i%2?[5,3]:[],_countLabels:dataSet.map(v=>v===null?'':pct(v))}));
+  const c=new Chart(ctx,{type:'line',data:{labels:data.labels,datasets:sets},options:{responsive:true,maintainAspectRatio:false,animation:false,layout:{padding:{top:34,left:6,right:6}},
+    plugins:{tpChartValueLabels:{display:false},legend:{position:'bottom',labels:{boxWidth:11,font:{size:11,weight:'700'},color:txt,padding:12}},
       tooltip:{callbacks:{label:c=>`${c.dataset.label}: ${pct(c.raw)}`}}},
-    scales:{x:{grid:{display:false},ticks:{font:{size:8},color:txt,maxRotation:35}},y:{min:0,max:1,grid:{color:grid},ticks:{font:{size:9},color:txt,callback:v=>(v*100).toFixed(0)+'%'}}}},
+    scales:{x:{grid:{display:false},ticks:{font:{size:10,weight:'700'},color:txt,maxRotation:35}},y:{min:0,max:1,grid:{color:grid},ticks:{font:{size:10,weight:'700'},color:txt,callback:v=>(v*100).toFixed(0)+'%'}}}},
     plugins:[lpdCountLabelPlugin()]});
   c.$tpPercent=true;state.charts.push(c)
 }
-
 function lpdRateLineCountChart(id,data){
   const ctx=document.querySelector(`canvas#${id}`);if(!ctx)return;
   const dark=document.body.classList.contains('dark-mode'),grid=dark?'#31453c':'#e7ece9',txt=dark?'#c6d8cf':'#58635e',cols=['#15939b','#e77a2f','#285f9a'];
@@ -6253,7 +6540,6 @@ function renderKpiToolbarHeading(tab){
 function render(){if(!state.data)return;destroyCharts();applyMenuPermissions();syncBuyerOptions(false);const isOtt=OTT_TABS.includes(state.tab),isKpi=KPI_TABS.includes(state.tab),isLockDetails=['lock_board','lock_event'].includes(state.tab),isDaily=state.tab==='daily_summary',special=['data','users'].includes(state.tab)||isOtt||isLockDetails||isDaily;$('.toolbar').classList.toggle('hidden',special);$('#exportBtn').classList.toggle('hidden',special||isKpi);
   const isOverview=state.tab==='overview';
   $('.toolbar')?.classList.toggle('overview-toolbar',isOverview);
-  $('#searchFilterGroup')?.classList.toggle('hidden',isOverview);
   $('#buyerFilterGroup')?.classList.toggle('hidden',isOverview);
   const osg=$('#overviewSnapshotGroup');if(osg)osg.classList.toggle('hidden',!isOverview);$('#kpis').classList.toggle('overview-kpis',state.tab==='overview');$('#kpis').classList.toggle('knitting-kpis',state.tab==='knitting');$('#kpis').classList.toggle('finishing-kpis',state.tab==='finishing');$('#kpis').classList.toggle('delivery-kpis',state.tab==='delivery');$('#kpis').classList.toggle('yarn-kpis',state.tab==='yarn');$('#kpis').classList.toggle('chemical-kpis',state.tab==='chemical');$('#kpis').classList.toggle('etl-kpis',state.tab==='etl');$$('.kpi-submenu button[data-tab],.ott-submenu button[data-tab],.lock-submenu button[data-tab],.nav>button[data-tab]').forEach(b=>b.classList.toggle('active',b.dataset.tab===state.tab));
   const kb=$('#kpiBoardBtn');if(kb)kb.classList.toggle('active',KPI_TABS.includes(state.tab));
@@ -6273,6 +6559,10 @@ function formatChartDataValue(v,isPct,isDuration=false){if(v===null||v===undefin
 function compactChartLabelValue(v,isPct,isDuration=false){if(isDuration)return formatDuration(v,false);const n=Number(v);if(!Number.isFinite(n))return '';if(isPct)return (n*100).toFixed(Math.abs(n*100)>=10?0:1)+'%';const a=Math.abs(n);if(a>=1000000)return (n/1000000).toFixed(a>=10000000?0:1)+'M';if(a>=1000)return (n/1000).toFixed(a>=100000?0:1)+'K';if(a>=100)return Math.round(n).toLocaleString();if(a>=10)return n.toFixed(1).replace(/\.0$/,'');return n.toFixed(2).replace(/0+$/,'').replace(/\.$/,'')}
 const tpChartValueLabels={id:'tpChartValueLabels',afterDatasetsDraw(chart,args,opts){if(opts?.display===false)return;const panel=chart.canvas?.closest('.panel'),title=panel?.querySelector('h3')?.textContent||'',isPct=chartLooksPercent(title,chart),isDuration=!!chart?.$tpDuration,ctx=chart.ctx,area=chart.chartArea;if(!area)return;const dark=document.body.classList.contains('dark-mode'),isHorizontal=chart.options?.indexAxis==='y',labels=chart.data?.labels||[],visibleSets=chart.data?.datasets?.filter((_,i)=>!chart.getDatasetMeta(i).hidden)||[],full=panel&&document.fullscreenElement===panel;const perSeriesTarget=isHorizontal?labels.length:Math.max(6,Math.floor(area.width/(full?38:58))),step=Math.max(1,Math.ceil(labels.length/perSeriesTarget));ctx.save();ctx.font=`600 ${full?10:9}px Inter,Arial,sans-serif`;ctx.textBaseline='middle';chart.data.datasets.forEach((ds,di)=>{const meta=chart.getDatasetMeta(di);if(meta.hidden)return;const stroke=ds.borderColor||ds.backgroundColor||'#087252';meta.data.forEach((el,i)=>{if(!isHorizontal&&i%step!==0&&i!==labels.length-1)return;const raw=Array.isArray(ds.data)?ds.data[i]:null,n=typeof raw==='object'&&raw!==null?(raw.y??raw.x):raw;if(n===null||n===undefined||!Number.isFinite(Number(n)))return;const text=compactChartLabelValue(n,isPct,isDuration);if(!text)return;ctx.save();const metrics=ctx.measureText(text),pad=2,bg=dark?'rgba(16,35,28,.82)':'rgba(255,255,255,.82)',fg=dark?'#e8f4ee':'#41514a';if(isHorizontal){let x=el.x+5,align='left';if(x+metrics.width+pad*2>area.right){x=el.x-5;align='right'}ctx.textAlign=align;const rx=align==='left'?x-pad:x-metrics.width-pad,ry=el.y-7;ctx.fillStyle=bg;ctx.fillRect(rx,ry,metrics.width+pad*2,14);ctx.fillStyle=fg;ctx.fillText(text,x,el.y)}else{let x=el.x,y=el.y-(8+((di%3)*11));if(y<area.top+8)y=el.y+10+((di%3)*11);x=Math.max(area.left+metrics.width/2+2,Math.min(area.right-metrics.width/2-2,x));ctx.textAlign='center';ctx.fillStyle=bg;ctx.fillRect(x-metrics.width/2-pad,y-7,metrics.width+pad*2,14);ctx.fillStyle=fg;ctx.fillText(text,x,y)}ctx.restore()})});ctx.restore()}};
 Chart.register(tpChartValueLabels);
+Chart.defaults.font.size=11;
+Chart.defaults.font.weight='600';
+Chart.defaults.plugins.legend.labels.font={size:11,weight:'700'};
+
 function showPanelChartData(btn){const panel=btn?.closest('.panel'),canvas=panel?.querySelector('canvas');if(!canvas)return;const chart=Chart.getChart(canvas);if(!chart)return;const title=panel.querySelector('h3')?.textContent||'Chart Data',labels=chart.data?.labels||[],sets=chart.data?.datasets||[],isPct=chartLooksPercent(title,chart),isDuration=!!chart?.$tpDuration,modal=$('#chartDataModal');$('#chartDataTitle').textContent=title+' — Data';$('#chartDataMeta').textContent=`${labels.length.toLocaleString()} plotted point${labels.length===1?'':'s'} • ${sets.length} series`;let html='<div class="table-wrap" style="max-height:68vh"><table><thead><tr><th>Label</th>'+sets.map(s=>`<th>${esc(s.label||'Value')}</th>`).join('')+'</tr></thead><tbody>';for(let i=0;i<labels.length;i++){html+=`<tr><td>${esc(labels[i]??'')}</td>`+sets.map(ds=>`<td class="num">${formatChartDataValue(ds.data?.[i],isPct,isDuration)}</td>`).join('')+'</tr>'}html+='</tbody></table></div>';$('#chartDataBody').innerHTML=html;modal.classList.remove('hidden');document.body.style.overflow='hidden'}
 function closeChartData(){const modal=$('#chartDataModal');if(modal)modal.classList.add('hidden');document.body.style.overflow=''}
 let lastPanelFullscreen=null;
@@ -6413,10 +6703,9 @@ function bindUI(){initUtilityControls();
     if(ottWrap&&!ottWrap.contains(e.target))ottWrap.classList.remove('open');
     if(lockWrap&&!lockWrap.contains(e.target))lockWrap.classList.remove('open')
   });
-  if($('#kpiMonthFilter'))$('#kpiMonthFilter').addEventListener('change',()=>{applyKpiMonthRange($('#kpiMonthFilter').value);syncBuyerOptions(false);render()});
+  bindKpiMultiFilters();
   ['fromDate','toDate'].forEach(id=>$('#'+id).addEventListener('change',()=>{syncBuyerOptions(false);render()}));
-  ['search','buyerFilter'].forEach(id=>$('#'+id).addEventListener('input',render));
-  $('#resetBtn').onclick=()=>{setFilterDefaults();$('#search').value='';$('#buyerFilter').value='';render()};
+  $('#resetBtn').onclick=()=>{setFilterDefaults();render()};
   $('#exportBtn').onclick=exportCurrent;
   if($('#overviewSnapshotBtn'))$('#overviewSnapshotBtn').onclick=openOverviewSnapshot;
   if($('#overviewCopyImageBtn'))$('#overviewCopyImageBtn').onclick=copyOverviewSnapshotImage;
@@ -6431,7 +6720,22 @@ function bindUI(){initUtilityControls();
     if(e.key==='Escape'&&!$('#ottSnapshotModal')?.classList.contains('hidden'))closeOttSnapshot()
   });
 }
-function exportCurrent(){let rows=state.tab==='dyeing'?dyeingBuyerRows():state.tab==='knitting'?knittingDateRows():state.tab==='finishing'?finishingDateRows():state.tab==='delivery'?(($('#buyerFilter')?.value||'')?deliveryBuyerRows():deliveryDateRows()):state.tab==='yarn'?(($('#buyerFilter')?.value||'')?yarnDyeingBuyerRows():yarnDyeingDateRows()):state.tab==='chemical'?chemicalLabRows().map(r=>{const o={...r};for(const c of CHEMICAL_LAB_DURATION)o[c]=formatDuration(r[c],true);for(const c of CHEMICAL_LAB_PERCENT)o[c]=pct(safeNum(r[c]));return o}):state.tab==='etl'?etlRows().map(r=>{const o={...r};for(const c of ETL_DURATION)o[c]=formatDuration(r[c],true);for(const c of ETL_PERCENT)o[c]=pct(safeNum(r[c]));return o}):filteredBuyers();if(!rows.length)return;const ws=XLSX.utils.json_to_sheet(rows);const csv=XLSX.utils.sheet_to_csv(ws);const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));a.download=`Textile_Planning_${state.tab}_${new Date().toISOString().slice(0,10)}.csv`;a.click();URL.revokeObjectURL(a.href)}
+function exportCurrent(){
+  const hasBuyer=kpiSelectedBuyers().length>0;
+  let rows=state.tab==='dyeing'?dyeingBuyerRows():
+    state.tab==='knitting'?(hasBuyer?knittingBuyerRows():knittingDateRows()):
+    state.tab==='finishing'?finishingDateRows():
+    state.tab==='delivery'?(hasBuyer?deliveryBuyerRows():deliveryDateRows()):
+    state.tab==='yarn'?(hasBuyer?yarnDyeingBuyerRows():yarnDyeingDateRows()):
+    state.tab==='chemical'?chemicalLabRows().map(r=>{const o={...r};for(const c of CHEMICAL_LAB_DURATION)o[c]=formatDuration(r[c],true);for(const c of CHEMICAL_LAB_PERCENT)o[c]=pct(safeNum(r[c]));return o}):
+    state.tab==='etl'?etlRows().map(r=>{const o={...r};for(const c of ETL_DURATION)o[c]=formatDuration(r[c],true);for(const c of ETL_PERCENT)o[c]=pct(safeNum(r[c]));return o}):
+    filteredBuyers();
+  if(!rows.length)return;
+  const ws=XLSX.utils.json_to_sheet(rows),csv=XLSX.utils.sheet_to_csv(ws),a=document.createElement('a');
+  a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));
+  a.download=`Textile_Planning_${state.tab}_${new Date().toISOString().slice(0,10)}.csv`;
+  a.click();URL.revokeObjectURL(a.href)
+}
 
 const sb=supabase.createClient(window.APP_CONFIG.SUPABASE_URL,window.APP_CONFIG.SUPABASE_ANON_KEY);
 
