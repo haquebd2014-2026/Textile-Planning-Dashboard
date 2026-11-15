@@ -2490,6 +2490,27 @@ body.dark-mode .daily-mini-card .value{color:#fff6b8!important}
   .daily-summary-management{max-width:100%!important}
 }
 
+
+/* ================= v46 Daily Summary day controls ================= */
+.daily-day-edit.daily-gone-edit input{
+  background:#eef8ff!important;
+  border-color:#a9cfe2!important;
+  color:#173f59!important;
+}
+.daily-working-duo{
+  grid-template-columns:1fr 1fr!important;
+}
+.daily-working-item>small{
+  line-height:1.25!important;
+}
+.daily-summary-table th:nth-child(5){
+  white-space:nowrap!important;
+  font-size:10.3px!important;
+}
+.daily-snapshot-compact .daily-summary-table th:nth-child(5){
+  font-size:11.5px!important;
+}
+
 </style></head><body><div id="app" class="hidden"><div class="app-sticky-header"><div class="top-accent"></div><header class="header"><div class="header-left"><div class="brand-mark">TP</div><div><div class="brand-title">Textile Planning Dashboard</div><div class="brand-sub">Planning, Monitoring & Control</div></div></div><div class="header-actions"><div class="utility-tools"><button class="tool-btn stopwatch-btn" id="stopwatchBtn" title="Click to start/pause • Double-click to reset">⏱ <span id="stopwatchText">00:00</span></button><button class="tool-btn" id="fullscreenBtn" title="Enter full screen">⛶ Full</button><button class="tool-btn" id="themeBtn" title="Switch dark/light mode">☾ Dark</button></div><span class="greeting" id="greeting">Good morning</span><button class="btn" id="exportBtn">Export CSV</button><button class="btn" id="signOutBtn">Sign out</button><button class="btn primary" id="refreshBtn">Refresh</button></div></header><nav class="nav">
   <button data-tab="daily_summary" class="main-nav-btn">Daily Summary</button>
   <div class="kpi-menu-wrap" id="kpiMenuWrap">
@@ -2734,7 +2755,7 @@ const state={
   data:null,filtered:null,tab:'daily_summary',charts:[],profile:null,userList:[],editingUserId:null,ydViewMode:'date',
   ottFilters:{_initialized:false,bookingAll:true,bookings:[],buyer:[],result:'',failReason:[],relatedDept:[],floor:[],type:'',month:['__RUNNING__'],from:'',to:''},
   lockDetailFilters:{_initialized:false,event:[],booking:[],floor:[],pmc:[],buyer:[],lockPlanFrom:'',lockPlanTo:'',otd:[],reason:[],responsible:[],month:[],week:[],status:[]},
-  dailySummaryFilters:{_initialized:false,month:'',reportDate:'',trendFrom:'',trendTo:'',monthDays:{}},
+  dailySummaryFilters:{_initialized:false,month:'',reportDate:'',trendFrom:'',trendTo:'',monthDays:{},goneDays:{}},
   greetingTimer:null
 };
 const $=s=>document.querySelector(s); const $$=s=>[...document.querySelectorAll(s)];
@@ -4967,9 +4988,9 @@ function dailySetTrendFromReport(){
 }
 function dailySummaryEnsureFilters(){
   const months=dailySummaryMonths(),f=state.dailySummaryFilters;
-  if(f?._initialized&&months.includes(f.month)){f.monthDays=f.monthDays||{};return}
+  if(f?._initialized&&months.includes(f.month)){f.monthDays=f.monthDays||{};f.goneDays=f.goneDays||{};return}
   const yKey=dailyYesterdayISO().slice(0,7),month=months.includes(yKey)?yKey:(months.slice(-1)[0]||'');
-  state.dailySummaryFilters={_initialized:true,month,reportDate:dailyDefaultReportDate(month),trendFrom:'',trendTo:'',monthDays:{}};
+  state.dailySummaryFilters={_initialized:true,month,reportDate:dailyDefaultReportDate(month),trendFrom:'',trendTo:'',monthDays:{},goneDays:{}};
   dailySetTrendFromReport()
 }
 function dailyRowsThroughReport(){
@@ -5014,6 +5035,7 @@ function dailyTargetOverride(metric){
 }
 
 
+
 function dailyAutoWorkingDays(){return dailyDaysGone()}
 function dailyDefaultMonthDays(metric){
   return metric.basis==='delivery'?dailyDeliveryDays(state.dailySummaryFilters.month):dailyProductionBasisDays()
@@ -5023,18 +5045,30 @@ function dailyMonthDaysFor(metric){
   const raw=state.dailySummaryFilters.monthDays?.[metric.key],n=Number(raw);
   return Number.isFinite(n)&&n>0?n:dailyDefaultMonthDays(metric)
 }
+function dailyGoneDaysFor(metric){
+  dailySummaryEnsureFilters();
+  const raw=state.dailySummaryFilters.goneDays?.[metric.key],n=Number(raw);
+  return Number.isFinite(n)&&n>=0?n:dailyAutoWorkingDays()
+}
 function dailyWorkingDayInputs(){
   dailySummaryEnsureFilters();
-  const gone=dailyAutoWorkingDays(),m=state.dailySummaryFilters.monthDays||{};
+  const autoGone=dailyAutoWorkingDays(),monthMap=state.dailySummaryFilters.monthDays||{},goneMap=state.dailySummaryFilters.goneDays||{};
   return DAILY_SUMMARY_TARGETS.map(x=>{
-    const def=dailyDefaultMonthDays(x),manual=Number(m[x.key]),has=Number.isFinite(manual)&&manual>0,value=has?manual:def;
+    const monthDef=dailyDefaultMonthDays(x),monthManual=Number(monthMap[x.key]),monthHas=Number.isFinite(monthManual)&&monthManual>0,monthValue=monthHas?monthManual:monthDef;
+    const goneManual=Number(goneMap[x.key]),goneHas=Number.isFinite(goneManual)&&goneManual>=0,goneValue=goneHas?goneManual:autoGone;
     return`<div class="daily-working-item">
       <label title="${esc(x.label)}">${esc(x.label)}</label>
       <div class="daily-working-duo">
-        <div class="daily-day-edit"><span>Month Day Consider</span><input class="daily-month-days-input" data-day-key="${esc(x.key)}" type="number" min="1" max="31" step="1" value="${value}"></div>
-        <div class="daily-day-gone"><span>Working Days Gone</span><b>${gone}</b></div>
+        <div class="daily-day-edit">
+          <span>Month Day Consider</span>
+          <input class="daily-month-days-input" data-day-key="${esc(x.key)}" type="number" min="1" max="31" step="1" value="${monthValue}">
+        </div>
+        <div class="daily-day-edit daily-gone-edit">
+          <span>Working Days Gone</span>
+          <input class="daily-gone-days-input" data-day-key="${esc(x.key)}" type="number" min="0" max="31" step="1" value="${goneValue}">
+        </div>
       </div>
-      <small>${has?`Manual month basis • default ${def}`:`Default month basis ${def}`}</small>
+      <small>${monthHas?`Month ${monthValue} manual`:`Month default ${monthDef}`} • ${goneHas?`Gone ${goneValue} manual`:`Gone auto ${autoGone}`}</small>
     </div>`
   }).join('')
 }
@@ -5046,11 +5080,22 @@ function dailyBindWorkingDayInputs(){
     else state.dailySummaryFilters.monthDays[key]=n;
     render()
   });
-  if($('#dailyWorkingReset'))$('#dailyWorkingReset').onclick=()=>{state.dailySummaryFilters.monthDays={};render()}
+  $$('.daily-gone-days-input').forEach(inp=>inp.onchange=()=>{
+    const key=inp.dataset.dayKey,n=Number(inp.value),def=dailyAutoWorkingDays();
+    state.dailySummaryFilters.goneDays=state.dailySummaryFilters.goneDays||{};
+    if(!Number.isFinite(n)||n<0||n===def)delete state.dailySummaryFilters.goneDays[key];
+    else state.dailySummaryFilters.goneDays[key]=n;
+    render()
+  });
+  if($('#dailyWorkingReset'))$('#dailyWorkingReset').onclick=()=>{
+    state.dailySummaryFilters.monthDays={};
+    state.dailySummaryFilters.goneDays={};
+    render()
+  }
 }
 
 function dailyMetricSummary(metric){
-  const rows=dailyRowsThroughReport(),report=dailyReportRow(),daysGone=dailyAutoWorkingDays(),basis=dailyMonthDaysFor(metric),
+  const rows=dailyRowsThroughReport(),report=dailyReportRow(),daysGone=dailyGoneDaysFor(metric),basis=dailyMonthDaysFor(metric),
         dailyTarget=dailyTargetOverride(metric),monthlyTarget=dailyTarget*basis,
         achieved=dailySumMetric(rows,metric)/1000,tillTarget=dailyTarget*daysGone,tillAvg=daysGone?achieved/daysGone:null,
         selected=dailyMetricValue(report,metric)/1000,deficit=tillTarget-achieved,daysLeft=Math.max(0,basis-daysGone),
@@ -5061,8 +5106,12 @@ function dailyMetricSummary(metric){
 function dailyStatusLabel(s){return s==='ontrack'?'On Track':s==='watch'?'Watch':s==='critical'?'Critical':'No Data'}
 
 
+
 function dailyTopStatus(top){
-  const rows=dailyRowsThroughReport(),report=dailyReportRow(),daysGone=dailyAutoWorkingDays(),
+  const rows=dailyRowsThroughReport(),report=dailyReportRow(),
+        metricKey=top.key==='dyeing'?'efl':top.key,
+        metric=DAILY_SUMMARY_TARGETS.find(x=>x.key===metricKey),
+        daysGone=metric?dailyGoneDaysFor(metric):dailyAutoWorkingDays(),
         achieved=rows.reduce((a,r)=>a+(top.value(r)||0),0)/1000,tillTarget=top.target*daysGone,pace=tillTarget>0?achieved/tillTarget:null,
         today=(top.value(report||{})||0)/1000,status=pace===null?'nodata':pace>=1?'ontrack':pace>=.9?'watch':'critical';
   return{...top,achieved,tillTarget,pace,today,status,daysGone}
@@ -5083,10 +5132,18 @@ function dailyMiniCard(label,value,metricSummary){
     <div class="sub">${esc(status)} • Achieved ${esc(achieved)}</div>
   </div>`
 }
+
+function dailyReportDateLabel(){
+  const iso=state.dailySummaryFilters?.reportDate||'';
+  const d=dailyDateParts(iso);if(!d)return'Selected Day';
+  return d.toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'}).replace(/ /g,' ')
+}
+
+
 function dailySummaryTable(){
-  const items=DAILY_SUMMARY_TARGETS.map(dailyMetricSummary);
+  const items=DAILY_SUMMARY_TARGETS.map(dailyMetricSummary),reportLabel=dailyReportDateLabel();
   return`<div class="daily-table-card"><div class="table-wrap"><table class="daily-summary-table"><thead><tr>
-      <th>Topics</th><th>Target<br>[Ton]</th><th>MTD Achieved<br>[Ton]</th><th>MTD Avg<br>[Ton]</th><th>Selected Day<br>[Ton]</th><th>Plan-to-Date Gap<br>[Ton]</th><th>Now Avg.<br>Required</th><th>Status</th>
+      <th>Topics</th><th>Target<br>[Ton]</th><th>MTD Achieved<br>[Ton]</th><th>MTD Avg<br>[Ton]</th><th>${esc(reportLabel)}<br>[Ton]</th><th>Plan-to-Date Gap<br>[Ton]</th><th>Now Avg.<br>Required</th><th>Status</th>
     </tr></thead><tbody>${items.map(x=>`<tr>
       <td>${esc(x.label)}</td><td>${fmt1(x.monthlyTarget)}</td><td>${fmt1(x.achieved)}</td><td>${fmt1(x.tillAvg)}</td><td class="${x.selected===0?'negative':''}">${fmt1(x.selected)}</td>
       <td class="${x.deficit>0?'negative':'positive'}">${x.deficit>0?fmt1(x.deficit):`+${fmt1(Math.abs(x.deficit))}`}</td><td>${fmt1(x.nowRequired)}</td>
@@ -5153,10 +5210,11 @@ function dailyColumnChart(id){
 }
 
 
+
 function dailyFilterPanel(){
   dailySummaryEnsureFilters();const f=state.dailySummaryFilters,months=dailySummaryMonths(),rows=dailySummaryRows(),
         dates=rows.filter(r=>dailyMonthKey(r.Date)===f.month).map(r=>r.Date).sort(),meta=state.data?.dailySummary?.meta||{},
-        manualCount=Object.keys(f.monthDays||{}).length,autoDays=dailyAutoWorkingDays();
+        monthManual=Object.keys(f.monthDays||{}).length,goneManual=Object.keys(f.goneDays||{}).length,autoDays=dailyAutoWorkingDays();
   return`<div class="daily-filter-panel"><div class="daily-filter-head"><div><h2>Daily Summary</h2><div class="meta">${(meta.rows||rows.length).toLocaleString()} date rows • Data sheet only • latest admin upload is used automatically</div></div>
     <div class="daily-filter-actions"><button class="btn" id="dailyCsvBtn" type="button">Export CSV</button><button class="btn primary" id="dailyManagementBtn" type="button">▣ Management View</button></div></div>
     <div class="daily-filter-grid">
@@ -5166,10 +5224,10 @@ function dailyFilterPanel(){
       <div class="filter-group"><span class="mini-label">Trend To</span><input id="dailyTrendTo" type="date" value="${esc(f.trendTo||'')}"></div>
       <div class="filter-group"><span class="mini-label">Filters</span><button class="btn" id="dailyResetBtn" type="button">Reset</button></div>
     </div>
-    <details class="daily-working-days" ${manualCount?'open':''}>
-      <summary><b>Day Consideration by Topic</b><span>${autoDays} working days already gone • ${manualCount?manualCount+' manual month basis override(s)':'default month basis active'}</span></summary>
+    <details class="daily-working-days" ${(monthManual||goneManual)?'open':''}>
+      <summary><b>Day Consideration by Topic</b><span>Auto gone: ${autoDays} days • Month overrides: ${monthManual} • Gone-day overrides: ${goneManual}</span></summary>
       <div class="daily-working-grid">${dailyWorkingDayInputs()}</div>
-      <div class="daily-working-actions"><button class="btn" id="dailyWorkingReset" type="button">Reset Month Days to Default</button></div>
+      <div class="daily-working-actions"><button class="btn" id="dailyWorkingReset" type="button">Reset All Day Values to Default / Auto</button></div>
     </details>
   </div>`
 }
@@ -5177,10 +5235,12 @@ function dailyFilterPanel(){
 function dailyBindFilters(){
   if($('#dailyMonth'))$('#dailyMonth').onchange=()=>{
     const month=$('#dailyMonth').value;state.dailySummaryFilters.month=month;state.dailySummaryFilters.reportDate=dailyDefaultReportDate(month);
-    state.dailySummaryFilters.monthDays={};dailySetTrendFromReport();render()
+    state.dailySummaryFilters.monthDays={};state.dailySummaryFilters.goneDays={};dailySetTrendFromReport();render()
   };
   if($('#dailyReportDate'))$('#dailyReportDate').onchange=()=>{
-    state.dailySummaryFilters.reportDate=$('#dailyReportDate').value;state.dailySummaryFilters.month=dailyMonthKey(state.dailySummaryFilters.reportDate)||state.dailySummaryFilters.month;
+    state.dailySummaryFilters.reportDate=$('#dailyReportDate').value;
+    state.dailySummaryFilters.month=dailyMonthKey(state.dailySummaryFilters.reportDate)||state.dailySummaryFilters.month;
+    state.dailySummaryFilters.goneDays={};
     dailySetTrendFromReport();render()
   };
   if($('#dailyTrendFrom'))$('#dailyTrendFrom').onchange=()=>{state.dailySummaryFilters.trendFrom=$('#dailyTrendFrom').value;render()};
@@ -5190,7 +5250,6 @@ function dailyBindFilters(){
   if($('#dailyManagementBtn'))$('#dailyManagementBtn').onclick=openDailySummarySnapshot;
   dailyBindWorkingDayInputs()
 }
-
 function renderDailySummary(){
   metricCardSet([]);dailySummaryEnsureFilters();
   const rows=dailySummaryRows();
@@ -5251,6 +5310,7 @@ function openDailySummarySnapshot(){
   }catch(e){alert('Unable to open Daily Summary management view: '+e.message)}
 }
 
+
 async function handleDailySummaryUpload(){
   const inp=$('#dailySummaryFileInput'),f=inp?.files?.[0],st=$('#dailySummaryUploadStatus');
   if(!f)return st.textContent='Choose the Daily Report Excel file first.';
@@ -5265,9 +5325,14 @@ async function handleDailySummaryUpload(){
     const payload={dailySummary:{rows,meta}};
     const {error}=await sb.from('dashboard_data').upsert({id:2,file_name:f.name,data:payload,uploaded_by:user.id,uploaded_at:now},{onConflict:'id'});
     if(error)throw error;
-    st.textContent=`Daily Summary published successfully (${meta.dateFrom||'—'} to ${meta.dateTo||'—'}). Separate storage avoids the previous large-row statement timeout.`;
+    st.textContent=`Daily Summary published successfully (${meta.dateFrom||'—'} to ${meta.dateTo||'—'}).`;
     state.dailySummaryFilters._initialized=false;await loadData()
-  }catch(e){st.textContent='Daily Summary upload failed: '+e.message}
+  }catch(e){
+    const msg=String(e?.message||e||'');
+    if(msg.includes('dashboard_data_id_check')||msg.includes('violates check constraint')){
+      st.innerHTML='Daily Summary upload blocked by the current database ID constraint. Run the supplied <b>supabase_daily_summary_fix.sql</b> once in Supabase SQL Editor, then upload again.';
+    }else st.textContent='Daily Summary upload failed: '+msg
+  }
 }
 function lpdClean(v){
   if(v===null||v===undefined)return'';
