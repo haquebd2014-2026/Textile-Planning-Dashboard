@@ -2511,6 +2511,52 @@ body.dark-mode .daily-mini-card .value{color:#fff6b8!important}
   font-size:11.5px!important;
 }
 
+
+/* ================= v47 Daily Summary tight image copy ================= */
+/* The shared management snapshot canvas is 1400px for other dashboards.
+   Daily Summary is intentionally narrower, so match the capture canvas to
+   the report itself and remove the empty left/right bands from copied PNGs. */
+.ott-snapshot-capture:has(.daily-snapshot-compact){
+  width:1180px!important;
+  min-width:1180px!important;
+  max-width:1180px!important;
+  padding:0!important;
+  margin:0 auto!important;
+  background:#f4f7f5!important;
+}
+.ott-snapshot-capture:has(.daily-snapshot-compact) .daily-snapshot-compact{
+  width:1180px!important;
+  min-width:1180px!important;
+  max-width:1180px!important;
+  margin:0!important;
+}
+.ott-snapshot-capture:has(.daily-snapshot-compact) .daily-summary-management{
+  width:100%!important;
+  max-width:none!important;
+  margin:0!important;
+  box-sizing:border-box!important;
+}
+
+
+.ott-snapshot-capture.daily-tight-capture{
+  width:1180px!important;
+  min-width:1180px!important;
+  max-width:1180px!important;
+  padding:0!important;
+  margin:0 auto!important;
+}
+.ott-snapshot-capture.daily-tight-capture .daily-snapshot-compact{
+  width:1180px!important;
+  min-width:1180px!important;
+  max-width:1180px!important;
+  margin:0!important;
+}
+.ott-snapshot-capture.daily-tight-capture .daily-summary-management{
+  width:100%!important;
+  max-width:none!important;
+  margin:0!important;
+}
+
 </style></head><body><div id="app" class="hidden"><div class="app-sticky-header"><div class="top-accent"></div><header class="header"><div class="header-left"><div class="brand-mark">TP</div><div><div class="brand-title">Textile Planning Dashboard</div><div class="brand-sub">Planning, Monitoring & Control</div></div></div><div class="header-actions"><div class="utility-tools"><button class="tool-btn stopwatch-btn" id="stopwatchBtn" title="Click to start/pause • Double-click to reset">⏱ <span id="stopwatchText">00:00</span></button><button class="tool-btn" id="fullscreenBtn" title="Enter full screen">⛶ Full</button><button class="tool-btn" id="themeBtn" title="Switch dark/light mode">☾ Dark</button></div><span class="greeting" id="greeting">Good morning</span><button class="btn" id="exportBtn">Export CSV</button><button class="btn" id="signOutBtn">Sign out</button><button class="btn primary" id="refreshBtn">Refresh</button></div></header><nav class="nav">
   <button data-tab="daily_summary" class="main-nav-btn">Daily Summary</button>
   <div class="kpi-menu-wrap" id="kpiMenuWrap">
@@ -4123,7 +4169,12 @@ function openOttSnapshot(){
     $('#ottCopyStatus').textContent='';modal.classList.remove('hidden');document.body.style.overflow='hidden'
   }catch(e){alert('Unable to open OTT management view: '+e.message)}
 }
-function closeOttSnapshot(){const m=$('#ottSnapshotModal');if(m)m.classList.add('hidden');document.body.style.overflow=''}
+function closeOttSnapshot(){
+  const m=$('#ottSnapshotModal'),capture=$('#ottSnapshotCapture');
+  if(m)m.classList.add('hidden');
+  if(capture)capture.classList.remove('daily-tight-capture');
+  document.body.style.overflow=''
+}
 async function copyOttSnapshotImage(){
   const capture=$('#ottSnapshotCapture'),status=$('#ottCopyStatus'),btn=$('#ottCopyImageBtn');if(!capture||typeof html2canvas!=='function')return;
   const old=btn?.textContent;
@@ -5303,11 +5354,12 @@ function buildDailySummarySnapshotClone(){
 function openDailySummarySnapshot(){
   const modal=$('#ottSnapshotModal'),capture=$('#ottSnapshotCapture'),status=$('#ottCopyStatus');if(!modal||!capture)return;
   try{
+    capture.classList.add('daily-tight-capture');
     capture.innerHTML='';capture.appendChild(buildDailySummarySnapshotClone());
     $('#ottSnapshotTitle').textContent='Daily Summary — Management View';
     if(status)status.textContent='';
     modal.classList.remove('hidden');document.body.style.overflow='hidden'
-  }catch(e){alert('Unable to open Daily Summary management view: '+e.message)}
+  }catch(e){capture.classList.remove('daily-tight-capture');alert('Unable to open Daily Summary management view: '+e.message)}
 }
 
 
