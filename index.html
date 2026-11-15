@@ -2212,6 +2212,119 @@ body.dark-mode .daily-summary-table tbody tr:nth-child(even){background:rgba(255
   .daily-filter-grid{grid-template-columns:repeat(2,minmax(105px,1fr))}
 }
 
+
+/* ================= DAILY SUMMARY v44 refinements ================= */
+.daily-filter-grid{grid-template-columns:repeat(5,minmax(105px,1fr))!important}
+.daily-working-days{
+  margin-top:7px;border:1px solid #d5dfda;border-radius:7px;background:var(--soft);overflow:hidden
+}
+.daily-working-days summary{
+  cursor:pointer;list-style:none;padding:7px 9px;display:flex;align-items:center;justify-content:space-between;gap:8px;
+  font-size:8.3px;font-weight:800;color:#315248
+}
+.daily-working-days summary::-webkit-details-marker{display:none}
+.daily-working-days summary span{font-size:7.5px;font-weight:500;color:var(--muted)}
+.daily-working-grid{
+  display:grid;grid-template-columns:repeat(5,minmax(105px,1fr));gap:6px;padding:8px;border-top:1px solid var(--line)
+}
+.daily-working-item{
+  background:var(--card);border:1px solid var(--line);border-radius:6px;padding:6px 7px
+}
+.daily-working-item label{
+  display:block;font-size:7.2px;font-weight:800;color:#36564c;white-space:nowrap;overflow:hidden;text-overflow:ellipsis
+}
+.daily-working-item input{
+  margin-top:4px;width:100%;height:27px;border:1px solid #ccd8d2;border-radius:4px;padding:0 7px;
+  text-align:center;font-size:9px;font-weight:800;background:var(--card);color:var(--text)
+}
+.daily-working-item small{display:block;margin-top:3px;text-align:center;font-size:6.8px;color:var(--muted)}
+.daily-working-actions{
+  display:flex;justify-content:flex-end;gap:5px;padding:0 8px 8px
+}
+.daily-working-actions .btn{height:26px;padding:0 8px;font-size:7.5px}
+
+/* Top four cards: smaller, cleaner, presentation-friendly */
+.daily-summary-top{gap:6px!important;margin-bottom:6px!important}
+.daily-status-card{border-radius:7px!important}
+.daily-status-card .title{padding:6px 8px!important;font-size:9px!important}
+.daily-status-card .body{padding:6px 8px!important}
+.daily-status-card .today{font-size:20px!important;line-height:1!important}
+.daily-status-card .today small{font-size:8px!important}
+.daily-status-card .pace{margin-top:4px!important;font-size:8px!important}
+.daily-status-card .sub{display:none!important}
+
+/* Yellow highlighted current-situation cards */
+.daily-current-strip{gap:5px!important;margin-bottom:7px!important}
+.daily-mini-card{
+  position:relative;min-height:58px!important;padding:7px 8px!important;border:1px solid #e6c82d!important;
+  border-radius:7px!important;background:linear-gradient(135deg,#fffbd0 0%,#fff69b 55%,#ffe95c 100%)!important;
+  box-shadow:0 2px 7px rgba(155,128,0,.16)!important;overflow:hidden
+}
+.daily-mini-card:before{
+  content:'';position:absolute;left:0;top:0;bottom:0;width:4px;background:#d8ad00
+}
+.daily-mini-card .label{
+  font-size:7.2px!important;font-weight:800!important;color:#705b00!important;letter-spacing:.25px!important
+}
+.daily-mini-card .value{
+  font-size:17px!important;color:#073f36!important;margin-top:2px!important;line-height:1.05!important
+}
+.daily-mini-card .sub{font-size:7px!important;color:#725f13!important;margin-top:2px!important;font-weight:700!important}
+body.dark-mode .daily-mini-card{
+  background:linear-gradient(135deg,#4b4513,#655c14)!important;border-color:#8f7c19!important
+}
+body.dark-mode .daily-mini-card .label,body.dark-mode .daily-mini-card .sub{color:#f1dd83!important}
+body.dark-mode .daily-mini-card .value{color:#fff6b8!important}
+
+/* Report table: remove extra title strip, compact widths, larger readable text, centered data */
+.daily-table-card{margin-bottom:8px!important}
+.daily-summary-table{table-layout:fixed!important}
+.daily-summary-table th{
+  padding:6px 4px!important;font-size:9px!important;line-height:1.12!important;vertical-align:middle!important
+}
+.daily-summary-table th:first-child{width:19%!important;text-align:left!important;padding-left:9px!important}
+.daily-summary-table th:nth-child(2){width:10%!important}
+.daily-summary-table th:nth-child(3){width:12%!important}
+.daily-summary-table th:nth-child(4){width:10%!important}
+.daily-summary-table th:nth-child(5){width:11%!important}
+.daily-summary-table th:nth-child(6){width:12%!important}
+.daily-summary-table th:nth-child(7){width:12%!important}
+.daily-summary-table th:nth-child(8){width:14%!important}
+.daily-summary-table td{
+  padding:6px 4px!important;font-size:10px!important;line-height:1.1!important;text-align:center!important;vertical-align:middle!important
+}
+.daily-summary-table td:first-child{
+  text-align:left!important;font-size:9.5px!important;padding-left:9px!important
+}
+.daily-summary-table .status-cell{text-align:center!important}
+.daily-badge{font-size:7.8px!important;padding:3px 6px!important}
+
+/* One full-width chart, larger for back-bench view */
+.daily-chart-grid{grid-template-columns:1fr!important;gap:8px!important;margin-top:7px!important}
+.daily-chart-grid .panel{min-height:430px!important}
+.daily-chart-grid .chart-wrap{height:355px!important}
+.daily-chart-grid .panel h3{font-size:17px!important}
+.daily-chart-grid .panel .note{display:none!important}
+
+/* Snapshot / management report */
+.daily-summary-management{padding:7px!important}
+.daily-management-head{padding:10px 14px!important;margin-bottom:7px!important}
+.daily-management-head h1{font-size:22px!important}
+.daily-management-head small{font-size:7.8px!important}
+.daily-management-date{font-size:8px!important}
+.daily-management-date b{font-size:11px!important}
+.daily-source-note{display:none!important}
+
+/* Date/value label plugin spacing */
+.daily-chart-grid canvas{overflow:visible}
+
+@media(max-width:1100px){
+  .daily-working-grid{grid-template-columns:repeat(3,minmax(105px,1fr))}
+}
+@media(max-width:760px){
+  .daily-working-grid{grid-template-columns:repeat(2,minmax(100px,1fr))}
+}
+
 </style></head><body><div id="app" class="hidden"><div class="app-sticky-header"><div class="top-accent"></div><header class="header"><div class="header-left"><div class="brand-mark">TP</div><div><div class="brand-title">Textile Planning Dashboard</div><div class="brand-sub">Planning, Monitoring & Control</div></div></div><div class="header-actions"><div class="utility-tools"><button class="tool-btn stopwatch-btn" id="stopwatchBtn" title="Click to start/pause • Double-click to reset">⏱ <span id="stopwatchText">00:00</span></button><button class="tool-btn" id="fullscreenBtn" title="Enter full screen">⛶ Full</button><button class="tool-btn" id="themeBtn" title="Switch dark/light mode">☾ Dark</button></div><span class="greeting" id="greeting">Good morning</span><button class="btn" id="exportBtn">Export CSV</button><button class="btn" id="signOutBtn">Sign out</button><button class="btn primary" id="refreshBtn">Refresh</button></div></header><nav class="nav">
   <div class="kpi-menu-wrap" id="kpiMenuWrap">
     <button class="kpi-menu-toggle active" id="kpiBoardBtn" type="button">KPI Board <span class="kpi-menu-arrow">⌄</span></button>
@@ -2456,7 +2569,7 @@ const state={
   data:null,filtered:null,tab:'overview',charts:[],profile:null,userList:[],editingUserId:null,ydViewMode:'date',
   ottFilters:{_initialized:false,bookingAll:true,bookings:[],buyer:[],result:'',failReason:[],relatedDept:[],floor:[],type:'',month:['__RUNNING__'],from:'',to:''},
   lockDetailFilters:{_initialized:false,event:[],booking:[],floor:[],pmc:[],buyer:[],lockPlanFrom:'',lockPlanTo:'',otd:[],reason:[],responsible:[],month:[],week:[],status:[]},
-  dailySummaryFilters:{_initialized:false,month:'',reportDate:'',trendFrom:'',trendTo:''},
+  dailySummaryFilters:{_initialized:false,month:'',reportDate:'',trendFrom:'',trendTo:'',manualDays:{}},
   greetingTimer:null
 };
 const $=s=>document.querySelector(s); const $$=s=>[...document.querySelectorAll(s)];
@@ -4687,9 +4800,9 @@ function dailySetTrendFromReport(){
 }
 function dailySummaryEnsureFilters(){
   const months=dailySummaryMonths(),f=state.dailySummaryFilters;
-  if(f?._initialized&&months.includes(f.month))return;
+  if(f?._initialized&&months.includes(f.month)){f.manualDays=f.manualDays||{};return}
   const yKey=dailyYesterdayISO().slice(0,7),month=months.includes(yKey)?yKey:(months.slice(-1)[0]||'');
-  state.dailySummaryFilters={_initialized:true,month,reportDate:dailyDefaultReportDate(month),trendFrom:'',trendTo:''};
+  state.dailySummaryFilters={_initialized:true,month,reportDate:dailyDefaultReportDate(month),trendFrom:'',trendTo:'',manualDays:{}};
   dailySetTrendFromReport()
 }
 function dailyRowsThroughReport(){
@@ -4732,38 +4845,69 @@ function dailyTargetOverride(metric){
   const t=(state.data?.targets||[]).find(x=>targetSig(x.Department)==='daily summary'&&targetSig(x.KPI)===targetSig(metric.label));
   return t&&Number.isFinite(Number(t.Target))?Number(t.Target):metric.daily
 }
+
+function dailyAutoWorkingDays(){return dailyDaysGone()}
+function dailyWorkingDaysFor(metric){
+  dailySummaryEnsureFilters();
+  const raw=state.dailySummaryFilters.manualDays?.[metric.key],n=Number(raw);
+  return Number.isFinite(n)&&n>0?n:dailyAutoWorkingDays()
+}
+function dailyWorkingDayInputs(){
+  dailySummaryEnsureFilters();
+  const auto=dailyAutoWorkingDays(),m=state.dailySummaryFilters.manualDays||{};
+  return DAILY_SUMMARY_TARGETS.map(x=>{
+    const manual=Number(m[x.key]),has=Number.isFinite(manual)&&manual>0,value=has?manual:auto;
+    return`<div class="daily-working-item"><label title="${esc(x.label)}">${esc(x.label)}</label><input class="daily-working-input" data-day-key="${esc(x.key)}" type="number" min="1" max="31" step="1" value="${value}"><small>${has?'Manual':'Auto'} working days</small></div>`
+  }).join('')
+}
+function dailyBindWorkingDayInputs(){
+  $$('.daily-working-input').forEach(inp=>inp.onchange=()=>{
+    const key=inp.dataset.dayKey,n=Number(inp.value),auto=dailyAutoWorkingDays();
+    state.dailySummaryFilters.manualDays=state.dailySummaryFilters.manualDays||{};
+    if(!Number.isFinite(n)||n<=0||n===auto)delete state.dailySummaryFilters.manualDays[key];
+    else state.dailySummaryFilters.manualDays[key]=n;
+    render()
+  });
+  if($('#dailyWorkingReset'))$('#dailyWorkingReset').onclick=()=>{state.dailySummaryFilters.manualDays={};render()}
+}
+
+
 function dailyMetricSummary(metric){
-  const rows=dailyRowsThroughReport(),report=dailyReportRow(),daysGone=dailyDaysGone(),f=state.dailySummaryFilters,
+  const rows=dailyRowsThroughReport(),report=dailyReportRow(),daysUsed=dailyWorkingDaysFor(metric),f=state.dailySummaryFilters,
         basis=metric.basis==='delivery'?dailyDeliveryDays(f.month):dailyProductionBasisDays(),
         dailyTarget=dailyTargetOverride(metric),monthlyTarget=dailyTarget*basis,
-        achieved=dailySumMetric(rows,metric)/1000,tillTarget=dailyTarget*daysGone,tillAvg=daysGone?achieved/daysGone:null,
-        selected=dailyMetricValue(report,metric)/1000,deficit=tillTarget-achieved,daysLeft=Math.max(0,basis-daysGone),
+        achieved=dailySumMetric(rows,metric)/1000,tillTarget=dailyTarget*daysUsed,tillAvg=daysUsed?achieved/daysUsed:null,
+        selected=dailyMetricValue(report,metric)/1000,deficit=tillTarget-achieved,daysLeft=Math.max(0,basis-daysUsed),
         nowRequired=daysLeft?Math.max(0,(monthlyTarget-achieved)/daysLeft):null,pace=tillTarget>0?achieved/tillTarget:null,
         status=pace===null?'nodata':pace>=1?'ontrack':pace>=.9?'watch':'critical';
-  return{...metric,dailyTarget,basis,monthlyTarget,achieved,tillTarget,tillAvg,selected,deficit,daysGone,daysLeft,nowRequired,pace,status}
+  return{...metric,dailyTarget,basis,monthlyTarget,achieved,tillTarget,tillAvg,selected,deficit,daysUsed,daysLeft,nowRequired,pace,status}
 }
 function dailyStatusLabel(s){return s==='ontrack'?'On Track':s==='watch'?'Watch':s==='critical'?'Critical':'No Data'}
+
 function dailyTopStatus(top){
-  const rows=dailyRowsThroughReport(),report=dailyReportRow(),daysGone=dailyDaysGone(),basis=dailyProductionBasisDays(),
-        achieved=rows.reduce((a,r)=>a+(top.value(r)||0),0)/1000,tillTarget=top.target*daysGone,pace=tillTarget>0?achieved/tillTarget:null,
+  const rows=dailyRowsThroughReport(),report=dailyReportRow();
+  const metricKey=top.key==='dyeing'?'efl':top.key;
+  const metric=DAILY_SUMMARY_TARGETS.find(x=>x.key===metricKey);
+  const daysUsed=metric?dailyWorkingDaysFor(metric):dailyAutoWorkingDays();
+  const achieved=rows.reduce((a,r)=>a+(top.value(r)||0),0)/1000,tillTarget=top.target*daysUsed,pace=tillTarget>0?achieved/tillTarget:null,
         today=(top.value(report||{})||0)/1000,status=pace===null?'nodata':pace>=1?'ontrack':pace>=.9?'watch':'critical';
-  return{...top,achieved,tillTarget,pace,today,status,basis}
+  return{...top,achieved,tillTarget,pace,today,status,daysUsed}
 }
+
 function dailyStatusCard(x){
   return`<div class="daily-status-card ${x.status}"><div class="title">${esc(x.label)}</div><div class="body">
     <div class="today">${fmt1(x.today)} <small>T today</small></div>
     <div class="pace">${dailyStatusLabel(x.status)} • Achieved ${x.pace===null?'—':(x.pace*100).toFixed(0)+'%'}</div>
-    <div class="sub">MTD ${fmt1(x.achieved)} T • Pace target ${fmt1(x.tillTarget)} T</div>
   </div></div>`
 }
 function dailyMiniCard(label,value,sub=''){
   return`<div class="daily-mini-card"><div class="label">${esc(label)}</div><div class="value">${value}</div><div class="sub">${esc(sub)}</div></div>`
 }
+
 function dailySummaryTable(){
   const items=DAILY_SUMMARY_TARGETS.map(dailyMetricSummary);
-  return`<div class="daily-table-card"><div class="daily-table-title"><h3>Daily Production Scenario</h3><span>${esc(dailyMonthLabel(state.dailySummaryFilters.month))} • report date ${esc(state.dailySummaryFilters.reportDate||'—')}</span></div>
-    <div class="table-wrap"><table class="daily-summary-table"><thead><tr>
-      <th>Topics</th><th>Target [Ton]</th><th>MTD Achieved [Ton]</th><th>MTD Avg [Ton]</th><th>Selected Day [Ton]</th><th>Plan-to-Date Gap [Ton]</th><th>Now Avg. Required</th><th>Status</th>
+  return`<div class="daily-table-card"><div class="table-wrap"><table class="daily-summary-table"><thead><tr>
+      <th>Topics</th><th>Target<br>[Ton]</th><th>MTD Achieved<br>[Ton]</th><th>MTD Avg<br>[Ton]</th><th>Selected Day<br>[Ton]</th><th>Plan-to-Date Gap<br>[Ton]</th><th>Now Avg.<br>Required</th><th>Status</th>
     </tr></thead><tbody>${items.map(x=>`<tr>
       <td>${esc(x.label)}</td><td>${fmt1(x.monthlyTarget)}</td><td>${fmt1(x.achieved)}</td><td>${fmt1(x.tillAvg)}</td><td class="${x.selected===0?'negative':''}">${fmt1(x.selected)}</td>
       <td class="${x.deficit>0?'negative':'positive'}">${x.deficit>0?fmt1(x.deficit):`+${fmt1(Math.abs(x.deficit))}`}</td><td>${fmt1(x.nowRequired)}</td>
@@ -4781,13 +4925,42 @@ function dailyTrendData(){
   ];
   return{rows,labels,series}
 }
+
+function dailyProductionLabelsPlugin(){
+  return{
+    id:'dailyProductionLabels',
+    afterDatasetsDraw(chart){
+      const {ctx,chartArea}=chart;if(!chartArea)return;
+      const dark=document.body.classList.contains('dark-mode');
+      ctx.save();ctx.font='700 8px Inter,Arial,sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';
+      chart.data.datasets.forEach((ds,di)=>{
+        const meta=chart.getDatasetMeta(di);if(meta.hidden)return;
+        meta.data.forEach((pt,i)=>{
+          const v=Number(ds.data[i]);if(!Number.isFinite(v))return;
+          const label=v.toFixed(1);
+          const offset=[-16,-8,10,18,26][di]??(-12+di*8);
+          const y=Math.max(chartArea.top+8,Math.min(chartArea.bottom-8,pt.y+offset));
+          const w=ctx.measureText(label).width+6;
+          ctx.fillStyle=dark?'rgba(20,31,27,.82)':'rgba(255,255,255,.86)';
+          ctx.fillRect(pt.x-w/2,y-7,w,14);
+          ctx.fillStyle=ds.borderColor||'#243b33';
+          ctx.fillText(label,pt.x,y)
+        })
+      });ctx.restore()
+    }
+  }
+}
+
+
 function dailyLineChart(id){
   const ctx=document.querySelector(`#${id}`);if(!ctx)return;
   const d=dailyTrendData(),dark=document.body.classList.contains('dark-mode'),grid=dark?'#31453c':'#e7ece9',txt=dark?'#c6d8cf':'#58635e';
-  const datasets=d.series.map(([label,key,c,axis])=>({label,data:d.rows.map(r=>(safeNum(r[key])||0)/1000),borderColor:c,backgroundColor:c,yAxisID:axis,tension:.25,pointRadius:3,borderWidth:2}));
-  const c=new Chart(ctx,{type:'line',data:{labels:d.labels,datasets},options:{responsive:true,maintainAspectRatio:false,animation:false,
-    plugins:{tpChartValueLabels:{display:false},legend:{position:'bottom',labels:{boxWidth:10,font:{size:9},color:txt}}},
-    scales:{x:{grid:{display:false},ticks:{color:txt,font:{size:8}}},y:{beginAtZero:true,grid:{color:grid},ticks:{color:txt,font:{size:8}},title:{display:true,text:'Ton',color:txt}},yYD:{position:'right',beginAtZero:true,grid:{drawOnChartArea:false},ticks:{color:txt,font:{size:8}},title:{display:true,text:'YD Ton',color:txt}}}}});
+  const datasets=d.series.map(([label,key,c,axis])=>({label,data:d.rows.map(r=>(safeNum(r[key])||0)/1000),borderColor:c,backgroundColor:c,yAxisID:axis,tension:.25,pointRadius:4,pointHoverRadius:6,borderWidth:2.3}));
+  const c=new Chart(ctx,{type:'line',data:{labels:d.labels,datasets},options:{responsive:true,maintainAspectRatio:false,animation:false,layout:{padding:{top:28,bottom:18,left:8,right:8}},
+    plugins:{tpChartValueLabels:{display:false},legend:{position:'bottom',labels:{boxWidth:11,font:{size:10},color:txt,padding:13}},
+      tooltip:{callbacks:{label:c=>`${c.dataset.label}: ${Number(c.raw||0).toFixed(1)} T`}}},
+    scales:{x:{grid:{display:false},ticks:{color:txt,font:{size:9}}},y:{beginAtZero:true,grid:{color:grid},ticks:{color:txt,font:{size:9}},title:{display:true,text:'Ton',color:txt,font:{size:10}}},yYD:{position:'right',beginAtZero:true,grid:{drawOnChartArea:false},ticks:{color:txt,font:{size:9}},title:{display:true,text:'YD Ton',color:txt,font:{size:10}}}}},
+    plugins:[dailyProductionLabelsPlugin()]});
   state.charts.push(c)
 }
 function dailyColumnChart(id){
@@ -4799,9 +4972,11 @@ function dailyColumnChart(id){
     scales:{x:{grid:{display:false},ticks:{color:txt,font:{size:8}}},y:{beginAtZero:true,grid:{color:grid},ticks:{color:txt,font:{size:8}},title:{display:true,text:'Ton',color:txt}},yYD:{position:'right',beginAtZero:true,grid:{drawOnChartArea:false},ticks:{color:txt,font:{size:8}},title:{display:true,text:'YD Ton',color:txt}}}}});
   state.charts.push(c)
 }
+
 function dailyFilterPanel(){
   dailySummaryEnsureFilters();const f=state.dailySummaryFilters,months=dailySummaryMonths(),rows=dailySummaryRows(),
-        dates=rows.filter(r=>dailyMonthKey(r.Date)===f.month).map(r=>r.Date).sort(),meta=state.data?.dailySummary?.meta||{};
+        dates=rows.filter(r=>dailyMonthKey(r.Date)===f.month).map(r=>r.Date).sort(),meta=state.data?.dailySummary?.meta||{},
+        manualCount=Object.keys(f.manualDays||{}).length,autoDays=dailyAutoWorkingDays();
   return`<div class="daily-filter-panel"><div class="daily-filter-head"><div><h2>Daily Summary</h2><div class="meta">${(meta.rows||rows.length).toLocaleString()} date rows • Data sheet only • latest admin upload is used automatically</div></div>
     <div class="daily-filter-actions"><button class="btn" id="dailyCsvBtn" type="button">Export CSV</button><button class="btn primary" id="dailyManagementBtn" type="button">▣ Management View</button></div></div>
     <div class="daily-filter-grid">
@@ -4810,19 +4985,32 @@ function dailyFilterPanel(){
       <div class="filter-group"><span class="mini-label">Trend From</span><input id="dailyTrendFrom" type="date" value="${esc(f.trendFrom||'')}"></div>
       <div class="filter-group"><span class="mini-label">Trend To</span><input id="dailyTrendTo" type="date" value="${esc(f.trendTo||'')}"></div>
       <div class="filter-group"><span class="mini-label">Filters</span><button class="btn" id="dailyResetBtn" type="button">Reset</button></div>
-    </div></div>`
+    </div>
+    <details class="daily-working-days" ${manualCount?'open':''}>
+      <summary><b>Working Days — Manual Override by Topic</b><span>Default: ${autoDays} working days • ${manualCount?manualCount+' manual override(s)':'all topics automatic'}</span></summary>
+      <div class="daily-working-grid">${dailyWorkingDayInputs()}</div>
+      <div class="daily-working-actions"><button class="btn" id="dailyWorkingReset" type="button">Use Automatic Days for All</button></div>
+    </details>
+  </div>`
 }
+
 function dailyBindFilters(){
   if($('#dailyMonth'))$('#dailyMonth').onchange=()=>{
-    const month=$('#dailyMonth').value;state.dailySummaryFilters.month=month;state.dailySummaryFilters.reportDate=dailyDefaultReportDate(month);dailySetTrendFromReport();render()
+    const month=$('#dailyMonth').value;state.dailySummaryFilters.month=month;state.dailySummaryFilters.reportDate=dailyDefaultReportDate(month);
+    state.dailySummaryFilters.manualDays={};dailySetTrendFromReport();render()
   };
-  if($('#dailyReportDate'))$('#dailyReportDate').onchange=()=>{state.dailySummaryFilters.reportDate=$('#dailyReportDate').value;state.dailySummaryFilters.month=dailyMonthKey(state.dailySummaryFilters.reportDate)||state.dailySummaryFilters.month;dailySetTrendFromReport();render()};
+  if($('#dailyReportDate'))$('#dailyReportDate').onchange=()=>{
+    state.dailySummaryFilters.reportDate=$('#dailyReportDate').value;state.dailySummaryFilters.month=dailyMonthKey(state.dailySummaryFilters.reportDate)||state.dailySummaryFilters.month;
+    state.dailySummaryFilters.manualDays={};dailySetTrendFromReport();render()
+  };
   if($('#dailyTrendFrom'))$('#dailyTrendFrom').onchange=()=>{state.dailySummaryFilters.trendFrom=$('#dailyTrendFrom').value;render()};
   if($('#dailyTrendTo'))$('#dailyTrendTo').onchange=()=>{state.dailySummaryFilters.trendTo=$('#dailyTrendTo').value;render()};
   if($('#dailyResetBtn'))$('#dailyResetBtn').onclick=()=>{state.dailySummaryFilters._initialized=false;dailySummaryEnsureFilters();render()};
   if($('#dailyCsvBtn'))$('#dailyCsvBtn').onclick=exportDailySummaryCSV;
-  if($('#dailyManagementBtn'))$('#dailyManagementBtn').onclick=openDailySummarySnapshot
+  if($('#dailyManagementBtn'))$('#dailyManagementBtn').onclick=openDailySummarySnapshot;
+  dailyBindWorkingDayInputs()
 }
+
 function renderDailySummary(){
   metricCardSet([]);dailySummaryEnsureFilters();
   const rows=dailySummaryRows();
@@ -4832,7 +5020,6 @@ function renderDailySummary(){
   const report=dailyReportRow(),top=DAILY_SUMMARY_TOP.map(dailyTopStatus),mtd=dailyRowsThroughReport(),
         dayVal=(key)=>(safeNum(report?.[key])||0)/1000,
         mtdVal=(key)=>sum(mtd,key)/1000,
-        inHouseDye=(safeNum(report?.['Dyeing Production'])||0)/1000,
         eklExt=((safeNum(report?.['EKL'])||0)+(safeNum(report?.['EFL-Ext'])||0))/1000;
   const topHtml=top.map(dailyStatusCard).join('');
   const mini=[
@@ -4843,23 +5030,22 @@ function renderDailySummary(){
     dailyMiniCard('Outside Dyeing',`${fmt1(dayVal('Sub-Dyeing'))} T`,`MTD ${fmt1(mtdVal('Sub-Dyeing'))} T`),
     dailyMiniCard('YD In-house',`${fmt1(dayVal('YD'))} T`,`YD Sub ${fmt1(dayVal('YD Sub'))} T`)
   ].join('');
-  const p=(title,note,id)=>panel(title,note,`<div class="chart-wrap"><canvas id="${id}"></canvas></div>`,false,true);
+  const p=(title,id)=>panel(title,'',`<div class="chart-wrap"><canvas id="${id}"></canvas></div>`,true,true);
   body.innerHTML=`<div class="daily-summary-management" id="dailySummaryManagementArea">
     <div class="daily-summary-top">${topHtml}</div>
     <div class="daily-current-strip">${mini}</div>
     ${dailySummaryTable()}
     <div class="daily-chart-grid">
-      ${p('Last 7 Days — Production Trend','Delivery, Receive, Dyeing, Greige Supply and YD In-house • YD uses right axis','dailyTrendLine')}
-      ${p('Last 7 Days — Daily Volume','Column comparison for the same five key production flows','dailyTrendColumn')}
+      ${p('Last 7 Days — Production Trend','dailyTrendLine')}
     </div>
-    <div class="daily-source-note">Business basis retained from the supplied Daily Production Summary: Delivery uses non-Friday working days; production target basis is 28 days. Dashboard reads only the Data sheet.</div>
   </div>`;
-  dailyLineChart('dailyTrendLine');dailyColumnChart('dailyTrendColumn')
+  dailyLineChart('dailyTrendLine')
 }
+
 function exportDailySummaryCSV(){
   const items=DAILY_SUMMARY_TARGETS.map(dailyMetricSummary);
   const out=items.map(x=>({
-    Topic:x.label,'Target Ton':Number(x.monthlyTarget.toFixed(2)),'MTD Achieved Ton':Number(x.achieved.toFixed(2)),
+    Topic:x.label,'Working Days Used':x.daysUsed,'Target Ton':Number(x.monthlyTarget.toFixed(2)),'MTD Achieved Ton':Number(x.achieved.toFixed(2)),
     'MTD Avg Ton':x.tillAvg===null?'':Number(x.tillAvg.toFixed(2)),'Selected Day Ton':Number(x.selected.toFixed(2)),
     'Plan-to-Date Gap Ton':Number(x.deficit.toFixed(2)),'Now Avg Required':x.nowRequired===null?'':Number(x.nowRequired.toFixed(2)),
     Status:dailyStatusLabel(x.status)
@@ -4869,7 +5055,7 @@ function exportDailySummaryCSV(){
 }
 function dailySnapshotHeader(){
   const f=state.dailySummaryFilters,d=dailyDateParts(f.reportDate),dateText=d?d.toLocaleDateString(undefined,{weekday:'long',month:'long',day:'numeric',year:'numeric'}):(f.reportDate||'—');
-  return`<div class="daily-management-head"><div><h1>Textile Daily Production Summary</h1><small>PLANNING · MONITORING · CONTROL</small></div><div class="daily-management-date">${esc(dailyMonthLabel(f.month))}<b>${esc(dateText)}</b></div></div>`
+  return`<div class="daily-management-head"><div><h1>Textile Daily Production Scenario</h1><small>PLANNING · MONITORING · CONTROL</small></div><div class="daily-management-date">${esc(dailyMonthLabel(f.month))}<b>${esc(dateText)}</b></div></div>`
 }
 function buildDailySummarySnapshotClone(){
   const source=$('#dailySummaryManagementArea');if(!source)throw new Error('Daily Summary management area is not available.');
