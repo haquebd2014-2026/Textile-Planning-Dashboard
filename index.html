@@ -6840,7 +6840,16 @@ async function loadData(){
   document.getElementById('lastUpdated').textContent=latest?'Last updated: '+new Date(latest).toLocaleString():'';
   render()
 }
-async function start(){const {data:{session}}=await sb.auth.getSession();if(!session)return;await enter(session.user)}
+async function start(){
+  try{
+    const {data:{session},error}=await sb.auth.getSession();
+    if(error)throw error;
+    if(!session)return;
+    await enter(session.user)
+  }catch(e){
+    const el=document.getElementById('loginError');if(el)el.textContent='Startup error: '+(e?.message||e)
+  }
+}
 
 function timeGreetingLabel(d=new Date()){
   const h=d.getHours();
@@ -6862,7 +6871,15 @@ function startGreetingClock(){
 }
 
 async function enter(user){try{const p=await loadProfile(user);document.getElementById('login').classList.add('hidden');document.getElementById('app').classList.remove('hidden');startGreetingClock();bindUI();await loadData()}catch(e){document.getElementById('loginError').textContent=e.message}}
-document.getElementById('loginBtn').onclick=async()=>{document.getElementById('loginError').textContent='';const email=document.getElementById('email').value.trim(),password=document.getElementById('password').value;const {data,error}=await sb.auth.signInWithPassword({email,password});if(error)return document.getElementById('loginError').textContent=error.message;enter(data.user)};
+document.getElementById('loginBtn').onclick=async()=>{
+  const errEl=document.getElementById('loginError');errEl.textContent='';
+  const email=document.getElementById('email').value.trim(),password=document.getElementById('password').value;
+  try{
+    const {data,error}=await sb.auth.signInWithPassword({email,password});
+    if(error)throw error;
+    await enter(data.user)
+  }catch(e){errEl.textContent=e?.message||String(e)}
+};
 document.getElementById('signOutBtn').onclick=async()=>{await sb.auth.signOut();location.reload()};document.getElementById('refreshBtn').onclick=loadData;
 async function handleDyeingUpload(){
   const inp=$('#dyeingFileInput'),f=inp?.files?.[0],st=$('#dyeingUploadStatus');if(!f)return st.textContent='Choose the Dyeing Excel file first.';
@@ -6911,3 +6928,5 @@ async function handleDeliveryUpload(){
     st.textContent=`Delivery published successfully (${dateFrom||'—'} to ${dateTo||'—'}). ${even?'Draft/equal buyer allocation detected. ':''}No other dashboard source was rewritten.`;await loadData()
   }catch(e){st.textContent=uploadErrorMessage(e,'Delivery upload')}
 }
+
+start();</script></body></html>
