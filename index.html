@@ -2893,6 +2893,74 @@ body.dark-mode .daily-mini-card .value{color:#fff6b8!important}
   }
 }
 
+
+/* ================= v53 Data Management Workspace ================= */
+.page:has(.dm-shell){max-width:1600px!important;padding-left:12px!important;padding-right:12px!important}
+.dm-shell{display:grid;grid-template-columns:230px minmax(0,1fr);gap:12px;align-items:start}
+.dm-sidebar{position:sticky;top:7px;min-height:calc(100vh - 170px);background:linear-gradient(180deg,#f7faf8,#f1f6f3);border:1px solid var(--line);border-radius:10px;padding:15px 12px;box-shadow:0 4px 15px rgba(24,70,54,.05)}
+.dm-side-brand{display:flex;align-items:flex-start;gap:10px;padding:3px 4px 15px;border-bottom:1px solid var(--line)}
+.dm-side-icon{width:38px;height:38px;border-radius:11px;display:grid;place-items:center;background:var(--green);color:#fff;font-weight:900;font-size:11px;box-shadow:0 5px 12px rgba(0,107,79,.16)}
+.dm-side-brand h2{margin:0;font:700 23px/1.02 Georgia,serif;color:#07563f}
+.dm-side-brand p{margin:6px 0 0;font-size:7.7px;letter-spacing:.4px;color:var(--muted);font-weight:700}
+.dm-side-search{display:flex;align-items:center;gap:6px;margin:13px 0 10px;padding:0 8px;height:32px;border:1px solid #cfdbd5;border-radius:7px;background:var(--card)}
+.dm-side-search span{color:#7c8b85;font-size:14px}
+.dm-side-search input{width:100%;border:0;outline:0;background:transparent;color:var(--text);font-size:9px}
+.dm-side-nav{display:flex;flex-direction:column;gap:4px;margin-top:3px}
+.dm-nav-btn{width:100%;height:36px;border:0;border-radius:7px;background:transparent;color:#40564e;display:flex;align-items:center;justify-content:space-between;padding:0 9px;font-size:9.5px;font-weight:800;text-align:left}
+.dm-nav-btn:hover{background:#e9f3ee}.dm-nav-btn.active{background:#dff0e8;color:#075d45}
+.dm-nav-btn b{min-width:22px;height:20px;display:grid;place-items:center;border-radius:999px;background:var(--card);border:1px solid var(--line);font-size:7.5px}
+.dm-side-filter{margin-top:16px;padding-top:12px;border-top:1px solid var(--line)}
+.dm-side-filter>span{display:block;font-size:7.5px;text-transform:uppercase;letter-spacing:.8px;color:#77847f;margin-bottom:6px}
+.dm-health-buttons{display:grid;grid-template-columns:repeat(3,1fr);gap:3px}
+.dm-health-buttons button{height:27px;border:1px solid var(--line);background:var(--card);color:#63716c;border-radius:5px;font-size:7.3px;padding:0 3px}
+.dm-health-buttons button.active{border-color:#218867;background:#e3f3ec;color:#075d45;font-weight:800}
+.dm-side-note{margin-top:16px;padding:10px;border-radius:7px;background:#fff9de;border:1px solid #f0df88}
+.dm-side-note b{display:block;font-size:8px;color:#6c5a0b}.dm-side-note span{display:block;margin-top:4px;font-size:7.4px;line-height:1.45;color:#776c3d}
+.dm-workspace{min-width:0}
+.dm-hero{min-height:98px;display:flex;justify-content:space-between;align-items:center;gap:14px;padding:14px 17px;margin-bottom:10px;border:1px solid var(--line);border-radius:10px;background:linear-gradient(105deg,#ffffff 0%,#f3faf6 60%,#eef7f3 100%);border-top:4px solid var(--green);box-shadow:0 4px 14px rgba(26,69,54,.05)}
+.dm-eyebrow{font-size:7.2px;letter-spacing:1.4px;color:#3b7c67;font-weight:900}
+.dm-hero h2{margin:3px 0 2px;font:700 25px Georgia,serif;color:#07563f}.dm-hero p{margin:0;color:var(--muted);font-size:9px}
+.dm-hero-stats{display:flex;gap:7px}.dm-hero-stats>div{min-width:105px;padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:rgba(255,255,255,.85);text-align:center}
+.dm-hero-stats b{display:block;font:700 18px Georgia,serif;color:#075d45}.dm-hero-stats span{display:block;margin-top:2px;font-size:7.2px;color:var(--muted)}
+.dm-section{scroll-margin-top:8px;margin-bottom:10px;border:1px solid var(--line);border-radius:10px;background:var(--card);box-shadow:0 3px 12px rgba(0,0,0,.025);overflow:hidden}
+.dm-section-kpi{border-top:3px solid #0c7a5b}.dm-section-ott{border-top:3px solid #7658ba}.dm-section-ops{border-top:3px solid #197a98}
+.dm-section-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 13px;border-bottom:1px solid var(--line);background:linear-gradient(90deg,var(--card),var(--bg))}
+.dm-section-kicker{font-size:6.8px;letter-spacing:1px;color:#83908b;font-weight:800;text-transform:uppercase}
+.dm-section-head h3{margin:1px 0 1px;font:700 18px Georgia,serif;color:#0b5c45}.dm-section-ott .dm-section-head h3{color:#624a9f}.dm-section-ops .dm-section-head h3{color:#17647e}
+.dm-section-head p{margin:0;font-size:8px;color:var(--muted)}
+.dm-section-count{padding:4px 8px;border:1px solid var(--line);border-radius:999px;background:var(--card);font-size:7.5px;color:#6d7874;white-space:nowrap}
+.dm-source-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;padding:9px}
+.dm-source-card{min-width:0;border:1px solid #dce5e0;border-radius:8px;background:#fff;overflow:hidden;box-shadow:0 2px 8px rgba(21,66,51,.035);transition:.15s ease}
+.dm-source-card:hover{transform:translateY(-1px);box-shadow:0 5px 14px rgba(21,66,51,.08)}
+.dm-kpi{border-top:3px solid #16845f}.dm-ott{border-top:3px solid #795ac0}.dm-ops{border-top:3px solid #1b7d9c}
+.dm-source-top{display:flex;align-items:center;gap:8px;padding:8px 10px;border-bottom:1px solid #edf1ef;background:#fbfdfc}
+.dm-source-icon{width:31px;height:31px;border-radius:8px;display:grid;place-items:center;background:#e5f3ec;color:#087052;font-size:8px;font-weight:900;flex:0 0 auto}
+.dm-ott .dm-source-icon{background:#eee9fb;color:#6849aa}.dm-ops .dm-source-icon{background:#e7f4f8;color:#176984}
+.dm-source-name{min-width:0;flex:1}.dm-source-name h4{margin:0;font:700 14px Georgia,serif;color:#104e3c}.dm-source-name span{display:block;margin-top:1px;font-size:6.8px;color:#8a9591;text-transform:uppercase;letter-spacing:.55px}
+.dm-health{display:inline-flex;align-items:center;gap:4px;padding:3px 6px;border:1px solid var(--line);border-radius:999px;font-size:6.8px;font-weight:800;white-space:nowrap}.dm-health i{width:6px;height:6px;border-radius:50%}
+.dm-health.loaded{background:#e6f5ed;color:#087052;border-color:#cde8da}.dm-health.loaded i{background:#23a06f}.dm-health.missing{background:#fff2ee;color:#b44d39;border-color:#f0d7d0}.dm-health.missing i{background:#d85a42}
+.dm-source-body{display:grid;grid-template-columns:1.06fr .94fr;min-height:155px}.dm-upload-pane,.dm-current-pane{padding:9px 10px;min-width:0}.dm-upload-pane{border-right:1px solid #e8eeeb}.dm-current-pane{background:#f9fbfa}
+.dm-pane-label{font-size:6.7px;text-transform:uppercase;letter-spacing:.75px;color:#77847f;font-weight:900;margin-bottom:6px}
+.dm-file-spec b{display:block;font-size:9px;color:#2b493f}.dm-file-spec span{display:block;margin-top:2px;font-size:7.3px;line-height:1.35;color:#74817c}
+.dm-file-picker{display:block;margin:8px 0 6px;border:1px dashed #b8c9c0;border-radius:6px;padding:6px;background:#fbfdfc;cursor:pointer}.dm-file-picker>span{display:block;font-size:7.5px;color:#4c645b;font-weight:800;margin-bottom:4px}.dm-file-picker input{width:100%;font-size:7.3px;color:#6d7874}
+.dm-upload-btn{height:29px!important;padding:0 10px!important;font-size:8px!important}.data-upload-status{margin-top:5px!important;min-height:12px!important;font-size:7.2px!important;line-height:1.3!important}
+.dm-readonly{margin-top:10px;padding:8px;border:1px solid #e2e8e5;border-radius:6px;background:#f6f8f7}.dm-readonly b{display:block;font-size:8px;color:#4b5d56}.dm-readonly span{display:block;margin-top:3px;font-size:7px;color:#84908b}
+.dm-current-file{font-size:8.8px;font-weight:800;color:#24483c;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:7px}
+.dm-source-meta{margin:0}.dm-source-meta>div{display:grid;grid-template-columns:45px 1fr;gap:5px;margin:3px 0}.dm-source-meta dt{font-size:6.8px;color:#8b9692}.dm-source-meta dd{margin:0;font-size:7.5px;color:#53645e;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.dm-pills{display:flex;gap:3px;flex-wrap:wrap;margin-top:7px}.dm-pills span{padding:2px 5px;border:1px solid #dde5e1;border-radius:999px;background:#fff;font-size:6.6px;color:#596a63}
+.dm-note{margin-top:6px;padding:5px;border-radius:5px;background:#fff7d7;color:#76611a;font-size:6.8px;line-height:1.35}
+.dm-auto-source .dm-auto-body{padding:11px}.dm-auto-body p{margin:0;color:#66746f;font-size:8px;line-height:1.45}.dm-auto-metrics{display:grid;grid-template-columns:repeat(2,1fr);gap:6px;margin-top:10px}
+.dm-auto-metrics>div{padding:8px;border-radius:7px;background:#f7f9f8;border:1px solid var(--line);text-align:center}.dm-auto-metrics b{display:block;font:700 17px Georgia,serif;color:#5f48a1}.dm-auto-metrics span{display:block;margin-top:2px;font-size:6.7px;color:#7c8783}
+.dm-empty-filtered{display:none!important}
+body.dark-mode .dm-sidebar,body.dark-mode .dm-hero,body.dark-mode .dm-section,body.dark-mode .dm-source-card{background:#17231e}
+body.dark-mode .dm-source-top,body.dark-mode .dm-current-pane,body.dark-mode .dm-section-head{background:#111b17}
+body.dark-mode .dm-side-search,body.dark-mode .dm-hero-stats>div,body.dark-mode .dm-health-buttons button,body.dark-mode .dm-pills span{background:#17231e}
+body.dark-mode .dm-source-name h4,body.dark-mode .dm-current-file,body.dark-mode .dm-file-spec b{color:#dcefe7}
+body.dark-mode .dm-upload-pane{border-right-color:#2d4038}body.dark-mode .dm-auto-metrics>div{background:#111b17}
+@media(max-width:1150px){.dm-shell{grid-template-columns:190px minmax(0,1fr)}.dm-source-grid{grid-template-columns:1fr}}
+@media(max-width:820px){.dm-shell{grid-template-columns:1fr}.dm-sidebar{position:static;min-height:0}.dm-side-brand h2 br{display:none}.dm-side-nav{display:grid;grid-template-columns:repeat(3,1fr)}.dm-hero{align-items:flex-start;flex-direction:column}.dm-source-grid{grid-template-columns:1fr}}
+@media(max-width:600px){.dm-source-body{grid-template-columns:1fr}.dm-upload-pane{border-right:0;border-bottom:1px solid #e8eeeb}.dm-hero-stats{width:100%;display:grid;grid-template-columns:repeat(3,1fr)}.dm-hero-stats>div{min-width:0}}
+
 </style></head><body><div id="app" class="hidden"><div class="app-sticky-header"><div class="top-accent"></div><header class="header"><div class="header-left"><div class="brand-mark">TP</div><div><div class="brand-title">Textile Planning Dashboard</div><div class="brand-sub">Planning, Monitoring & Control</div></div></div><div class="header-actions"><div class="utility-tools"><button class="tool-btn stopwatch-btn" id="stopwatchBtn" title="Click to start/pause • Double-click to reset">⏱ <span id="stopwatchText">00:00</span></button><button class="tool-btn" id="fullscreenBtn" title="Enter full screen">⛶ Full</button><button class="tool-btn" id="themeBtn" title="Switch dark/light mode">☾ Dark</button></div><span class="greeting" id="greeting">Good morning</span><button class="btn" id="exportBtn">Export CSV</button><button class="btn" id="signOutBtn">Sign out</button><button class="btn primary" id="refreshBtn">Refresh</button></div></header><nav class="nav">
   <button data-tab="daily_summary" class="main-nav-btn">Daily Summary</button>
   <div class="kpi-menu-wrap" id="kpiMenuWrap">
@@ -6594,101 +6662,182 @@ async function handleLockPlanDetailsUpload(){
     await loadData()
   }catch(e){st.textContent=uploadErrorMessage(e,'Lock Plan Details upload')}
 }
+
 function renderData(){
   metricCardSet([]);
   const d=state.data||{},df=d.departmentFiles||{},ott=d.ottSources||{},lockDetails=d.lockPlanDetails||{},dailySummary=d.dailySummary||{},p=effectivePermissions();
-  const dyeMeta=df.dyeing,knitMeta=df.knitting,finMeta=df.finishing,delMeta=df.delivery,
-        ydMeta=df.yarn,chemMeta=df.chemical,etlMeta=df.etl,targetMeta=df.targets,lockDetailMeta=lockDetails.meta||{},dailyMeta=dailySummary.meta||{};
+  const dyeMeta=df.dyeing||{},knitMeta=df.knitting||{},finMeta=df.finishing||{},delMeta=df.delivery||{},
+        ydMeta=df.yarn||{},chemMeta=df.chemical||{},etlMeta=df.etl||{},targetMeta=df.targets||{},
+        lockDetailMeta=lockDetails.meta||{},dailyMeta=dailySummary.meta||{};
   const uploadAllowed=key=>state.profile?.role==='admin'||p[key]===true;
+  const canSeeSource=key=>state.profile?.role==='admin'||p.data===true||uploadAllowed(key);
   const guardUpload=(key,fn)=>()=>{if(!uploadAllowed(key))return alert('You do not have permission for this upload source.');return fn()};
 
-  const statusCard=(title,file,updated,period,pills=[],extra='')=>`<div class="data-status-card">
-    <b class="title">${esc(title)}</b>
-    <div class="file">${esc(file||'—')}</div>
-    <div class="meta">Updated: ${updated?new Date(updated).toLocaleString():'—'}<br>${period?`Period: ${esc(period)}`:'Period: —'}${extra?`<br>${extra}`:''}</div>
-    <div class="mini-pills">${pills.map(x=>`<span>${esc(x)}</span>`).join('')}</div>
+  const fmtUpdated=v=>v?new Date(v).toLocaleString():'—';
+  const period=(m)=>m?.dateFrom&&m?.dateTo?`${m.dateFrom} → ${m.dateTo}`:'—';
+
+  const sourceCard=({
+    perm,title,group='kpi',workbook,sheets,maxMb,inputId,buttonId,statusId,buttonText,
+    fileName,updated,periodText='—',pills=[],loaded=false,note='',icon='DB'
+  })=>{
+    if(!canSeeSource(perm))return'';
+    const canUpload=uploadAllowed(perm);
+    return`<article class="dm-source-card dm-${group}" data-loaded="${loaded?'1':'0'}" data-search="${esc(`${title} ${workbook||''} ${fileName||''} ${sheets||''}`.toLowerCase())}">
+      <div class="dm-source-top">
+        <div class="dm-source-icon">${esc(icon)}</div>
+        <div class="dm-source-name"><h4>${esc(title)}</h4><span>${esc(group==='ott'?'OTT source':group==='ops'?'Operational source':'KPI source')}</span></div>
+        <span class="dm-health ${loaded?'loaded':'missing'}"><i></i>${loaded?'Loaded':'No data'}</span>
+      </div>
+      <div class="dm-source-body">
+        <div class="dm-upload-pane">
+          <div class="dm-pane-label">Source File Upload</div>
+          <div class="dm-file-spec"><b>${esc(workbook||'Workbook')}</b><span>${sheets||''}</span>${maxMb?`<span>Maximum: ${esc(String(maxMb))} MB</span>`:''}</div>
+          ${canUpload?`
+            <label class="dm-file-picker"><span>Choose Excel file</span><input id="${inputId}" type="file" accept=".xlsx,.xls,.xlsb"></label>
+            <button class="btn primary dm-upload-btn" id="${buttonId}" type="button">${esc(buttonText)}</button>
+            <div class="data-upload-status" id="${statusId}"></div>
+          `:`<div class="dm-readonly"><b>View only</b><span>Upload permission is not assigned to this user.</span></div>`}
+        </div>
+        <div class="dm-current-pane">
+          <div class="dm-pane-label">Current Source</div>
+          <div class="dm-current-file" title="${esc(fileName||'No source uploaded')}">${esc(fileName||'No source uploaded')}</div>
+          <dl class="dm-source-meta">
+            <div><dt>Updated</dt><dd>${esc(fmtUpdated(updated))}</dd></div>
+            <div><dt>Period</dt><dd>${esc(periodText||'—')}</dd></div>
+          </dl>
+          <div class="dm-pills">${pills.map(x=>`<span>${esc(x)}</span>`).join('')}</div>
+          ${note?`<div class="dm-note">${esc(note)}</div>`:''}
+        </div>
+      </div>
+    </article>`
+  };
+
+  const autoCard=({title,group='ott',subtitle,metrics=[],icon='AUTO'})=>`<article class="dm-source-card dm-${group} dm-auto-source" data-loaded="1" data-search="${esc(`${title} ${subtitle||''}`.toLowerCase())}">
+    <div class="dm-source-top"><div class="dm-source-icon">${esc(icon)}</div><div class="dm-source-name"><h4>${esc(title)}</h4><span>System generated</span></div><span class="dm-health loaded"><i></i>Automatic</span></div>
+    <div class="dm-auto-body"><p>${esc(subtitle||'')}</p><div class="dm-auto-metrics">${metrics.map(x=>`<div><b>${esc(x.value)}</b><span>${esc(x.label)}</span></div>`).join('')}</div></div>
+  </article>`;
+
+  const kpiSources=[
+    sourceCard({perm:'upload_dyeing',title:'Dyeing Data',group:'kpi',icon:'DY',workbook:'Dyeing_Dashboard',sheets:'Dyeing_Date_Buyer + Dyeing_Date',maxMb:MAX_DYEING_FILE_MB,inputId:'dyeingFileInput',buttonId:'dyeingUploadBtn',statusId:'dyeingUploadStatus',buttonText:'Upload / Replace',fileName:dyeMeta.fileName,updated:dyeMeta.uploadedAt,periodText:period(dyeMeta),loaded:!!(dyeMeta.fileName||(d.sheets?.Dyeing_Date_Buyer||[]).length),pills:[`Buyer/Date ${(d.sheets?.Dyeing_Date_Buyer||[]).length} rows`,`Date ${(d.sheets?.Dyeing_Date||[]).length} rows`]}),
+    sourceCard({perm:'upload_knitting',title:'Knitting Data',group:'kpi',icon:'KN',workbook:'Knitting_Dashboard',sheets:'Knitting_Date + Knitting_Date_Buyer',maxMb:MAX_KNITTING_FILE_MB,inputId:'knittingFileInput',buttonId:'knittingUploadBtn',statusId:'knittingUploadStatus',buttonText:'Upload / Replace',fileName:knitMeta.fileName,updated:knitMeta.uploadedAt,periodText:period(knitMeta),loaded:!!(knitMeta.fileName||(d.sheets?.Knitting_Date||[]).length),pills:[`Date ${(d.sheets?.Knitting_Date||[]).length} rows`,`Buyer/Date ${(d.sheets?.Knitting_Date_Buyer||[]).length} rows`],note:knitMeta.buyerEvenAllocation?'Buyer allocation detected as equal/draft.':''}),
+    sourceCard({perm:'upload_finishing',title:'Finishing Data',group:'kpi',icon:'FN',workbook:'Finishing_Dashboard',sheets:'Finishing_Date',maxMb:MAX_FINISHING_FILE_MB,inputId:'finishingFileInput',buttonId:'finishingUploadBtn',statusId:'finishingUploadStatus',buttonText:'Upload / Replace',fileName:finMeta.fileName,updated:finMeta.uploadedAt,periodText:period(finMeta),loaded:!!(finMeta.fileName||(d.sheets?.Finishing_Date||[]).length),pills:[`Date ${(d.sheets?.Finishing_Date||[]).length} rows`]}),
+    sourceCard({perm:'upload_delivery',title:'Delivery Data',group:'kpi',icon:'DL',workbook:'Delivery_Dashboard',sheets:'Delivery_Date + Delivery_Date_Buyer',maxMb:MAX_DELIVERY_FILE_MB,inputId:'deliveryFileInput',buttonId:'deliveryUploadBtn',statusId:'deliveryUploadStatus',buttonText:'Upload / Replace',fileName:delMeta.fileName,updated:delMeta.uploadedAt,periodText:period(delMeta),loaded:!!(delMeta.fileName||(d.sheets?.Delivery_Date||[]).length),pills:[`Date ${(d.sheets?.Delivery_Date||[]).length} rows`,`Buyer/Date ${(d.sheets?.Delivery_Date_Buyer||[]).length} rows`],note:delMeta.buyerEvenAllocation?'Buyer allocation detected as equal/draft.':''}),
+    sourceCard({perm:'upload_yarn',title:'Yarn Dyeing Data',group:'kpi',icon:'YD',workbook:'Yarn_Dyeing_Dashboard',sheets:'YD_Date + YD_Date_Buyer',maxMb:MAX_YARN_DYEING_FILE_MB,inputId:'yarnDyeingFileInput',buttonId:'yarnDyeingUploadBtn',statusId:'yarnDyeingUploadStatus',buttonText:'Upload / Replace',fileName:ydMeta.fileName,updated:ydMeta.uploadedAt,periodText:period(ydMeta),loaded:!!(ydMeta.fileName||(d.sheets?.YD_Date||[]).length),pills:[`Date ${(d.sheets?.YD_Date||[]).length} rows`,`Buyer/Date ${(d.sheets?.YD_Date_Buyer||[]).length} rows`]}),
+    sourceCard({perm:'upload_chemical',title:'Chemical Lab Data',group:'kpi',icon:'CL',workbook:'Chemical_Lab_Dashboard',sheets:'C_Lab_Date',maxMb:MAX_CHEMICAL_LAB_FILE_MB,inputId:'chemicalLabFileInput',buttonId:'chemicalLabUploadBtn',statusId:'chemicalLabUploadStatus',buttonText:'Upload / Replace',fileName:chemMeta.fileName,updated:chemMeta.uploadedAt,periodText:period(chemMeta),loaded:!!(chemMeta.fileName||(d.sheets?.C_Lab_Date||[]).length),pills:[`C_Lab_Date ${(d.sheets?.C_Lab_Date||[]).length} rows`]}),
+    sourceCard({perm:'upload_etl',title:'ETL Data',group:'kpi',icon:'ETL',workbook:'ETL_Dashboard',sheets:'ETL_Date',maxMb:MAX_ETL_FILE_MB,inputId:'etlFileInput',buttonId:'etlUploadBtn',statusId:'etlUploadStatus',buttonText:'Upload / Replace',fileName:etlMeta.fileName,updated:etlMeta.uploadedAt,periodText:period(etlMeta),loaded:!!(etlMeta.fileName||(d.sheets?.ETL_Date||[]).length),pills:[`ETL_Date ${(d.sheets?.ETL_Date||[]).length} rows`]}),
+    sourceCard({perm:'upload_targets',title:'Target Data',group:'kpi',icon:'TG',workbook:'Dashboard_Target.xlsx',sheets:'Target • Department | Topics | Target',maxMb:20,inputId:'targetFileInput',buttonId:'targetUploadBtn',statusId:'targetUploadStatus',buttonText:'Upload / Replace',fileName:targetMeta.fileName,updated:targetMeta.uploadedAt,periodText:'Target master',loaded:!!(targetMeta.fileName||(d.targets||[]).length),pills:[`${(d.targets||[]).length} active targets`]})
+  ].filter(Boolean);
+
+  const ottSource=(tab,perm,title,workbook,inputId,buttonId,statusId,icon)=>{
+    const cfg=OTT_CONFIG[tab],src=ott?.[cfg.key]||{},m=src.meta||{},rows=src.rows||[];
+    return sourceCard({perm,title,group:'ott',icon,workbook,sheets:'Sheet: Data',maxMb:MAX_OTT_FILE_MB,inputId,buttonId,statusId,buttonText:'Upload / Replace',fileName:m.fileName,updated:m.uploadedAt,periodText:period(m),loaded:!!(m.fileName||rows.length),pills:[`${(m.rows||rows.length||0).toLocaleString()} checks`,`${(m.bookings||0).toLocaleString()} bookings`]})
+  };
+  const ottSources=[
+    ottSource('ott_yarn','upload_ott_yarn','Yarn Dyeing OTT','Yarn Dyeing OTT_2026-2027.xlsx','ottYarnFileInput','ottYarnUploadBtn','ottYarnUploadStatus','YD'),
+    ottSource('ott_knitting','upload_ott_knitting','Knitting OTT','Knitting OTT_2026-2027.xlsx','ottKnittingFileInput','ottKnittingUploadBtn','ottKnittingUploadStatus','KN'),
+    ottSource('ott_dyeing','upload_ott_dyeing','Dyeing OTT','Dyeing OTT_2026-2027.xlsx','ottDyeingFileInput','ottDyeingUploadBtn','ottDyeingUploadStatus','DY'),
+    ottSource('ott_delivery','upload_ott_delivery','Delivery OTT','Delivery Floor OTT_2026-2027.xlsx','ottDeliveryFileInput','ottDeliveryUploadBtn','ottDeliveryUploadStatus','DL'),
+    ottSource('ott_lock','upload_ott_lock','Lock Plan OTT','Lock Plan OTT_2026-2027.xlsx','ottLockFileInput','ottLockUploadBtn','ottLockUploadStatus','LP')
+  ].filter(Boolean);
+
+  const dailySource=sourceCard({perm:'upload_daily_summary',title:'Daily Summary Data',group:'ops',icon:'DAY',workbook:'Daily Report.xlsx',sheets:'Required sheet: Data only • Summary sheet ignored',maxMb:MAX_DAILY_SUMMARY_MB,inputId:'dailySummaryFileInput',buttonId:'dailySummaryUploadBtn',statusId:'dailySummaryUploadStatus',buttonText:'Upload / Replace',fileName:dailyMeta.fileName,updated:dailyMeta.uploadedAt,periodText:period(dailyMeta),loaded:!!(dailyMeta.fileName||(dailySummary.rows||[]).length),pills:[`${(dailyMeta.rows||0).toLocaleString()} date rows`]});
+  const lockSource=sourceCard({perm:'upload_lock_details',title:'Lock Plan Details',group:'ops',icon:'LP',workbook:'Lock Plan Details.xlsx',sheets:'Sheet: Data • detailed Start/End event source',maxMb:MAX_LOCK_PLAN_DETAILS_MB,inputId:'lockPlanDetailsFileInput',buttonId:'lockPlanDetailsUploadBtn',statusId:'lockPlanDetailsUploadStatus',buttonText:'Upload / Replace',fileName:lockDetailMeta.fileName,updated:lockDetailMeta.uploadedAt,periodText:period(lockDetailMeta),loaded:!!(lockDetailMeta.fileName||(lockDetails.events||[]).length),pills:[`${(lockDetailMeta.eventRows||0).toLocaleString()} events`,`${(lockDetailMeta.bookings||0).toLocaleString()} bookings`],note:lockDetailMeta.actualTo?`Actual data through ${lockDetailMeta.actualTo}`:''});
+
+  const loadedKpi=kpiSources.filter(x=>x.includes('data-loaded="1"')).length;
+  const loadedOtt=ottSources.filter(x=>x.includes('data-loaded="1"')).length;
+  const loadedOps=[dailySource,lockSource].filter(x=>x&&x.includes('data-loaded="1"')).length;
+  const combinedRows=OTT_SOURCE_TABS.reduce((n,t)=>n+(ott?.[OTT_CONFIG[t].key]?.rows||[]).length,0);
+  const overallOtt=(p.data===true||state.profile?.role==='admin'||ottSources.length)?autoCard({title:'Overall OTT',group:'ott',icon:'AUTO',subtitle:'Automatically compiled from the five departmental OTT sources. No separate upload is required.',metrics:[{value:`${loadedOtt}/5`,label:'sources loaded'},{value:combinedRows.toLocaleString(),label:'combined checks'}]}):'';
+
+  const section=(id,kind,title,subtitle,cards,countLabel)=>cards.length?`<section class="dm-section dm-section-${kind}" id="${id}">
+    <div class="dm-section-head"><div><span class="dm-section-kicker">${esc(kind==='kpi'?'Performance Data':kind==='ott'?'On-Time Tracking':'Operational Data')}</span><h3>${esc(title)}</h3><p>${esc(subtitle)}</p></div><span class="dm-section-count">${esc(countLabel)}</span></div>
+    <div class="dm-source-grid">${cards.join('')}</div>
+  </section>`:'';
+
+  const opsCards=[dailySource,lockSource].filter(Boolean);
+  const kpiSection=section('dmKpiSection','kpi','KPI Board Data','Department production, quality, utilization and target source files.',kpiSources,`${loadedKpi}/${kpiSources.length} loaded`);
+  const ottCardsForSection=[...ottSources,overallOtt].filter(Boolean);
+  const ottSection=section('dmOttSection','ott','OTT Board Data','Department OTT source files plus the automatically generated Overall OTT dataset.',ottCardsForSection,`${loadedOtt}/5 uploaded`);
+  const opsSection=section('dmOpsSection','ops','Daily & Lock Plan Data','Operational daily production and detailed Lock Plan event sources.',opsCards,`${loadedOps}/${opsCards.length} loaded`);
+
+  const visibleTotal=kpiSources.length+ottSources.length+opsCards.length;
+  const loadedTotal=loadedKpi+loadedOtt+loadedOps;
+  const permissionsCount=DATA_UPLOAD_PERMISSION_KEYS.filter(k=>uploadAllowed(k)).length;
+
+  $('#content').innerHTML=`<div class="dm-shell">
+    <aside class="dm-sidebar">
+      <div class="dm-side-brand"><span class="dm-side-icon">DM</span><div><h2>Data<br>Management</h2><p>Organize. Validate. Replace.</p></div></div>
+      <div class="dm-side-search"><span>⌕</span><input id="dmSourceSearch" placeholder="Search data source..."></div>
+      <nav class="dm-side-nav">
+        ${kpiSources.length?`<button class="dm-nav-btn active" data-dm-target="dmKpiSection"><span>KPI Board</span><b>${kpiSources.length}</b></button>`:''}
+        ${ottSources.length?`<button class="dm-nav-btn" data-dm-target="dmOttSection"><span>OTT Board</span><b>${ottSources.length}</b></button>`:''}
+        ${opsCards.length?`<button class="dm-nav-btn" data-dm-target="dmOpsSection"><span>Daily & Lock Plan</span><b>${opsCards.length}</b></button>`:''}
+      </nav>
+      <div class="dm-side-filter">
+        <span>Source status</span>
+        <div class="dm-health-buttons">
+          <button class="active" data-dm-health="all">All</button>
+          <button data-dm-health="loaded">Loaded</button>
+          <button data-dm-health="missing">Needs data</button>
+        </div>
+      </div>
+      <div class="dm-side-note"><b>Independent source storage</b><span>Each workbook is stored separately to reduce upload timeouts and avoid rewriting unrelated datasets.</span></div>
+    </aside>
+    <main class="dm-workspace">
+      <div class="dm-hero">
+        <div><span class="dm-eyebrow">SOURCE CONTROL CENTER</span><h2>Data Management</h2><p>Upload, replace and verify every dashboard source from one workspace.</p></div>
+        <div class="dm-hero-stats">
+          <div><b>${loadedTotal}/${visibleTotal}</b><span>sources loaded</span></div>
+          <div><b>${loadedOtt}/5</b><span>OTT sources</span></div>
+          <div><b>${permissionsCount}</b><span>upload permissions</span></div>
+        </div>
+      </div>
+      ${!visibleTotal?'<div class="alert">No data source access has been assigned to this user.</div>':''}
+      ${kpiSection}${ottSection}${opsSection}
+    </main>
   </div>`;
 
-  const uploadCard=(perm,title,meta,inputId,buttonId,statusId,buttonText)=>uploadAllowed(perm)?`<div class="dept-card">
-    <h3>${title}</h3><div class="meta">${meta}</div>
-    <input id="${inputId}" type="file" accept=".xlsx,.xls,.xlsb"><br>
-    <button class="btn primary" id="${buttonId}">${buttonText}</button>
-    <div class="data-upload-status" id="${statusId}"></div></div>`:'';
+  const bind=(id,key,fn)=>{if($('#'+id))$('#'+id).onclick=guardUpload(key,fn)};
+  bind('dyeingUploadBtn','upload_dyeing',handleDyeingUpload);
+  bind('knittingUploadBtn','upload_knitting',handleKnittingUpload);
+  bind('finishingUploadBtn','upload_finishing',handleFinishingUpload);
+  bind('deliveryUploadBtn','upload_delivery',handleDeliveryUpload);
+  bind('yarnDyeingUploadBtn','upload_yarn',handleYarnDyeingUpload);
+  bind('chemicalLabUploadBtn','upload_chemical',handleChemicalLabUpload);
+  bind('etlUploadBtn','upload_etl',handleETLUpload);
+  bind('targetUploadBtn','upload_targets',handleTargetUpload);
+  bind('dailySummaryUploadBtn','upload_daily_summary',handleDailySummaryUpload);
+  bind('ottYarnUploadBtn','upload_ott_yarn',()=>handleOTTUpload('ott_yarn','ottYarnFileInput','ottYarnUploadStatus'));
+  bind('ottKnittingUploadBtn','upload_ott_knitting',()=>handleOTTUpload('ott_knitting','ottKnittingFileInput','ottKnittingUploadStatus'));
+  bind('ottDyeingUploadBtn','upload_ott_dyeing',()=>handleOTTUpload('ott_dyeing','ottDyeingFileInput','ottDyeingUploadStatus'));
+  bind('ottDeliveryUploadBtn','upload_ott_delivery',()=>handleOTTUpload('ott_delivery','ottDeliveryFileInput','ottDeliveryUploadStatus'));
+  bind('ottLockUploadBtn','upload_ott_lock',()=>handleOTTUpload('ott_lock','ottLockFileInput','ottLockUploadStatus'));
+  bind('lockPlanDetailsUploadBtn','upload_lock_details',handleLockPlanDetailsUpload);
 
-  const kpiCards=[
-    uploadCard('upload_dyeing','Dyeing Data',`Workbook: <b>Dyeing_Dashboard</b><br>Sheets: <b>Dyeing_Date_Buyer</b>, <b>Dyeing_Date</b><br>Maximum: ${MAX_DYEING_FILE_MB} MB`,'dyeingFileInput','dyeingUploadBtn','dyeingUploadStatus','Upload / Replace Dyeing'),
-    uploadCard('upload_knitting','Knitting Data',`Workbook: <b>Knitting_Dashboard</b><br>Sheets: <b>Knitting_Date</b>, <b>Knitting_Date_Buyer</b><br>Maximum: ${MAX_KNITTING_FILE_MB} MB`,'knittingFileInput','knittingUploadBtn','knittingUploadStatus','Upload / Replace Knitting'),
-    uploadCard('upload_finishing','Finishing Data',`Workbook: <b>Finishing_Dashboard</b><br>Sheet: <b>Finishing_Date</b><br>Maximum: ${MAX_FINISHING_FILE_MB} MB`,'finishingFileInput','finishingUploadBtn','finishingUploadStatus','Upload / Replace Finishing'),
-    uploadCard('upload_delivery','Delivery Data',`Workbook: <b>Delivery_Dashboard</b><br>Sheets: <b>Delivery_Date</b>, <b>Delivery_Date_Buyer</b><br>Maximum: ${MAX_DELIVERY_FILE_MB} MB`,'deliveryFileInput','deliveryUploadBtn','deliveryUploadStatus','Upload / Replace Delivery'),
-    uploadCard('upload_yarn','Yarn Dyeing Data',`Workbook: <b>Yarn_Dyeing_Dashboard</b><br>Sheets: <b>YD_Date</b>, <b>YD_Date_Buyer</b><br>Maximum: ${MAX_YARN_DYEING_FILE_MB} MB`,'yarnDyeingFileInput','yarnDyeingUploadBtn','yarnDyeingUploadStatus','Upload / Replace Yarn Dyeing'),
-    uploadCard('upload_chemical','Chemical Lab Data',`Workbook: <b>Chemical_Lab_Dashboard</b><br>Sheet: <b>C_Lab_Date</b><br>Maximum: ${MAX_CHEMICAL_LAB_FILE_MB} MB`,'chemicalLabFileInput','chemicalLabUploadBtn','chemicalLabUploadStatus','Upload / Replace Chemical Lab'),
-    uploadCard('upload_etl','ETL Data',`Workbook: <b>ETL_Dashboard</b><br>Sheet: <b>ETL_Date</b><br>Maximum: ${MAX_ETL_FILE_MB} MB`,'etlFileInput','etlUploadBtn','etlUploadStatus','Upload / Replace ETL'),
-    uploadAllowed('upload_targets')?`<div class="dept-card" style="border-top-color:#f0b400"><h3>Target Data</h3><div class="meta">Workbook: <b>Dashboard_Target.xlsx</b><br>Sheet: <b>Target</b><br>Columns: Department | Topics | Target</div><input id="targetFileInput" type="file" accept=".xlsx,.xls,.xlsb"><br><button class="btn primary" id="targetUploadBtn">Upload / Replace Targets</button><div class="data-upload-status" id="targetUploadStatus"></div></div>`:'',
-    uploadAllowed('upload_daily_summary')?`<div class="dept-card" style="border-top-color:#155f7d"><h3>Daily Summary Data</h3><div class="meta">Workbook: <b>Daily Report.xlsx</b><br>Required sheet: <b>Data</b> only<br>The Summary sheet is ignored.<br>Maximum: ${MAX_DAILY_SUMMARY_MB} MB</div><input id="dailySummaryFileInput" type="file" accept=".xlsx,.xls,.xlsb"><br><button class="btn primary" id="dailySummaryUploadBtn">Upload / Replace Daily Summary</button><div class="data-upload-status" id="dailySummaryUploadStatus"></div></div>`:''
-  ].filter(Boolean).join('');
-
-  const ottCards=[
-    uploadCard('upload_ott_yarn','Yarn Dyeing OTT',`Workbook: <b>Yarn Dyeing OTT_2026-2027.xlsx</b><br>Sheet: <b>Data</b><br>Maximum: ${MAX_OTT_FILE_MB} MB`,'ottYarnFileInput','ottYarnUploadBtn','ottYarnUploadStatus','Upload / Replace YD OTT'),
-    uploadCard('upload_ott_knitting','Knitting OTT',`Workbook: <b>Knitting OTT_2026-2027.xlsx</b><br>Sheet: <b>Data</b><br>Maximum: ${MAX_OTT_FILE_MB} MB`,'ottKnittingFileInput','ottKnittingUploadBtn','ottKnittingUploadStatus','Upload / Replace Knitting OTT'),
-    uploadCard('upload_ott_dyeing','Dyeing OTT',`Workbook: <b>Dyeing OTT_2026-2027.xlsx</b><br>Sheet: <b>Data</b><br>Maximum: ${MAX_OTT_FILE_MB} MB`,'ottDyeingFileInput','ottDyeingUploadBtn','ottDyeingUploadStatus','Upload / Replace Dyeing OTT'),
-    uploadCard('upload_ott_delivery','Delivery OTT',`Workbook: <b>Delivery Floor OTT_2026-2027.xlsx</b><br>Sheet: <b>Data</b><br>Maximum: ${MAX_OTT_FILE_MB} MB`,'ottDeliveryFileInput','ottDeliveryUploadBtn','ottDeliveryUploadStatus','Upload / Replace Delivery OTT'),
-    uploadCard('upload_ott_lock','Lock Plan OTT',`Workbook: <b>Lock Plan OTT_2026-2027.xlsx</b><br>Sheet: <b>Data</b><br>Maximum: ${MAX_OTT_FILE_MB} MB`,'ottLockFileInput','ottLockUploadBtn','ottLockUploadStatus','Upload / Replace Lock Plan OTT')
-  ].filter(Boolean).join('');
-
-  const lockCard=uploadAllowed('upload_lock_details')?`<div class="dept-card"><h3>Lock Plan Details</h3><div class="meta">Workbook: <b>Lock Plan Details.xlsx</b><br>Sheet: <b>Data</b><br>Maximum: ${MAX_LOCK_PLAN_DETAILS_MB} MB</div><input id="lockPlanDetailsFileInput" type="file" accept=".xlsx,.xls,.xlsb"><br><button class="btn primary" id="lockPlanDetailsUploadBtn">Upload / Replace Lock Plan Details</button><div class="data-upload-status" id="lockPlanDetailsUploadStatus"></div></div>`:'';
-
-  const uploadSections=[
-    kpiCards?`<div class="data-upload-section kpi-upload"><div class="data-upload-heading"><div><h3>KPI Board Data Upload</h3><p>Only upload sources permitted for this user are shown.</p></div></div><div class="dept-upload-grid">${kpiCards}</div></div>`:'',
-    ottCards?`<div class="data-upload-section ott-upload"><div class="data-upload-heading"><div><h3>OTT Board Data Upload</h3><p>Only permitted departmental OTT sources are shown. Overall OTT remains automatic.</p></div></div><div class="dept-upload-grid">${ottCards}</div></div>`:'',
-    lockCard?`<div class="data-upload-section" style="border-top:4px solid #1c7896"><div class="data-upload-heading"><div><h3 style="color:#155f7d">Lock Plan Details Data Upload</h3><p>Detailed Start/End Lock Plan event source.</p></div></div><div class="dept-upload-grid">${lockCard}</div></div>`:''
-  ].filter(Boolean).join('');
-
-  const noUploads=!uploadSections;
-  const kpiStatus=`
-    ${statusCard('Dyeing',dyeMeta?.fileName,dyeMeta?.uploadedAt,dyeMeta?.dateFrom&&dyeMeta?.dateTo?`${dyeMeta.dateFrom} → ${dyeMeta.dateTo}`:'',[`Date/Buyer ${(d.sheets?.Dyeing_Date_Buyer||[]).length} rows`,`Date ${(d.sheets?.Dyeing_Date||[]).length} rows`])}
-    ${statusCard('Knitting',knitMeta?.fileName,knitMeta?.uploadedAt,knitMeta?.dateFrom&&knitMeta?.dateTo?`${knitMeta.dateFrom} → ${knitMeta.dateTo}`:'',[`Date ${(d.sheets?.Knitting_Date||[]).length} rows`,`Date/Buyer ${(d.sheets?.Knitting_Date_Buyer||[]).length} rows`],knitMeta?.buyerEvenAllocation?'Buyer allocation currently detected as equal/draft.':'')}
-    ${statusCard('Finishing',finMeta?.fileName,finMeta?.uploadedAt,finMeta?.dateFrom&&finMeta?.dateTo?`${finMeta.dateFrom} → ${finMeta.dateTo}`:'',[`Date ${(d.sheets?.Finishing_Date||[]).length} rows`])}
-    ${statusCard('Delivery',delMeta?.fileName,delMeta?.uploadedAt,delMeta?.dateFrom&&delMeta?.dateTo?`${delMeta.dateFrom} → ${delMeta.dateTo}`:'',[`Date ${(d.sheets?.Delivery_Date||[]).length} rows`,`Date/Buyer ${(d.sheets?.Delivery_Date_Buyer||[]).length} rows`],delMeta?.buyerEvenAllocation?'Buyer allocation currently detected as equal/draft.':'')}
-    ${statusCard('Yarn Dyeing',ydMeta?.fileName,ydMeta?.uploadedAt,ydMeta?.dateFrom&&ydMeta?.dateTo?`${ydMeta.dateFrom} → ${ydMeta.dateTo}`:'',[`Date ${(d.sheets?.YD_Date||[]).length} rows`,`Date/Buyer ${(d.sheets?.YD_Date_Buyer||[]).length} rows`])}
-    ${statusCard('Chemical Lab',chemMeta?.fileName,chemMeta?.uploadedAt,chemMeta?.dateFrom&&chemMeta?.dateTo?`${chemMeta.dateFrom} → ${chemMeta.dateTo}`:'',[`C_Lab_Date ${(d.sheets?.C_Lab_Date||[]).length} rows`])}
-    ${statusCard('ETL',etlMeta?.fileName,etlMeta?.uploadedAt,etlMeta?.dateFrom&&etlMeta?.dateTo?`${etlMeta.dateFrom} → ${etlMeta.dateTo}`:'',[`ETL_Date ${(d.sheets?.ETL_Date||[]).length} rows`])}
-    ${statusCard('Target',targetMeta?.fileName,targetMeta?.uploadedAt,'',[`${(d.targets||[]).length} active targets`])}`;
-
-  const ottStatusCard=(tab)=>{
-    const cfg=OTT_CONFIG[tab],m=ott?.[cfg.key]?.meta;
-    return statusCard(cfg.label,m?.fileName,m?.uploadedAt,m?.dateFrom&&m?.dateTo?`${m.dateFrom} → ${m.dateTo}`:'',[`${(m?.rows||0).toLocaleString()} checks`,`${(m?.bookings||0).toLocaleString()} bookings`])
+  let healthMode='all';
+  const applyDmFilters=()=>{
+    const q=($('#dmSourceSearch')?.value||'').trim().toLowerCase();
+    $$('.dm-source-card').forEach(card=>{
+      const queryOk=!q||(card.dataset.search||'').includes(q);
+      const loaded=card.dataset.loaded==='1';
+      const healthOk=healthMode==='all'||(healthMode==='loaded'&&loaded)||(healthMode==='missing'&&!loaded);
+      card.classList.toggle('hidden',!(queryOk&&healthOk))
+    });
+    $$('.dm-section').forEach(sec=>{
+      const any=[...sec.querySelectorAll('.dm-source-card')].some(x=>!x.classList.contains('hidden'));
+      sec.classList.toggle('dm-empty-filtered',!any)
+    })
   };
-  const loadedOtt=OTT_SOURCE_TABS.filter(t=>(ott?.[OTT_CONFIG[t].key]?.rows||[]).length).length;
-  const combinedRows=OTT_SOURCE_TABS.reduce((n,t)=>n+(ott?.[OTT_CONFIG[t].key]?.rows||[]).length,0);
-
-  $('#content').innerHTML=`<div class="section-title"><h2>Data Management</h2><span>Source access follows the permissions assigned in User Management • v50 stores each upload independently to prevent timeout</span></div>
-    ${uploadSections}
-    ${noUploads?'<div class="alert">No upload source has been assigned to this user. Current source status is available below.</div>':''}
-    <div class="data-current-section kpi-current"><div class="data-current-head"><h3>KPI Board — Current Sources</h3><span class="data-upload-count">Department source status</span></div><div class="data-status-grid">${kpiStatus}</div></div>
-    <div class="data-current-section"><div class="data-current-head"><h3>Daily Summary — Current Source</h3><span class="data-upload-count">Data sheet only</span></div><div class="data-status-grid">
-      ${statusCard('Daily Summary',dailyMeta.fileName,dailyMeta.uploadedAt,dailyMeta.dateFrom&&dailyMeta.dateTo?`${dailyMeta.dateFrom} → ${dailyMeta.dateTo}`:'',[`${(dailyMeta.rows||0).toLocaleString()} date rows`],'Summary sheet ignored')}
-    </div></div>
-    <div class="data-current-section ott-current"><div class="data-current-head"><h3>OTT Board — Current Sources</h3><span class="data-upload-count">${loadedOtt}/5 sources loaded</span></div><div class="data-status-grid">
-      ${ottStatusCard('ott_yarn')}${ottStatusCard('ott_knitting')}${ottStatusCard('ott_dyeing')}${ottStatusCard('ott_delivery')}${ottStatusCard('ott_lock')}
-      <div class="data-status-card data-auto-card"><b class="title">Overall OTT</b><div class="file">Auto-generated from 5 OTT sources</div><div class="meta">${combinedRows.toLocaleString()} combined event checks currently available.<br>No separate source file required.</div><div class="mini-pills"><span>${loadedOtt}/5 sources active</span></div></div>
-    </div></div>
-    <div class="lock-data-section"><h3>Lock Plan Details — Current Source</h3><div class="data-status-grid">${statusCard('Lock Plan Details',lockDetailMeta.fileName,lockDetailMeta.uploadedAt,lockDetailMeta.dateFrom&&lockDetailMeta.dateTo?`${lockDetailMeta.dateFrom} → ${lockDetailMeta.dateTo}`:'',[`${(lockDetailMeta.eventRows||0).toLocaleString()} Start/End events`,`${(lockDetailMeta.bookings||0).toLocaleString()} bookings`],lockDetailMeta.actualTo?`Actual data through ${lockDetailMeta.actualTo}`:'')}</div></div>`;
-
-  if($('#dyeingUploadBtn'))$('#dyeingUploadBtn').onclick=guardUpload('upload_dyeing',handleDyeingUpload);
-  if($('#knittingUploadBtn'))$('#knittingUploadBtn').onclick=guardUpload('upload_knitting',handleKnittingUpload);
-  if($('#finishingUploadBtn'))$('#finishingUploadBtn').onclick=guardUpload('upload_finishing',handleFinishingUpload);
-  if($('#deliveryUploadBtn'))$('#deliveryUploadBtn').onclick=guardUpload('upload_delivery',handleDeliveryUpload);
-  if($('#yarnDyeingUploadBtn'))$('#yarnDyeingUploadBtn').onclick=guardUpload('upload_yarn',handleYarnDyeingUpload);
-  if($('#chemicalLabUploadBtn'))$('#chemicalLabUploadBtn').onclick=guardUpload('upload_chemical',handleChemicalLabUpload);
-  if($('#etlUploadBtn'))$('#etlUploadBtn').onclick=guardUpload('upload_etl',handleETLUpload);
-  if($('#targetUploadBtn'))$('#targetUploadBtn').onclick=guardUpload('upload_targets',handleTargetUpload);
-  if($('#dailySummaryUploadBtn'))$('#dailySummaryUploadBtn').onclick=guardUpload('upload_daily_summary',handleDailySummaryUpload);
-  if($('#ottYarnUploadBtn'))$('#ottYarnUploadBtn').onclick=guardUpload('upload_ott_yarn',()=>handleOTTUpload('ott_yarn','ottYarnFileInput','ottYarnUploadStatus'));
-  if($('#ottKnittingUploadBtn'))$('#ottKnittingUploadBtn').onclick=guardUpload('upload_ott_knitting',()=>handleOTTUpload('ott_knitting','ottKnittingFileInput','ottKnittingUploadStatus'));
-  if($('#ottDyeingUploadBtn'))$('#ottDyeingUploadBtn').onclick=guardUpload('upload_ott_dyeing',()=>handleOTTUpload('ott_dyeing','ottDyeingFileInput','ottDyeingUploadStatus'));
-  if($('#ottDeliveryUploadBtn'))$('#ottDeliveryUploadBtn').onclick=guardUpload('upload_ott_delivery',()=>handleOTTUpload('ott_delivery','ottDeliveryFileInput','ottDeliveryUploadStatus'));
-  if($('#ottLockUploadBtn'))$('#ottLockUploadBtn').onclick=guardUpload('upload_ott_lock',()=>handleOTTUpload('ott_lock','ottLockFileInput','ottLockUploadStatus'));
-  if($('#lockPlanDetailsUploadBtn'))$('#lockPlanDetailsUploadBtn').onclick=guardUpload('upload_lock_details',handleLockPlanDetailsUpload);
+  if($('#dmSourceSearch'))$('#dmSourceSearch').oninput=applyDmFilters;
+  $$('.dm-health-buttons button').forEach(btn=>btn.onclick=()=>{
+    healthMode=btn.dataset.dmHealth||'all';
+    $$('.dm-health-buttons button').forEach(x=>x.classList.toggle('active',x===btn));
+    applyDmFilters()
+  });
+  $$('.dm-nav-btn').forEach(btn=>btn.onclick=()=>{
+    const target=$('#'+btn.dataset.dmTarget);if(target)target.scrollIntoView({behavior:'smooth',block:'start'});
+    $$('.dm-nav-btn').forEach(x=>x.classList.toggle('active',x===btn))
+  });
 }
 function renderKpiToolbarHeading(tab){
   const host=$('#kpiToolbarHead');if(!host)return;
