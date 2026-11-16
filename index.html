@@ -2961,6 +2961,35 @@ body.dark-mode .dm-upload-pane{border-right-color:#2d4038}body.dark-mode .dm-aut
 @media(max-width:820px){.dm-shell{grid-template-columns:1fr}.dm-sidebar{position:static;min-height:0}.dm-side-brand h2 br{display:none}.dm-side-nav{display:grid;grid-template-columns:repeat(3,1fr)}.dm-hero{align-items:flex-start;flex-direction:column}.dm-source-grid{grid-template-columns:1fr}}
 @media(max-width:600px){.dm-source-body{grid-template-columns:1fr}.dm-upload-pane{border-right:0;border-bottom:1px solid #e8eeeb}.dm-hero-stats{width:100%;display:grid;grid-template-columns:repeat(3,1fr)}.dm-hero-stats>div{min-width:0}}
 
+
+/* ================= v54 Supabase Resource Monitor ================= */
+.page:has(.sm-shell){max-width:1580px!important}
+.sm-shell{width:100%;min-width:0}
+.sm-monitor-head{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px 16px;border:1px solid var(--line);border-top:4px solid #3ecf8e;border-radius:10px 10px 0 0;background:linear-gradient(105deg,#ffffff,#f2fbf7);box-shadow:0 4px 14px rgba(27,86,63,.05)}
+.sm-eyebrow{font-size:7px;font-weight:900;letter-spacing:1.25px;color:#279365}.sm-monitor-head h2{margin:3px 0 2px;font:700 25px Georgia,serif;color:#073f32}.sm-monitor-head p{margin:0;font-size:8.5px;color:var(--muted)}
+.sm-head-actions{display:flex;align-items:center;gap:6px;flex-wrap:wrap;justify-content:flex-end}.sm-live-badge,.sm-auto-badge{display:inline-flex;align-items:center;gap:5px;height:28px;padding:0 8px;border:1px solid #cfe6da;border-radius:999px;background:#eaf8f1;color:#15704e;font-size:7.5px;font-weight:800;white-space:nowrap}.sm-auto-badge{background:#f6f8f7;color:#66746e;border-color:var(--line)}.sm-live-badge i{width:7px;height:7px;border-radius:50%;background:#3ecf8e;box-shadow:0 0 0 4px rgba(62,207,142,.13)}
+.sm-meta-bar{display:flex;justify-content:space-between;gap:10px;padding:7px 13px;border:1px solid var(--line);border-top:0;background:var(--card);font-size:7.5px;color:#74817c;border-radius:0 0 8px 8px;margin-bottom:9px}.sm-meta-bar b{color:#355248}
+.sm-metric-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-bottom:8px}
+.sm-metric-card{position:relative;border:1px solid var(--line);border-top:3px solid #3ecf8e;border-radius:8px;background:var(--card);padding:11px 12px;overflow:hidden;box-shadow:0 3px 10px rgba(23,76,57,.04)}
+.sm-metric-card.good{border-top-color:#28a36d}.sm-metric-card.watch{border-top-color:#e6aa16}.sm-metric-card.critical{border-top-color:#df5948}.sm-metric-card.neutral{border-top-color:#3582bc}
+.sm-card-head{display:flex;align-items:center;gap:8px}.sm-card-icon{width:31px;height:31px;border-radius:8px;display:grid;place-items:center;background:#e8f7f0;color:#127451;font-weight:900;font-size:8px}.sm-metric-card.neutral .sm-card-icon{background:#eaf3fb;color:#286e9f}
+.sm-card-head h3{margin:0;font-size:11px;color:#173d31}.sm-card-head p{margin:2px 0 0;font-size:6.8px;color:#88938f}.sm-card-value{margin-top:8px;font:700 25px Georgia,serif;color:#073f32}.sm-card-subvalue{font-size:7.3px;color:#7a8782;margin-top:2px;min-height:18px}
+.sm-progress{margin-top:8px}.sm-progress-track{height:6px;border-radius:999px;background:#edf1ef;overflow:hidden}.sm-progress-track i{display:block;height:100%;background:#28a36d;border-radius:999px}.sm-progress.watch .sm-progress-track i{background:#e6aa16}.sm-progress.critical .sm-progress-track i{background:#df5948}.sm-progress.neutral .sm-progress-track i{background:#82a3b8}
+.sm-progress-meta{display:flex;justify-content:space-between;margin-top:4px;font-size:6.8px;color:#7d8984}.sm-progress-meta b{color:#52635c}
+.sm-card-foot{display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-top:9px;padding-top:7px;border-top:1px solid #edf1ef}.sm-card-foot div{min-width:0}.sm-card-foot span{display:block;font-size:6.6px;color:#8a9691}.sm-card-foot b{display:block;margin-top:1px;font-size:8px;color:#40554d}
+.sm-overview-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.sm-panel{border:1px solid var(--line);border-radius:8px;background:var(--card);padding:10px 11px;min-width:0}.sm-panel-head{display:flex;align-items:flex-end;justify-content:space-between;gap:8px;padding-bottom:7px;border-bottom:1px solid var(--line)}
+.sm-panel-head span{font-size:6.5px;letter-spacing:.8px;color:#8a9691;font-weight:800}.sm-panel-head h3{margin:1px 0 0;font:700 16px Georgia,serif;color:#154638}.sm-panel-head>b{font-size:8px;color:#5c6d66}
+.sm-breakdown-list{margin-top:7px}.sm-break-row{padding:5px 0;border-bottom:1px solid #eff2f0}.sm-break-row:last-child{border-bottom:0}.sm-break-label{display:flex;justify-content:space-between;gap:10px;font-size:7.6px;color:#4c5f57}.sm-break-label span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.sm-break-label b{white-space:nowrap;color:#384d45}.sm-mini-track{height:4px;background:#eef2f0;border-radius:999px;margin-top:3px;overflow:hidden}.sm-mini-track i{display:block;height:100%;background:linear-gradient(90deg,#2587d5,#3ecf8e);border-radius:999px}
+.sm-bucket-table{margin-top:7px}.sm-bucket-head,.sm-bucket-row{display:grid;grid-template-columns:1.6fr .55fr .8fr;gap:6px;align-items:center;padding:6px 4px;border-bottom:1px solid #edf1ef;font-size:7.7px}.sm-bucket-head{font-size:6.8px;text-transform:uppercase;letter-spacing:.5px;color:#8b9692;font-weight:800}.sm-bucket-row span:nth-child(2),.sm-bucket-row b{text-align:right}.sm-bucket-row b{color:#40554d}
+.sm-traffic-total{text-align:center;padding:9px 0 7px}.sm-traffic-total b{display:block;font:700 25px Georgia,serif;color:#176b8f}.sm-traffic-total span{display:block;font-size:7px;color:#84908b}.sm-traffic-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:5px}.sm-traffic-grid div{padding:7px 4px;border:1px solid var(--line);border-radius:6px;text-align:center;background:#f8faf9}.sm-traffic-grid b{display:block;font-size:10px;color:#315a4b}.sm-traffic-grid span{display:block;margin-top:2px;font-size:6.5px;color:#86918d}
+.sm-traffic-note,.sm-traffic-unavailable span{display:block;margin-top:7px;font-size:7px;line-height:1.4;color:#7c8783}.sm-traffic-unavailable{padding:10px;border-radius:7px;background:#fff9df;border:1px solid #f1df8e;margin-top:8px}.sm-traffic-unavailable b{display:block;color:#765f0c;font-size:8px}
+.sm-resource-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;margin-top:8px;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:var(--line)}.sm-resource-strip>div{background:var(--card);padding:8px 10px;display:grid;grid-template-columns:1fr auto;grid-template-areas:"label tone" "value tone";align-items:center}.sm-resource-strip span{grid-area:label;font-size:6.7px;color:#87928e;text-transform:uppercase;letter-spacing:.5px}.sm-resource-strip b{grid-area:value;font-size:8.5px;color:#40554d;margin-top:2px}.sm-resource-strip em{grid-area:tone;font-style:normal;font-size:7px;font-weight:900;padding:3px 6px;border-radius:999px;background:#edf2ef;color:#68766f}.sm-resource-strip em.good{background:#e4f5ec;color:#13724e}.sm-resource-strip em.watch{background:#fff2ce;color:#9a6900}.sm-resource-strip em.critical{background:#fae2de;color:#bd4436}
+.sm-footnote{margin-top:7px;padding:7px 9px;border:1px solid var(--line);border-radius:7px;background:#f8faf9;font-size:6.9px;line-height:1.45;color:#74817c}.sm-footnote b{color:#40554d}.sm-empty{padding:16px;text-align:center;color:#8a9691;font-size:8px}
+.sm-loading-card{height:260px;border:1px solid var(--line);border-radius:10px;background:var(--card);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px}.sm-loading-card b{color:#315449}.sm-loading-card span{font-size:7.5px;color:#84908b}.sm-spinner{width:28px;height:28px;border:3px solid #dfeae5;border-top-color:#3ecf8e;border-radius:50%;animation:smspin .8s linear infinite}@keyframes smspin{to{transform:rotate(360deg)}}
+.sm-setup-hint{margin-top:9px;padding:11px;border:1px solid #f0dc95;background:#fff9df;border-radius:8px}.sm-setup-hint b{display:block;color:#6d5b12}.sm-setup-hint span{display:block;margin-top:4px;font-size:8px;line-height:1.5;color:#796e40}
+body.dark-mode .sm-monitor-head,body.dark-mode .sm-metric-card,body.dark-mode .sm-panel,body.dark-mode .sm-meta-bar,body.dark-mode .sm-resource-strip>div,body.dark-mode .sm-loading-card{background:#17231e}body.dark-mode .sm-monitor-head{background:linear-gradient(105deg,#17231e,#112c22)}body.dark-mode .sm-card-head h3,body.dark-mode .sm-panel-head h3,body.dark-mode .sm-card-value{color:#dcefe7}body.dark-mode .sm-card-foot{border-top-color:#2d4038}body.dark-mode .sm-traffic-grid div,body.dark-mode .sm-footnote{background:#111b17}
+@media(max-width:1100px){.sm-metric-grid{grid-template-columns:repeat(2,1fr)}}@media(max-width:760px){.sm-monitor-head{align-items:flex-start;flex-direction:column}.sm-head-actions{justify-content:flex-start}.sm-metric-grid,.sm-overview-grid,.sm-resource-strip{grid-template-columns:1fr}.sm-meta-bar{flex-direction:column}}
+
 </style></head><body><div id="app" class="hidden"><div class="app-sticky-header"><div class="top-accent"></div><header class="header"><div class="header-left"><div class="brand-mark">TP</div><div><div class="brand-title">Textile Planning Dashboard</div><div class="brand-sub">Planning, Monitoring & Control</div></div></div><div class="header-actions"><div class="utility-tools"><button class="tool-btn stopwatch-btn" id="stopwatchBtn" title="Click to start/pause • Double-click to reset">⏱ <span id="stopwatchText">00:00</span></button><button class="tool-btn" id="fullscreenBtn" title="Enter full screen">⛶ Full</button><button class="tool-btn" id="themeBtn" title="Switch dark/light mode">☾ Dark</button></div><span class="greeting" id="greeting">Good morning</span><button class="btn" id="exportBtn">Export CSV</button><button class="btn" id="signOutBtn">Sign out</button><button class="btn primary" id="refreshBtn">Refresh</button></div></header><nav class="nav">
   <button data-tab="daily_summary" class="main-nav-btn">Daily Summary</button>
   <div class="kpi-menu-wrap" id="kpiMenuWrap">
@@ -2996,6 +3025,7 @@ body.dark-mode .dm-upload-pane{border-right-color:#2d4038}body.dark-mode .dm-aut
     </div>
   </div>
   <button data-tab="data" class="main-nav-btn">Data Management</button>
+  <button data-tab="supabase_monitor" class="main-nav-btn hidden" id="supabaseMonitorNav">Supabase Monitor</button>
   <button data-tab="users" class="main-nav-btn">User Management</button>
 </nav></div><main class="page"><section class="toolbar"><div class="kpi-toolbar-head hidden" id="kpiToolbarHead"></div><div class="filters">
   <div class="filter-group" id="monthFilterGroup"><span class="mini-label">Month</span>
@@ -3215,6 +3245,7 @@ const state={
   dailySummaryFilters:{_initialized:false,month:'',reportDate:'',trendFrom:'',trendTo:'',monthDays:{},goneDays:{}},
   kpiFilters:{months:[],buyers:[]},
   filterHidden:{kpi:false,ott:false,lock:false,daily:false},
+  supabaseMonitor:{data:null,loading:false,error:'',timer:null,lastFetchedAt:null,nextRefreshAt:null},
   greetingTimer:null
 };
 const $=s=>document.querySelector(s); const $$=s=>[...document.querySelectorAll(s)];
@@ -5129,8 +5160,9 @@ function effectivePermissions(){
   return merged
 }
 
+
 function canAccess(tab){
-  if(tab==='users')return state.profile?.role==='admin';
+  if(tab==='users'||tab==='supabase_monitor')return state.profile?.role==='admin';
   const p=effectivePermissions();
   if(tab==='data')return p.data===true||DATA_UPLOAD_PERMISSION_KEYS.some(k=>p[k]===true);
   return p[tab]===true
@@ -5145,6 +5177,7 @@ function applyMenuPermissions(){
   const lockWrap=$('#lockMenuWrap');if(lockWrap)lockWrap.classList.toggle('hidden',!(p.lock_board===true||p.lock_event===true));
   const dailyBtn=$('.nav>button[data-tab="daily_summary"]');if(dailyBtn)dailyBtn.classList.toggle('hidden',p.daily_summary!==true);
   const dataBtn=$('.nav>button[data-tab="data"]');if(dataBtn)dataBtn.classList.toggle('hidden',!(p.data===true||DATA_UPLOAD_PERMISSION_KEYS.some(k=>p[k]===true)));
+  const monitorBtn=$('#supabaseMonitorNav');if(monitorBtn)monitorBtn.classList.toggle('hidden',state.profile?.role!=='admin');
   const usersBtn=$('.nav>button[data-tab="users"]');if(usersBtn)usersBtn.classList.toggle('hidden',state.profile?.role!=='admin');
   if(!canAccess(state.tab)){
     const firstKpi=KPI_TABS.find(t=>canAccess(t)),firstOtt=OTT_TABS.find(t=>canAccess(t));
@@ -6663,6 +6696,173 @@ async function handleLockPlanDetailsUpload(){
   }catch(e){st.textContent=uploadErrorMessage(e,'Lock Plan Details upload')}
 }
 
+
+const SUPABASE_MONITOR_REFRESH_MS=10*60*1000;
+
+function stopSupabaseMonitorTimer(){
+  const m=state.supabaseMonitor;
+  if(m?.timer){clearInterval(m.timer);m.timer=null}
+  if(m)m.nextRefreshAt=null
+}
+function startSupabaseMonitorTimer(){
+  stopSupabaseMonitorTimer();
+  if(state.tab!=='supabase_monitor'||state.profile?.role!=='admin')return;
+  state.supabaseMonitor.nextRefreshAt=Date.now()+SUPABASE_MONITOR_REFRESH_MS;
+  state.supabaseMonitor.timer=setInterval(()=>{
+    if(state.tab!=='supabase_monitor'){stopSupabaseMonitorTimer();return}
+    loadSupabaseMonitor(true)
+  },SUPABASE_MONITOR_REFRESH_MS)
+}
+function monitorFormatBytes(bytes){
+  const n=Number(bytes);if(!Number.isFinite(n))return'—';
+  const units=['B','KB','MB','GB','TB'];let v=Math.max(0,n),i=0;
+  while(v>=1024&&i<units.length-1){v/=1024;i++}
+  return`${v.toLocaleString(undefined,{maximumFractionDigits:i<2?0:2})} ${units[i]}`
+}
+function monitorPct(used,limit){
+  const u=Number(used),l=Number(limit);return Number.isFinite(u)&&Number.isFinite(l)&&l>0?Math.max(0,u/l):null
+}
+function monitorPctText(v){return v===null?'—':`${(v*100).toFixed(v*100<10?1:0)}%`}
+function monitorTone(v){if(v===null)return'neutral';if(v>=.9)return'critical';if(v>=.7)return'watch';return'good'}
+function monitorProgress(used,limit,label=''){
+  const p=monitorPct(used,limit),pct=p===null?0:Math.min(1,p),tone=monitorTone(p);
+  return`<div class="sm-progress ${tone}"><div class="sm-progress-track"><i style="width:${(pct*100).toFixed(2)}%"></i></div><div class="sm-progress-meta"><span>${esc(label||monitorPctText(p))}</span><b>${esc(monitorPctText(p))}</b></div></div>`
+}
+function monitorMetricCard(title,used,limit,unitNote,icon,tone=''){
+  const pct=monitorPct(used,limit),available=Number.isFinite(Number(limit))?Math.max(0,Number(limit)-Number(used||0)):null;
+  return`<article class="sm-metric-card ${tone||monitorTone(pct)}">
+    <div class="sm-card-head"><span class="sm-card-icon">${esc(icon)}</span><div><h3>${esc(title)}</h3><p>${esc(unitNote||'')}</p></div></div>
+    <div class="sm-card-value">${monitorFormatBytes(used)}</div>
+    ${Number.isFinite(Number(limit))?monitorProgress(used,limit,`${monitorFormatBytes(used)} of ${monitorFormatBytes(limit)}`):''}
+    <div class="sm-card-foot"><div><span>Consumed</span><b>${monitorFormatBytes(used)}</b></div><div><span>Available</span><b>${available===null?'—':monitorFormatBytes(available)}</b></div></div>
+  </article>`
+}
+function monitorNumberCard(title,value,limit,sub,icon){
+  const pct=monitorPct(value,limit),available=Number.isFinite(Number(limit))?Math.max(0,Number(limit)-Number(value||0)):null;
+  return`<article class="sm-metric-card ${monitorTone(pct)}">
+    <div class="sm-card-head"><span class="sm-card-icon">${esc(icon)}</span><div><h3>${esc(title)}</h3><p>${esc(sub||'')}</p></div></div>
+    <div class="sm-card-value">${Number(value||0).toLocaleString()}</div>
+    ${Number.isFinite(Number(limit))?monitorProgress(value,limit,`${Number(value||0).toLocaleString()} of ${Number(limit).toLocaleString()}`):''}
+    <div class="sm-card-foot"><div><span>Used</span><b>${Number(value||0).toLocaleString()}</b></div><div><span>Remaining</span><b>${available===null?'—':available.toLocaleString()}</b></div></div>
+  </article>`
+}
+function monitorBreakdownRows(rows,labelKey='name',valueKey='bytes',limit=12){
+  const list=(rows||[]).slice(0,limit),max=Math.max(1,...list.map(x=>Number(x[valueKey])||0));
+  if(!list.length)return'<div class="sm-empty">No data available.</div>';
+  return`<div class="sm-breakdown-list">${list.map(x=>{
+    const v=Number(x[valueKey])||0,p=Math.min(1,v/max);
+    return`<div class="sm-break-row"><div class="sm-break-label"><span>${esc(x[labelKey]||'—')}</span><b>${monitorFormatBytes(v)}</b></div><div class="sm-mini-track"><i style="width:${(p*100).toFixed(1)}%"></i></div></div>`
+  }).join('')}</div>`
+}
+function monitorBucketRows(rows){
+  if(!(rows||[]).length)return'<div class="sm-empty">No Storage buckets found.</div>';
+  return`<div class="sm-bucket-table"><div class="sm-bucket-head"><span>Bucket</span><span>Files</span><span>Used Size</span></div>
+    ${(rows||[]).map(r=>`<div class="sm-bucket-row"><span>${esc(r.bucket||'—')}</span><span>${Number(r.files||0).toLocaleString()}</span><b>${monitorFormatBytes(r.bytes)}</b></div>`).join('')}</div>`
+}
+function monitorTrafficPanel(traffic,quota){
+  if(!traffic?.available){
+    return`<div class="sm-traffic-unavailable"><b>Exact billing egress bytes are not returned by the supported project analytics endpoint.</b><span>${esc(traffic?.message||'Configure the optional scoped Management API token to show actual API request activity. Egress quota remains visible.')}</span>
+      ${quota?monitorProgress(0,quota,'Quota reference'):''}</div>`
+  }
+  const t=traffic.totals||{},total=(t.rest||0)+(t.auth||0)+(t.storage||0)+(t.realtime||0);
+  return`<div class="sm-traffic-total"><b>${total.toLocaleString()}</b><span>API requests in returned analytics interval</span></div>
+    <div class="sm-traffic-grid">
+      <div><b>${Number(t.rest||0).toLocaleString()}</b><span>REST</span></div>
+      <div><b>${Number(t.auth||0).toLocaleString()}</b><span>Auth</span></div>
+      <div><b>${Number(t.storage||0).toLocaleString()}</b><span>Storage</span></div>
+      <div><b>${Number(t.realtime||0).toLocaleString()}</b><span>Realtime</span></div>
+    </div>
+    <div class="sm-traffic-note">Traffic counts are actual project analytics. Exact billing egress bytes remain in Supabase Usage/Billing.</div>`
+}
+async function loadSupabaseMonitor(silent=false){
+  if(state.profile?.role!=='admin'||state.tab!=='supabase_monitor')return;
+  const m=state.supabaseMonitor;if(m.loading)return;
+  m.loading=true;m.error='';
+  if(!silent)renderSupabaseMonitor();
+  try{
+    const {data:{session}}=await sb.auth.getSession();
+    if(!session?.access_token)throw new Error('Your session has expired. Please sign in again.');
+    const {data,error}=await sb.functions.invoke('supabase-monitor',{headers:{Authorization:`Bearer ${session.access_token}`}});
+    if(error)throw error;
+    if(!data?.ok)throw new Error(data?.error||'Monitor service returned an invalid response.');
+    m.data=data;m.lastFetchedAt=Date.now();m.nextRefreshAt=Date.now()+SUPABASE_MONITOR_REFRESH_MS
+  }catch(e){m.error=String(e?.message||e||'Unable to load Supabase usage data.')}
+  finally{m.loading=false;if(state.tab==='supabase_monitor')renderSupabaseMonitor()}
+}
+function renderSupabaseMonitor(){
+  metricCardSet([]);
+  if(state.profile?.role!=='admin'){
+    $('#content').innerHTML='<div class="alert">Supabase Monitor is available to Admin users only.</div>';return
+  }
+  const m=state.supabaseMonitor,d=m.data;
+  if(!d&&!m.loading&&!m.error){
+    $('#content').innerHTML=`<div class="sm-shell"><div class="sm-loading-card"><div class="sm-spinner"></div><b>Loading Supabase resources…</b><span>Secure server-side monitor</span></div></div>`;
+    setTimeout(()=>loadSupabaseMonitor(false),0);startSupabaseMonitorTimer();return
+  }
+  if(m.loading&&!d){
+    $('#content').innerHTML=`<div class="sm-shell"><div class="sm-loading-card"><div class="sm-spinner"></div><b>Refreshing Supabase resources…</b><span>Database, Storage, Auth and project analytics</span></div></div>`;return
+  }
+  if(m.error&&!d){
+    $('#content').innerHTML=`<div class="sm-shell"><div class="sm-monitor-head"><div><span class="sm-eyebrow">ADMIN ONLY • SECURE RESOURCE VIEW</span><h2>Supabase Resource Monitor</h2></div><button class="btn primary" id="smRefreshBtn">↻ Refresh</button></div><div class="alert">${esc(m.error)}</div><div class="sm-setup-hint"><b>Monitor backend is not ready yet.</b><span>Deploy the included <code>supabase-monitor</code> Edge Function. No Service Role or Secret Key belongs in <code>index.html</code> or <code>config.js</code>.</span></div></div>`;
+    if($('#smRefreshBtn'))$('#smRefreshBtn').onclick=()=>loadSupabaseMonitor(false);startSupabaseMonitorTimer();return
+  }
+
+  const q=d.quotas||{},db=d.database||{},storage=d.storage||{},auth=d.auth||{},traffic=d.traffic||{};
+  const updated=d.generated_at?new Date(d.generated_at):new Date();
+  const tableRows=(db.tables||[]).map(x=>({name:`${x.schema_name}.${x.table_name}`,bytes:x.total_bytes}));
+  const schemaRows=(db.schemas||[]).map(x=>({name:x.schema_name,bytes:x.total_bytes}));
+  const dbPct=monitorPct(db.bytes,q.database_bytes),storagePct=monitorPct(storage.bytes,q.storage_bytes),mauPct=monitorPct(auth.monthly_active_users,q.mau);
+  $('#content').innerHTML=`<div class="sm-shell">
+    <div class="sm-monitor-head">
+      <div><span class="sm-eyebrow">ADMIN ONLY • LIVE RESOURCE USAGE</span><h2>Supabase Resource Monitor</h2><p>Project resource usage • secure server-side collection</p></div>
+      <div class="sm-head-actions"><span class="sm-live-badge"><i></i>Live Monitoring</span><span class="sm-auto-badge">Auto refresh 10 min</span><button class="btn primary" id="smRefreshBtn">↻ Refresh Now</button></div>
+    </div>
+    <div class="sm-meta-bar"><span><b>${esc(d.project_ref||'Supabase project')}</b> • ${esc((d.plan||'free').toUpperCase())} plan profile</span><span>Updated ${esc(updated.toLocaleString())}</span></div>
+
+    <section class="sm-metric-grid">
+      ${monitorMetricCard('Database',db.bytes,q.database_bytes,'Postgres database size','DB')}
+      ${monitorMetricCard('File Storage',storage.bytes,q.storage_bytes,'Live objects in Storage buckets','ST')}
+      ${monitorNumberCard('Monthly Active Users',auth.monthly_active_users,q.mau,'Project sign-in activity this month','AU')}
+      <article class="sm-metric-card neutral">
+        <div class="sm-card-head"><span class="sm-card-icon">↗</span><div><h3>Bandwidth / Egress</h3><p>Unified project traffic visibility</p></div></div>
+        <div class="sm-card-value">${traffic.available?Number(traffic.total_requests||0).toLocaleString():'—'}</div>
+        <div class="sm-card-subvalue">${traffic.available?'API requests from project analytics':'Exact billing bytes: Supabase Usage page'}</div>
+        <div class="sm-card-foot"><div><span>Uncached quota</span><b>${monitorFormatBytes(q.egress_bytes)}</b></div><div><span>Cached quota</span><b>${monitorFormatBytes(q.cached_egress_bytes)}</b></div></div>
+      </article>
+    </section>
+
+    <section class="sm-overview-grid">
+      <article class="sm-panel">
+        <div class="sm-panel-head"><div><span>DATABASE BREAKDOWN</span><h3>Largest Tables</h3></div><b>${monitorFormatBytes(db.bytes)}</b></div>
+        ${monitorBreakdownRows(tableRows,'name','bytes',12)}
+      </article>
+      <article class="sm-panel">
+        <div class="sm-panel-head"><div><span>SCHEMA BREAKDOWN</span><h3>Database by Schema</h3></div><b>${(db.schemas||[]).length} schemas</b></div>
+        ${monitorBreakdownRows(schemaRows,'name','bytes',10)}
+      </article>
+      <article class="sm-panel">
+        <div class="sm-panel-head"><div><span>STORAGE BREAKDOWN</span><h3>Bucket Usage</h3></div><b>${(storage.buckets||[]).length} buckets</b></div>
+        ${monitorBucketRows(storage.buckets||[])}
+      </article>
+      <article class="sm-panel">
+        <div class="sm-panel-head"><div><span>TRAFFIC ACTIVITY</span><h3>API Requests / Egress Context</h3></div><b>${traffic.available?'Live':'Quota only'}</b></div>
+        ${monitorTrafficPanel(traffic,q.egress_bytes)}
+      </article>
+    </section>
+
+    <section class="sm-resource-strip">
+      <div><span>Database</span><b>${monitorFormatBytes(db.bytes)} / ${monitorFormatBytes(q.database_bytes)}</b><em class="${monitorTone(dbPct)}">${monitorPctText(dbPct)}</em></div>
+      <div><span>Storage</span><b>${monitorFormatBytes(storage.bytes)} / ${monitorFormatBytes(q.storage_bytes)}</b><em class="${monitorTone(storagePct)}">${monitorPctText(storagePct)}</em></div>
+      <div><span>Auth Users</span><b>${Number(auth.total_users||0).toLocaleString()} registered</b><em class="${monitorTone(mauPct)}">${monitorPctText(mauPct)} MAU quota</em></div>
+      <div><span>Monitoring</span><b>Page-only refresh</b><em class="good">10 min</em></div>
+    </section>
+
+    <div class="sm-footnote"><b>Security:</b> the browser receives only summarized monitor data. Database credentials, secret/service keys and any optional Management API token remain inside the Edge Function. <b>Egress:</b> the supported project analytics endpoint supplies request counts; exact billing egress bytes remain in Supabase Usage/Billing.</div>
+  </div>`;
+  if($('#smRefreshBtn'))$('#smRefreshBtn').onclick=()=>loadSupabaseMonitor(false);
+  startSupabaseMonitorTimer()
+}
+
 function renderData(){
   metricCardSet([]);
   const d=state.data||{},df=d.departmentFiles||{},ott=d.ottSources||{},lockDetails=d.lockPlanDetails||{},dailySummary=d.dailySummary||{},p=effectivePermissions();
@@ -6852,7 +7052,7 @@ function renderKpiToolbarHeading(tab){
   $('#kpiInlineExportBtn').onclick=exportCurrent;
   $('#kpiManagementBtn').onclick=openKpiManagementView
 }
-function render(){if(!state.data)return;destroyCharts();applyMenuPermissions();syncBuyerOptions(false);const isOtt=OTT_TABS.includes(state.tab),isKpi=KPI_TABS.includes(state.tab),isLockDetails=['lock_board','lock_event'].includes(state.tab),isDaily=state.tab==='daily_summary',special=['data','users'].includes(state.tab)||isOtt||isLockDetails||isDaily;$('.toolbar').classList.toggle('hidden',special);$('#exportBtn').classList.toggle('hidden',special||isKpi);
+function render(){if(!state.data)return;if(state.tab!=='supabase_monitor')stopSupabaseMonitorTimer();destroyCharts();applyMenuPermissions();syncBuyerOptions(false);const isOtt=OTT_TABS.includes(state.tab),isKpi=KPI_TABS.includes(state.tab),isLockDetails=['lock_board','lock_event'].includes(state.tab),isDaily=state.tab==='daily_summary',isMonitor=state.tab==='supabase_monitor',special=['data','users','supabase_monitor'].includes(state.tab)||isOtt||isLockDetails||isDaily;$('.toolbar').classList.toggle('hidden',special);$('#exportBtn').classList.toggle('hidden',special||isKpi);
   const isOverview=state.tab==='overview';
   $('.toolbar')?.classList.toggle('overview-toolbar',isOverview);
   $('#buyerFilterGroup')?.classList.toggle('hidden',isOverview);
@@ -6862,7 +7062,7 @@ function render(){if(!state.data)return;destroyCharts();applyMenuPermissions();s
   const lb=$('#lockDetailsBtn');if(lb)lb.classList.toggle('active',['lock_board','lock_event'].includes(state.tab));
   const fns={overview:renderOverview,dyeing:renderDyeing,knitting:renderKnitting,finishing:renderFinishing,delivery:renderDelivery,yarn:renderYarnDyeing,chemical:renderChemicalLab,etl:renderETL,
     ott_yarn:()=>renderOTTDept('ott_yarn'),ott_knitting:()=>renderOTTDept('ott_knitting'),ott_dyeing:()=>renderOTTDept('ott_dyeing'),ott_delivery:()=>renderOTTDept('ott_delivery'),ott_lock:()=>renderOTTDept('ott_lock'),ott_booking:renderOTTBooking,ott_overall:renderOTTOverall,
-    lock_board:renderLockPlanDetailsBoard,lock_event:renderLockPlanEventDetail,daily_summary:renderDailySummary,data:renderData,users:renderUsers};if(isKpi)renderKpiToolbarHeading(state.tab);else renderKpiToolbarHeading(null);(fns[state.tab]||renderOverview)();applyAllFilterVisibility();if(special){$('#countText').textContent='';return}if(state.tab==='dyeing')$('#countText').textContent=`${dyeingBuyerRows().length} buyer/date records • ${dyeingDateRows().length} overall date records`;else if(state.tab==='knitting')$('#countText').textContent=`${knittingBuyerRows().length} buyer/date records • ${knittingDateRows().length} overall date records`;else if(state.tab==='finishing')$('#countText').textContent=`${finishingDateRows().length} finishing date records`;else if(state.tab==='delivery')$('#countText').textContent=`${deliveryBuyerRows().length} buyer/date records • ${deliveryDateRows().length} delivery date records`;else if(state.tab==='yarn')$('#countText').textContent=`${yarnDyeingBuyerRows().length} buyer/date records • ${yarnDyeingDateRows().length} Yarn Dyeing date records`;else if(state.tab==='chemical')$('#countText').textContent=`${chemicalLabRows().length} Chemical Lab date records`;else if(state.tab==='etl')$('#countText').textContent=`${etlRows().length} ETL date records`;else if(state.tab==='overview')$('#countText').textContent='Executive summary • 7 departments • date-wise view';else $('#countText').textContent=`${currentDateRows('Dyeing').length} daily records`;}
+    lock_board:renderLockPlanDetailsBoard,lock_event:renderLockPlanEventDetail,daily_summary:renderDailySummary,data:renderData,supabase_monitor:renderSupabaseMonitor,users:renderUsers};if(isKpi)renderKpiToolbarHeading(state.tab);else renderKpiToolbarHeading(null);(fns[state.tab]||renderOverview)();applyAllFilterVisibility();if(special){$('#countText').textContent='';return}if(state.tab==='dyeing')$('#countText').textContent=`${dyeingBuyerRows().length} buyer/date records • ${dyeingDateRows().length} overall date records`;else if(state.tab==='knitting')$('#countText').textContent=`${knittingBuyerRows().length} buyer/date records • ${knittingDateRows().length} overall date records`;else if(state.tab==='finishing')$('#countText').textContent=`${finishingDateRows().length} finishing date records`;else if(state.tab==='delivery')$('#countText').textContent=`${deliveryBuyerRows().length} buyer/date records • ${deliveryDateRows().length} delivery date records`;else if(state.tab==='yarn')$('#countText').textContent=`${yarnDyeingBuyerRows().length} buyer/date records • ${yarnDyeingDateRows().length} Yarn Dyeing date records`;else if(state.tab==='chemical')$('#countText').textContent=`${chemicalLabRows().length} Chemical Lab date records`;else if(state.tab==='etl')$('#countText').textContent=`${etlRows().length} ETL date records`;else if(state.tab==='overview')$('#countText').textContent='Executive summary • 7 departments • date-wise view';else $('#countText').textContent=`${currentDateRows('Dyeing').length} daily records`;}
 let swElapsed=0,swStartedAt=null,swTimer=null;
 function updateStopwatch(){const el=$('#stopwatchText');if(!el)return;const ms=swElapsed+(swStartedAt?Date.now()-swStartedAt:0),sec=Math.floor(ms/1000),m=Math.floor(sec/60),s=sec%60;el.textContent=`${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`}
 function toggleStopwatch(){const btn=$('#stopwatchBtn');if(swTimer){swElapsed+=Date.now()-swStartedAt;swStartedAt=null;clearInterval(swTimer);swTimer=null;btn?.classList.remove('active-tool')}else{swStartedAt=Date.now();swTimer=setInterval(updateStopwatch,250);btn?.classList.add('active-tool')}updateStopwatch()}
