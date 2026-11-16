@@ -3010,6 +3010,117 @@ body.dark-mode .sm-monitor-head,body.dark-mode .sm-metric-card,body.dark-mode .s
 body.dark-mode .lpd-action-btn{background:#172b23;border-color:#35584a;color:#a9e1cc}body.dark-mode .lpd-action-btn.details.has-data{background:#172f3a;color:#9ed7ee;border-color:#35677b}body.dark-mode .pmc-source-line{background:#153038;color:#bcd8de}body.dark-mode .pmc-table-wrap tbody tr:nth-child(even){background:#132019}body.dark-mode .pmc-table-wrap tbody tr:hover{background:#193329}
 @media(max-width:900px){.pmc-summary-grid{grid-template-columns:repeat(2,1fr)}.pmc-urgent-popup{padding:6px}.pmc-urgent-popup-card{width:99vw;max-height:96vh}.pmc-urgent-popup-body{max-height:calc(96vh - 55px)}}
 
+
+/* ================= v57 PMC1 popup — table focused meeting view ================= */
+.pmc-urgent-popup{padding:8px!important}
+.pmc-urgent-popup-card{
+  width:min(1780px,99vw)!important;
+  max-height:97vh!important;
+  border-radius:9px!important;
+}
+.pmc-urgent-popup-head{
+  padding:9px 13px!important;
+  min-height:48px!important;
+  background:linear-gradient(100deg,#08634c,#0b776a)!important;
+}
+.pmc-urgent-popup-head span{
+  font-size:8px!important;
+  font-weight:900!important;
+  letter-spacing:1px!important;
+}
+.pmc-urgent-popup-head h3{
+  margin-top:1px!important;
+  font-size:22px!important;
+  line-height:1.05!important;
+}
+.pmc-urgent-popup-head button{
+  width:34px!important;
+  height:34px!important;
+  font-size:21px!important;
+}
+.pmc-urgent-popup-body{
+  padding:5px!important;
+  max-height:calc(97vh - 48px)!important;
+  overflow:hidden!important;
+  background:#fff!important;
+}
+/* v57 deliberately hides the old summary/status/source blocks if cached markup remains */
+.pmc-urgent-popup .pmc-summary-grid,
+.pmc-urgent-popup .pmc-status-strip,
+.pmc-urgent-popup .pmc-source-line{display:none!important}
+.pmc-table-wrap{
+  max-height:calc(97vh - 58px)!important;
+  height:auto!important;
+  border:2px solid #d9dc4e!important;
+  border-radius:6px!important;
+  overflow:auto!important;
+  background:#fff!important;
+}
+.pmc-table-wrap table{
+  width:max-content!important;
+  min-width:100%!important;
+  font-size:12px!important;
+  line-height:1.25!important;
+}
+.pmc-table-wrap th{
+  top:0!important;
+  padding:9px 9px!important;
+  background:#075d54!important;
+  color:#fff!important;
+  font-size:10.5px!important;
+  font-weight:900!important;
+  letter-spacing:.05px!important;
+  border-right:1px solid rgba(255,255,255,.26)!important;
+}
+.pmc-table-wrap td{
+  padding:8px 9px!important;
+  min-height:34px!important;
+  font-size:12px!important;
+  font-weight:650!important;
+  color:#26382f!important;
+  border-bottom:1px solid #ddd982!important;
+  border-right:1px solid #e5e19b!important;
+  background:#fffef0!important;
+}
+.pmc-table-wrap tbody tr:nth-child(even) td{background:#fffbdc!important}
+.pmc-table-wrap tbody tr:hover td{background:#fff4a8!important}
+.pmc-table-wrap th:first-child,
+.pmc-table-wrap td:first-child{
+  position:sticky!important;
+  left:0!important;
+  z-index:1!important;
+  box-shadow:2px 0 0 rgba(6,93,84,.15)!important;
+}
+.pmc-table-wrap th:first-child{z-index:4!important;background:#075d54!important}
+.pmc-table-wrap td:first-child{font-weight:900!important;background:#fff9c7!important}
+.pmc-table-wrap tbody tr:nth-child(even) td:first-child{background:#fff5ad!important}
+.pmc-table-wrap .pmc-remarks{
+  min-width:380px!important;
+  max-width:600px!important;
+  white-space:normal!important;
+  text-align:left!important;
+  line-height:1.4!important;
+  font-weight:650!important;
+}
+.pmc-table-wrap .pmc-status-cell{
+  min-width:115px!important;
+  font-size:12.5px!important;
+  font-weight:900!important;
+}
+.pmc-table-wrap .pmc-status-cell.good{color:#08724e!important}
+.pmc-table-wrap .pmc-status-cell.watch{color:#8d5f00!important}
+.pmc-table-wrap .pmc-status-cell.bad{color:#b63e31!important}
+body.dark-mode .pmc-urgent-popup-body{background:#101b17!important}
+body.dark-mode .pmc-table-wrap td{color:#17231e!important}
+@media(max-width:900px){
+  .pmc-urgent-popup-card{width:99.5vw!important;max-height:98vh!important}
+  .pmc-urgent-popup-body{max-height:calc(98vh - 46px)!important}
+  .pmc-table-wrap{max-height:calc(98vh - 56px)!important}
+  .pmc-table-wrap table{font-size:10.5px!important}
+  .pmc-table-wrap td{font-size:10.5px!important;padding:7px!important}
+  .pmc-table-wrap th{font-size:9.5px!important;padding:8px 7px!important}
+}
+
 </style></head><body><div id="app" class="hidden"><div class="app-sticky-header"><div class="top-accent"></div><header class="header"><div class="header-left"><div class="brand-mark">TP</div><div><div class="brand-title">Textile Planning Dashboard</div><div class="brand-sub">Planning, Monitoring & Control</div></div></div><div class="header-actions"><div class="utility-tools"><button class="tool-btn stopwatch-btn" id="stopwatchBtn" title="Click to start/pause • Double-click to reset">⏱ <span id="stopwatchText">00:00</span></button><button class="tool-btn" id="fullscreenBtn" title="Enter full screen">⛶ Full</button><button class="tool-btn" id="themeBtn" title="Switch dark/light mode">☾ Dark</button></div><span class="greeting" id="greeting">Good morning</span><button class="btn" id="exportBtn">Export CSV</button><button class="btn" id="signOutBtn">Sign out</button><button class="btn primary" id="refreshBtn">Refresh</button></div></header><nav class="nav">
   <button data-tab="daily_summary" class="main-nav-btn">Daily Summary</button>
   <div class="kpi-menu-wrap" id="kpiMenuWrap">
@@ -6654,16 +6765,8 @@ function openPmcUrgentPopup(row){
     body.innerHTML=`<div class="pmc-no-match"><b>No PMC1 Urgent data found</b><span>No row in ${esc(state.data?.pmcUrgent?.meta?.fileName||'PMC1_Urgent_Filtered_Export.xlsx')} matched Booking No. <strong>${esc(booking)}</strong>.</span></div>`;
     modal.classList.remove('hidden');return
   }
-  const numSum=c=>rows.reduce((a,r)=>a+(Number(r[c])||0),0),batches=new Set(rows.map(r=>String(r.Batch||'')).filter(Boolean)),
-        statusCounts=[...rows.reduce((m,r)=>m.set(String(r.Status||'—'),(m.get(String(r.Status||'—'))||0)+1),new Map()).entries()].sort((a,b)=>b[1]-a[1]);
   const cols=PMC_URGENT_REQUIRED;
-  body.innerHTML=`<div class="pmc-summary-grid">
-      <div><span>Matched Rows</span><b>${rows.length.toLocaleString()}</b></div><div><span>Unique Batches</span><b>${batches.size.toLocaleString()}</b></div>
-      <div><span>BP Total</span><b>${pmcUrgentFmtNumber(numSum('BPTotal'))}</b></div><div><span>Total Delivery</span><b>${pmcUrgentFmtNumber(numSum('T.Delivery'))}</b></div>
-    </div>
-    <div class="pmc-status-strip">${statusCounts.map(([s,n])=>`<span class="${pmcUrgentStatusClass(s)}">${esc(s)} <b>${n}</b></span>`).join('')}</div>
-    <div class="pmc-source-line"><span>Source: <b>${esc(state.data?.pmcUrgent?.meta?.fileName||'PMC1_Urgent_Filtered_Export.xlsx')}</b></span><span>All matching rows for Booking No. ${esc(booking)}</span></div>
-    <div class="pmc-table-wrap"><table><thead><tr>${cols.map(c=>`<th>${esc(c)}</th>`).join('')}</tr></thead><tbody>${rows.map(r=>`<tr>${cols.map(c=>{
+  body.innerHTML=`<div class="pmc-table-wrap"><table><thead><tr>${cols.map(c=>`<th>${esc(c)}</th>`).join('')}</tr></thead><tbody>${rows.map(r=>`<tr>${cols.map(c=>{
       let v=r[c];
       if(['Issue Date','Dye Date','Finish Date','Delivery Date'].includes(c))v=pmcUrgentFmtDate(v);
       else if(['BPTotal','IssueTotal','Dye Qty','Finish Qty','T.Delivery'].includes(c))v=pmcUrgentFmtNumber(v);
