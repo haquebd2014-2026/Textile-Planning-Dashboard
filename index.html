@@ -3121,6 +3121,54 @@ body.dark-mode .pmc-table-wrap td{color:#17231e!important}
   .pmc-table-wrap th{font-size:9.5px!important;padding:8px 7px!important}
 }
 
+
+/* ================= v58 PMC1 frozen Batch + Shade ================= */
+/* Booking No. is removed from this popup table. */
+.pmc-table-wrap th.pmc-freeze-batch,
+.pmc-table-wrap td.pmc-freeze-batch{
+  position:sticky!important;
+  left:0!important;
+  z-index:8!important;
+  min-width:132px!important;
+  width:132px!important;
+  max-width:132px!important;
+  background:#fff9c7!important;
+  font-weight:900!important;
+  box-shadow:2px 0 0 rgba(0,0,0,.09)!important;
+}
+.pmc-table-wrap th.pmc-freeze-shade,
+.pmc-table-wrap td.pmc-freeze-shade{
+  position:sticky!important;
+  left:132px!important;
+  z-index:7!important;
+  min-width:118px!important;
+  width:118px!important;
+  max-width:118px!important;
+  background:#fff9c7!important;
+  font-weight:800!important;
+  box-shadow:2px 0 0 rgba(0,0,0,.09)!important;
+}
+.pmc-table-wrap thead th.pmc-freeze-batch,
+.pmc-table-wrap thead th.pmc-freeze-shade{
+  z-index:12!important;
+  background:#075d54!important;
+  color:#fff!important;
+}
+.pmc-table-wrap tbody tr:nth-child(even) td.pmc-freeze-batch,
+.pmc-table-wrap tbody tr:nth-child(even) td.pmc-freeze-shade{
+  background:#fff5ad!important;
+}
+.pmc-table-wrap tbody tr:hover td.pmc-freeze-batch,
+.pmc-table-wrap tbody tr:hover td.pmc-freeze-shade{
+  background:#fff0a0!important;
+}
+
+/* Override old first-column sticky rule so it now applies through explicit classes only. */
+.pmc-table-wrap th:first-child,
+.pmc-table-wrap td:first-child{
+  left:0!important;
+}
+
 </style></head><body><div id="app" class="hidden"><div class="app-sticky-header"><div class="top-accent"></div><header class="header"><div class="header-left"><div class="brand-mark">TP</div><div><div class="brand-title">Textile Planning Dashboard</div><div class="brand-sub">Planning, Monitoring & Control</div></div></div><div class="header-actions"><div class="utility-tools"><button class="tool-btn stopwatch-btn" id="stopwatchBtn" title="Click to start/pause • Double-click to reset">⏱ <span id="stopwatchText">00:00</span></button><button class="tool-btn" id="fullscreenBtn" title="Enter full screen">⛶ Full</button><button class="tool-btn" id="themeBtn" title="Switch dark/light mode">☾ Dark</button></div><span class="greeting" id="greeting">Good morning</span><button class="btn" id="exportBtn">Export CSV</button><button class="btn" id="signOutBtn">Sign out</button><button class="btn primary" id="refreshBtn">Refresh</button></div></header><nav class="nav">
   <button data-tab="daily_summary" class="main-nav-btn">Daily Summary</button>
   <div class="kpi-menu-wrap" id="kpiMenuWrap">
@@ -6758,6 +6806,7 @@ function pmcUrgentStatusClass(v){
   const s=String(v||'').toLowerCase();
   if(s.includes('rfd'))return'good';if(s.includes('reject')||s.includes('return'))return'bad';if(s.includes('slow'))return'watch';return'neutral'
 }
+
 function openPmcUrgentPopup(row){
   const modal=$('#pmcUrgentPopup'),body=$('#pmcUrgentBody'),title=$('#pmcUrgentTitle');if(!modal||!body||!row)return;
   const rows=pmcUrgentRowsForBooking(row.BookingNo),booking=row.BookingNo||'—';if(title)title.textContent=`Booking ${booking}`;
@@ -6765,13 +6814,26 @@ function openPmcUrgentPopup(row){
     body.innerHTML=`<div class="pmc-no-match"><b>No PMC1 Urgent data found</b><span>No row in ${esc(state.data?.pmcUrgent?.meta?.fileName||'PMC1_Urgent_Filtered_Export.xlsx')} matched Booking No. <strong>${esc(booking)}</strong>.</span></div>`;
     modal.classList.remove('hidden');return
   }
-  const cols=PMC_URGENT_REQUIRED;
-  body.innerHTML=`<div class="pmc-table-wrap"><table><thead><tr>${cols.map(c=>`<th>${esc(c)}</th>`).join('')}</tr></thead><tbody>${rows.map(r=>`<tr>${cols.map(c=>{
+  const cols=PMC_URGENT_REQUIRED.filter(c=>c!=='Booking No.');
+  const colClass=c=>{
+    const list=[];
+    if(c==='Batch')list.push('pmc-freeze-batch');
+    if(c==='Shade')list.push('pmc-freeze-shade');
+    if(c==='Status')list.push('pmc-status-cell');
+    if(c==='Status')list.push(pmcUrgentStatusClass(''));
+    if(c==='Remarks')list.push('pmc-remarks');
+    return list.join(' ')
+  };
+  body.innerHTML=`<div class="pmc-table-wrap"><table><thead><tr>${cols.map(c=>`<th class="${c==='Batch'?'pmc-freeze-batch':c==='Shade'?'pmc-freeze-shade':''}">${esc(c)}</th>`).join('')}</tr></thead><tbody>${rows.map(r=>`<tr>${cols.map(c=>{
       let v=r[c];
       if(['Issue Date','Dye Date','Finish Date','Delivery Date'].includes(c))v=pmcUrgentFmtDate(v);
       else if(['BPTotal','IssueTotal','Dye Qty','Finish Qty','T.Delivery'].includes(c))v=pmcUrgentFmtNumber(v);
-      const cls=c==='Status'?` class="pmc-status-cell ${pmcUrgentStatusClass(v)}"`:c==='Remarks'?' class="pmc-remarks"':'';
-      return`<td${cls}>${esc(v===null||v===undefined||v===''?'—':v)}</td>`
+      let cls='';
+      if(c==='Batch')cls='pmc-freeze-batch';
+      else if(c==='Shade')cls='pmc-freeze-shade';
+      else if(c==='Status')cls=`pmc-status-cell ${pmcUrgentStatusClass(v)}`;
+      else if(c==='Remarks')cls='pmc-remarks';
+      return`<td${cls?` class="${cls}"`:''}>${esc(v===null||v===undefined||v===''?'—':v)}</td>`
     }).join('')}</tr>`).join('')}</tbody></table></div>`;
   modal.classList.remove('hidden')
 }
