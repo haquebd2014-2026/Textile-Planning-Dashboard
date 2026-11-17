@@ -3169,6 +3169,138 @@ body.dark-mode .pmc-table-wrap td{color:#17231e!important}
   left:0!important;
 }
 
+
+/* ================= v59 OTT sequences + KPI Overview refinements ================= */
+
+/* Daily event count is intended for meeting visibility */
+.ott-chart-grid .ott-trend-wide .chart-wrap{
+  min-height:300px!important;
+}
+
+/* Overview: top KPI strip now shows only main value + target status */
+.snapshot-kp-item i{
+  white-space:nowrap!important;
+}
+
+/* Dyeing: EFL + EKL+Ext + Pluvia are now true table columns */
+.snap-dye-compare.snap-dye-three{
+  width:78%!important;
+  max-width:78%!important;
+  table-layout:fixed!important;
+  margin-left:0!important;
+  margin-right:auto!important;
+}
+.snap-dye-compare.snap-dye-three th:first-child,
+.snap-dye-compare.snap-dye-three td:first-child{
+  width:24%!important;
+}
+.snap-dye-compare.snap-dye-three th:nth-child(2),
+.snap-dye-compare.snap-dye-three th:nth-child(3),
+.snap-dye-compare.snap-dye-three th:nth-child(4){
+  width:25.33%!important;
+}
+.snap-dye-compare.snap-dye-three .snap-pill{
+  min-width:52px!important;
+}
+.snap-dye-compare .snap-empty{
+  color:#a4aeaa!important;
+  font-weight:700!important;
+}
+
+/* Chemical Lab Overview card: compact SLT box + vertical RFT column chart */
+.snap-chem-compact{
+  display:grid!important;
+  grid-template-columns:minmax(115px,46%) minmax(120px,54%)!important;
+  gap:9px!important;
+  align-items:stretch!important;
+  min-height:82px!important;
+  padding-top:3px!important;
+}
+.snap-chem-slt{
+  border:1px solid var(--line)!important;
+  border-left:4px solid var(--snap-neutral)!important;
+  border-radius:7px!important;
+  padding:8px 9px!important;
+  display:flex!important;
+  flex-direction:column!important;
+  justify-content:center!important;
+  background:#f7faf8!important;
+}
+.snap-chem-slt.st-ok{border-left-color:var(--snap-ok)!important;background:#e6f5ed!important}
+.snap-chem-slt.st-watch{border-left-color:var(--snap-watch)!important;background:#fff4d2!important}
+.snap-chem-slt.st-critical{border-left-color:var(--snap-critical)!important;background:#fae4df!important}
+.snap-chem-slt span,
+.snap-chem-rft-copy span{
+  font-size:8.5px!important;
+  color:var(--muted)!important;
+  font-weight:700!important;
+}
+.snap-chem-slt b{
+  font:700 16px Georgia,serif!important;
+  color:#075d45!important;
+  margin-top:3px!important;
+}
+.snap-chem-slt small,
+.snap-chem-rft-copy small{
+  font-size:7px!important;
+  color:var(--muted)!important;
+  font-weight:800!important;
+  margin-top:2px!important;
+}
+.snap-chem-rft{
+  display:grid!important;
+  grid-template-columns:42px 1fr!important;
+  gap:8px!important;
+  align-items:end!important;
+  border:1px solid var(--line)!important;
+  border-radius:7px!important;
+  padding:7px 8px!important;
+  background:#f9fbfa!important;
+}
+.snap-chem-column{
+  height:64px!important;
+  width:28px!important;
+  margin:auto!important;
+  border-radius:5px 5px 2px 2px!important;
+  background:#e7efeb!important;
+  position:relative!important;
+  overflow:hidden!important;
+  display:flex!important;
+  align-items:flex-end!important;
+}
+.snap-chem-column i{
+  display:block!important;
+  width:100%!important;
+  min-height:2px!important;
+  background:var(--snap-neutral)!important;
+  border-radius:4px 4px 0 0!important;
+}
+.snap-chem-column i.st-ok{background:var(--snap-ok)!important}
+.snap-chem-column i.st-watch{background:var(--snap-watch)!important}
+.snap-chem-column i.st-critical{background:var(--snap-critical)!important}
+.snap-chem-rft-copy{
+  align-self:center!important;
+}
+.snap-chem-rft-copy b{
+  display:block!important;
+  font:700 17px Georgia,serif!important;
+  color:#075d45!important;
+  margin-top:2px!important;
+}
+body.dark-mode .snap-chem-slt,
+body.dark-mode .snap-chem-rft{
+  background:#17231e!important;
+}
+body.dark-mode .snap-chem-slt b,
+body.dark-mode .snap-chem-rft-copy b{
+  color:#d8ece3!important;
+}
+
+@media(max-width:900px){
+  .snap-dye-compare.snap-dye-three{width:100%!important;max-width:100%!important}
+  .snap-chem-compact{grid-template-columns:1fr!important}
+}
+
 </style></head><body><div id="app" class="hidden"><div class="app-sticky-header"><div class="top-accent"></div><header class="header"><div class="header-left"><div class="brand-mark">TP</div><div><div class="brand-title">Textile Planning Dashboard</div><div class="brand-sub">Planning, Monitoring & Control</div></div></div><div class="header-actions"><div class="utility-tools"><button class="tool-btn stopwatch-btn" id="stopwatchBtn" title="Click to start/pause • Double-click to reset">⏱ <span id="stopwatchText">00:00</span></button><button class="tool-btn" id="fullscreenBtn" title="Enter full screen">⛶ Full</button><button class="tool-btn" id="themeBtn" title="Switch dark/light mode">☾ Dark</button></div><span class="greeting" id="greeting">Good morning</span><button class="btn" id="exportBtn">Export CSV</button><button class="btn" id="signOutBtn">Sign out</button><button class="btn primary" id="refreshBtn">Refresh</button></div></header><nav class="nav">
   <button data-tab="daily_summary" class="main-nav-btn">Daily Summary</button>
   <div class="kpi-menu-wrap" id="kpiMenuWrap">
@@ -4188,8 +4320,47 @@ function ottCountBarChart(id,labels,data,label='Checks'){
   state.charts.push(c)
 }
 
-
-
+function ottDailyEventCountChart(id,flow){
+  const ctx=document.querySelector(`canvas#${id}`);if(!ctx)return;
+  const dark=document.body.classList.contains('dark-mode'),grid=dark?'#31453c':'#e9eeeb',txt=dark?'#d8e7df':'#4d5c56';
+  const labelPlugin={
+    id:'ottDailyEventCountLabels',
+    afterDatasetsDraw(chart){
+      const {ctx,chartArea}=chart;if(!chartArea)return;
+      ctx.save();ctx.textAlign='center';ctx.textBaseline='bottom';
+      ctx.font='800 10px Inter,Arial,sans-serif';ctx.fillStyle=txt;
+      chart.data.labels.forEach((_,i)=>{
+        const pass=Number(flow.pass?.[i]||0),total=Number(flow.total?.[i]||0);
+        const meta=chart.getDatasetMeta(1),el=meta?.data?.[i];if(!el)return;
+        const y=Math.max(chartArea.top+12,el.y-5);
+        ctx.fillText(`${pass}/${total}`,el.x,y)
+      });
+      ctx.restore()
+    }
+  };
+  const c=new Chart(ctx,{
+    type:'bar',
+    data:{labels:flow.labels,datasets:[
+      {label:'Pass',data:flow.pass,backgroundColor:'#1a9a6a',borderRadius:3,maxBarThickness:18},
+      {label:'Total',data:flow.total,backgroundColor:'#7fa0b5',borderRadius:3,maxBarThickness:18}
+    ]},
+    options:{
+      responsive:true,maintainAspectRatio:false,animation:false,layout:{padding:{top:22,left:4,right:4}},
+      plugins:{
+        tpChartValueLabels:{display:false},
+        ottSafeValueLabels:{display:false},
+        legend:{position:'bottom',labels:{boxWidth:11,font:{size:11,weight:'700'},color:txt,padding:12}},
+        tooltip:{callbacks:{label:c=>`${c.dataset.label}: ${Number(c.raw||0).toLocaleString()}`}}
+      },
+      scales:{
+        x:{grid:{display:false},ticks:{font:{size:9,weight:'700'},color:txt,maxRotation:45,minRotation:0}},
+        y:{beginAtZero:true,grid:{color:grid},ticks:{precision:0,font:{size:9,weight:'700'},color:txt}}
+      }
+    },
+    plugins:[labelPlugin]
+  });
+  state.charts.push(c)
+}
 function ottBlankFilters(){
   return{_initialized:true,bookingAll:true,bookings:[],buyer:[],result:'',failReason:[],relatedDept:[],floor:[],type:'',month:['__RUNNING__'],from:'',to:''}
 }
@@ -4442,6 +4613,7 @@ function ottMonthGroups(rows){
     .sort((a,b)=>String(a.min).localeCompare(String(b.min)))
 }
 
+
 function ottDailyFlow(rows){
   const f=state.ottFilters||{},byDate=new Map();
   rows.forEach(r=>{if(!r.Plan)return;if(!byDate.has(r.Plan))byDate.set(r.Plan,[]);byDate.get(r.Plan).push(r)});
@@ -4462,6 +4634,27 @@ function ottDailyFlow(rows){
     }
   }
   return{labels,start,end,overall}
+}
+
+function ottDailyEventCounts(rows){
+  const f=state.ottFilters||{},byDate=new Map();
+  rows.forEach(r=>{if(!r.Plan)return;if(!byDate.has(r.Plan))byDate.set(r.Plan,[]);byDate.get(r.Plan).push(r)});
+  let from=f.from,to=f.to;
+  const dates=[...byDate.keys()].sort();
+  if(!from)from=dates[0]||'';
+  if(!to)to=dates.slice(-1)[0]||'';
+  const labels=[],pass=[],total=[];
+  if(from&&to&&from<=to){
+    let d=new Date(from+'T00:00:00'),last=new Date(to+'T00:00:00'),guard=0;
+    while(d<=last&&guard<550){
+      const iso=ottLocalISO(d),rs=byDate.get(iso)||[];
+      labels.push(d.toLocaleDateString(undefined,{day:'2-digit',month:'short'}));
+      pass.push(rs.filter(r=>r.Result==='Pass').length);
+      total.push(rs.length);
+      d.setDate(d.getDate()+1);guard++
+    }
+  }
+  return{labels,pass,total}
 }
 function ottMonthlyFlow(rows){
   const groups=ottMonthGroups(rows);
@@ -4697,6 +4890,7 @@ function ottAssertUniqueChartTargets(){
   })
 }
 
+
 function renderOTTDept(tab){
   metricCardSet([]);ottEnsureDefaults(tab);
   const cfg=OTT_CONFIG[tab],source=ottSource(tab);
@@ -4707,6 +4901,7 @@ function renderOTTDept(tab){
     return
   }
   const rows=ottFilterRows(tab),s=ottStats(rows),daily=ottDailyFlow(rows),monthly=ottMonthlyFlow(rows),
+        eventCounts=ottDailyEventCounts(rows),
         buyer=ottGroup(rows,'Buyer').filter(x=>x.label!=='(blank)').sort((a,b)=>b.count-a.count).slice(0,12),
         reasons=ottTopCounts(rows,'FailReason',10),related=ottTopCounts(rows,'RelatedDept',10),
         floors=cfg.hasFloor?ottGroup(rows.filter(r=>r.Floor),'Floor').sort((a,b)=>b.count-a.count).slice(0,12):[];
@@ -4721,20 +4916,36 @@ function renderOTTDept(tab){
     ottCard('Avg Late Days',s.avgDelay===null?'—':fmt1(s.avgDelay),`Positive delay among failed rows with valid Actual`,'red')
   ].join('');
   const p=(title,note,id,wide=false)=>panel(title,note,`<div class="chart-wrap"><canvas id="${id}"></canvas></div>`,wide,true);
-  body.innerHTML=`<div class="ott-management-area" id="ottManagementArea">
-    <div class="ott-card-grid">${cards}</div><div class="ott-chart-grid">
+  const hasDailyCount=['ott_yarn','ott_knitting','ott_dyeing','ott_delivery'].includes(tab);
+
+  let chartHtml='';
+  if(hasDailyCount){
+    chartHtml=`
+      <div class="ott-trend-wide">${p('Daily OTT Trend','Start / End / Overall OTT for every date in the selected range','ottChartDaily',true)}</div>
+      <div class="ott-trend-wide">${p('Daily OTT Event Count','Daily Pass / Total event count • direct labels show Pass/Total','ottDailyEventCount',true)}</div>
+      ${p('Buyer OTT Performance','Top buyers by number of checks','ottBuyerChart')}
+      ${cfg.hasFloor?p('Floor OTT','Pass rate by Floor','ottChartFloor'):''}
+      ${p('Major Fail Reasons','Top fail reasons','ottChartFailReason')}
+      ${p('Fail Responsible / Related Dept.','Top departments on failed rows','ottRelated')}
+      <div class="ott-trend-wide">${p('Monthly OTT Trend','Start / End / Overall OTT flow','ottChartMonth',true)}</div>`;
+  }else{
+    chartHtml=`
       <div class="ott-trend-wide">${p('Daily OTT Trend','Start / End / Overall OTT for every date in the selected range','ottChartDaily',true)}</div>
       <div class="ott-trend-wide">${p('Monthly OTT Trend','Start / End / Overall OTT flow','ottChartMonth',true)}</div>
       ${p('Buyer OTT Performance','Top buyers by number of checks','ottBuyerChart')}
       ${p('Major Fail Reasons','Top fail reasons','ottChartFailReason')}
       ${p('Fail Responsible / Related Dept.','Top departments on failed rows','ottRelated')}
-      ${cfg.hasFloor?p('Floor OTT','Pass rate by Floor','ottChartFloor'):''}
-    </div></div>
+      ${cfg.hasFloor?p('Floor OTT','Pass rate by Floor','ottChartFloor'):''}`;
+  }
+
+  body.innerHTML=`<div class="ott-management-area" id="ottManagementArea">
+    <div class="ott-card-grid">${cards}</div><div class="ott-chart-grid">${chartHtml}</div></div>
     <div class="panel ott-detail-wrap"><h3>${esc(cfg.label)} Detail</h3><div class="note">Booking No. filtering is handled only in OTT Board → Booking OTT Status.</div>${ottTableHTML(rows,false)}</div>`;
   ottAssertUniqueChartTargets();
   ottPercentLineChart('ottChartDaily',daily.labels,[
     {label:'Start OTT',data:daily.start},{label:'End OTT',data:daily.end},{label:'Overall OTT',data:daily.overall}
   ]);
+  if(hasDailyCount)ottDailyEventCountChart('ottDailyEventCount',eventCounts);
   ottPercentLineChart('ottChartMonth',monthly.labels,[
     {label:'Start OTT',data:monthly.start},{label:'End OTT',data:monthly.end},{label:'Overall OTT',data:monthly.overall}
   ]);
@@ -4743,8 +4954,6 @@ function renderOTTDept(tab){
   ottCountBarChart('ottRelated',safeRelated.map(x=>x.label),safeRelated.map(x=>x.count),'Fail checks');
   if(cfg.hasFloor)ottPercentBarChart('ottChartFloor',floors.map(x=>x.label),floors.map(x=>x.rate),'Pass rate',true)
 }
-
-
 function renderOTTBooking(){
   metricCardSet([]);const tab='ott_booking';ottEnsureDefaults(tab);
   const all=ottRowsWithDept(tab);
@@ -4767,6 +4976,7 @@ function renderOTTBooking(){
   </div>
   <div class="panel ott-detail-wrap"><h3>Selected Booking — Combined Event Detail</h3><div class="note">All unique booking numbers are selected by default. Use the Booking No. picker for single or multiple selection.</div>${ottTableHTML(rows,true,500)}</div>`
 }
+
 function renderOTTOverall(){
   metricCardSet([]);const tab='ott_overall';ottEnsureDefaults(tab);
   const all=ottRowsWithDept(tab);
@@ -4785,16 +4995,14 @@ function renderOTTOverall(){
   const p=(title,note,id,wide=false)=>panel(title,note,`<div class="chart-wrap"><canvas id="${id}"></canvas></div>`,wide,true);
   body.innerHTML=`<div class="ott-management-area" id="ottManagementArea">
     <div class="ott-card-grid">${cards}</div><div class="ott-chart-grid">
-      ${p('Pass / Fail','Combined filtered checks','ottChartResult')}
+      <div class="ott-trend-wide">${p('Daily OTT Trend','Start / End / Overall OTT for every date in the selected range','ottChartDaily',true)}</div>
       ${p('Start vs End by Department','Pass rate comparison','ottDeptType')}
       ${p('Department OTT Comparison','Overall pass rate across the five OTT sources','ottDeptRate')}
-      <div class="ott-trend-wide">${p('Daily OTT Trend','Start / End / Overall OTT for every date in the selected range','ottChartDaily',true)}</div>
-      <div class="ott-trend-wide">${p('Monthly OTT Trend','Start / End / Overall OTT flow','ottChartMonth',true)}</div>
       ${p('Major Fail Reasons — Overall','Combined failed checks','ottOverallFail')}
       ${p('Related Department — Overall','Combined failed checks','ottOverallRelated')}
+      <div class="ott-trend-wide">${p('Monthly OTT Trend','Start / End / Overall OTT flow','ottChartMonth',true)}</div>
     </div></div>
     <div class="panel ott-detail-wrap"><h3>Overall OTT Detail</h3><div class="note">Booking No. filtering is handled only in OTT Board → Booking OTT Status. Floor does not exclude Yarn Dyeing or Knitting.</div>${ottTableHTML(rows,true)}</div>`;
-  ottDoughnutChart('ottChartResult',['Pass','Fail'],[overall.pass,overall.fail]);
   ottGroupedPercentBarChart('ottDeptType',deptStats.map(x=>x.cfg.short),[
     {label:'Start',data:deptStats.map(x=>x.s.startRate)},{label:'End',data:deptStats.map(x=>x.s.endRate)}
   ]);
@@ -4802,11 +5010,11 @@ function renderOTTOverall(){
   ottPercentLineChart('ottChartDaily',daily.labels,[
     {label:'Start OTT',data:daily.start},{label:'End OTT',data:daily.end},{label:'Overall OTT',data:daily.overall}
   ]);
+  ottCountBarChart('ottOverallFail',safeReasons.map(x=>x.label),safeReasons.map(x=>x.count),'Fail checks');
+  ottCountBarChart('ottOverallRelated',safeRelated.map(x=>x.label),safeRelated.map(x=>x.count),'Fail checks');
   ottPercentLineChart('ottChartMonth',monthly.labels,[
     {label:'Start OTT',data:monthly.start},{label:'End OTT',data:monthly.end},{label:'Overall OTT',data:monthly.overall}
-  ]);
-  ottCountBarChart('ottOverallFail',safeReasons.map(x=>x.label),safeReasons.map(x=>x.count),'Fail checks');
-  ottCountBarChart('ottOverallRelated',safeRelated.map(x=>x.label),safeRelated.map(x=>x.count),'Fail checks')
+  ])
 }
 function exportOttCSV(tab){
   const rows=ottFilterRows(tab);if(!rows.length)return;
@@ -4974,7 +5182,7 @@ function renderOverview(){
 
   const periodFrom=$('#fromDate')?.value||'—',periodTo=$('#toDate')?.value||'—';
   const targetCount=(state.data?.targets||[]).length;
-  const kpHtml=kp.map(([label,value,status,sub])=>`<div class="snapshot-kp-item st-${status.code}"><small>${esc(label)}</small><b>${esc(value)}</b><i>${esc(status.label)}${sub?` • ${esc(sub)}`:''}</i></div>`).join('');
+  const kpHtml=kp.map(([label,value,status])=>`<div class="snapshot-kp-item st-${status.code}"><small>${esc(label)}</small><b>${esc(value)}</b><i>${esc(status.label)}</i></div>`).join('');
 
   const deliveryBody=`<div class="snap-tiles" style="--n:2">
     ${snapTile('Delivered Avg/day',deliveryAvg===null?'—':`${fmt1(deliveryAvg)} T`,deliveryStats[0],`Total ${ton(delivered)}`)}
@@ -4992,27 +5200,17 @@ function renderOverview(){
     ${snapTile('Yarn Booking',`${fmt1(knYarn)} d`,knitStats[6])}
   </div>`;
 
-  const plTarget=targetFor('Dyeing','Pluvia Avg/day'),
-        plAch=plTarget?.Target?dyePlAvg/plTarget.Target:null,
-        plWidth=plAch===null?0:Math.max(0,Math.min(100,plAch*100));
-  const dyeBody=`<table class="snap-dye-compare">
-    <thead><tr><th></th><th>EFL</th><th>EKL+Ext</th></tr></thead>
+  const dyeBody=`<table class="snap-dye-compare snap-dye-three">
+    <thead><tr><th></th><th>EFL</th><th>EKL+Ext</th><th>Pluvia</th></tr></thead>
     <tbody>
-      <tr><td>Daily prod</td><td>${snapPill(`${fmt1(dyeEAvg)} T`,dyeStats[1])}</td><td>${snapPill(`${fmt1(dyeXAvg)} T`,dyeStats[2])}</td></tr>
-      <tr><td>RFT</td><td>${snapPill(pct(dyeRftE),dyeStats[8])}</td><td>${snapPill(pct(dyeRftX),dyeStats[9])}</td></tr>
-      <tr><td>Capacity util.</td><td>${snapPill(pct(dyeCapE),dyeStats[10])}</td><td>${snapPill(pct(dyeCapX),dyeStats[11])}</td></tr>
-      <tr><td>On time</td><td>${dyeOTE===null?'':snapPill(pct(dyeOTE),dyeOTEStatus)}</td><td>${dyeOTX===null?'':snapPill(pct(dyeOTX),dyeOTXStatus)}</td></tr>
-      <tr><td>Re-process</td><td>${snapPill(pct(dyeRepEPct),dyeStats[12])}</td><td>${snapPill(pct(dyeRepXPct),dyeStats[13])}</td></tr>
-      <tr><td>B/M/D</td><td>${snapPill(fmt1(dyeBmdE),dyeStats[14])}</td><td>${snapPill(fmt1(dyeBmdX),dyeStats[15])}</td></tr>
+      <tr><td>Daily prod</td><td>${snapPill(`${fmt1(dyeEAvg)} T`,dyeStats[1])}</td><td>${snapPill(`${fmt1(dyeXAvg)} T`,dyeStats[2])}</td><td>${snapPill(`${fmt1(dyePlAvg)} T`,dyeStats[3])}</td></tr>
+      <tr><td>RFT</td><td>${snapPill(pct(dyeRftE),dyeStats[8])}</td><td>${snapPill(pct(dyeRftX),dyeStats[9])}</td><td class="snap-empty">—</td></tr>
+      <tr><td>Capacity util.</td><td>${snapPill(pct(dyeCapE),dyeStats[10])}</td><td>${snapPill(pct(dyeCapX),dyeStats[11])}</td><td class="snap-empty">—</td></tr>
+      <tr><td>On time</td><td>${dyeOTE===null?'':snapPill(pct(dyeOTE),dyeOTEStatus)}</td><td>${dyeOTX===null?'':snapPill(pct(dyeOTX),dyeOTXStatus)}</td><td class="snap-empty">—</td></tr>
+      <tr><td>Re-process</td><td>${snapPill(pct(dyeRepEPct),dyeStats[12])}</td><td>${snapPill(pct(dyeRepXPct),dyeStats[13])}</td><td class="snap-empty">—</td></tr>
+      <tr><td>B/M/D</td><td>${snapPill(fmt1(dyeBmdE),dyeStats[14])}</td><td>${snapPill(fmt1(dyeBmdX),dyeStats[15])}</td><td class="snap-empty">—</td></tr>
     </tbody>
-  </table>
-  <div class="snap-pluvia">
-    <div class="snap-pluvia-head">
-      <span>Pluvia</span>
-      <b>${fmt1(dyePlAvg)} T/day${plTarget?` / ${fmt1(plTarget.Target)} target · ${Math.round((plAch||0)*100)}%`:''}</b>
-    </div>
-    <div class="snap-pluvia-track"><u class="st-${dyeStats[3].code}" style="width:${plWidth}%"></u></div>
-  </div>`;
+  </table>`;
 
   const finishingBody=`<div class="snap-tiles" style="--n:2">
     ${snapTile('Handedover / day',handAvg===null?'—':`${fmt1(handAvg)} T`,finStats[0],`Total ${ton(hand)}`)}
@@ -5021,8 +5219,6 @@ function renderOverview(){
     ${snapTile('Dryer',`${fmt1(drAvg)} T/d`,worstStatus([finStats[4],finStats[5]]),`Util ${pct(drUtil)}`)}
     ${snapTile('Compactor',`${fmt1(coAvg)} T/d`,worstStatus([finStats[6],finStats[7]]),`Util ${pct(coUtil)}`)}
     ${snapTile('Stenter Refinish',pct(stRef),finStats[8])}
-    ${snapTile('1st Batch · Single',`${fmt1(firstSingle)} d`,finStats[9])}
-    ${snapTile('1st Batch · Double',`${fmt1(firstDouble)} d`,finStats[10])}
   </div>`;
 
   const yarnBody=
@@ -5032,7 +5228,16 @@ function renderOverview(){
     snapRow('B/M/D',fmt1(ydBmd),yarnStats[3])+
     snapRow('YD OTD',pct(ydOtd),yarnStats[4]);
 
-  const chemBody=snapRow('Overall SLT',formatDuration(chemSLT,true),chemStats[0])+snapRow('Overall RFT',pct(chemRFT),chemStats[1]);
+  const chemRftHeight=chemRFT===null?0:Math.max(0,Math.min(100,chemRFT*100));
+  const chemBody=`<div class="snap-chem-compact">
+    <div class="snap-chem-slt st-${chemStats[0].code}">
+      <span>Overall SLT</span><b>${formatDuration(chemSLT,true)}</b><small>${esc(chemStats[0].label)}</small>
+    </div>
+    <div class="snap-chem-rft">
+      <div class="snap-chem-column"><i class="st-${chemStats[1].code}" style="height:${chemRftHeight}%"></i></div>
+      <div class="snap-chem-rft-copy"><span>Overall RFT</span><b>${pct(chemRFT)}</b><small>${esc(chemStats[1].label)}</small></div>
+    </div>
+  </div>`;
   const etlBody=snapRow('Reports / day',fmt1(etlAvg),etlStats[0])+
     snapRow('ETL OTD',pct(etlOTD),etlStats[1])+
     snapRow('Flat Dry · 1 wash',formatDuration(etlFlat1,true),etlStats[2])+
@@ -5048,7 +5253,7 @@ function renderOverview(){
       ${snapCard('snap-c3','Knitting',knAvg===null?'—':`${fmt1(knAvg)} T/day`,worstStatus([knitStats[0],knitStats[2],knitStats[3],knitStats[4],knitStats[5],knitStats[6]]),knittingBody,'blue')}
 
       ${snapCard('snap-c3','Dyeing',dyeAvg===null?'—':`${fmt1(dyeAvg)} T/day`,worstStatus(dyeVisibleStats),dyeBody,'purple')}
-      ${snapCard('snap-c3','Finishing',handAvg===null?'—':`${fmt1(handAvg)} T/day`,worstStatus(finStats),finishingBody,'orange')}
+      ${snapCard('snap-c3','Finishing',handAvg===null?'—':`${fmt1(handAvg)} T/day`,worstStatus(finStats.slice(0,9)),finishingBody,'orange')}
 
       ${snapCard('snap-c2','Yarn Dyeing',ydOverallAvg===null?'—':`${fmt1(ydOverallAvg)} T/day`,worstStatus(yarnStats),yarnBody,'teal')}
       ${snapCard('snap-c2','Chemical Lab',formatDuration(chemSLT,true),worstStatus(chemStats),chemBody,'rose')}
@@ -5090,7 +5295,6 @@ function renderOverview(){
     {label:'Overall RFT',data:c15.map(r=>safeNum(r['Overall RFT']))}
   ]);
 }
-
 function renderDyeing(){
   const br=dyeingBuyerRows(),dr=dyeingDateRows(),buyers=kpiSelectedBuyers(),daily=groupDyeingByDate(br);
   if(!br.length&&!dr.length){metricCardSet([]);$('#content').innerHTML='<div class="alert">No Dyeing data uploaded yet. Go to Data Management and upload the Dyeing_Dashboard workbook containing Dyeing_Date_Buyer and Dyeing_Date.</div>';return}
