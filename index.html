@@ -3376,6 +3376,93 @@ body.dark-mode .nav{
   margin-bottom:10px!important;
 }
 
+
+/* ================= v61 Data Management width + readable source cards ================= */
+
+/* Data Management was inside the global two-column #content grid.
+   Force the workspace to use the complete page width. */
+#content:has(.dm-shell){
+  display:block!important;
+  width:100%!important;
+}
+.dm-shell{
+  grid-column:1/-1!important;
+  width:100%!important;
+  max-width:none!important;
+}
+.page:has(.dm-shell){
+  max-width:1820px!important;
+  padding-left:14px!important;
+  padding-right:14px!important;
+}
+.dm-workspace{
+  width:100%!important;
+  min-width:0!important;
+}
+.dm-source-grid{
+  grid-template-columns:repeat(2,minmax(520px,1fr))!important;
+  gap:12px!important;
+  padding:12px!important;
+}
+.dm-source-card{
+  width:100%!important;
+  min-width:0!important;
+}
+.dm-source-body{
+  grid-template-columns:minmax(250px,.9fr) minmax(310px,1.1fr)!important;
+  min-height:172px!important;
+}
+.dm-upload-pane,.dm-current-pane{
+  padding:11px 12px!important;
+}
+.dm-current-file{
+  white-space:normal!important;
+  overflow:visible!important;
+  text-overflow:clip!important;
+  overflow-wrap:anywhere!important;
+  line-height:1.35!important;
+  font-size:9.4px!important;
+}
+.dm-source-meta>div{
+  grid-template-columns:52px minmax(0,1fr)!important;
+  align-items:start!important;
+}
+.dm-source-meta dd{
+  white-space:normal!important;
+  overflow:visible!important;
+  text-overflow:clip!important;
+  overflow-wrap:anywhere!important;
+  line-height:1.35!important;
+}
+.dm-file-spec span{
+  overflow-wrap:anywhere!important;
+}
+.dm-pills span{
+  font-size:7px!important;
+}
+.dm-note{
+  font-size:7.2px!important;
+}
+.data-upload-status{
+  white-space:pre-line!important;
+  overflow-wrap:anywhere!important;
+  font-size:7.8px!important;
+  line-height:1.45!important;
+  min-height:14px!important;
+}
+
+/* Larger screens: cards get substantially more horizontal room. */
+@media(min-width:1500px){
+  .dm-shell{grid-template-columns:220px minmax(0,1fr)!important}
+  .dm-source-grid{grid-template-columns:repeat(2,minmax(610px,1fr))!important}
+}
+@media(max-width:1250px){
+  .dm-source-grid{grid-template-columns:1fr!important}
+}
+@media(max-width:720px){
+  .dm-source-body{grid-template-columns:1fr!important}
+}
+
 </style></head><body><div id="app" class="hidden"><div class="app-sticky-header"><div class="top-accent"></div><header class="header"><div class="header-left"><div class="brand-mark">TP</div><div><div class="brand-title">Textile Planning Dashboard</div><div class="brand-sub">Planning, Monitoring & Control</div></div></div><div class="header-actions"><div class="utility-tools"><button class="tool-btn stopwatch-btn" id="stopwatchBtn" title="Click to start/pause • Double-click to reset">⏱ <span id="stopwatchText">00:00</span></button><button class="tool-btn" id="fullscreenBtn" title="Enter full screen">⛶ Full</button><button class="tool-btn" id="themeBtn" title="Switch dark/light mode">☾ Dark</button></div><span class="greeting" id="greeting">Good morning</span><button class="btn" id="exportBtn">Export CSV</button><button class="btn" id="signOutBtn">Sign out</button><button class="btn primary" id="refreshBtn">Refresh</button></div></header><nav class="nav">
   <button data-tab="daily_summary" class="main-nav-btn">Daily Summary</button>
   <div class="kpi-menu-wrap" id="kpiMenuWrap">
@@ -3751,21 +3838,121 @@ function groupedBarChartPct(id,labels,sets){
 }
 
 function groupedBarChart(id,labels,sets){const ctx=document.getElementById(id);if(!ctx)return;const dark=document.body.classList.contains('dark-mode'),grid=dark?'#31453c':'#eef1ef',txt=dark?'#b9c9c1':'#58635e';state.charts.push(new Chart(ctx,{type:'bar',data:{labels,datasets:sets.map((x,i)=>({label:x.label,data:x.data,backgroundColor:color[i%color.length],borderWidth:0}))},options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{boxWidth:10,font:{size:10},color:txt}}},scales:{x:{grid:{color:grid},ticks:{font:{size:9},color:txt}},y:{grid:{display:false},ticks:{font:{size:9},color:txt,autoSkip:false}}}}}))}
+
+/* ================= v61 UNIVERSAL UPLOAD SCHEMA NORMALIZER =================
+   Excel headers are matched by a normalized signature instead of exact text.
+   This tolerates line breaks, hidden spaces, NBSP, punctuation, case and
+   common visual formatting differences while preserving canonical keys.
+========================================================================== */
+function uploadHeaderSig(v){
+  return String(v??'')
+    .normalize('NFKC')
+    .replace(/\u00a0/g,' ')
+    .replace(/[\u200B-\u200D\uFEFF]/g,'')
+    .replace(/[‐‑‒–—−]/g,'-')
+    .replace(/№/g,'no')
+    .replace(/&/g,'and')
+    .replace(/\r\n?/g,'\n')
+    .trim()
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g,'')
+}
+function uploadSheetSig(v){return uploadHeaderSig(v)}
+function uploadResolveSheetName(wb,expected){
+  if(wb.SheetNames.includes(expected))return expected;
+  const sig=uploadSheetSig(expected);
+  const found=wb.SheetNames.find(s=>uploadSheetSig(s)===sig);
+  if(found)return found;
+  const err=new Error(`Missing sheet: ${expected}. Available sheet(s): ${wb.SheetNames.join(', ')||'(none)'}`);
+  err.code='UPLOAD_SHEET';
+  throw err
+}
+function uploadSchemaError(sheetLabel,missing,actualHeaders,headerRow=null){
+  const detected=(actualHeaders||[]).map(x=>String(x??'').trim()).filter(Boolean);
+  const msg=[
+    `${sheetLabel} missing required column(s): ${missing.join(', ')}`,
+    headerRow!==null?`Detected header row: ${headerRow}`:'',
+    `Detected column(s): ${detected.length?detected.join(' | '):'(none)'}`
+  ].filter(Boolean).join('\n');
+  const err=new Error(msg);err.code='UPLOAD_SCHEMA';err.sheet=sheetLabel;err.missing=missing;err.detected=detected;return err
+}
+function uploadRepairHeaders(rows,required,sheetLabel,aliases={}){
+  if(!rows?.length)throw new Error(`${sheetLabel} has no data rows.`);
+  const actualHeaders=[...new Set(rows.slice(0,25).flatMap(r=>Object.keys(r||{})))];
+  const bySig=new Map();
+  for(const h of actualHeaders){
+    const sig=uploadHeaderSig(h);
+    if(sig&&!bySig.has(sig))bySig.set(sig,h)
+  }
+  const canonicalMap=new Map();
+  for(const canonical of required){
+    const candidates=[canonical,...(aliases[canonical]||[])];
+    let actual=null;
+    for(const c of candidates){
+      actual=bySig.get(uploadHeaderSig(c));
+      if(actual)break
+    }
+    if(actual)canonicalMap.set(canonical,actual)
+  }
+  const missing=required.filter(c=>!canonicalMap.has(c));
+  if(missing.length)throw uploadSchemaError(sheetLabel,missing,actualHeaders);
+  for(const r of rows){
+    for(const canonical of required){
+      const actual=canonicalMap.get(canonical);
+      if(actual!==canonical||!Object.prototype.hasOwnProperty.call(r,canonical))r[canonical]=r[actual];
+    }
+  }
+  return rows
+}
+function uploadReadCanonicalSheet(wb,expectedSheet,required,{aliases={},scanRows=15,optional=[]}={}){
+  const actualSheet=uploadResolveSheetName(wb,expectedSheet);
+  const matrix=XLSX.utils.sheet_to_json(wb.Sheets[actualSheet],{header:1,defval:null,raw:true,blankrows:false});
+  if(!matrix.length)throw new Error(`${expectedSheet} has no rows.`);
+  const allWanted=[...required,...optional];
+  let best={row:-1,score:-1,headers:[],map:new Map()};
+  const maxScan=Math.min(scanRows,matrix.length);
+  for(let ri=0;ri<maxScan;ri++){
+    const headers=(matrix[ri]||[]).map(v=>String(v??'').trim());
+    const bySig=new Map();
+    headers.forEach((h,i)=>{const sig=uploadHeaderSig(h);if(sig&&!bySig.has(sig))bySig.set(sig,i)});
+    const map=new Map();let score=0;
+    for(const canonical of allWanted){
+      const candidates=[canonical,...(aliases[canonical]||[])];
+      let idx=null;
+      for(const c of candidates){
+        if(bySig.has(uploadHeaderSig(c))){idx=bySig.get(uploadHeaderSig(c));break}
+      }
+      if(idx!==null&&idx!==undefined){map.set(canonical,idx);if(required.includes(canonical))score++}
+    }
+    if(score>best.score)best={row:ri,score,headers,map}
+    if(score===required.length)break
+  }
+  const missing=required.filter(c=>!best.map.has(c));
+  if(missing.length)throw uploadSchemaError(expectedSheet,missing,best.headers,best.row>=0?best.row+1:null);
+  const rows=matrix.slice(best.row+1).map(arr=>{
+    const r={};
+    for(const [canonical,idx] of best.map.entries())r[canonical]=arr[idx]??null;
+    return r
+  }).filter(r=>Object.values(r).some(v=>v!==null&&v!==undefined&&String(v).trim()!==''));
+  if(!rows.length)throw new Error(`${expectedSheet} has no data rows below the detected header.`);
+  return rows
+}
+
 function normalizeWorkbook(wb){const sheets={};for(const s of REQUIRED_SHEETS){if(!wb.SheetNames.includes(s))throw new Error(`Missing sheet: ${s}`);const rows=XLSX.utils.sheet_to_json(wb.Sheets[s],{defval:null,raw:true});for(const r of rows){if('Date' in r)r.Date=parseDate(r.Date)}sheets[s]=rows}return{sheets,fileName:'Uploaded workbook',uploadedAt:new Date().toISOString()}}
-function normalizeDyeingWorkbook(wb){const sheets={};for(const s of DYEING_SHEETS){if(!wb.SheetNames.includes(s))throw new Error(`Missing sheet: ${s}`);const rows=XLSX.utils.sheet_to_json(wb.Sheets[s],{defval:null,raw:true});for(const r of rows){if('Date' in r)r.Date=parseDate(r.Date);if('Buyer' in r&&r.Buyer!==null)r.Buyer=String(r.Buyer).trim()}sheets[s]=rows.filter(r=>Object.values(r).some(v=>v!==null&&v!==''))}const requiredBuyer=['Date','Buyer','Prod. (EFL)','Prod. (EKL+Ext)','Pluvia','Capacity Utilization (EFL)','Capacity Utilization (EKL+Ext)','On Time Target','Reprocess (EFL)','Reprocess (EKL+Ext)','Batch/MC/Day (EFL)','Batch/MC/Day (EKL)','Batch/MC/Day (Ext)'];const requiredDate=['Date','Dyeing RFT (EFL)','Dyeing RFT (EKL+Ext.)','Loading (EFL)','Loading (EKL+Ext)','On Time Target','Reprocess (EFL)','Reprocess (EKL+Ext)'];for(const [s,req] of [['Dyeing_Date_Buyer',requiredBuyer],['Dyeing_Date',requiredDate]]){const cols=sheets[s].length?Object.keys(sheets[s][0]):[];const miss=req.filter(c=>!cols.includes(c));if(miss.length)throw new Error(`${s} missing column(s): ${miss.join(', ')}`)}
+function normalizeDyeingWorkbook(wb){const sheets={};for(const s of DYEING_SHEETS){if(!wb.SheetNames.includes(s))throw new Error(`Missing sheet: ${s}`);const rows=XLSX.utils.sheet_to_json(wb.Sheets[s],{defval:null,raw:true});for(const r of rows){if('Date' in r)r.Date=parseDate(r.Date);if('Buyer' in r&&r.Buyer!==null)r.Buyer=String(r.Buyer).trim()}sheets[s]=rows.filter(r=>Object.values(r).some(v=>v!==null&&v!==''))}const requiredBuyer=['Date','Buyer','Prod. (EFL)','Prod. (EKL+Ext)','Pluvia','Capacity Utilization (EFL)','Capacity Utilization (EKL+Ext)','On Time Target','Reprocess (EFL)','Reprocess (EKL+Ext)','Batch/MC/Day (EFL)','Batch/MC/Day (EKL)','Batch/MC/Day (Ext)'];const requiredDate=['Date','Dyeing RFT (EFL)','Dyeing RFT (EKL+Ext.)','Loading (EFL)','Loading (EKL+Ext)','On Time Target','Reprocess (EFL)','Reprocess (EKL+Ext)'];for(const [s,req] of [['Dyeing_Date_Buyer',requiredBuyer],['Dyeing_Date',requiredDate]]){uploadRepairHeaders(sheets[s],req,s);for(const r of sheets[s]){r.Date=parseDate(r.Date);if('Buyer' in r&&r.Buyer!==null)r.Buyer=String(r.Buyer).trim()}}
 const pctBySheet={'Dyeing_Date_Buyer':DYEING_BUYER_PERCENT,'Dyeing_Date':DYEING_DATE_PERCENT};for(const [s,cols] of Object.entries(pctBySheet)){for(const r of sheets[s])for(const c of cols){const n=safeNum(r[c]);if(n!==null)r[c]=(Math.abs(n)>1.5&&Math.abs(n)<=100)?n/100:n}}
 const dateMetricCols=requiredDate.filter(c=>c!=='Date');const actualDateRows=sheets['Dyeing_Date'].filter(r=>r.Date&&dateMetricCols.some(c=>safeNum(r[c])!==null));if(!actualDateRows.length)throw new Error('Dyeing_Date has no usable numeric data rows.');actualDateRows.sort((a,b)=>a.Date.localeCompare(b.Date));const firstActualDate=actualDateRows[0].Date,lastActualDate=actualDateRows[actualDateRows.length-1].Date;sheets['Dyeing_Date']=actualDateRows;sheets['Dyeing_Date_Buyer']=sheets['Dyeing_Date_Buyer'].filter(r=>r.Date&&r.Date>=firstActualDate&&r.Date<=lastActualDate&&String(r.Buyer||'').trim());
 const seenPair=new Set();for(const r of sheets['Dyeing_Date_Buyer']){const key=`${r.Date}||${r.Buyer}`;if(seenPair.has(key))throw new Error(`Duplicate Date + Buyer found in Dyeing_Date_Buyer: ${r.Date} / ${r.Buyer}`);seenPair.add(key)}const seenDate=new Set();for(const r of sheets['Dyeing_Date']){if(seenDate.has(r.Date))throw new Error(`Duplicate Date found in Dyeing_Date: ${r.Date}`);seenDate.add(r.Date)}return sheets}
 
 function normalizeKnittingWorkbook(wb){const sheets={};for(const sn of KNITTING_SHEETS){if(!wb.SheetNames.includes(sn))throw new Error(`Missing sheet: ${sn}`);const rows=XLSX.utils.sheet_to_json(wb.Sheets[sn],{defval:null,raw:true});for(const r of rows){if('Date' in r)r.Date=parseDate(r.Date);if('Buyer' in r&&r.Buyer!==null)r.Buyer=String(r.Buyer).trim()}sheets[sn]=rows.filter(r=>Object.values(r).some(v=>v!==null&&v!==''))}
 const requiredDate=['Date','Knitting In house Prod.','Knitting Subcontract Prod.','Knitting In house %','Knitting Subcontract %','MC Utilization','Prod. /MC (kg)','Capacity utilization','Overall OTT','Yarn Booking (days)','Efficiency','Grey QC Hold','Rejection','Jhut Cut piece','Conditional Pass','Greige Inspection Pass'];
-const requiredBuyer=['Date','Buyer','Subcontract','In house','Production'];for(const [sn,req] of [['Knitting_Date',requiredDate],['Knitting_Date_Buyer',requiredBuyer]]){const cols=sheets[sn].length?Object.keys(sheets[sn][0]):[];const miss=req.filter(c=>!cols.includes(c));if(miss.length)throw new Error(`${sn} missing column(s): ${miss.join(', ')}`)}
+const requiredBuyer=['Date','Buyer','Subcontract','In house','Production'];for(const [sn,req] of [['Knitting_Date',requiredDate],['Knitting_Date_Buyer',requiredBuyer]]){uploadRepairHeaders(sheets[sn],req,sn);for(const r of sheets[sn]){r.Date=parseDate(r.Date);if('Buyer' in r&&r.Buyer!==null)r.Buyer=String(r.Buyer).trim()}}
 for(const r of sheets['Knitting_Date'])for(const c of KNITTING_PERCENT){const n=safeNum(r[c]);if(n!==null)r[c]=(Math.abs(n)>1.5&&Math.abs(n)<=100)?n/100:n}
 const actual=sheets['Knitting_Date'].filter(r=>r.Date&&((safeNum(r['Knitting In house Prod.'])||0)>0||(safeNum(r['Knitting Subcontract Prod.'])||0)>0||(safeNum(r['MC Utilization'])||0)>0||(safeNum(r['Capacity utilization'])||0)>0));if(!actual.length)throw new Error('Knitting_Date has no usable production/date rows.');actual.sort((a,b)=>a.Date.localeCompare(b.Date));const first=actual[0].Date,last=actual[actual.length-1].Date;sheets['Knitting_Date']=actual;sheets['Knitting_Date_Buyer']=sheets['Knitting_Date_Buyer'].filter(r=>r.Date&&r.Date>=first&&r.Date<=last&&String(r.Buyer||'').trim());
 const seenDate=new Set();for(const r of sheets['Knitting_Date']){if(seenDate.has(r.Date))throw new Error(`Duplicate Date found in Knitting_Date: ${r.Date}`);seenDate.add(r.Date)}const seenPair=new Set();for(const r of sheets['Knitting_Date_Buyer']){const key=`${r.Date}||${r.Buyer}`;if(seenPair.has(key))throw new Error(`Duplicate Date + Buyer found in Knitting_Date_Buyer: ${r.Date} / ${r.Buyer}`);seenPair.add(key)}return sheets}
-function normalizeFinishingWorkbook(wb){const sn='Finishing_Date';if(!wb.SheetNames.includes(sn))throw new Error(`Missing sheet: ${sn}`);const rows=XLSX.utils.sheet_to_json(wb.Sheets[sn],{defval:null,raw:true}).map(r=>{if('Date' in r)r.Date=parseDate(r.Date);return r}).filter(r=>Object.values(r).some(v=>v!==null&&v!==''));const required=['Date','Heat Set Sub.','Heat Set In house','Heat Set Production','Heat Set_In house (Avg. Hour)','Heat Set_Sub ((Avg. Hour))','Handedover kg','MLT','Stenter Prod. Kg','Dryer Prod. Kg','Compactor Prod. Kg','Brush Prod. Kg','Peach Prod. Kg','Stenter utilization','Dryer utilization','Compactor utilization','Brush utilization.','Peach utilization.','Stenter Refinish','Dryer Refinish','Compactor Refinish','Brush Refinish','Peach Refinish','First Batch Finish – Single Process [day]','First Batch Finish – Double Process [day]'];const cols=rows.length?Object.keys(rows[0]):[];const miss=required.filter(c=>!cols.includes(c));if(miss.length)throw new Error(`Finishing_Date missing column(s): ${miss.join(', ')}`);for(const r of rows)for(const c of FINISHING_PERCENT){const n=safeNum(r[c]);if(n!==null)r[c]=Math.abs(n)>2?n/100:n}const actual=rows.filter(r=>r.Date&&['Heat Set Production','Handedover kg','Stenter Prod. Kg','Dryer Prod. Kg'].some(c=>safeNum(r[c])!==null));if(!actual.length)throw new Error('Finishing_Date has no usable date rows.');actual.sort((a,b)=>a.Date.localeCompare(b.Date));const seen=new Set();for(const r of actual){if(seen.has(r.Date))throw new Error(`Duplicate Date found in Finishing_Date: ${r.Date}`);seen.add(r.Date)}return{Finishing_Date:actual}}
+function normalizeFinishingWorkbook(wb){const sn='Finishing_Date';if(!wb.SheetNames.includes(sn))throw new Error(`Missing sheet: ${sn}`);const rows=XLSX.utils.sheet_to_json(wb.Sheets[sn],{defval:null,raw:true}).map(r=>{if('Date' in r)r.Date=parseDate(r.Date);return r}).filter(r=>Object.values(r).some(v=>v!==null&&v!==''));const required=['Date','Heat Set Sub.','Heat Set In house','Heat Set Production','Heat Set_In house (Avg. Hour)','Heat Set_Sub ((Avg. Hour))','Handedover kg','MLT','Stenter Prod. Kg','Dryer Prod. Kg','Compactor Prod. Kg','Brush Prod. Kg','Peach Prod. Kg','Stenter utilization','Dryer utilization','Compactor utilization','Brush utilization.','Peach utilization.','Stenter Refinish','Dryer Refinish','Compactor Refinish','Brush Refinish','Peach Refinish','First Batch Finish – Single Process [day]','First Batch Finish – Double Process [day]'];uploadRepairHeaders(rows,required,'Finishing_Date');for(const r of rows)r.Date=parseDate(r.Date);for(const r of rows)for(const c of FINISHING_PERCENT){const n=safeNum(r[c]);if(n!==null)r[c]=Math.abs(n)>2?n/100:n}const actual=rows.filter(r=>r.Date&&['Heat Set Production','Handedover kg','Stenter Prod. Kg','Dryer Prod. Kg'].some(c=>safeNum(r[c])!==null));if(!actual.length)throw new Error('Finishing_Date has no usable date rows.');actual.sort((a,b)=>a.Date.localeCompare(b.Date));const seen=new Set();for(const r of actual){if(seen.has(r.Date))throw new Error(`Duplicate Date found in Finishing_Date: ${r.Date}`);seen.add(r.Date)}return{Finishing_Date:actual}}
 function normalizeDeliveryWorkbook(wb){const sheets={};for(const sn of DELIVERY_SHEETS){if(!wb.SheetNames.includes(sn))throw new Error(`Missing sheet: ${sn}`);const rows=XLSX.utils.sheet_to_json(wb.Sheets[sn],{defval:null,raw:true});for(const r of rows){if('Date' in r)r.Date=parseDate(r.Date);if('Buyer' in r&&r.Buyer!==null)r.Buyer=String(r.Buyer).trim()}sheets[sn]=rows.filter(r=>Object.values(r).some(v=>v!==null&&v!==''))}
-const requiredDate=['Date','Received','Delivered','On Time Delivery','Excess Delivery without PO Qty','Additional Delivery Qty','Total Excess (Qty)','Excess Delivery without PO %','Additional Delivery %','Total Excess %'];const requiredBuyer=['Date','Buyer','Received','delivered'];for(const [sn,req] of [['Delivery_Date',requiredDate],['Delivery_Date_Buyer',requiredBuyer]]){const cols=sheets[sn].length?Object.keys(sheets[sn][0]):[];const miss=req.filter(c=>!cols.includes(c));if(miss.length)throw new Error(`${sn} missing column(s): ${miss.join(', ')}`)}
+const requiredDate=['Date','Received','Delivered','On Time Delivery','Excess Delivery without PO Qty','Additional Delivery Qty','Total Excess (Qty)','Excess Delivery without PO %','Additional Delivery %','Total Excess %'];const requiredBuyer=['Date','Buyer','Received','delivered'];for(const [sn,req] of [['Delivery_Date',requiredDate],['Delivery_Date_Buyer',requiredBuyer]]){uploadRepairHeaders(sheets[sn],req,sn);for(const r of sheets[sn]){r.Date=parseDate(r.Date);if('Buyer' in r&&r.Buyer!==null)r.Buyer=String(r.Buyer).trim()}}
 for(const r of sheets['Delivery_Date'])for(const c of DELIVERY_PERCENT){const n=safeNum(r[c]);if(n!==null)r[c]=(Math.abs(n)>1.5&&Math.abs(n)<=100)?n/100:n}const actual=sheets['Delivery_Date'].filter(r=>r.Date&&['Received','Delivered','On Time Delivery','Total Excess (Qty)'].some(c=>safeNum(r[c])!==null));if(!actual.length)throw new Error('Delivery_Date has no usable date rows.');actual.sort((a,b)=>a.Date.localeCompare(b.Date));const first=actual[0].Date,last=actual[actual.length-1].Date;sheets['Delivery_Date']=actual;sheets['Delivery_Date_Buyer']=sheets['Delivery_Date_Buyer'].filter(r=>r.Date&&r.Date>=first&&r.Date<=last&&String(r.Buyer||'').trim());const seenDate=new Set();for(const r of sheets['Delivery_Date']){if(seenDate.has(r.Date))throw new Error(`Duplicate Date found in Delivery_Date: ${r.Date}`);seenDate.add(r.Date)}const seenPair=new Set();for(const r of sheets['Delivery_Date_Buyer']){const key=`${r.Date}||${r.Buyer}`;if(seenPair.has(key))throw new Error(`Duplicate Date + Buyer found in Delivery_Date_Buyer: ${r.Date} / ${r.Buyer}`);seenPair.add(key)}return sheets}
 
 
@@ -3776,11 +3963,7 @@ function normalizeETLWorkbook(wb){
 
   // Excel/SheetJS may return the same visible header with different line breaks,
   // spacing or punctuation. Match headers by a stable alphanumeric signature.
-  const headerSig=v=>String(v??'')
-    .replace(/\r\n?/g,'\n')
-    .replace(/;/g,':')
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g,'');
+  const headerSig=uploadHeaderSig;
 
   const required=['Date',...ETL_COUNT,...ETL_PERCENT,...ETL_DURATION];
   const rawRows=XLSX.utils.sheet_to_json(wb.Sheets[sn],{defval:null,raw:true});
@@ -3796,9 +3979,7 @@ function normalizeETLWorkbook(wb){
   }
 
   const miss=required.filter(c=>!canonicalToActual.has(c));
-  if(miss.length){
-    throw new Error(`${sn} missing column(s): ${miss.join(', ')}`);
-  }
+  if(miss.length)throw uploadSchemaError(sn,miss,actualHeaders);
 
   // Rebuild every row with stable canonical keys so all downstream ETL logic
   // is independent of how Excel stores line breaks/spaces in the headers.
@@ -3863,9 +4044,7 @@ function normalizeChemicalLabWorkbook(wb){
   if(!wb.SheetNames.includes(sn))throw new Error(`Missing sheet: ${sn}`);
   const rows=XLSX.utils.sheet_to_json(wb.Sheets[sn],{defval:null,raw:true});
   const required=['Date',...CHEMICAL_LAB_DURATION,...CHEMICAL_LAB_PERCENT];
-  const cols=rows.length?Object.keys(rows[0]):[];
-  const miss=required.filter(c=>!cols.includes(c));
-  if(miss.length)throw new Error(`${sn} missing column(s): ${miss.join(', ')}`);
+  uploadRepairHeaders(rows,required,sn);
   for(const r of rows){
     r.Date=parseDate(r.Date);
     for(const c of CHEMICAL_LAB_DURATION){
@@ -3901,7 +4080,7 @@ function chemicalLabTableHTML(rows,limit=500){
 }
 
 function normalizeYarnDyeingWorkbook(wb){const sheets={};for(const sn of YARN_DYEING_SHEETS){if(!wb.SheetNames.includes(sn))throw new Error(`Missing sheet: ${sn}`);const rows=XLSX.utils.sheet_to_json(wb.Sheets[sn],{defval:null,raw:true});for(const r of rows){if('Date' in r)r.Date=parseDate(r.Date);if('Buyer' in r&&r.Buyer!==null)r.Buyer=String(r.Buyer).trim()}sheets[sn]=rows.filter(r=>Object.values(r).some(v=>v!==null&&v!==''))}
-const requiredDate=['Date','Capacity Utilization','B/M/D','YD OTD'];const requiredBuyer=['Date','Buyer','Cotton Dyeing','Space Dyeing','Sewing Thread','Service Prod.','Total In house Prod.','Sub-Contract  Prod.','Overall Total Prod.','Twisting In house','Twisting Subcontract','Twisting Total'];for(const [sn,req] of [['YD_Date',requiredDate],['YD_Date_Buyer',requiredBuyer]]){const cols=sheets[sn].length?Object.keys(sheets[sn][0]):[];const miss=req.filter(c=>!cols.includes(c));if(miss.length)throw new Error(`${sn} missing column(s): ${miss.join(', ')}`)}
+const requiredDate=['Date','Capacity Utilization','B/M/D','YD OTD'];const requiredBuyer=['Date','Buyer','Cotton Dyeing','Space Dyeing','Sewing Thread','Service Prod.','Total In house Prod.','Sub-Contract  Prod.','Overall Total Prod.','Twisting In house','Twisting Subcontract','Twisting Total'];for(const [sn,req] of [['YD_Date',requiredDate],['YD_Date_Buyer',requiredBuyer]]){uploadRepairHeaders(sheets[sn],req,sn);for(const r of sheets[sn]){r.Date=parseDate(r.Date);if('Buyer' in r&&r.Buyer!==null)r.Buyer=String(r.Buyer).trim()}}
 for(const r of sheets['YD_Date'])for(const c of YARN_DYEING_PERCENT){const n=safeNum(r[c]);if(n!==null)r[c]=(Math.abs(n)>1.5&&Math.abs(n)<=100)?n/100:n}
 const actual=sheets['YD_Date'].filter(r=>r.Date&&['Capacity Utilization','B/M/D','YD OTD'].some(c=>safeNum(r[c])!==null));if(!actual.length)throw new Error('YD_Date has no usable date rows.');actual.sort((a,b)=>a.Date.localeCompare(b.Date));const first=actual[0].Date,last=actual[actual.length-1].Date;sheets['YD_Date']=actual;sheets['YD_Date_Buyer']=sheets['YD_Date_Buyer'].filter(r=>r.Date&&r.Date>=first&&r.Date<=last&&String(r.Buyer||'').trim());
 const seenDate=new Set();for(const r of sheets['YD_Date']){if(seenDate.has(r.Date))throw new Error(`Duplicate Date found in YD_Date: ${r.Date}`);seenDate.add(r.Date)}const seenPair=new Set();for(const r of sheets['YD_Date_Buyer']){const key=`${r.Date}||${r.Buyer}`;if(seenPair.has(key))throw new Error(`Duplicate Date + Buyer found in YD_Date_Buyer: ${r.Date} / ${r.Buyer}`);seenPair.add(key)}return sheets}
@@ -4085,7 +4264,7 @@ function sourceTargetRows(wb){
   const headers=Object.keys(raw[0]),bySig=new Map(headers.map(h=>[targetSig(h),h]));
   const depH=bySig.get(targetSig('Department')),topicH=bySig.get(targetSig('Topics')),targetH=bySig.get(targetSig('Target'));
   const miss=[];if(!depH)miss.push('Department');if(!topicH)miss.push('Topics');if(!targetH)miss.push('Target');
-  if(miss.length)throw new Error(`Target missing column(s): ${miss.join(', ')}`);
+  if(miss.length)throw uploadSchemaError(TARGET_SHEET,miss,headers);
   return raw.map(r=>({
     Department:String(r[depH]??'').trim(),
     Topics:String(r[topicH]??'').trim(),
@@ -4540,7 +4719,7 @@ function ottDelayDays(r){
   const a=new Date(r.Actual+'T00:00:00'),p=new Date(r.Plan+'T00:00:00');
   if(isNaN(a)||isNaN(p))return null;return Math.round((a-p)/86400000)
 }
-function ottHeaderSig(v){return String(v??'').trim().toLowerCase().replace(/[^a-z0-9]+/g,'')}
+function ottHeaderSig(v){return uploadHeaderSig(v)}
 function normalizeOTTWorkbook(wb,tab){
   const cfg=OTT_CONFIG[tab];if(!cfg||!OTT_SOURCE_TABS.includes(tab))throw new Error('Invalid OTT source');
   const sn='Data';if(!wb.SheetNames.includes(sn))throw new Error('Missing sheet: Data');
@@ -4550,7 +4729,7 @@ function normalizeOTTWorkbook(wb,tab){
   const find=(name)=>bySig.get(ottHeaderSig(name));
   const req=['Booking No.','Buyer','Plan','Actual','Result','Fail Reason','Related Dept.','Type','Month'];
   if(cfg.hasFloor)req.push('Floor');
-  const miss=req.filter(x=>!find(x));if(miss.length)throw new Error(`Data missing column(s): ${miss.join(', ')}`);
+  const miss=req.filter(x=>!find(x));if(miss.length)throw uploadSchemaError(sn,miss,headers);
   const detailsH=find('Details Remarks');
   const rows=[];
   for(const rr of raw){
@@ -6098,21 +6277,14 @@ async function deleteUser(id){const u=state.userList.find(x=>x.id===id);if(!u||i
 
 /* ================= DAILY SUMMARY CORE ================= */
 
+
 function normalizeDailySummaryWorkbook(wb){
-  const sn='Data';if(!wb.SheetNames.includes(sn))throw new Error('Missing sheet: Data');
-  const matrix=XLSX.utils.sheet_to_json(wb.Sheets[sn],{header:1,defval:null,raw:true});
-  if(matrix.length<3)throw new Error('Data sheet does not contain enough rows.');
-  const headers=(matrix[1]||[]).map(v=>String(v??'').trim()),idx=new Map(headers.map((h,i)=>[h,i]));
-  const miss=DAILY_SUMMARY_REQUIRED.filter(c=>!idx.has(c));
-  if(miss.length)throw new Error(`Data sheet missing column(s): ${miss.join(', ')}`);
-  const keep=[...DAILY_SUMMARY_REQUIRED];
-  const rows=matrix.slice(2).map(arr=>{
-    const r={};keep.forEach(h=>r[h]=arr[idx.get(h)]??null);
-    r.Date=parseDate(r.Date);return r
-  }).filter(r=>r.Date);
-  if(!rows.length)throw new Error('No usable dated rows found in Data sheet.');
-  rows.sort((a,b)=>a.Date.localeCompare(b.Date));
-  return rows
+  const rows=uploadReadCanonicalSheet(wb,'Data',DAILY_SUMMARY_REQUIRED,{scanRows:12});
+  for(const r of rows)r.Date=parseDate(r.Date);
+  const usable=rows.filter(r=>r.Date);
+  if(!usable.length)throw new Error('Data sheet has no usable dated rows after header detection.');
+  usable.sort((a,b)=>a.Date.localeCompare(b.Date));
+  return usable
 }
 function dailySummaryRows(){return state.data?.dailySummary?.rows||[]}
 function dailyMonthKey(iso){return iso&&iso.length>=7?iso.slice(0,7):''}
@@ -6568,12 +6740,17 @@ function lpdWeekFY(plan,weekRaw,monthSource=''){
   return`FY${start}-${String(end).padStart(2,'0')}-W${week}`
 }
 
+
 function normalizePmcUrgentWorkbook(wb){
-  const sn=PMC_URGENT_SHEET;if(!wb.SheetNames.includes(sn))throw new Error(`Missing sheet: ${sn}`);
-  const raw=XLSX.utils.sheet_to_json(wb.Sheets[sn],{defval:null,raw:true}).filter(r=>Object.values(r).some(v=>v!==null&&v!==''));
-  if(!raw.length)throw new Error(`${sn} has no data rows.`);
-  const cols=Object.keys(raw[0]),miss=PMC_URGENT_REQUIRED.filter(c=>!cols.includes(c));
-  if(miss.length)throw new Error(`${sn} missing column(s): ${miss.join(', ')}`);
+  const aliases={
+    'Booking No.':['Booking No','Booking Number','Booking #','Fabric Booking No','Fabric Booking No.'],
+    'BPTotal':['BP Total','BP-Total'],
+    'IssueTotal':['Issue Total','Issue Qty','Issued Qty'],
+    'Dye Qty':['Dye Qty.','Dye Quantity'],
+    'Finish Qty':['Finish Qty.','Finish Quantity'],
+    'T.Delivery':['T Delivery','Total Delivery','T. Delivery']
+  };
+  const raw=uploadReadCanonicalSheet(wb,PMC_URGENT_SHEET,PMC_URGENT_REQUIRED,{aliases,scanRows:12});
   const dates=new Set(['Issue Date','Dye Date','Finish Date','Delivery Date']);
   const strings=new Set(['Booking No.','Batch','Shade','Status','Remarks']);
   const rows=raw.map(r=>{
@@ -6587,7 +6764,7 @@ function normalizePmcUrgentWorkbook(wb){
     }
     return o
   }).filter(r=>r['Booking No.']);
-  if(!rows.length)throw new Error(`${sn} has no usable Booking No. rows.`);
+  if(!rows.length)throw new Error(`${PMC_URGENT_SHEET} has no usable Booking No. rows. The Booking column was detected, but all booking values are blank.`);
   return rows
 }
 function pmcUrgentRows(){return state.data?.pmcUrgent?.rows||[]}
@@ -6605,8 +6782,13 @@ function normalizeLockPlanDetailsWorkbook(wb){
   const sn=LOCK_PLAN_DETAILS_SHEET;if(!wb.SheetNames.includes(sn))throw new Error(`Missing sheet: ${sn}`);
   const raw=XLSX.utils.sheet_to_json(wb.Sheets[sn],{defval:null,raw:true}).filter(r=>Object.values(r).some(v=>v!==null&&v!==''));
   if(!raw.length)throw new Error('Data sheet has no rows.');
-  const cols=Object.keys(raw[0]),miss=LOCK_PLAN_DETAILS_REQUIRED.filter(c=>!cols.includes(c));
-  if(miss.length)throw new Error(`Data missing column(s): ${miss.join(', ')}`);
+  uploadRepairHeaders(raw,LOCK_PLAN_DETAILS_REQUIRED,sn,{
+    'Booking No.':['Booking No','Booking Number','Booking #'],
+    'FLOOR':['Floor'],
+    'Del. Bal':['Del Bal','Delivery Bal','Delivery Balance'],
+    'Knit ok':['Knit OK','Knit Ok'],
+    'Dye Ok':['Dye OK','Dye ok']
+  });
   const events=[];
   raw.forEach(r=>{
     const common={
@@ -7986,59 +8168,25 @@ function mergeDashboardSource(target,payload){
   if(payload.dailySummary)target.dailySummary=payload.dailySummary;
   return target
 }
+
 function uploadErrorMessage(e,label='Upload'){
-  const msg=String(e?.message||e||'');
-  if(msg.includes('dashboard_data_id_check')||msg.includes('violates check constraint'))return`${label} is blocked by the old dashboard_data ID constraint. Run supabase_upload_storage_fix.sql once, refresh, then upload again.`;
-  if(msg.toLowerCase().includes('statement timeout')||msg.toLowerCase().includes('canceling statement'))return`${label} reached the database timeout. Run supabase_upload_storage_fix.sql once; v50 already stores this source separately so future replacements stay lightweight.`;
-  return`${label} failed: ${msg}`
-}
-
-
-async function handleYarnDyeingUpload(){
-  const inp=$('#yarnDyeingFileInput'),f=inp?.files?.[0],st=$('#yarnDyeingUploadStatus');if(!f)return st.textContent='Choose the Yarn Dyeing Excel file first.';
-  if(f.size>MAX_YARN_DYEING_FILE_MB*1024*1024)return st.textContent=`File is larger than the recommended ${MAX_YARN_DYEING_FILE_MB} MB limit.`;
-  try{
-    st.textContent='Reading and validating Yarn Dyeing workbook...';
-    const wb=XLSX.read(await f.arrayBuffer(),{type:'array'}),sheets=normalizeYarnDyeingWorkbook(wb),dateRows=sheets['YD_Date'],buyerRows=sheets['YD_Date_Buyer'],dateFrom=dateRows[0]?.Date||null,dateTo=dateRows.at(-1)?.Date||null,even=yarnDyeingBuyerSourceEvenlyAllocated(buyerRows),now=new Date().toISOString(),
-          meta={fileName:f.name,uploadedAt:now,dateFrom,dateTo,dateRows:dateRows.length,buyerRows:buyerRows.length,buyerEvenAllocation:even};
-    st.textContent=`Validated ${dateRows.length.toLocaleString()} date rows and ${buyerRows.length.toLocaleString()} buyer/date rows. Publishing lightweight source row...`;
-    await saveDashboardSource('yarn',f.name,{sheets,departmentFiles:{yarn:meta}},now);
-    st.textContent=`Yarn Dyeing published successfully (${dateFrom||'—'} to ${dateTo||'—'}). ${even?'Demo/equal buyer allocation detected. ':''}No other dashboard source was rewritten.`;await loadData()
-  }catch(e){st.textContent=uploadErrorMessage(e,'Yarn Dyeing upload')}
-}
-async function handleChemicalLabUpload(){
-  const inp=$('#chemicalLabFileInput'),f=inp?.files?.[0],st=$('#chemicalLabUploadStatus');if(!f)return st.textContent='Choose the Chemical Lab Excel file first.';
-  if(f.size>MAX_CHEMICAL_LAB_FILE_MB*1024*1024)return st.textContent=`File is larger than the recommended ${MAX_CHEMICAL_LAB_FILE_MB} MB limit.`;
-  try{
-    st.textContent='Reading and validating Chemical Lab workbook...';
-    const wb=XLSX.read(await f.arrayBuffer(),{type:'array'}),sheets=normalizeChemicalLabWorkbook(wb),rows=sheets['C_Lab_Date'],dateFrom=rows[0]?.Date||null,dateTo=rows.at(-1)?.Date||null,now=new Date().toISOString(),meta={fileName:f.name,uploadedAt:now,dateFrom,dateTo,dateRows:rows.length};
-    st.textContent=`Validated ${rows.length.toLocaleString()} Chemical Lab date rows. Publishing lightweight source row...`;
-    await saveDashboardSource('chemical',f.name,{sheets,departmentFiles:{chemical:meta}},now);
-    st.textContent=`Chemical Lab published successfully (${dateFrom||'—'} to ${dateTo||'—'}). No other dashboard source was rewritten.`;await loadData()
-  }catch(e){st.textContent=uploadErrorMessage(e,'Chemical Lab upload')}
-}
-async function handleETLUpload(){
-  const inp=$('#etlFileInput'),f=inp?.files?.[0],st=$('#etlUploadStatus');if(!f)return st.textContent='Choose the ETL Excel file first.';
-  if(f.size>MAX_ETL_FILE_MB*1024*1024)return st.textContent=`File is larger than the recommended ${MAX_ETL_FILE_MB} MB limit.`;
-  try{
-    st.textContent='Reading ETL workbook and matching headers...';
-    const wb=XLSX.read(await f.arrayBuffer(),{type:'array'}),sheets=normalizeETLWorkbook(wb),rows=sheets['ETL_Date'],dateFrom=rows[0]?.Date||null,dateTo=rows.at(-1)?.Date||null,now=new Date().toISOString(),meta={fileName:f.name,uploadedAt:now,dateFrom,dateTo,dateRows:rows.length};
-    st.textContent=`Validated ${rows.length.toLocaleString()} ETL date rows. Publishing lightweight source row...`;
-    await saveDashboardSource('etl',f.name,{sheets,departmentFiles:{etl:meta}},now);
-    st.textContent=`ETL published successfully (${dateFrom||'—'} to ${dateTo||'—'}). No other dashboard source was rewritten.`;await loadData()
-  }catch(e){st.textContent=uploadErrorMessage(e,'ETL upload')}
-}
-async function handleTargetUpload(){
-  const inp=$('#targetFileInput'),f=inp?.files?.[0],st=$('#targetUploadStatus');if(!f)return st.textContent='Choose Dashboard_Target.xlsx first.';
-  if(f.size>MAX_TARGET_FILE_MB*1024*1024)return st.textContent=`Target file is larger than ${MAX_TARGET_FILE_MB} MB.`;
-  try{
-    st.textContent='Reading Dashboard_Target.xlsx and mapping Department / Topics / Target values...';
-    const wb=XLSX.read(await f.arrayBuffer(),{type:'array'}),targets=normalizeTargetWorkbook(wb),now=new Date().toISOString();if(!targets.length)throw new Error('No usable mapped targets were found in the Target sheet.');
-    const sourceRows=sourceTargetRows(wb).length,meta={fileName:f.name,uploadedAt:now,targetRows:targets.length,sourceRows};
-    st.textContent=`Validated ${sourceRows.toLocaleString()} source rows / ${targets.length.toLocaleString()} KPI targets. Publishing lightweight source row...`;
-    await saveDashboardSource('targets',f.name,{targets,departmentFiles:{targets:meta}},now);
-    st.textContent=`Target file published successfully: ${sourceRows} source rows read, ${targets.length} dashboard KPI targets mapped.`;await loadData()
-  }catch(e){st.textContent=uploadErrorMessage(e,'Target upload')}
+  const msg=String(e?.message||e||'').trim();
+  const low=msg.toLowerCase();
+  if(msg.includes('dashboard_data_id_check')||msg.includes('violates check constraint'))
+    return`${label} blocked by the old dashboard_data ID constraint.\nAction: run supabase_upload_storage_fix.sql once, refresh the page, then upload again.`;
+  if(low.includes('statement timeout')||low.includes('canceling statement'))
+    return`${label} reached the database statement timeout.\nAction: confirm the upload-timeout SQL migration is applied. This dashboard stores each source independently, so a correctly migrated project should not rewrite unrelated sources.`;
+  if(e?.code==='UPLOAD_SHEET'||low.includes('missing sheet:'))
+    return`${label} failed — workbook sheet problem:\n${msg}`;
+  if(e?.code==='UPLOAD_SCHEMA'||low.includes('missing required column')||low.includes('missing column'))
+    return`${label} failed — workbook structure problem:\n${msg}\nTip: header matching ignores case, punctuation, line breaks and hidden spaces. Therefore any column still listed as missing is genuinely not recognized in the detected header row.`;
+  if(low.includes('duplicate date'))
+    return`${label} failed — duplicate date problem:\n${msg}`;
+  if(low.includes('duplicate date + buyer'))
+    return`${label} failed — duplicate Date + Buyer problem:\n${msg}`;
+  if(low.includes('no usable')||low.includes('no data rows'))
+    return`${label} failed — data-content problem:\n${msg}`;
+  return`${label} failed:\n${msg||'Unknown error'}`
 }
 function mainDashboardData(){const src=state.data||{},out={...src};delete out.dailySummary;return out}
 async function loadProfile(user){const {data,error}=await sb.from('profiles').select('id,display_name,role,permissions,active').eq('id',user.id).single();if(error)throw error;if(data.active===false)throw new Error('Your dashboard access is disabled. Please contact an administrator.');state.profile=data;return data}
