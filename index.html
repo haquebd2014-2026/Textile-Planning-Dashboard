@@ -3301,6 +3301,81 @@ body.dark-mode .snap-chem-rft-copy b{
   .snap-chem-compact{grid-template-columns:1fr!important}
 }
 
+
+/* ================= v60 KPI compact cards + consolidated charts ================= */
+
+/* Light, clean shade on the main menu line requested in the reference */
+.nav{
+  background:linear-gradient(180deg,#fbfcf8 0%,#f1f6ef 100%)!important;
+  border-top:1px solid #eef2ec!important;
+  border-bottom:1px solid #dbe5de!important;
+  box-shadow:inset 0 -1px 0 rgba(0,107,79,.035),0 2px 7px rgba(34,76,60,.035)!important;
+}
+body.dark-mode .nav{
+  background:linear-gradient(180deg,#17231e 0%,#132019 100%)!important;
+  border-top-color:#24372f!important;
+  border-bottom-color:#30423a!important;
+}
+
+/* All KPI Board cards: slightly shorter, smaller main value, keep meaningful sub-lines */
+.kpis:not(.overview-kpis) .kpi{
+  min-height:78px!important;
+  padding:10px 11px 8px!important;
+}
+.kpis:not(.overview-kpis) .kpi .label{
+  font-size:9.8px!important;
+  line-height:1.18!important;
+  min-height:0!important;
+}
+.kpis:not(.overview-kpis) .kpi .value{
+  font-size:21.5px!important;
+  line-height:1.02!important;
+  margin:5px 0 3px!important;
+  letter-spacing:-.15px!important;
+}
+.kpis:not(.overview-kpis) .kpi .sub{
+  font-size:8.8px!important;
+  line-height:1.28!important;
+}
+.kpis:not(.overview-kpis) .kpi .sub.avgday{
+  font-size:10.4px!important;
+  line-height:1.25!important;
+  margin-top:2px!important;
+}
+
+/* Specialized grids remain readable but no longer force excessive height */
+.kpis.knitting-kpis .kpi,
+.kpis.chemical-kpis .kpi,
+.kpis.finishing-kpis .kpi,
+.kpis.delivery-kpis .kpi,
+.kpis.yarn-kpis .kpi,
+.kpis.etl-kpis .kpi{
+  min-height:78px!important;
+}
+
+/* Chemical Lab sub-header: less vertical space; SLT bar also uses less width */
+.chemical-section-band{
+  padding:6px 10px!important;
+  margin-top:3px!important;
+  line-height:1.15!important;
+}
+.chemical-slt-band{
+  width:56%!important;
+  max-width:720px!important;
+  justify-self:start!important;
+}
+
+/* Combined Knitting charts benefit from a little more plotting area */
+.panel:has(#knProdShare) .chart-wrap,
+.panel:has(#knOttEff) .chart-wrap{
+  height:350px!important;
+}
+
+/* Slightly tighter card-to-chart spacing on KPI pages */
+.kpis:not(.overview-kpis){
+  margin-bottom:10px!important;
+}
+
 </style></head><body><div id="app" class="hidden"><div class="app-sticky-header"><div class="top-accent"></div><header class="header"><div class="header-left"><div class="brand-mark">TP</div><div><div class="brand-title">Textile Planning Dashboard</div><div class="brand-sub">Planning, Monitoring & Control</div></div></div><div class="header-actions"><div class="utility-tools"><button class="tool-btn stopwatch-btn" id="stopwatchBtn" title="Click to start/pause • Double-click to reset">⏱ <span id="stopwatchText">00:00</span></button><button class="tool-btn" id="fullscreenBtn" title="Enter full screen">⛶ Full</button><button class="tool-btn" id="themeBtn" title="Switch dark/light mode">☾ Dark</button></div><span class="greeting" id="greeting">Good morning</span><button class="btn" id="exportBtn">Export CSV</button><button class="btn" id="signOutBtn">Sign out</button><button class="btn primary" id="refreshBtn">Refresh</button></div></header><nav class="nav">
   <button data-tab="daily_summary" class="main-nav-btn">Daily Summary</button>
   <div class="kpi-menu-wrap" id="kpiMenuWrap">
@@ -3620,6 +3695,41 @@ function barChartPct(id,labels,data,label='Value'){
 }
 
 function barChart(id,labels,data,label='Value'){const ctx=document.getElementById(id);if(!ctx)return;const dark=document.body.classList.contains('dark-mode'),grid=dark?'#31453c':'#eef1ef',txt=dark?'#b9c9c1':'#58635e';state.charts.push(new Chart(ctx,{type:'bar',data:{labels,datasets:[{label,data,backgroundColor:'#087252'}]},options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{color:grid},ticks:{font:{size:9},color:txt}},y:{grid:{display:false},ticks:{font:{size:9},color:txt}}}}}))}
+
+
+function knittingProductionShareChart(id,labels,inProd,subProd,inShare,subShare){
+  const ctx=document.getElementById(id);if(!ctx)return;
+  const dark=document.body.classList.contains('dark-mode'),
+        grid=dark?'#31453c':'#eef1ef',
+        txt=dark?'#c9d8d1':'#58635e';
+  const c=new Chart(ctx,{
+    type:'bar',
+    data:{labels,datasets:[
+      {type:'bar',label:'In-house Production',data:inProd,yAxisID:'yQty',backgroundColor:'#087252',borderRadius:3,maxBarThickness:22},
+      {type:'bar',label:'Subcontract Production',data:subProd,yAxisID:'yQty',backgroundColor:'#e59623',borderRadius:3,maxBarThickness:22},
+      {type:'line',label:'In-house %',data:inShare,yAxisID:'yPct',borderColor:'#2b7bbb',backgroundColor:'#2b7bbb',tension:.25,pointRadius:2.8,borderWidth:2.2,spanGaps:true},
+      {type:'line',label:'Subcontract %',data:subShare,yAxisID:'yPct',borderColor:'#8d63c7',backgroundColor:'#8d63c7',tension:.25,pointRadius:2.8,borderWidth:2.2,spanGaps:true}
+    ]},
+    options:{
+      responsive:true,maintainAspectRatio:false,animation:false,
+      layout:{padding:{top:8,right:8}},
+      plugins:{
+        tpChartValueLabels:{display:false},
+        legend:{position:'bottom',labels:{boxWidth:11,font:{size:10,weight:'700'},color:txt,padding:10}},
+        tooltip:{callbacks:{label:c=>{
+          if(c.dataset.yAxisID==='yPct')return`${c.dataset.label}: ${c.raw===null?'—':(Number(c.raw)*100).toFixed(1)+'%'}`;
+          return`${c.dataset.label}: ${Number(c.raw||0).toLocaleString(undefined,{maximumFractionDigits:1})}`;
+        }}}
+      },
+      scales:{
+        x:{grid:{display:false},ticks:{font:{size:9,weight:'700'},color:txt,maxRotation:0}},
+        yQty:{position:'left',beginAtZero:true,grid:{color:grid},ticks:{font:{size:9,weight:'700'},color:txt},title:{display:true,text:'Production',color:txt,font:{size:9,weight:'700'}}},
+        yPct:{position:'right',min:0,max:1,grid:{drawOnChartArea:false},ticks:{font:{size:9,weight:'700'},color:txt,callback:v=>(v*100).toFixed(0)+'%'},title:{display:true,text:'Share %',color:txt,font:{size:9,weight:'700'}}}
+      }
+    }
+  });
+  state.charts.push(c)
+}
 
 function lineChartPct(id,labels,sets){const ctx=document.getElementById(id);if(!ctx)return;const dark=document.body.classList.contains('dark-mode'),grid=dark?'#31453c':'#eef1ef',txt=dark?'#b9c9c1':'#58635e';const c=new Chart(ctx,{type:'line',data:{labels,datasets:sets.map((s,i)=>({label:s.label,data:s.data,borderColor:color[i%color.length],backgroundColor:color[i%color.length],tension:.25,pointRadius:2,borderWidth:2}))},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{boxWidth:10,font:{size:10},color:txt}},tooltip:{callbacks:{label:c=>`${c.dataset.label}: ${c.parsed.y===null?'—':(c.parsed.y*100).toFixed(1)+'%'}`}}},scales:{x:{ticks:{font:{size:9},maxRotation:0,color:txt},grid:{display:false}},y:{ticks:{font:{size:9},color:txt,callback:v=>(v*100).toFixed(0)+'%'},grid:{color:grid}}}}});c.$tpPercent=true;state.charts.push(c)}
 
@@ -4136,7 +4246,11 @@ function overviewDeptCard(title,heroLabel,heroValue,rows=[],tone='green'){
   </div>`
 }
 
-function kpi(label,value,sub='',tone='green'){const subClass=/^Avg\/day[: ]/i.test(String(sub))?'sub avgday':'sub';return`<div class="kpi tone-${tone}"><div class="label">${esc(label)}</div><div class="value">${value}</div><div class="${subClass}">${esc(sub)}</div></div>`}
+function kpi(label,value,sub='',tone='green'){
+  const raw=String(sub??'').trim(),clean=/^Average of selected dates$/i.test(raw)?'':raw;
+  const subClass=/^Avg\/day[: ]/i.test(clean)?'sub avgday':'sub';
+  return`<div class="kpi tone-${tone}"><div class="label">${esc(label)}</div><div class="value">${value}</div>${clean?`<div class="${subClass}">${esc(clean)}</div>`:''}</div>`
+}
 function kpiMulti(label,value,lines=[],tone='green'){return`<div class="kpi tone-${tone}"><div class="label">${esc(label)}</div><div class="value">${value}</div><div class="sub kpi-substack">${lines.map(x=>`<div>${x.label?`<b>${esc(x.label)}</b> `:''}${esc(x.value??'')}</div>`).join('')}</div></div>`}
 function tableHTML(rows,limit=500,percentCols=[]){if(!rows.length)return'<div class="alert">No records match the current filters.</div>';const cols=Object.keys(rows[0]);const pctSet=new Set(percentCols);return`<div class="table-wrap"><table><thead><tr>${cols.map(c=>`<th>${esc(c)}</th>`).join('')}</tr></thead><tbody>${rows.slice(0,limit).map(r=>`<tr>${cols.map(c=>{const v=r[c];const n=safeNum(v);let out=esc(v??'');if(c==='Date')out=esc(parseDate(v)||v||'');else if((pctSet.has(c)||/%|OTT|RFT|Util|uti|Efficiency|Loading|MLT|OTD|One Shot|Pass/i.test(c))&&n!==null)out=pct(n);else if(n!==null)out=n.toLocaleString(undefined,{maximumFractionDigits:2});return`<td class="${n!==null?'num':''}">${out}</td>`}).join('')}</tr>`).join('')}</tbody></table></div>`}
 function metricCardSet(items){$('#kpis').innerHTML=items.join('')}
@@ -5341,44 +5455,96 @@ function renderDyeing(){
   lineChart('dyeQuality',dr.map(x=>x.Date?.slice(5)||x.Date),[{label:'RFT EFL',data:dr.map(x=>safeNum(x['Dyeing RFT (EFL)']))},{label:'RFT EKL+Ext',data:dr.map(x=>safeNum(x['Dyeing RFT (EKL+Ext.)']))},{label:'Loading EFL',data:dr.map(x=>safeNum(x['Loading (EFL)']))},{label:'Loading EKL+Ext',data:dr.map(x=>safeNum(x['Loading (EKL+Ext)']))},{label:'On Time',data:dr.map(x=>safeNum(x['On Time Target']))}]);
   lineChart('dyeRepPct',dr.map(x=>x.Date?.slice(5)||x.Date),[{label:'Reprocess EFL',data:dr.map(x=>safeNum(x['Reprocess (EFL)']))},{label:'Reprocess EKL+Ext',data:dr.map(x=>safeNum(x['Reprocess (EKL+Ext)']))}])
 }
-function renderKnitting(){const dr=knittingDateRows(),br=knittingBuyerRows(),buyers=kpiSelectedBuyers(),buyer=buyers.length===1?buyers[0]:buyers.length?`${buyers.length} buyers`:'';if(!dr.length&&!(state.data?.sheets?.Knitting_Date_Buyer||[]).length){metricCardSet([]);$('#content').innerHTML='<div class="alert">No Knitting data uploaded yet. Go to Data Management and upload Knitting_Dashboard containing Knitting_Date and Knitting_Date_Buyer.</div>';return}const productionRows=buyer?br:dr;const activeDays=new Set(productionRows.map(r=>r.Date).filter(Boolean)).size||dr.length;const inHouse=buyer?sum(br,'In house'):sum(dr,'Knitting In house Prod.'),subcon=buyer?sum(br,'Subcontract'):sum(dr,'Knitting Subcontract Prod.'),overall=inHouse+subcon;const inShare=overall?inHouse/overall:null,subShare=overall?subcon/overall:null;const perDay=n=>activeDays?n/activeDays:null;const processNote=buyer?'Overall date-wise • buyer filter does not alter':'Average of selected dates';const tones=['green','teal','blue','purple','orange','rose','amber'];metricCardSet([
-kpi('Knitting Overall Prod.',ton(overall),`Avg/day: ${ton(perDay(overall))}`,'green'),
-kpi('Knitting In-house Prod.',ton(inHouse),`Avg/day: ${ton(perDay(inHouse))} • Share ${pct(inShare)}`,'teal'),
-kpi('Knitting Subcontract Prod.',ton(subcon),`Avg/day: ${ton(perDay(subcon))} • Share ${pct(subShare)}`,'orange'),
-kpi('MC Utilization',pct(avg(dr,'MC Utilization')),processNote,'blue'),
-kpi('Prod. / MC (kg)',fmt1(avg(dr,'Prod. /MC (kg)'))+' kg',processNote,'purple'),
-kpi('Capacity Utilization',pct(avg(dr,'Capacity utilization')),processNote,'green'),
-kpi('Overall OTT',pct(avg(dr,'Overall OTT')),processNote,'rose'),
-kpi('Yarn Booking (days)',fmt1(avg(dr,'Yarn Booking (days)'))+' days',processNote,'amber'),
-kpi('Efficiency',pct(avg(dr,'Efficiency')),processNote,'teal'),
-kpi('Grey QC Hold',pct(avg(dr,'Grey QC Hold')),processNote,'orange'),
-kpi('Rejection',pct(avg(dr,'Rejection')),processNote,'rose'),
-kpi('Jhut Cut piece',pct(avg(dr,'Jhut Cut piece')),processNote,'purple'),
-kpi('Conditional Pass',pct(avg(dr,'Conditional Pass')),processNote,'blue'),
-kpi('Greige Inspection Pass',pct(avg(dr,'Greige Inspection Pass')),processNote,'green')]);
-const dateLabels=dr.map(r=>r.Date?.slice(5)||r.Date),overallDaily=dr.map(r=>(safeNum(r['Knitting In house Prod.'])||0)+(safeNum(r['Knitting Subcontract Prod.'])||0));const rawBuyerRows=currentDateRows('Knitting_Date_Buyer'),buyerSummary=knittingBuyerSummary(rawBuyerRows);const evenly=knittingBuyerSourceEvenlyAllocated(rawBuyerRows);$('#content').innerHTML=`<div class="section-band">Production & Utilization <span class="source-tag">Knitting_Date</span></div>`+
-panel('Knitting Overall Production','Daily In-house + Subcontract production','<div class="chart-wrap"><canvas id="knOverall"></canvas></div>',false,true)+
-panel('In-house vs Subcontract %','Daily share of total Knitting production','<div class="chart-wrap"><canvas id="knShare"></canvas></div>',false,true)+
-panel('Knitting In-house Production','Daily production in kg','<div class="chart-wrap"><canvas id="knIn"></canvas></div>',false,true)+
-panel('Knitting Subcontract Production','Daily production in kg','<div class="chart-wrap"><canvas id="knSub"></canvas></div>',false,true)+
-panel('MC Utilization','Daily utilization %','<div class="chart-wrap"><canvas id="knMC"></canvas></div>',false,true)+
-panel('Prod. / MC','Daily kg per machine','<div class="chart-wrap"><canvas id="knProdMC"></canvas></div>',false,true)+
-panel('Capacity Utilization','Daily capacity utilization %','<div class="chart-wrap"><canvas id="knCap"></canvas></div>',false,true)+
-`<div class="section-band">OTT, Booking & Efficiency <span class="source-tag">Knitting_Date</span></div>`+
-panel('Overall OTT','Daily OTT %','<div class="chart-wrap"><canvas id="knOTT"></canvas></div>',false,true)+
-panel('Yarn Booking','Average days by date','<div class="chart-wrap"><canvas id="knYarn"></canvas></div>',false,true)+
-panel('Efficiency','Daily efficiency %','<div class="chart-wrap"><canvas id="knEff"></canvas></div>',false,true)+
-`<div class="section-band">Greige Quality Performance <span class="source-tag">Knitting_Date</span></div>`+
-panel('Grey QC Hold','Daily %','<div class="chart-wrap"><canvas id="knHold"></canvas></div>',false,true)+
-panel('Rejection','Daily %','<div class="chart-wrap"><canvas id="knReject"></canvas></div>',false,true)+
-panel('Jhut Cut piece','Daily %','<div class="chart-wrap"><canvas id="knJhut"></canvas></div>',false,true)+
-panel('Conditional Pass','Daily %','<div class="chart-wrap"><canvas id="knCond"></canvas></div>',false,true)+
-panel('Greige Inspection Pass','Daily %','<div class="chart-wrap"><canvas id="knInspect"></canvas></div>',false,true)+
-`<div class="section-band">Buyer-wise Knitting Production <span class="source-tag">Knitting_Date_Buyer</span></div>`+(evenly?'<div class="source-warning"><b>Source-data notice:</b> in the uploaded Knitting workbook, each date currently distributes the same In-house and Subcontract quantity equally across all 29 buyers. The buyer chart is therefore shown exactly from the source, but it is not yet a true buyer contribution ranking. Replace these rows with real buyer-wise quantities when available.</div>':'')+
-panel('Buyer-wise In-house & Subcontract Production','Selected date range'+(buyer?` • Buyer filter: ${esc(buyer)}`:''),'<div class="chart-wrap tall"><canvas id="knBuyer"></canvas></div>',true,true)+
-panel('Knitting Daily Detail','Date-wise source used for process KPIs',tableHTML(dr,500,KNITTING_PERCENT),true)+
-panel('Knitting Buyer/Date Detail','Buyer-wise production source',tableHTML(br,500),true);
-lineChart('knOverall',dateLabels,[{label:'Overall Production',data:overallDaily}]);lineChartPct('knShare',dateLabels,[{label:'In-house %',data:dr.map(r=>{const a=safeNum(r['Knitting In house Prod.'])||0,b=safeNum(r['Knitting Subcontract Prod.'])||0,t=a+b;return t?a/t:null})},{label:'Subcontract %',data:dr.map(r=>{const a=safeNum(r['Knitting In house Prod.'])||0,b=safeNum(r['Knitting Subcontract Prod.'])||0,t=a+b;return t?b/t:null})}]);lineChart('knIn',dateLabels,[{label:'In-house',data:dr.map(r=>safeNum(r['Knitting In house Prod.'])||0)}]);lineChart('knSub',dateLabels,[{label:'Subcontract',data:dr.map(r=>safeNum(r['Knitting Subcontract Prod.'])||0)}]);lineChartPct('knMC',dateLabels,[{label:'MC Utilization',data:dr.map(r=>safeNum(r['MC Utilization']))}]);lineChart('knProdMC',dateLabels,[{label:'Prod./MC kg',data:dr.map(r=>safeNum(r['Prod. /MC (kg)']))}]);lineChartPct('knCap',dateLabels,[{label:'Capacity Utilization',data:dr.map(r=>safeNum(r['Capacity utilization']))}]);lineChartPct('knOTT',dateLabels,[{label:'Overall OTT',data:dr.map(r=>safeNum(r['Overall OTT']))}]);lineChart('knYarn',dateLabels,[{label:'Yarn Booking days',data:dr.map(r=>safeNum(r['Yarn Booking (days)']))}]);lineChartPct('knEff',dateLabels,[{label:'Efficiency',data:dr.map(r=>safeNum(r.Efficiency))}]);lineChartPct('knHold',dateLabels,[{label:'Grey QC Hold',data:dr.map(r=>safeNum(r['Grey QC Hold']))}]);lineChartPct('knReject',dateLabels,[{label:'Rejection',data:dr.map(r=>safeNum(r.Rejection))}]);lineChartPct('knJhut',dateLabels,[{label:'Jhut Cut piece',data:dr.map(r=>safeNum(r['Jhut Cut piece']))}]);lineChartPct('knCond',dateLabels,[{label:'Conditional Pass',data:dr.map(r=>safeNum(r['Conditional Pass']))}]);lineChartPct('knInspect',dateLabels,[{label:'Greige Inspection Pass',data:dr.map(r=>safeNum(r['Greige Inspection Pass']))}]);groupedBarChart('knBuyer',buyerSummary.map(r=>r.Buyer),[{label:'In-house',data:buyerSummary.map(r=>r['In house'])},{label:'Subcontract',data:buyerSummary.map(r=>r.Subcontract)}]);}
+
+function renderKnitting(){
+  const dr=knittingDateRows(),br=knittingBuyerRows(),buyers=kpiSelectedBuyers(),
+        buyer=buyers.length===1?buyers[0]:buyers.length?`${buyers.length} buyers`:'';
+  if(!dr.length&&!(state.data?.sheets?.Knitting_Date_Buyer||[]).length){
+    metricCardSet([]);
+    $('#content').innerHTML='<div class="alert">No Knitting data uploaded yet. Go to Data Management and upload Knitting_Dashboard containing Knitting_Date and Knitting_Date_Buyer.</div>';
+    return
+  }
+
+  const productionRows=buyer?br:dr,
+        activeDays=new Set(productionRows.map(r=>r.Date).filter(Boolean)).size||dr.length,
+        inHouse=buyer?sum(br,'In house'):sum(dr,'Knitting In house Prod.'),
+        subcon=buyer?sum(br,'Subcontract'):sum(dr,'Knitting Subcontract Prod.'),
+        overall=inHouse+subcon,
+        inShare=overall?inHouse/overall:null,
+        subShare=overall?subcon/overall:null,
+        perDay=n=>activeDays?n/activeDays:null,
+        processNote=buyer?'Overall date-wise • buyer filter does not alter':'';
+
+  metricCardSet([
+    kpi('Knitting Overall Prod.',ton(overall),`Avg/day: ${ton(perDay(overall))}`,'green'),
+    kpi('Knitting In-house Prod.',ton(inHouse),`Avg/day: ${ton(perDay(inHouse))} • Share ${pct(inShare)}`,'teal'),
+    kpi('Knitting Subcontract Prod.',ton(subcon),`Avg/day: ${ton(perDay(subcon))} • Share ${pct(subShare)}`,'orange'),
+    kpi('MC Utilization',pct(avg(dr,'MC Utilization')),processNote,'blue'),
+    kpi('Prod. / MC (kg)',fmt1(avg(dr,'Prod. /MC (kg)'))+' kg',processNote,'purple'),
+    kpi('Capacity Utilization',pct(avg(dr,'Capacity utilization')),processNote,'green'),
+    kpi('Overall OTT',pct(avg(dr,'Overall OTT')),processNote,'rose'),
+    kpi('Yarn Booking (days)',fmt1(avg(dr,'Yarn Booking (days)'))+' days',processNote,'amber'),
+    kpi('Efficiency',pct(avg(dr,'Efficiency')),processNote,'teal'),
+    kpi('Grey QC Hold',pct(avg(dr,'Grey QC Hold')),processNote,'orange'),
+    kpi('Rejection',pct(avg(dr,'Rejection')),processNote,'rose'),
+    kpi('Jhut Cut piece',pct(avg(dr,'Jhut Cut piece')),processNote,'purple'),
+    kpi('Conditional Pass',pct(avg(dr,'Conditional Pass')),processNote,'blue'),
+    kpi('Greige Inspection Pass',pct(avg(dr,'Greige Inspection Pass')),processNote,'green')
+  ]);
+
+  const dateLabels=dr.map(r=>r.Date?.slice(5)||r.Date),
+        inDaily=dr.map(r=>safeNum(r['Knitting In house Prod.'])||0),
+        subDaily=dr.map(r=>safeNum(r['Knitting Subcontract Prod.'])||0),
+        overallDaily=dr.map((r,i)=>inDaily[i]+subDaily[i]),
+        inShareDaily=dr.map((r,i)=>overallDaily[i]?inDaily[i]/overallDaily[i]:null),
+        subShareDaily=dr.map((r,i)=>overallDaily[i]?subDaily[i]/overallDaily[i]:null),
+        rawBuyerRows=currentDateRows('Knitting_Date_Buyer'),
+        buyerSummary=knittingBuyerSummary(rawBuyerRows),
+        evenly=knittingBuyerSourceEvenlyAllocated(rawBuyerRows);
+
+  $('#content').innerHTML=
+    `<div class="section-band">Production & Utilization <span class="source-tag">Knitting_Date</span></div>`+
+    panel('Knitting Overall Production','Daily In-house + Subcontract production','<div class="chart-wrap"><canvas id="knOverall"></canvas></div>',false,true)+
+    panel('In-house / Subcontract Production & Share','Production quantity with In-house % and Subcontract % in one chart','<div class="chart-wrap tall"><canvas id="knProdShare"></canvas></div>',true,true)+
+    panel('MC & Capacity Utilization','MC Utilization and Capacity Utilization in one comparison chart','<div class="chart-wrap"><canvas id="knUtilCombined"></canvas></div>',false,true)+
+    panel('Prod. / MC','Daily kg per machine','<div class="chart-wrap"><canvas id="knProdMC"></canvas></div>',false,true)+
+    `<div class="section-band">OTT, Booking & Efficiency <span class="source-tag">Knitting_Date</span></div>`+
+    panel('Overall OTT & Efficiency','Daily OTT and Efficiency comparison','<div class="chart-wrap tall"><canvas id="knOttEff"></canvas></div>',true,true)+
+    panel('Yarn Booking','Average days by date','<div class="chart-wrap"><canvas id="knYarn"></canvas></div>',false,true)+
+    `<div class="section-band">Greige Quality Performance <span class="source-tag">Knitting_Date</span></div>`+
+    panel('Grey QC Hold','Daily %','<div class="chart-wrap"><canvas id="knHold"></canvas></div>',false,true)+
+    panel('Rejection','Daily %','<div class="chart-wrap"><canvas id="knReject"></canvas></div>',false,true)+
+    panel('Jhut Cut piece','Daily %','<div class="chart-wrap"><canvas id="knJhut"></canvas></div>',false,true)+
+    panel('Conditional Pass','Daily %','<div class="chart-wrap"><canvas id="knCond"></canvas></div>',false,true)+
+    panel('Greige Inspection Pass','Daily %','<div class="chart-wrap"><canvas id="knInspect"></canvas></div>',false,true)+
+    `<div class="section-band">Buyer-wise Knitting Production <span class="source-tag">Knitting_Date_Buyer</span></div>`+
+    (evenly?'<div class="source-warning"><b>Source-data notice:</b> in the uploaded Knitting workbook, each date currently distributes the same In-house and Subcontract quantity equally across all 29 buyers. The buyer chart is therefore shown exactly from the source, but it is not yet a true buyer contribution ranking. Replace these rows with real buyer-wise quantities when available.</div>':'')+
+    panel('Buyer-wise In-house & Subcontract Production','Selected date range'+(buyer?` • Buyer filter: ${esc(buyer)}`:''),'<div class="chart-wrap tall"><canvas id="knBuyer"></canvas></div>',true,true)+
+    panel('Knitting Daily Detail','Date-wise source used for process KPIs',tableHTML(dr,500,KNITTING_PERCENT),true)+
+    panel('Knitting Buyer/Date Detail','Buyer-wise production source',tableHTML(br,500),true);
+
+  lineChart('knOverall',dateLabels,[{label:'Overall Production',data:overallDaily}]);
+  knittingProductionShareChart('knProdShare',dateLabels,inDaily,subDaily,inShareDaily,subShareDaily);
+  lineChartPct('knUtilCombined',dateLabels,[
+    {label:'MC Utilization',data:dr.map(r=>safeNum(r['MC Utilization']))},
+    {label:'Capacity Utilization',data:dr.map(r=>safeNum(r['Capacity utilization']))}
+  ]);
+  lineChart('knProdMC',dateLabels,[{label:'Prod./MC kg',data:dr.map(r=>safeNum(r['Prod. /MC (kg)']))}]);
+  lineChartPct('knOttEff',dateLabels,[
+    {label:'Overall OTT',data:dr.map(r=>safeNum(r['Overall OTT']))},
+    {label:'Efficiency',data:dr.map(r=>safeNum(r.Efficiency))}
+  ]);
+  lineChart('knYarn',dateLabels,[{label:'Yarn Booking days',data:dr.map(r=>safeNum(r['Yarn Booking (days)']))}]);
+  lineChartPct('knHold',dateLabels,[{label:'Grey QC Hold',data:dr.map(r=>safeNum(r['Grey QC Hold']))}]);
+  lineChartPct('knReject',dateLabels,[{label:'Rejection',data:dr.map(r=>safeNum(r.Rejection))}]);
+  lineChartPct('knJhut',dateLabels,[{label:'Jhut Cut piece',data:dr.map(r=>safeNum(r['Jhut Cut piece']))}]);
+  lineChartPct('knCond',dateLabels,[{label:'Conditional Pass',data:dr.map(r=>safeNum(r['Conditional Pass']))}]);
+  lineChartPct('knInspect',dateLabels,[{label:'Greige Inspection Pass',data:dr.map(r=>safeNum(r['Greige Inspection Pass']))}]);
+  groupedBarChart('knBuyer',buyerSummary.map(r=>r.Buyer),[
+    {label:'In-house',data:buyerSummary.map(r=>r['In house'])},
+    {label:'Subcontract',data:buyerSummary.map(r=>r.Subcontract)}
+  ])
+}
 function renderFinishing(){const r=finishingDateRows();if(!r.length){metricCardSet([]);$('#content').innerHTML='<div class="alert">No separate Finishing data uploaded yet. Go to Data Management and upload <b>Finishing_Dashboard.xlsx</b> containing the <b>Finishing_Date</b> sheet.</div>';return}const days=new Set(r.map(x=>x.Date).filter(Boolean)).size||r.length,perDay=n=>days?n/days:null;const heatTotal=sum(r,'Heat Set Production'),heatIn=sum(r,'Heat Set In house'),heatSub=sum(r,'Heat Set Sub.'),hand=sum(r,'Handedover kg');const stProd=sum(r,'Stenter Prod. Kg'),drProd=sum(r,'Dryer Prod. Kg'),coProd=sum(r,'Compactor Prod. Kg'),brProd=sum(r,'Brush Prod. Kg'),peProd=sum(r,'Peach Prod. Kg');metricCardSet([
 kpiMulti('Heat Set Production',ton(heatTotal),[{label:'Avg/day:',value:ton(perDay(heatTotal))},{label:'In-house:',value:`${ton(heatIn)} • Avg/day ${ton(perDay(heatIn))}`},{label:'Subcontract:',value:`${ton(heatSub)} • Avg/day ${ton(perDay(heatSub))}`}],'green'),
 kpiMulti('Heat Set In-house Avg. Hour',fmt1(avg(r,'Heat Set_In house (Avg. Hour)'))+' h',[{label:'Subcontract Avg. Hour:',value:fmt1(avg(r,'Heat Set_Sub ((Avg. Hour))'))+' h'}],'teal'),
@@ -5457,6 +5623,7 @@ function renderETL(){
   ])
 }
 
+
 function renderChemicalLab(){
   const dr=chemicalLabRows();
   if(!dr.length&&!(state.data?.sheets?.C_Lab_Date||[]).length){
@@ -5464,38 +5631,47 @@ function renderChemicalLab(){
     $('#content').innerHTML='<div class="alert">No Chemical Lab data uploaded yet. Go to Data Management and upload <b>Chemical_Lab_Dashboard.xlsx</b> containing <b>C_Lab_Date</b>.</div>';
     return
   }
-  const eflSLT=avgDuration(dr,'EFL SLT [Hr:Min:Sec]'),eklSLT=avgDuration(dr,'EKL SLT [Hr:Min:Sec]'),overallSLT=avgDuration(dr,'Overall SLT [Hr:Min:Sec]');
-  const eflValid=dr.filter(r=>durationSeconds(r['EFL SLT [Hr:Min:Sec]'])!==null).length,eklValid=dr.filter(r=>durationSeconds(r['EKL SLT [Hr:Min:Sec]'])!==null).length,overallValid=dr.filter(r=>durationSeconds(r['Overall SLT [Hr:Min:Sec]'])!==null).length;
-  const rftE=avg(dr,'Dyeing RFT (EFL)'),rftX=avg(dr,'Dyeing RFT (EKL+Ext.)'),rftO=avg(dr,'Overall RFT');
+
+  const eflSLT=avgDuration(dr,'EFL SLT [Hr:Min:Sec]'),
+        eklSLT=avgDuration(dr,'EKL SLT [Hr:Min:Sec]'),
+        overallSLT=avgDuration(dr,'Overall SLT [Hr:Min:Sec]'),
+        eflValid=dr.filter(r=>durationSeconds(r['EFL SLT [Hr:Min:Sec]'])!==null).length,
+        eklValid=dr.filter(r=>durationSeconds(r['EKL SLT [Hr:Min:Sec]'])!==null).length,
+        overallValid=dr.filter(r=>durationSeconds(r['Overall SLT [Hr:Min:Sec]'])!==null).length,
+        rftE=avg(dr,'Dyeing RFT (EFL)'),
+        rftX=avg(dr,'Dyeing RFT (EKL+Ext.)'),
+        rftO=avg(dr,'Overall RFT');
+
   metricCardSet([
     kpi('EFL SLT',formatDuration(eflSLT,true),`Average • ${eflValid} valid day${eflValid===1?'':'s'}`,'green'),
     kpi('EKL SLT',formatDuration(eklSLT,true),`Average • ${eklValid} valid day${eklValid===1?'':'s'}`,'teal'),
     kpi('Overall SLT',formatDuration(overallSLT,true),`Average • ${overallValid} valid day${overallValid===1?'':'s'}`,'blue'),
-    kpi('Dyeing RFT (EFL)',pct(rftE),'Average of selected dates','purple'),
-    kpi('Dyeing RFT (EKL+Ext.)',pct(rftX),'Average of selected dates','orange'),
-    kpi('Overall RFT',pct(rftO),'Average of selected dates','rose')
+    kpi('Dyeing RFT (EFL)',pct(rftE),'','purple'),
+    kpi('Dyeing RFT (EKL+Ext.)',pct(rftX),'','orange'),
+    kpi('Overall RFT',pct(rftO),'','rose')
   ]);
+
   const labels=dr.map(r=>r.Date?.slice(5)||r.Date);
+
   $('#content').innerHTML=
-    `<div class="section-band">Chemical Lab — SLT Performance <span class="source-tag">C_Lab_Date</span></div>`+
-    panel('EFL vs EKL SLT','Elapsed time • HH:MM:SS','<div class="chart-wrap tall"><canvas id="chemSLTCompare"></canvas></div>',true,true)+
-    panel('Overall SLT','Daily overall sample lead time','<div class="chart-wrap"><canvas id="chemSLTOverall"></canvas></div>',false,true)+
-    `<div class="section-band">Chemical Lab — RFT Performance <span class="source-tag">C_Lab_Date</span></div>`+
-    panel('EFL vs EKL RFT','Daily right-first-time performance','<div class="chart-wrap tall"><canvas id="chemRFTCompare"></canvas></div>',true,true)+
-    panel('Overall RFT','Daily overall RFT','<div class="chart-wrap"><canvas id="chemRFTOverall"></canvas></div>',false,true)+
+    `<div class="section-band chemical-section-band chemical-slt-band">Chemical Lab — SLT Performance <span class="source-tag">C_Lab_Date</span></div>`+
+    panel('EFL / EKL / Overall SLT','Elapsed time comparison • HH:MM:SS','<div class="chart-wrap tall"><canvas id="chemSLTCompare"></canvas></div>',true,true)+
+    `<div class="section-band chemical-section-band">Chemical Lab — RFT Performance <span class="source-tag">C_Lab_Date</span></div>`+
+    panel('EFL / EKL / Overall RFT','Daily right-first-time comparison','<div class="chart-wrap tall"><canvas id="chemRFTCompare"></canvas></div>',true,true)+
     panel('Chemical Lab Date Detail','SLT is displayed as elapsed HH:MM:SS; RFT as percentage',chemicalLabTableHTML(dr,500),true);
+
   lineChartDuration('chemSLTCompare',labels,[
     {label:'EFL SLT',data:dr.map(r=>durationSeconds(r['EFL SLT [Hr:Min:Sec]']))},
-    {label:'EKL SLT',data:dr.map(r=>durationSeconds(r['EKL SLT [Hr:Min:Sec]']))}
+    {label:'EKL SLT',data:dr.map(r=>durationSeconds(r['EKL SLT [Hr:Min:Sec]']))},
+    {label:'Overall SLT',data:dr.map(r=>durationSeconds(r['Overall SLT [Hr:Min:Sec]']))}
   ]);
-  lineChartDuration('chemSLTOverall',labels,[{label:'Overall SLT',data:dr.map(r=>durationSeconds(r['Overall SLT [Hr:Min:Sec]']))}]);
+
   lineChartPct('chemRFTCompare',labels,[
     {label:'RFT EFL',data:dr.map(r=>safeNum(r['Dyeing RFT (EFL)']))},
-    {label:'RFT EKL+Ext',data:dr.map(r=>safeNum(r['Dyeing RFT (EKL+Ext.)']))}
-  ]);
-  lineChartPct('chemRFTOverall',labels,[{label:'Overall RFT',data:dr.map(r=>safeNum(r['Overall RFT']))}])
+    {label:'RFT EKL+Ext',data:dr.map(r=>safeNum(r['Dyeing RFT (EKL+Ext.)']))},
+    {label:'Overall RFT',data:dr.map(r=>safeNum(r['Overall RFT']))}
+  ])
 }
-
 function renderYarnDyeing(){const dr=yarnDyeingDateRows(),br=yarnDyeingBuyerRows(),buyers=kpiSelectedBuyers(),buyer=buyers.length===1?buyers[0]:buyers.length?`${buyers.length} buyers`:'',rawAll=currentDateRows('YD_Date_Buyer');if(!dr.length&&!(state.data?.sheets?.YD_Date_Buyer||[]).length){metricCardSet([]);$('#content').innerHTML='<div class="alert">No Yarn Dyeing data uploaded yet. Go to Data Management and upload <b>Yarn_Dyeing_Dashboard.xlsx</b> containing <b>YD_Date</b> and <b>YD_Date_Buyer</b>.</div>';return}
 const even=yarnDyeingBuyerSourceEvenlyAllocated(rawAll),useRepresentative=even&&!buyer;const daily=yarnDyeingDailySummary(br,useRepresentative),buyerSummary=yarnDyeingBuyerSummary(br);const days=new Set(daily.map(r=>r.Date).filter(Boolean)).size||dr.length,perDay=n=>days?n/days:null,avgMass=n=>n===null||!Number.isFinite(n)?'—':(Math.abs(n)>=1000?ton(n)+'/day':fmt1(n)+' kg/day');const overall=sum(daily,'Overall Total Prod.'),inhouse=sum(daily,'Total In house Prod.'),subcon=sum(daily,'Sub-Contract  Prod.'),inShare=overall?inhouse/overall:null,subShare=overall?subcon/overall:null;const cotton=sum(daily,'Cotton Dyeing'),space=sum(daily,'Space Dyeing'),thread=sum(daily,'Sewing Thread'),service=sum(daily,'Service Prod.');const twist=sum(daily,'Twisting Total'),twIn=sum(daily,'Twisting In house'),twSub=sum(daily,'Twisting Subcontract'),twInShare=twist?twIn/twist:null,twSubShare=twist?twSub/twist:null;
 metricCardSet([
