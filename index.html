@@ -3437,9 +3437,110 @@ body.dark-mode .nav{
 @media(max-width:1250px){.dm-source-grid{grid-template-columns:1fr!important}}
 @media(max-width:720px){.dm-source-body{grid-template-columns:1fr!important}}
 
+
+/* ================= v64 Data Management submenu ================= */
+.data-menu-wrap{position:relative;display:flex;align-items:stretch;height:100%}
+.data-menu-toggle{
+  height:54px;border:0;border-bottom:3px solid transparent;background:transparent;padding:0 18px;
+  color:#233c33;font-size:11px;white-space:nowrap
+}
+.data-menu-toggle:hover,.data-menu-toggle.active{color:#005c42;font-weight:800;border-bottom-color:#efb400}
+.data-menu-arrow{font-size:12px;margin-left:7px}
+.data-submenu{
+  display:none;position:absolute;left:0;top:52px;width:260px;padding:8px;background:#fff;border:1px solid #dce5e0;
+  border-top:3px solid var(--green);border-radius:0 0 9px 9px;box-shadow:0 14px 35px rgba(24,61,48,.18);z-index:3000
+}
+.data-menu-wrap.open .data-submenu,.data-menu-wrap:hover .data-submenu{display:grid;gap:5px}
+.data-submenu button{
+  height:38px;border:0;border-radius:5px;padding:0 12px;text-align:left;background:#f8fbf9;color:#344d43;font-size:11px
+}
+.data-submenu button:hover,.data-submenu button.active{background:#e8f4ef;color:#075d45;font-weight:800}
+body.dark-mode .data-submenu{background:#17231e;border-color:#355046}
+body.dark-mode .data-submenu button{background:#1d2b25;color:#c8ded4}
+body.dark-mode .data-submenu button:hover,body.dark-mode .data-submenu button.active{background:#234437;color:#e3f6ed}
+
+/* ================= v64 Days Setup ================= */
+#content:has(.days-setup-page){display:block!important;width:100%!important}
+.page:has(.days-setup-page){max-width:1820px!important}
+.days-setup-page{width:100%;min-width:0}
+.days-setup-hero{
+  display:flex;justify-content:space-between;align-items:center;gap:14px;padding:14px 16px;
+  border:1px solid var(--line);border-top:4px solid #087252;border-radius:10px;background:linear-gradient(105deg,#fff,#f3faf6);
+  box-shadow:0 4px 14px rgba(28,83,62,.05)
+}
+.days-eyebrow{display:block;font-size:7px;font-weight:900;letter-spacing:1.25px;color:#36826a}
+.days-setup-hero h2{margin:3px 0 2px;font:700 25px Georgia,serif;color:#07563f}
+.days-setup-hero p{margin:0;font-size:8.5px;color:var(--muted)}
+.days-hero-actions{display:flex;align-items:end;gap:7px;flex-wrap:wrap;justify-content:flex-end}
+.days-period-box{display:flex;flex-direction:column;gap:3px}
+.days-period-box span{font-size:6.7px;text-transform:uppercase;letter-spacing:.7px;color:#7c8984}
+.days-period-box select{height:31px;min-width:105px;border:1px solid #cbd8d2;border-radius:5px;background:var(--card);padding:0 8px;font-size:9px;color:var(--text)}
+.days-setup-info{
+  display:grid;grid-template-columns:minmax(320px,1fr) repeat(3,145px);gap:7px;margin-top:8px
+}
+.days-setup-info>div{border:1px solid var(--line);border-radius:8px;background:var(--card);padding:9px 11px}
+.days-setup-info b{display:block;font-size:11px;color:#154b3b}.days-setup-info span{display:block;margin-top:2px;font-size:7.3px;color:#7d8984;line-height:1.4}
+.days-info-stat{text-align:center}.days-info-stat b{font:700 18px Georgia,serif;color:#075d45}
+.days-formula-note{
+  margin-top:8px;padding:8px 10px;border-left:4px solid #e3ae00;border-radius:5px;background:#fff8d8;color:#6d622d;font-size:8px;line-height:1.45
+}
+.days-table-panel{margin-top:8px;border:1px solid var(--line);border-radius:9px;background:var(--card);overflow:visible}
+.days-table-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 12px;border-bottom:1px solid var(--line);background:#f8fbf9}
+.days-table-head h3{margin:0;font:700 17px Georgia,serif;color:#075d45}.days-table-head p{margin:2px 0 0;font-size:7.5px;color:#7b8882}
+#daysSaveStatus{font-size:7.6px;color:#13714e;white-space:pre-line;text-align:right}
+.days-table-scroll{overflow:auto;max-height:calc(100vh - 350px);min-height:250px}
+.days-table{width:100%;border-collapse:separate;border-spacing:0;min-width:1260px;table-layout:fixed}
+.days-table th{
+  position:sticky;top:0;z-index:9;background:#0c6a58;color:#fff;padding:8px 7px;border-right:1px solid rgba(255,255,255,.14);
+  font-size:8px;letter-spacing:.2px;text-align:left
+}
+.days-table th:nth-child(1){width:18%}.days-table th:nth-child(2){width:20%}.days-table th:nth-child(3){width:27%}
+.days-table th:nth-child(4),.days-table th:nth-child(5),.days-table th:nth-child(6),.days-table th:nth-child(7){width:8%}
+.days-table th:nth-child(8){width:3%}
+.days-table td{padding:7px;border-right:1px solid #edf1ef;border-bottom:1px solid #e6ece8;vertical-align:middle;background:var(--card);font-size:8px}
+.days-table tbody tr:nth-child(even) td{background:#fbfdfc}
+.days-num-edit input{
+  width:100%;height:32px;border:1px solid #c7d5ce;border-radius:5px;padding:0 6px;text-align:center;font-size:11px;font-weight:900;color:#075d45;background:#fffef1
+}
+.days-calc{text-align:center}.days-calc b{display:block;font:700 15px Georgia,serif;color:#075d45}.days-calc small{font-size:6.3px;color:#8a9691}
+.days-delete-row{width:26px;height:26px;border:1px solid #e1c8c2;border-radius:5px;background:#fff5f2;color:#bb4d3f;font-size:16px;line-height:20px;cursor:pointer}
+.days-scope-picker{position:relative}
+.days-scope-picker summary{
+  list-style:none;cursor:pointer;height:32px;border:1px solid #cad7d1;border-radius:5px;background:#fff;display:flex;align-items:center;justify-content:space-between;gap:6px;
+  padding:0 8px;font-size:8px;color:#334a41;white-space:nowrap;overflow:hidden;text-overflow:ellipsis
+}
+.days-scope-picker summary::-webkit-details-marker{display:none}
+.days-scope-picker summary span{margin-left:auto;color:#6f7d77}
+.days-picker-pop{
+  position:absolute;z-index:4000;left:0;top:35px;width:min(380px,42vw);padding:8px;border:1px solid #cfdad5;border-radius:8px;background:#fff;
+  box-shadow:0 12px 30px rgba(20,59,45,.2)
+}
+.days-picker-search{width:100%;height:30px;border:1px solid #cbd8d2;border-radius:5px;padding:0 8px;font-size:8px;margin-bottom:6px}
+.days-picker-options{max-height:230px;overflow:auto;border:1px solid #edf1ef;border-radius:5px;padding:4px}
+.days-picker-options label{display:flex;align-items:flex-start;gap:6px;padding:6px;border-bottom:1px solid #f0f3f1;font-size:8px;line-height:1.35}
+.days-picker-options label:last-child{border-bottom:0}.days-picker-options input{margin-top:1px}.days-picker-options .hidden{display:none}
+.days-picker-actions{display:flex;justify-content:flex-end;gap:5px;margin-top:7px}
+.days-picker-actions .btn{height:28px;padding:0 8px;font-size:7.5px}
+.days-row-actions{text-align:center}
+.days-empty{padding:34px;text-align:center}.days-empty b{display:block;font:700 16px Georgia,serif;color:#557067}.days-empty span{display:block;margin-top:4px;color:#8b9692}
+.days-setup-foot{margin-top:8px;padding:8px 10px;border:1px solid #dce7e1;border-radius:7px;background:#f7faf8;font-size:7.4px;color:#71807a;line-height:1.5}
+.daily-days-source{
+  margin-top:8px;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:8px 10px;border:1px solid #d8e6df;border-radius:7px;background:#f4faf7;font-size:7.7px;color:#62726b
+}
+.daily-days-source b{color:#155a43}.daily-days-source span{color:#7f8c87}
+body.dark-mode .days-setup-hero,body.dark-mode .days-table-panel,body.dark-mode .days-setup-info>div,body.dark-mode .days-table td{background:#17231e}
+body.dark-mode .days-table-head,body.dark-mode .days-setup-foot,body.dark-mode .daily-days-source{background:#111b17}
+body.dark-mode .days-scope-picker summary,body.dark-mode .days-picker-pop,body.dark-mode .days-picker-search,body.dark-mode .days-num-edit input{background:#17231e;color:#d6e6de}
+body.dark-mode .days-table tbody tr:nth-child(even) td{background:#142019}
+@media(max-width:1000px){
+  .days-setup-hero{align-items:flex-start;flex-direction:column}.days-hero-actions{justify-content:flex-start}
+  .days-setup-info{grid-template-columns:1fr 1fr}.days-setup-info>div:first-child{grid-column:1/-1}
+}
+@media(max-width:650px){.days-setup-info{grid-template-columns:1fr}.days-setup-info>div:first-child{grid-column:auto}}
+
 </style></head><body><div id="app" class="hidden"><div class="app-sticky-header"><div class="top-accent"></div><header class="header"><div class="header-left"><div class="brand-mark">TP</div><div><div class="brand-title">Textile Planning Dashboard</div><div class="brand-sub">Planning, Monitoring & Control</div></div></div><div class="header-actions"><div class="utility-tools"><button class="tool-btn stopwatch-btn" id="stopwatchBtn" title="Click to start/pause • Double-click to reset">⏱ <span id="stopwatchText">00:00</span></button><button class="tool-btn" id="fullscreenBtn" title="Enter full screen">⛶ Full</button><button class="tool-btn" id="themeBtn" title="Switch dark/light mode">☾ Dark</button></div><span class="greeting" id="greeting">Good morning</span><button class="btn" id="exportBtn">Export CSV</button><button class="btn" id="signOutBtn">Sign out</button><button class="btn primary" id="refreshBtn">Refresh</button></div></header><nav class="nav">
   <button data-tab="daily_summary" class="main-nav-btn">Daily Summary</button>
-  <div class="kpi-menu-wrap" id="kpiMenuWrap">
+  <div class="kpi-menu-wrap" id="kpiMenuWrap" data-days-menu-key="kpi">
     <button class="kpi-menu-toggle active" id="kpiBoardBtn" type="button">KPI Board <span class="kpi-menu-arrow">⌄</span></button>
     <div class="kpi-submenu" id="kpiSubmenu">
       <button data-tab="overview">Overview</button>
@@ -3452,7 +3553,7 @@ body.dark-mode .nav{
       <button data-tab="etl">ETL</button>
     </div>
   </div>
-  <div class="ott-menu-wrap" id="ottMenuWrap">
+  <div class="ott-menu-wrap" id="ottMenuWrap" data-days-menu-key="ott">
     <button class="ott-menu-toggle" id="ottBoardBtn" type="button">OTT Board <span class="ott-menu-arrow">⌄</span></button>
     <div class="ott-submenu" id="ottSubmenu">
       <button data-tab="ott_yarn">Yarn Dyeing OTT</button>
@@ -3464,14 +3565,20 @@ body.dark-mode .nav{
       <button data-tab="ott_overall">Overall OTT</button>
     </div>
   </div>
-  <div class="lock-menu-wrap" id="lockMenuWrap">
+  <div class="lock-menu-wrap" id="lockMenuWrap" data-days-menu-key="lock">
     <button class="lock-menu-toggle" id="lockDetailsBtn" type="button">Lock Plan Details <span class="lock-menu-arrow">⌄</span></button>
     <div class="lock-submenu" id="lockSubmenu">
       <button data-tab="lock_board">Lock Plan Details Board</button>
       <button data-tab="lock_event">Event Detail</button>
     </div>
   </div>
-  <button data-tab="data" class="main-nav-btn">Data Management</button>
+  <div class="data-menu-wrap" id="dataMenuWrap" data-days-menu-key="data">
+    <button class="data-menu-toggle" id="dataManagementBtn" type="button">Data Management <span class="data-menu-arrow">⌄</span></button>
+    <div class="data-submenu" id="dataSubmenu">
+      <button data-tab="data">Source Upload</button>
+      <button data-tab="days_setup">Days Setup</button>
+    </div>
+  </div>
   <button data-tab="supabase_monitor" class="main-nav-btn hidden" id="supabaseMonitorNav">Supabase Monitor</button>
   <button data-tab="users" class="main-nav-btn">User Management</button>
 </nav></div><main class="page"><section class="toolbar"><div class="kpi-toolbar-head hidden" id="kpiToolbarHead"></div><div class="filters">
@@ -3674,7 +3781,8 @@ const MENU_DEFS=[
   {key:'lock_board',label:'Lock Plan Details Board'},
   {key:'lock_event',label:'Event Detail'},
   {key:'daily_summary',label:'Daily Summary'},
-  {key:'data',label:'Data Management'}
+  {key:'data',label:'Data Management'},
+  {key:'days_setup',label:'Days Setup'}
 ];
 const DATA_UPLOAD_PERMISSION_KEYS=[
   'upload_dyeing','upload_knitting','upload_finishing','upload_delivery','upload_yarn','upload_chemical','upload_etl','upload_targets',
@@ -3683,7 +3791,7 @@ const DATA_UPLOAD_PERMISSION_KEYS=[
 const DEFAULT_PERMISSIONS={
   overview:true,dyeing:true,knitting:true,finishing:true,delivery:true,yarn:true,chemical:true,etl:true,
   ott_yarn:true,ott_knitting:true,ott_dyeing:true,ott_delivery:true,ott_lock:true,ott_booking:true,ott_overall:true,
-  lock_board:true,lock_event:true,daily_summary:true,data:false,
+  lock_board:true,lock_event:true,daily_summary:true,data:false,days_setup:false,
   upload_dyeing:false,upload_knitting:false,upload_finishing:false,upload_delivery:false,upload_yarn:false,upload_chemical:false,upload_etl:false,upload_targets:false,
   upload_ott_yarn:false,upload_ott_knitting:false,upload_ott_dyeing:false,upload_ott_delivery:false,upload_ott_lock:false,upload_lock_details:false,upload_pmc_urgent:false,upload_daily_summary:false,
   users:false
@@ -3693,6 +3801,7 @@ const state={
   ottFilters:{_initialized:false,bookingAll:true,bookings:[],buyer:[],result:'',failReason:[],relatedDept:[],floor:[],type:'',month:['__RUNNING__'],from:'',to:''},
   lockDetailFilters:{_initialized:false,event:[],booking:[],floor:[],pmc:[],buyer:[],lockPlanFrom:'',lockPlanTo:'',otd:[],reason:[],responsible:[],month:[],week:[],status:[]},
   dailySummaryFilters:{_initialized:false,month:'',reportDate:'',trendFrom:'',trendTo:'',monthDays:{},goneDays:{}},
+  daysSetupUI:{year:null,month:null,draft:null,dirty:false,topicRegistry:{}},
   kpiFilters:{months:[],buyers:[]},
   filterHidden:{kpi:false,ott:false,lock:false,daily:false},
   supabaseMonitor:{data:null,loading:false,error:'',timer:null,lastFetchedAt:null,nextRefreshAt:null},
@@ -5277,27 +5386,27 @@ function renderOverview(){
   // Delivery
   const delDays=daysOf(del),received=sum(del,'Received'),delivered=sum(del,'Delivered'),
         delNoFri=del.filter(r=>!isFridayISO(r.Date)),delWorkDays=daysOf(delNoFri),
-        deliveryAvg=tpd(sum(delNoFri,'Delivered'),delWorkDays),receivedAvg=tpd(received,delDays),
+        deliveryAvg=tpd(sum(delNoFri,'Delivered'),daysSetupKpiGone('overview','Delivered Avg/day',delWorkDays)),receivedAvg=tpd(received,daysSetupKpiGone('overview','Received Avg/day',delDays)),
         deliveryOTD=avg(del,'On Time Delivery'),totalExcess=sum(del,'Total Excess (Qty)'),
         excessShare=delivered?totalExcess/delivered:null;
 
   // Yarn Dyeing
   const ydEven=yarnDyeingBuyerSourceEvenlyAllocated(ydBuyerAll),ydDaily=yarnDyeingDailySummary(ydBuyerAll,ydEven),
         ydDays=daysOf(ydDaily),ydOverall=sum(ydDaily,'Overall Total Prod.'),ydIn=sum(ydDaily,'Total In house Prod.'),
-        ydOverallAvg=tpd(ydOverall,ydDays),ydInShare=ydOverall?ydIn/ydOverall:null,
+        ydOverallAvg=tpd(ydOverall,daysSetupKpiGone('overview','YD Prod/Day',ydDays)),ydInShare=ydOverall?ydIn/ydOverall:null,
         ydCapacity=avg(ydDate,'Capacity Utilization'),ydBmd=avg(ydDate,'B/M/D'),ydOtd=avg(ydDate,'YD OTD');
 
   // Knitting
   const knDays=daysOf(kn),knIn=sum(kn,'Knitting In house Prod.'),knSub=sum(kn,'Knitting Subcontract Prod.'),
-        knOverall=knIn+knSub,knAvg=tpd(knOverall,knDays),knInShare=knOverall?knIn/knOverall:null,
+        knOverall=knIn+knSub,knAvg=tpd(knOverall,daysSetupKpiGone('overview','Knitting',knDays)),knInShare=knOverall?knIn/knOverall:null,
         knSubShare=knOverall?knSub/knOverall:null,knProdMC=avg(kn,'Prod. /MC (kg)'),knMC=avg(kn,'MC Utilization'),
         knOTT=avg(kn,'Overall OTT'),knYarn=avg(kn,'Yarn Booking (days)');
 
   // Dyeing
   const dyeDaily=groupDyeingByDate(dyeBuyerAll),dyeDays=daysOf(dyeDaily),
         dyeE=sum(dyeBuyerAll,'Prod. (EFL)'),dyeX=sum(dyeBuyerAll,'Prod. (EKL+Ext)'),dyePl=sum(dyeBuyerAll,'Pluvia'),
-        dyeTotal=dyeE+dyeX+dyePl,dyeAvg=tpd(dyeTotal,dyeDays),dyeEAvg=tpd(dyeE,dyeDays),
-        dyeXAvg=tpd(dyeX,dyeDays),dyePlAvg=tpd(dyePl,dyeDays),dyeOT=avg(dyeDate,'On Time Target'),
+        dyeTotal=dyeE+dyeX+dyePl,dyeAvg=tpd(dyeTotal,daysSetupKpiGone('overview','Dyeing',dyeDays)),dyeEAvg=tpd(dyeE,daysSetupKpiGone('overview','Dyeing EFL',dyeDays)),
+        dyeXAvg=tpd(dyeX,daysSetupKpiGone('overview','Dyeing EKL+Ext',dyeDays)),dyePlAvg=tpd(dyePl,daysSetupKpiGone('overview','Pluvia',dyeDays)),dyeOT=avg(dyeDate,'On Time Target'),
         dyeOTE=avg(dyeDate,'On Time Target (EFL)') ?? avg(dyeDate,'On Time (EFL)') ?? null,
         dyeOTX=avg(dyeDate,'On Time Target (EKL+Ext)') ?? avg(dyeDate,'On Time Target (EKL+Ext.)') ?? avg(dyeDate,'On Time (EKL+Ext)') ?? null,
         dyeRepE=sum(dyeBuyerAll,'Reprocess (EFL)'),dyeRepX=sum(dyeBuyerAll,'Reprocess (EKL+Ext)'),
@@ -5311,7 +5420,7 @@ function renderOverview(){
         dyeBmd=mean(dyeDaily.map(r=>(safeNum(r['Batch/MC/Day (EFL)'])||0)+(safeNum(r['Batch/MC/Day (EKL)'])||0)+(safeNum(r['Batch/MC/Day (Ext)'])||0)));
 
   // Finishing
-  const finDays=daysOf(fin),hand=sum(fin,'Handedover kg'),handAvg=tpd(hand,finDays),finMLT=avg(fin,'MLT'),
+  const finDays=daysOf(fin),hand=sum(fin,'Handedover kg'),handAvg=tpd(hand,daysSetupKpiGone('overview','Handed Over',finDays)),finMLT=avg(fin,'MLT'),
         stProd=sum(fin,'Stenter Prod. Kg'),stAvg=tpd(stProd,finDays),stUtil=avg(fin,'Stenter utilization'),
         drProd=sum(fin,'Dryer Prod. Kg'),drAvg=tpd(drProd,finDays),drUtil=avg(fin,'Dryer utilization'),
         coProd=sum(fin,'Compactor Prod. Kg'),coAvg=tpd(coProd,finDays),coUtil=avg(fin,'Compactor utilization'),
@@ -5320,7 +5429,7 @@ function renderOverview(){
 
   // Chemical Lab / ETL
   const chemSLT=avgDuration(chem,'Overall SLT [Hr:Min:Sec]'),chemRFT=avg(chem,'Overall RFT');
-  const etlDays=daysOf(etl),etlTotal=sum(etl,'Total no of report Delivered'),etlAvg=perDay(etlTotal,etlDays),
+  const etlDays=daysOf(etl),etlTotal=sum(etl,'Total no of report Delivered'),etlAvg=perDay(etlTotal,daysSetupKpiGone('overview','ETL Reports/day',etlDays)),
         etlOn=sum(etl,'No of report delivered on time'),etlOTD=etlTotal?etlOn/etlTotal:null,
         etlFlat1=avgDuration(etl,ETL_DURATION[0]),etlLine1=avgDuration(etl,ETL_DURATION[1]),etlTumble1=avgDuration(etl,ETL_DURATION[2]);
 
@@ -5474,7 +5583,7 @@ function renderDyeing(){
   const br=dyeingBuyerRows(),dr=dyeingDateRows(),buyers=kpiSelectedBuyers(),daily=groupDyeingByDate(br);
   if(!br.length&&!dr.length){metricCardSet([]);$('#content').innerHTML='<div class="alert">No Dyeing data uploaded yet. Go to Data Management and upload the Dyeing_Dashboard workbook containing Dyeing_Date_Buyer and Dyeing_Date.</div>';return}
   const prodE=sum(br,'Prod. (EFL)'),prodX=sum(br,'Prod. (EKL+Ext)'),pluvia=sum(br,'Pluvia'),totalProd=prodE+prodX+pluvia;
-  const activeDays=daily.length||dr.length||0,perDay=n=>activeDays?n/activeDays:null;
+  const activeDays=daily.length||dr.length||0,perDay=(n,topic)=>{const d=daysSetupKpiGone('dyeing',topic,activeDays);return d?n/d:null};
   const capE=avg(daily,'Capacity Utilization (EFL)'),capX=avg(daily,'Capacity Utilization (EKL+Ext)');
   const ontime=buyers.length?avg(br,'On Time Target'):avg(dr,'On Time Target');
   const repE=sum(br,'Reprocess (EFL)'),repX=sum(br,'Reprocess (EKL+Ext)'),repEPct=prodE>0?repE/prodE:null,repXPct=prodX>0?repX/prodX:null;
@@ -5485,11 +5594,11 @@ function renderDyeing(){
   const ontimeValue=ontime===null?'—':`<span class="kpi-inline-target"><span class="good">Pass ${pct(ontime)}</span><span class="slash">•</span><span class="bad">Fail ${pct(Math.max(0,1-ontime))}</span></span>`;
   const buyerText=buyers.length===1?buyers[0]:buyers.length?`${buyers.length} buyers`:'All buyers';
   metricCardSet([
-    kpi('Total Dyeing Production',ton(totalProd),activeDays?`Avg/day: EFL ${ton(perDay(prodE))} • EKL+Ext ${ton(perDay(prodX))} • Pluvia ${ton(perDay(pluvia))}`:`Selected period • ${buyerText}`,'green'),
-    kpi('Avg Dyeing Prod. / Day',activeDays?ton((prodE+prodX)/activeDays)+'/day':'—',`${activeDays} active day${activeDays===1?'':'s'} • EFL + EKL+Ext only`,'teal'),
-    kpi('Prod. EFL',ton(prodE),`Avg/day: ${activeDays?ton(perDay(prodE)):'—'}`,'blue'),
-    kpi('Prod. EKL + Ext',ton(prodX),`Avg/day: ${activeDays?ton(perDay(prodX)):'—'}`,'purple'),
-    kpi('Pluvia',ton(pluvia),`Avg/day: ${activeDays?ton(perDay(pluvia)):'—'}`,'orange'),
+    kpi('Total Dyeing Production',ton(totalProd),activeDays?`Avg/day: EFL ${ton(perDay(prodE,'Prod. EFL'))} • EKL+Ext ${ton(perDay(prodX,'Prod. EKL + Ext'))} • Pluvia ${ton(perDay(pluvia,'Pluvia'))}`:`Selected period • ${buyerText}`,'green'),
+    kpi('Avg Dyeing Prod. / Day',(()=>{const d=daysSetupKpiGone('dyeing','Avg Dyeing Prod. / Day',activeDays);return d?ton((prodE+prodX)/d)+'/day':'—'})(),`${activeDays} active day${activeDays===1?'':'s'} • EFL + EKL+Ext only`,'teal'),
+    kpi('Prod. EFL',ton(prodE),`Avg/day: ${activeDays?ton(perDay(prodE,'Prod. EFL')):'—'}`,'blue'),
+    kpi('Prod. EKL + Ext',ton(prodX),`Avg/day: ${activeDays?ton(perDay(prodX,'Prod. EKL + Ext')):'—'}`,'purple'),
+    kpi('Pluvia',ton(pluvia),`Avg/day: ${activeDays?ton(perDay(pluvia,'Pluvia')):'—'}`,'orange'),
     kpi('On Time Target',ontimeValue,buyers.length?'Selected buyer(s) + date source':'Date summary source','rose'),
     kpi('Capacity Util. EFL',pct(capE),buyers.length?'Avg selected buyer contribution':'Avg of daily buyer-summed %','green'),
     kpi('Capacity Util. EKL+Ext',pct(capX),buyers.length?'Avg selected buyer contribution':'Avg of daily buyer-summed %','teal'),
@@ -5533,13 +5642,13 @@ function renderKnitting(){
         overall=inHouse+subcon,
         inShare=overall?inHouse/overall:null,
         subShare=overall?subcon/overall:null,
-        perDay=n=>activeDays?n/activeDays:null,
+        perDay=(n,topic)=>{const d=daysSetupKpiGone('knitting',topic,activeDays);return d?n/d:null},
         processNote=buyer?'Overall date-wise • buyer filter does not alter':'';
 
   metricCardSet([
-    kpi('Knitting Overall Prod.',ton(overall),`Avg/day: ${ton(perDay(overall))}`,'green'),
-    kpi('Knitting In-house Prod.',ton(inHouse),`Avg/day: ${ton(perDay(inHouse))} • Share ${pct(inShare)}`,'teal'),
-    kpi('Knitting Subcontract Prod.',ton(subcon),`Avg/day: ${ton(perDay(subcon))} • Share ${pct(subShare)}`,'orange'),
+    kpi('Knitting Overall Prod.',ton(overall),`Avg/day: ${ton(perDay(overall,'Knitting Overall Prod.'))}`,'green'),
+    kpi('Knitting In-house Prod.',ton(inHouse),`Avg/day: ${ton(perDay(inHouse,'Knitting In-house Prod.'))} • Share ${pct(inShare)}`,'teal'),
+    kpi('Knitting Subcontract Prod.',ton(subcon),`Avg/day: ${ton(perDay(subcon,'Knitting Subcontract Prod.'))} • Share ${pct(subShare)}`,'orange'),
     kpi('MC Utilization',pct(avg(dr,'MC Utilization')),processNote,'blue'),
     kpi('Prod. / MC (kg)',fmt1(avg(dr,'Prod. /MC (kg)'))+' kg',processNote,'purple'),
     kpi('Capacity Utilization',pct(avg(dr,'Capacity utilization')),processNote,'green'),
@@ -5607,15 +5716,15 @@ function renderKnitting(){
   ])
 }
 function renderFinishing(){const r=finishingDateRows();if(!r.length){metricCardSet([]);$('#content').innerHTML='<div class="alert">No separate Finishing data uploaded yet. Go to Data Management and upload <b>Finishing_Dashboard.xlsx</b> containing the <b>Finishing_Date</b> sheet.</div>';return}const days=new Set(r.map(x=>x.Date).filter(Boolean)).size||r.length,perDay=n=>days?n/days:null;const heatTotal=sum(r,'Heat Set Production'),heatIn=sum(r,'Heat Set In house'),heatSub=sum(r,'Heat Set Sub.'),hand=sum(r,'Handedover kg');const stProd=sum(r,'Stenter Prod. Kg'),drProd=sum(r,'Dryer Prod. Kg'),coProd=sum(r,'Compactor Prod. Kg'),brProd=sum(r,'Brush Prod. Kg'),peProd=sum(r,'Peach Prod. Kg');metricCardSet([
-kpiMulti('Heat Set Production',ton(heatTotal),[{label:'Avg/day:',value:ton(perDay(heatTotal))},{label:'In-house:',value:`${ton(heatIn)} • Avg/day ${ton(perDay(heatIn))}`},{label:'Subcontract:',value:`${ton(heatSub)} • Avg/day ${ton(perDay(heatSub))}`}],'green'),
+kpiMulti('Heat Set Production',ton(heatTotal),[{label:'Avg/day:',value:ton(perDay(heatTotal,'Heat Set Production'))},{label:'In-house:',value:`${ton(heatIn)} • Avg/day ${ton(perDay(heatIn,'Heat Set Production'))}`},{label:'Subcontract:',value:`${ton(heatSub)} • Avg/day ${ton(perDay(heatSub,'Heat Set Production'))}`}],'green'),
 kpiMulti('Heat Set In-house Avg. Hour',fmt1(avg(r,'Heat Set_In house (Avg. Hour)'))+' h',[{label:'Subcontract Avg. Hour:',value:fmt1(avg(r,'Heat Set_Sub ((Avg. Hour))'))+' h'}],'teal'),
-kpi('Handedover kg',ton(hand),`Avg/day: ${ton(perDay(hand))}`,'blue'),
+kpi('Handedover kg',ton(hand),`Avg/day: ${ton(perDay(hand,'Handedover kg'))}`,'blue'),
 kpi('MLT',pct(avg(r,'MLT')),'Average of selected dates','purple'),
-kpiMulti('Stenter Prod. Kg',ton(stProd),[{label:'Avg/day:',value:ton(perDay(stProd))},{label:'Utilization:',value:pct(avg(r,'Stenter utilization'))}],'green'),
-kpiMulti('Dryer Prod. Kg',ton(drProd),[{label:'Avg/day:',value:ton(perDay(drProd))},{label:'Utilization:',value:pct(avg(r,'Dryer utilization'))}],'orange'),
-kpiMulti('Compactor Prod. Kg',ton(coProd),[{label:'Avg/day:',value:ton(perDay(coProd))},{label:'Utilization:',value:pct(avg(r,'Compactor utilization'))}],'blue'),
-kpiMulti('Brush Prod. Kg',ton(brProd),[{label:'Avg/day:',value:ton(perDay(brProd))},{label:'Utilization:',value:pct(avg(r,'Brush utilization.'))}],'teal'),
-kpiMulti('Peach Prod. Kg',ton(peProd),[{label:'Avg/day:',value:ton(perDay(peProd))},{label:'Utilization:',value:pct(avg(r,'Peach utilization.'))}],'amber'),
+kpiMulti('Stenter Prod. Kg',ton(stProd),[{label:'Avg/day:',value:ton(perDay(stProd,'Stenter Prod. Kg'))},{label:'Utilization:',value:pct(avg(r,'Stenter utilization'))}],'green'),
+kpiMulti('Dryer Prod. Kg',ton(drProd),[{label:'Avg/day:',value:ton(perDay(drProd,'Dryer Prod. Kg'))},{label:'Utilization:',value:pct(avg(r,'Dryer utilization'))}],'orange'),
+kpiMulti('Compactor Prod. Kg',ton(coProd),[{label:'Avg/day:',value:ton(perDay(coProd,'Compactor Prod. Kg'))},{label:'Utilization:',value:pct(avg(r,'Compactor utilization'))}],'blue'),
+kpiMulti('Brush Prod. Kg',ton(brProd),[{label:'Avg/day:',value:ton(perDay(brProd,'Brush Prod. Kg'))},{label:'Utilization:',value:pct(avg(r,'Brush utilization.'))}],'teal'),
+kpiMulti('Peach Prod. Kg',ton(peProd),[{label:'Avg/day:',value:ton(perDay(peProd,'Peach Prod. Kg'))},{label:'Utilization:',value:pct(avg(r,'Peach utilization.'))}],'amber'),
 kpi('Stenter Refinish',pct(avg(r,'Stenter Refinish')),'Average of selected dates','rose'),
 kpi('Dryer Refinish',pct(avg(r,'Dryer Refinish')),'Average of selected dates','orange'),
 kpi('Compactor Refinish',pct(avg(r,'Compactor Refinish')),'Average of selected dates','purple'),
@@ -5628,9 +5737,6 @@ lineChart('finHand',labels,[{label:'Handedover kg',data:r.map(x=>safeNum(x['Hand
 lineChart('finStProd',labels,[{label:'Stenter Prod. Kg',data:r.map(x=>safeNum(x['Stenter Prod. Kg']))}]);lineChart('finDrProd',labels,[{label:'Dryer Prod. Kg',data:r.map(x=>safeNum(x['Dryer Prod. Kg']))}]);lineChart('finCoProd',labels,[{label:'Compactor Prod. Kg',data:r.map(x=>safeNum(x['Compactor Prod. Kg']))}]);lineChart('finBrProd',labels,[{label:'Brush Prod. Kg',data:r.map(x=>safeNum(x['Brush Prod. Kg']))}]);lineChart('finPeProd',labels,[{label:'Peach Prod. Kg',data:r.map(x=>safeNum(x['Peach Prod. Kg']))}]);
 lineChartPct('finStUtil',labels,[{label:'Stenter Utilization',data:r.map(x=>safeNum(x['Stenter utilization']))}]);lineChartPct('finDrUtil',labels,[{label:'Dryer Utilization',data:r.map(x=>safeNum(x['Dryer utilization']))}]);lineChartPct('finCoUtil',labels,[{label:'Compactor Utilization',data:r.map(x=>safeNum(x['Compactor utilization']))}]);lineChartPct('finBrUtil',labels,[{label:'Brush Utilization',data:r.map(x=>safeNum(x['Brush utilization.']))}]);lineChartPct('finPeUtil',labels,[{label:'Peach Utilization',data:r.map(x=>safeNum(x['Peach utilization.']))}]);
 lineChartPct('finStRef',labels,[{label:'Stenter Refinish',data:r.map(x=>safeNum(x['Stenter Refinish']))}]);lineChartPct('finDrRef',labels,[{label:'Dryer Refinish',data:r.map(x=>safeNum(x['Dryer Refinish']))}]);lineChartPct('finCoRef',labels,[{label:'Compactor Refinish',data:r.map(x=>safeNum(x['Compactor Refinish']))}]);lineChartPct('finBrRef',labels,[{label:'Brush Refinish',data:r.map(x=>safeNum(x['Brush Refinish']))}]);lineChartPct('finPeRef',labels,[{label:'Peach Refinish',data:r.map(x=>safeNum(x['Peach Refinish']))}]);lineChart('finFirst',labels,[{label:'Single Process [day]',data:r.map(x=>safeNum(x['First Batch Finish – Single Process [day]']))},{label:'Double Process [day]',data:r.map(x=>safeNum(x['First Batch Finish – Double Process [day]']))}]);}
-
-
-
 function renderETL(){
   const dr=etlRows();
   if(!dr.length&&!(state.data?.sheets?.ETL_Date||[]).length){
@@ -5647,9 +5753,9 @@ function renderETL(){
   const flat1=avgDuration(dr,ETL_DURATION[0]),line1=avgDuration(dr,ETL_DURATION[1]),tumble1=avgDuration(dr,ETL_DURATION[2]),line3=avgDuration(dr,ETL_DURATION[3]),tumble3=avgDuration(dr,ETL_DURATION[4]);
   const valid=(key)=>dr.filter(r=>durationSeconds(r[key])!==null).length;
   metricCardSet([
-    kpi('Total Reports Delivered',fmt(total),`Avg/day ${fmt1(total/activeDays)}`,'green'),
-    kpi('On-Time Reports',fmt(onTime),`Avg/day ${fmt1(onTime/activeDays)} • Share ${pct(weightedOTD)}`,'teal'),
-    kpi('Delayed Reports',fmt(delayed),`Avg/day ${fmt1(delayed/activeDays)} • Share ${pct(delayShare)}`,'orange'),
+    kpi('Total Reports Delivered',fmt(total),`Avg/day ${fmt1(total/daysSetupKpiGone('etl','Total Reports Delivered',activeDays))}`,'green'),
+    kpi('On-Time Reports',fmt(onTime),`Avg/day ${fmt1(onTime/daysSetupKpiGone('etl','On-Time Reports',activeDays))} • Share ${pct(weightedOTD)}`,'teal'),
+    kpi('Delayed Reports',fmt(delayed),`Avg/day ${fmt1(delayed/daysSetupKpiGone('etl','Delayed Reports',activeDays))} • Share ${pct(delayShare)}`,'orange'),
     kpi('ETL OTD Pass',pct(weightedOTD),'Weighted: On-time ÷ Total','blue'),
     kpi('Flat Dry — 1 Wash',formatDuration(flat1,true),`Avg publish time • ${valid(ETL_DURATION[0])} valid days`,'purple'),
     kpi('Line Dry — 1 Wash',formatDuration(line1,true),`Avg publish time • ${valid(ETL_DURATION[1])} valid days`,'amber'),
@@ -5683,8 +5789,6 @@ function renderETL(){
     {label:'Tumble Dry — 3 Wash',data:dr.map(r=>durationSeconds(r[ETL_DURATION[4]]))}
   ])
 }
-
-
 function renderChemicalLab(){
   const dr=chemicalLabRows();
   if(!dr.length&&!(state.data?.sheets?.C_Lab_Date||[]).length){
@@ -5736,10 +5840,10 @@ function renderChemicalLab(){
 function renderYarnDyeing(){const dr=yarnDyeingDateRows(),br=yarnDyeingBuyerRows(),buyers=kpiSelectedBuyers(),buyer=buyers.length===1?buyers[0]:buyers.length?`${buyers.length} buyers`:'',rawAll=currentDateRows('YD_Date_Buyer');if(!dr.length&&!(state.data?.sheets?.YD_Date_Buyer||[]).length){metricCardSet([]);$('#content').innerHTML='<div class="alert">No Yarn Dyeing data uploaded yet. Go to Data Management and upload <b>Yarn_Dyeing_Dashboard.xlsx</b> containing <b>YD_Date</b> and <b>YD_Date_Buyer</b>.</div>';return}
 const even=yarnDyeingBuyerSourceEvenlyAllocated(rawAll),useRepresentative=even&&!buyer;const daily=yarnDyeingDailySummary(br,useRepresentative),buyerSummary=yarnDyeingBuyerSummary(br);const days=new Set(daily.map(r=>r.Date).filter(Boolean)).size||dr.length,perDay=n=>days?n/days:null,avgMass=n=>n===null||!Number.isFinite(n)?'—':(Math.abs(n)>=1000?ton(n)+'/day':fmt1(n)+' kg/day');const overall=sum(daily,'Overall Total Prod.'),inhouse=sum(daily,'Total In house Prod.'),subcon=sum(daily,'Sub-Contract  Prod.'),inShare=overall?inhouse/overall:null,subShare=overall?subcon/overall:null;const cotton=sum(daily,'Cotton Dyeing'),space=sum(daily,'Space Dyeing'),thread=sum(daily,'Sewing Thread'),service=sum(daily,'Service Prod.');const twist=sum(daily,'Twisting Total'),twIn=sum(daily,'Twisting In house'),twSub=sum(daily,'Twisting Subcontract'),twInShare=twist?twIn/twist:null,twSubShare=twist?twSub/twist:null;
 metricCardSet([
-kpi('Overall Total Prod.',ton(overall),`Avg/day ${avgMass(perDay(overall))}`,'green'),
-kpiMulti('Total In-house Prod.',ton(inhouse),[{label:'Avg/day:',value:avgMass(perDay(inhouse))},{label:'Share:',value:pct(inShare)},{label:'Cotton:',value:ton(cotton)},{label:'Space:',value:ton(space)},{label:'Sewing Thread:',value:ton(thread)},{label:'Service:',value:ton(service)}],'teal'),
-kpi('Sub-Contract Prod.',ton(subcon),`Avg/day ${avgMass(perDay(subcon))} • Share ${pct(subShare)}`,'orange'),
-kpiMulti('Twisting Total',fmt1(twist)+' kg',[{label:'Avg/day:',value:fmt1(perDay(twist))+' kg'},{label:'In-house:',value:`${fmt1(twIn)} kg • Avg ${fmt1(perDay(twIn))} • ${pct(twInShare)}`},{label:'Subcontract:',value:`${fmt1(twSub)} kg • Avg ${fmt1(perDay(twSub))} • ${pct(twSubShare)}`}],'purple'),
+kpi('Overall Total Prod.',ton(overall),`Avg/day ${avgMass(perDay(overall,'Overall Total Prod.'))}`,'green'),
+kpiMulti('Total In-house Prod.',ton(inhouse),[{label:'Avg/day:',value:avgMass(perDay(inhouse,'Total In-house Prod.'))},{label:'Share:',value:pct(inShare)},{label:'Cotton:',value:ton(cotton)},{label:'Space:',value:ton(space)},{label:'Sewing Thread:',value:ton(thread)},{label:'Service:',value:ton(service)}],'teal'),
+kpi('Sub-Contract Prod.',ton(subcon),`Avg/day ${avgMass(perDay(subcon,'Sub-Contract Prod.'))} • Share ${pct(subShare)}`,'orange'),
+kpiMulti('Twisting Total',fmt1(twist)+' kg',[{label:'Avg/day:',value:fmt1(perDay(twist,'Twisting Total'))+' kg'},{label:'In-house:',value:`${fmt1(twIn)} kg • Avg ${fmt1(perDay(twIn,'Twisting Total'))} • ${pct(twInShare)}`},{label:'Subcontract:',value:`${fmt1(twSub)} kg • Avg ${fmt1(perDay(twSub,'Twisting Total'))} • ${pct(twSubShare)}`}],'purple'),
 kpi('Capacity Utilization',pct(avg(dr,'Capacity Utilization')),'Average of selected dates','blue'),
 kpi('B/M/D',fmt1(avg(dr,'B/M/D')),'Average of selected dates','amber'),
 kpi('YD OTD',pct(avg(dr,'YD OTD')),'Average of selected dates','rose')]);
@@ -5759,14 +5863,13 @@ panel('YD Date Detail','Date-wise Capacity Utilization, B/M/D and OTD',tableHTML
 panel('YD Buyer / Date Detail','Production and Twisting source; current demo allocation can be replaced later with actual buyer data',tableHTML(br,500),true);
 const get=x=>viewRows.map(r=>safeNum(r[x])||0);if(view==='buyer'){groupedBarChart('ydOverall',labels,[{label:'Overall Total Prod.',data:get('Overall Total Prod.')}]);groupedBarChart('ydIn',labels,[{label:'Total In-house Prod.',data:get('Total In house Prod.')}]);groupedBarChart('ydComponents',labels,[{label:'Cotton Dyeing',data:get('Cotton Dyeing')},{label:'Space Dyeing',data:get('Space Dyeing')},{label:'Sewing Thread',data:get('Sewing Thread')},{label:'Service Prod.',data:get('Service Prod.')},{label:'Sub-Contract Prod.',data:get('Sub-Contract  Prod.')}]);groupedBarChart('ydTwist',labels,[{label:'Twisting Total',data:get('Twisting Total')},{label:'Twisting In-house',data:get('Twisting In house')},{label:'Twisting Subcontract',data:get('Twisting Subcontract')}])}else{lineChart('ydOverall',labels,[{label:'Overall Total Prod.',data:get('Overall Total Prod.')}]);lineChart('ydIn',labels,[{label:'Total In-house Prod.',data:get('Total In house Prod.')}]);lineChart('ydComponents',labels,[{label:'Cotton Dyeing',data:get('Cotton Dyeing')},{label:'Space Dyeing',data:get('Space Dyeing')},{label:'Sewing Thread',data:get('Sewing Thread')},{label:'Service Prod.',data:get('Service Prod.')},{label:'Sub-Contract Prod.',data:get('Sub-Contract  Prod.')}]);lineChart('ydTwist',labels,[{label:'Twisting Total',data:get('Twisting Total')},{label:'Twisting In-house',data:get('Twisting In house')},{label:'Twisting Subcontract',data:get('Twisting Subcontract')}])}
 const dl=dr.map(r=>r.Date?.slice(5)||r.Date);lineChartPct('ydCapacity',dl,[{label:'Capacity Utilization',data:dr.map(r=>safeNum(r['Capacity Utilization']))}]);lineChart('ydBMD',dl,[{label:'B/M/D',data:dr.map(r=>safeNum(r['B/M/D']))}]);lineChartPct('ydOTD',dl,[{label:'YD OTD',data:dr.map(r=>safeNum(r['YD OTD']))}]);$('#ydDateView').onclick=()=>{state.ydViewMode='date';render()};$('#ydBuyerView').onclick=()=>{state.ydViewMode='buyer';render()}}
-
-function renderDelivery(){const dr=deliveryDateRows(),br=deliveryBuyerRows(),buyers=kpiSelectedBuyers(),buyer=buyers.length===1?buyers[0]:buyers.length?`${buyers.length} buyers`:'';if(!dr.length&&!(state.data?.sheets?.Delivery_Date_Buyer||[]).length){metricCardSet([]);$('#content').innerHTML='<div class="alert">No separate Delivery data uploaded yet. Go to Data Management and upload <b>Delivery_Dashboard.xlsx</b> containing <b>Delivery_Date</b> and <b>Delivery_Date_Buyer</b>.</div>';return}const received=buyer?sum(br,'Received'):sum(dr,'Received'),delivered=buyer?sum(br,'delivered'):sum(dr,'Delivered');const receiveDays=buyer?new Set(br.map(r=>r.Date).filter(Boolean)).size:new Set(dr.map(r=>r.Date).filter(Boolean)).size;const deliveryRowsForAvg=buyer?br.filter(r=>!isFridayISO(r.Date)):dr.filter(r=>!isFridayISO(r.Date));const deliveryDays=new Set(deliveryRowsForAvg.map(r=>r.Date).filter(Boolean)).size;const deliveredForAvg=buyer?sum(deliveryRowsForAvg,'delivered'):sum(deliveryRowsForAvg,'Delivered');const recvAvg=receiveDays?received/receiveDays:null,delAvg=deliveryDays?deliveredForAvg/deliveryDays:null;const otd=avg(dr,'On Time Delivery');const exPO=sum(dr,'Excess Delivery without PO Qty'),additional=sum(dr,'Additional Delivery Qty'),totalEx=sum(dr,'Total Excess (Qty)'),dateDays=new Set(dr.map(r=>r.Date).filter(Boolean)).size;const excessAvg=n=>dateDays?n/dateDays:null,totalDelivered=sum(dr,'Delivered'),share=n=>totalDelivered?n/totalDelivered:null;metricCardSet([
+function renderDelivery(){const dr=deliveryDateRows(),br=deliveryBuyerRows(),buyers=kpiSelectedBuyers(),buyer=buyers.length===1?buyers[0]:buyers.length?`${buyers.length} buyers`:'';if(!dr.length&&!(state.data?.sheets?.Delivery_Date_Buyer||[]).length){metricCardSet([]);$('#content').innerHTML='<div class="alert">No separate Delivery data uploaded yet. Go to Data Management and upload <b>Delivery_Dashboard.xlsx</b> containing <b>Delivery_Date</b> and <b>Delivery_Date_Buyer</b>.</div>';return}const received=buyer?sum(br,'Received'):sum(dr,'Received'),delivered=buyer?sum(br,'delivered'):sum(dr,'Delivered');const receiveDays=buyer?new Set(br.map(r=>r.Date).filter(Boolean)).size:new Set(dr.map(r=>r.Date).filter(Boolean)).size;const deliveryRowsForAvg=buyer?br.filter(r=>!isFridayISO(r.Date)):dr.filter(r=>!isFridayISO(r.Date));const deliveryDays=new Set(deliveryRowsForAvg.map(r=>r.Date).filter(Boolean)).size;const deliveredForAvg=buyer?sum(deliveryRowsForAvg,'delivered'):sum(deliveryRowsForAvg,'Delivered');const recvDaysSetup=daysSetupKpiGone('delivery','Received',receiveDays),delDaysSetup=daysSetupKpiGone('delivery','Delivered',deliveryDays);const recvAvg=recvDaysSetup?received/recvDaysSetup:null,delAvg=delDaysSetup?deliveredForAvg/delDaysSetup:null;const otd=avg(dr,'On Time Delivery');const exPO=sum(dr,'Excess Delivery without PO Qty'),additional=sum(dr,'Additional Delivery Qty'),totalEx=sum(dr,'Total Excess (Qty)'),dateDays=new Set(dr.map(r=>r.Date).filter(Boolean)).size;const excessAvg=(n,topic)=>{const d=daysSetupKpiGone('delivery',topic,dateDays);return d?n/d:null},totalDelivered=sum(dr,'Delivered'),share=n=>totalDelivered?n/totalDelivered:null;metricCardSet([
 kpiMulti('Received',ton(received),[{label:'Avg/day:',value:ton(recvAvg)},{label:'Average basis:',value:'All selected dates'}],'green'),
 kpiMulti('Delivered',ton(delivered),[{label:'Avg/day:',value:ton(delAvg)},{label:'Average basis:',value:'Friday excluded'}],'teal'),
 kpi('On Time Delivery',pct(otd),'Average of valid selected dates','purple'),
-kpiMulti('Excess Delivery without PO Qty',ton(exPO),[{label:'Avg/day:',value:ton(excessAvg(exPO))},{label:'% of Delivered:',value:pct(share(exPO))}],'orange'),
-kpiMulti('Additional Delivery Qty',ton(additional),[{label:'Avg/day:',value:ton(excessAvg(additional))},{label:'% of Delivered:',value:pct(share(additional))}],'blue'),
-kpiMulti('Total Excess (Qty)',ton(totalEx),[{label:'Avg/day:',value:ton(excessAvg(totalEx))},{label:'% of Delivered:',value:pct(share(totalEx))}],'rose')]);const labels=dr.map(r=>r.Date?.slice(5)||r.Date),allBuyer=(state.data?.sheets?.Delivery_Date_Buyer||[]),even=deliveryBuyerSourceEvenlyAllocated(allBuyer),summary=deliveryBuyerSummary(br);const c=(title,note,id,wide=false)=>panel(title,note,`<div class="chart-wrap"><canvas id="${id}"></canvas></div>`,wide,true);$('#content').innerHTML=`<div class="delivery-weekend-note"><b>Average rule:</b> Delivered Avg/day excludes all Friday rows from both quantity and day count; Delivered total still includes every recorded delivery. ${buyer?'<b>Buyer filter:</b> Received/Delivered use Delivery_Date_Buyer. OTD and Excess remain overall date-wise because those fields are not available buyer-wise.':''}</div>`+`<div class="section-band">Delivery Volume & OTD <span class="source-tag">Delivery_Date</span></div>`+c('Received','Daily received kg','delReceived')+c('Delivered','Daily delivered kg • Friday excluded only from Avg/day','delDelivered')+c('On Time Delivery','Daily OTD %','delOTD')+`<div class="section-band">Excess Delivery <span class="source-tag">Delivery_Date</span></div>`+c('Excess Delivery without PO Qty','Daily kg','delExPO')+c('Additional Delivery Qty','Daily kg','delAdditional')+c('Total Excess (Qty)','Daily kg','delTotalEx')+`<div class="section-band">Buyer-wise Delivery <span class="source-tag">Delivery_Date_Buyer</span></div>`+(even?'<div class="source-warning"><b>Source-data notice:</b> Delivery_Date_Buyer is currently draft/equal-distributed data, as advised. The buyer chart is displayed from the source but should not be treated as an actual buyer ranking until the real buyer allocation is uploaded.</div>':'')+panel('Buyer-wise Received & Delivered','Selected date range'+(buyer?` • Buyer filter: ${esc(buyer)}`:''),'<div class="chart-wrap tall"><canvas id="delBuyer"></canvas></div>',true,true)+panel('Delivery Daily Detail','Date-wise source for OTD and excess KPIs',tableHTML(dr,500,DELIVERY_PERCENT),true)+panel('Delivery Buyer/Date Detail','Draft buyer-wise source; actual data can replace it later',tableHTML(br,500),true);lineChart('delReceived',labels,[{label:'Received',data:dr.map(r=>safeNum(r.Received))}]);lineChart('delDelivered',labels,[{label:'Delivered',data:dr.map(r=>safeNum(r.Delivered))}]);lineChartPct('delOTD',labels,[{label:'On Time Delivery',data:dr.map(r=>safeNum(r['On Time Delivery']))}]);lineChart('delExPO',labels,[{label:'Excess without PO',data:dr.map(r=>safeNum(r['Excess Delivery without PO Qty']))}]);lineChart('delAdditional',labels,[{label:'Additional Delivery',data:dr.map(r=>safeNum(r['Additional Delivery Qty']))}]);lineChart('delTotalEx',labels,[{label:'Total Excess',data:dr.map(r=>safeNum(r['Total Excess (Qty)']))}]);groupedBarChart('delBuyer',summary.map(r=>r.Buyer),[{label:'Received',data:summary.map(r=>r.Received)},{label:'Delivered',data:summary.map(r=>r.Delivered)}]);}
+kpiMulti('Excess Delivery without PO Qty',ton(exPO),[{label:'Avg/day:',value:ton(excessAvg(exPO,'Excess Delivery without PO Qty'))},{label:'% of Delivered:',value:pct(share(exPO))}],'orange'),
+kpiMulti('Additional Delivery Qty',ton(additional),[{label:'Avg/day:',value:ton(excessAvg(additional,'Additional Delivery Qty'))},{label:'% of Delivered:',value:pct(share(additional))}],'blue'),
+kpiMulti('Total Excess (Qty)',ton(totalEx),[{label:'Avg/day:',value:ton(excessAvg(totalEx,'Total Excess (Qty)'))},{label:'% of Delivered:',value:pct(share(totalEx))}],'rose')]);const labels=dr.map(r=>r.Date?.slice(5)||r.Date),allBuyer=(state.data?.sheets?.Delivery_Date_Buyer||[]),even=deliveryBuyerSourceEvenlyAllocated(allBuyer),summary=deliveryBuyerSummary(br);const c=(title,note,id,wide=false)=>panel(title,note,`<div class="chart-wrap"><canvas id="${id}"></canvas></div>`,wide,true);$('#content').innerHTML=`<div class="delivery-weekend-note"><b>Average rule:</b> Delivered Avg/day excludes all Friday rows from both quantity and day count; Delivered total still includes every recorded delivery. ${buyer?'<b>Buyer filter:</b> Received/Delivered use Delivery_Date_Buyer. OTD and Excess remain overall date-wise because those fields are not available buyer-wise.':''}</div>`+`<div class="section-band">Delivery Volume & OTD <span class="source-tag">Delivery_Date</span></div>`+c('Received','Daily received kg','delReceived')+c('Delivered','Daily delivered kg • Friday excluded only from Avg/day','delDelivered')+c('On Time Delivery','Daily OTD %','delOTD')+`<div class="section-band">Excess Delivery <span class="source-tag">Delivery_Date</span></div>`+c('Excess Delivery without PO Qty','Daily kg','delExPO')+c('Additional Delivery Qty','Daily kg','delAdditional')+c('Total Excess (Qty)','Daily kg','delTotalEx')+`<div class="section-band">Buyer-wise Delivery <span class="source-tag">Delivery_Date_Buyer</span></div>`+(even?'<div class="source-warning"><b>Source-data notice:</b> Delivery_Date_Buyer is currently draft/equal-distributed data, as advised. The buyer chart is displayed from the source but should not be treated as an actual buyer ranking until the real buyer allocation is uploaded.</div>':'')+panel('Buyer-wise Received & Delivered','Selected date range'+(buyer?` • Buyer filter: ${esc(buyer)}`:''),'<div class="chart-wrap tall"><canvas id="delBuyer"></canvas></div>',true,true)+panel('Delivery Daily Detail','Date-wise source for OTD and excess KPIs',tableHTML(dr,500,DELIVERY_PERCENT),true)+panel('Delivery Buyer/Date Detail','Draft buyer-wise source; actual data can replace it later',tableHTML(br,500),true);lineChart('delReceived',labels,[{label:'Received',data:dr.map(r=>safeNum(r.Received))}]);lineChart('delDelivered',labels,[{label:'Delivered',data:dr.map(r=>safeNum(r.Delivered))}]);lineChartPct('delOTD',labels,[{label:'On Time Delivery',data:dr.map(r=>safeNum(r['On Time Delivery']))}]);lineChart('delExPO',labels,[{label:'Excess without PO',data:dr.map(r=>safeNum(r['Excess Delivery without PO Qty']))}]);lineChart('delAdditional',labels,[{label:'Additional Delivery',data:dr.map(r=>safeNum(r['Additional Delivery Qty']))}]);lineChart('delTotalEx',labels,[{label:'Total Excess',data:dr.map(r=>safeNum(r['Total Excess (Qty)']))}]);groupedBarChart('delBuyer',summary.map(r=>r.Buyer),[{label:'Received',data:summary.map(r=>r.Received)},{label:'Delivered',data:summary.map(r=>r.Delivered)}]);}
 function renderBuyers(){const r=filteredBuyers();metricCardSet([kpi('Buyers',fmt(r.length)),kpi('Received',ton(r.reduce((a,x)=>a+(safeNum(x.Received)||0),0))),kpi('Delivered',ton(r.reduce((a,x)=>a+(safeNum(x.Delivered)||0),0))),kpi('Dyeing production',ton(r.reduce((a,x)=>a+(safeNum(x['Dyeing Prod'])||0),0))),kpi('Knitting production',ton(r.reduce((a,x)=>a+(safeNum(x['Knitting Prod'])||0),0))),kpi('Total excess',ton(r.reduce((a,x)=>a+(safeNum(x['Total Excess (Qty)'])||0),0)))]);$('#content').innerHTML=panel('Buyer delivery comparison','Top delivered quantities','<div class="chart-wrap"><canvas id="buyers"></canvas></div>',false,true)+panel('Buyer-wise data','Search and buyer filters apply',tableHTML(r),true);const top=r.slice().sort((a,z)=>(safeNum(z.Delivered)||0)-(safeNum(a.Delivered)||0)).slice(0,12);barChart('buyers',top.map(x=>x.Buyer),top.map(x=>safeNum(x.Delivered)||0));}
 
 
@@ -5790,83 +5893,43 @@ function canAccess(tab){
   if(tab==='data')return p.data===true||DATA_UPLOAD_PERMISSION_KEYS.some(k=>p[k]===true);
   return p[tab]===true
 }
+
 function applyMenuPermissions(){
   const p=effectivePermissions();
   $$('.kpi-submenu button[data-tab]').forEach(b=>b.classList.toggle('hidden',p[b.dataset.tab]!==true));
   $$('.ott-submenu button[data-tab]').forEach(b=>b.classList.toggle('hidden',p[b.dataset.tab]!==true));
+  $$('.lock-submenu button[data-tab]').forEach(b=>b.classList.toggle('hidden',p[b.dataset.tab]!==true));
+  $$('.data-submenu button[data-tab]').forEach(b=>{
+    const tab=b.dataset.tab;
+    const visible=tab==='data'?(p.data===true||DATA_UPLOAD_PERMISSION_KEYS.some(k=>p[k]===true)):p[tab]===true;
+    b.classList.toggle('hidden',!visible)
+  });
+
   const kBoard=$('#kpiMenuWrap');if(kBoard)kBoard.classList.toggle('hidden',!KPI_TABS.some(t=>p[t]===true));
   const oBoard=$('#ottMenuWrap');if(oBoard)oBoard.classList.toggle('hidden',!OTT_TABS.some(t=>p[t]===true));
-  $$('.lock-submenu button[data-tab]').forEach(b=>b.classList.toggle('hidden',p[b.dataset.tab]!==true));
   const lockWrap=$('#lockMenuWrap');if(lockWrap)lockWrap.classList.toggle('hidden',!(p.lock_board===true||p.lock_event===true));
   const dailyBtn=$('.nav>button[data-tab="daily_summary"]');if(dailyBtn)dailyBtn.classList.toggle('hidden',p.daily_summary!==true);
-  const dataBtn=$('.nav>button[data-tab="data"]');if(dataBtn)dataBtn.classList.toggle('hidden',!(p.data===true||DATA_UPLOAD_PERMISSION_KEYS.some(k=>p[k]===true)));
+
+  const dataWrap=$('#dataMenuWrap');
+  const canDataStatus=p.data===true||DATA_UPLOAD_PERMISSION_KEYS.some(k=>p[k]===true);
+  if(dataWrap)dataWrap.classList.toggle('hidden',!(canDataStatus||p.days_setup===true));
+
   const monitorBtn=$('#supabaseMonitorNav');if(monitorBtn)monitorBtn.classList.toggle('hidden',state.profile?.role!=='admin');
   const usersBtn=$('.nav>button[data-tab="users"]');if(usersBtn)usersBtn.classList.toggle('hidden',state.profile?.role!=='admin');
+
   if(!canAccess(state.tab)){
     const firstKpi=KPI_TABS.find(t=>canAccess(t)),firstOtt=OTT_TABS.find(t=>canAccess(t));
-    if(canAccess('daily_summary'))state.tab='daily_summary';else if(firstKpi)state.tab=firstKpi;else if(firstOtt)state.tab=firstOtt;else if(canAccess('lock_board'))state.tab='lock_board';else if(canAccess('lock_event'))state.tab='lock_event';else if(canAccess('data'))state.tab='data';
-    else if(state.profile?.role==='admin')state.tab='users';else state.tab='overview'
+    if(canAccess('daily_summary'))state.tab='daily_summary';
+    else if(firstKpi)state.tab=firstKpi;
+    else if(firstOtt)state.tab=firstOtt;
+    else if(canAccess('lock_board'))state.tab='lock_board';
+    else if(canAccess('lock_event'))state.tab='lock_event';
+    else if(canAccess('data'))state.tab='data';
+    else if(canAccess('days_setup'))state.tab='days_setup';
+    else if(state.profile?.role==='admin')state.tab='users';
+    else state.tab='overview'
   }
 }
-
-const USER_PERMISSION_GROUPS=[
-  {key:'kpi',title:'KPI Board',icon:'KPI',desc:'Department KPI dashboards and executive overview',items:[
-    ['overview','Overview','Executive summary across departments'],
-    ['delivery','Delivery','Delivery KPI dashboard'],
-    ['yarn','Yarn Dyeing','Yarn Dyeing KPI dashboard'],
-    ['knitting','Knitting','Knitting KPI dashboard'],
-    ['dyeing','Dyeing','Dyeing KPI dashboard'],
-    ['finishing','Finishing','Finishing KPI dashboard'],
-    ['chemical','Chemical Lab','Chemical Lab KPI dashboard'],
-    ['etl','ETL','ETL KPI dashboard']
-  ]},
-  {key:'ott',title:'OTT Board',icon:'OTT',desc:'Department OTT, overall OTT and booking status',items:[
-    ['ott_yarn','Yarn Dyeing OTT','Yarn Dyeing OTT analysis'],
-    ['ott_knitting','Knitting OTT','Knitting OTT analysis'],
-    ['ott_dyeing','Dyeing OTT','Dyeing OTT analysis'],
-    ['ott_delivery','Delivery OTT','Delivery OTT analysis'],
-    ['ott_lock','Lock Plan OTT','Lock Plan OTT analysis'],
-    ['ott_booking','Booking OTT Status','Cross-department booking OTT status'],
-    ['ott_overall','Overall OTT','Combined OTT management board']
-  ]},
-  {key:'lock',title:'Lock Plan Details',icon:'LP',desc:'Detailed Lock Plan management and event investigation',items:[
-    ['lock_board','Lock Plan Details Board','Cards, charts and management reports'],
-    ['lock_event','Event Detail','Event-level table with Booking No. filtering']
-  ]},
-  {key:'daily',title:'Daily Summary',icon:'DAY',desc:'Daily production snapshot and source upload',items:[
-    ['daily_summary','Daily Summary Dashboard','Daily production scenario, trends and management view'],
-    ['upload_daily_summary','Upload Daily Summary Data','Upload / replace Daily Report Data sheet']
-  ]},
-  {key:'data_kpi',title:'Data Management — KPI Uploads',icon:'KPI↑',desc:'Allow specific KPI/target source upload cards',items:[
-    ['data','Data Management Status','Open Data Management and see current source status'],
-    ['upload_dyeing','Upload Dyeing Data','Upload / replace Dyeing_Dashboard'],
-    ['upload_knitting','Upload Knitting Data','Upload / replace Knitting_Dashboard'],
-    ['upload_finishing','Upload Finishing Data','Upload / replace Finishing_Dashboard'],
-    ['upload_delivery','Upload Delivery Data','Upload / replace Delivery_Dashboard'],
-    ['upload_yarn','Upload Yarn Dyeing Data','Upload / replace Yarn_Dyeing_Dashboard'],
-    ['upload_chemical','Upload Chemical Lab Data','Upload / replace Chemical_Lab_Dashboard'],
-    ['upload_etl','Upload ETL Data','Upload / replace ETL_Dashboard'],
-    ['upload_targets','Upload Target Data','Upload / replace Dashboard_Target']
-  ]},
-  {key:'data_ott',title:'Data Management — OTT Uploads',icon:'OTT↑',desc:'Allow source upload one department at a time',items:[
-    ['upload_ott_yarn','Upload Yarn Dyeing OTT','Upload / replace Yarn Dyeing OTT source'],
-    ['upload_ott_knitting','Upload Knitting OTT','Upload / replace Knitting OTT source'],
-    ['upload_ott_dyeing','Upload Dyeing OTT','Upload / replace Dyeing OTT source'],
-    ['upload_ott_delivery','Upload Delivery OTT','Upload / replace Delivery OTT source'],
-    ['upload_ott_lock','Upload Lock Plan OTT','Upload / replace Lock Plan OTT source']
-  ]},
-  {key:'data_lock',title:'Data Management — Lock Plan Details',icon:'LP↑',desc:'Lock Plan event and booking-level operational source uploads',items:[
-    ['upload_lock_details','Upload Lock Plan Details','Upload / replace Lock Plan Details.xlsx'],
-    ['upload_pmc_urgent','Upload PMC1 Urgent Data','Upload / replace PMC1_Urgent_Filtered_Export.xlsx']
-  ]}
-];
-const USER_PERMISSION_PRESETS={
-  standard:[...KPI_TABS,...OTT_TABS,'lock_board','lock_event'],
-  kpi:[...KPI_TABS],
-  ott:[...OTT_TABS],
-  management:['overview','ott_overall','lock_board'],
-  none:[]
-};
 function normalizeManagedUserPermissions(perms={}){
   const p={...DEFAULT_PERMISSIONS,...perms};
   if(!Object.prototype.hasOwnProperty.call(perms,'lock_board')&&Object.prototype.hasOwnProperty.call(perms,'lock_details'))p.lock_board=perms.lock_details===true;
@@ -6252,15 +6315,19 @@ function dailyAutoWorkingDays(){return dailyDaysGone()}
 function dailyDefaultMonthDays(metric){
   return metric.basis==='delivery'?dailyDeliveryDays(state.dailySummaryFilters.month):dailyProductionBasisDays()
 }
+
 function dailyMonthDaysFor(metric){
   dailySummaryEnsureFilters();
-  const raw=state.dailySummaryFilters.monthDays?.[metric.key],n=Number(raw);
-  return Number.isFinite(n)&&n>0?n:dailyDefaultMonthDays(metric)
+  const fallback=dailyDefaultMonthDays(metric),key=state.dailySummaryFilters.month;
+  const setup=daysSetupBasis('daily_summary',metric.label,{fallbackConsider:fallback,monthKey:key});
+  return setup.configured?setup.consider:fallback
 }
+
 function dailyGoneDaysFor(metric){
   dailySummaryEnsureFilters();
-  const raw=state.dailySummaryFilters.goneDays?.[metric.key],n=Number(raw);
-  return Number.isFinite(n)&&n>=0?n:dailyAutoWorkingDays()
+  const fallback=dailyAutoWorkingDays(),key=state.dailySummaryFilters.month;
+  const setup=daysSetupBasis('daily_summary',metric.label,{fallbackGone:fallback,monthKey:key});
+  return setup.configured?setup.gone:fallback
 }
 function dailyWorkingDayInputs(){
   dailySummaryEnsureFilters();
@@ -6425,10 +6492,12 @@ function dailyColumnChart(id){
 
 
 
+
 function dailyFilterPanel(){
   dailySummaryEnsureFilters();const f=state.dailySummaryFilters,months=dailySummaryMonths(),rows=dailySummaryRows(),
         dates=rows.filter(r=>dailyMonthKey(r.Date)===f.month).map(r=>r.Date).sort(),meta=state.data?.dailySummary?.meta||{},
-        monthManual=Object.keys(f.monthDays||{}).length,goneManual=Object.keys(f.goneDays||{}).length,autoDays=dailyAutoWorkingDays();
+        setupCount=(state.data?.daysSetup?.rows||[]).filter(r=>daysSetupMonthKey(r.year,r.month)===f.month).length,
+        canSetup=canAccess('days_setup');
   return`<div class="daily-filter-panel"><div class="daily-filter-head"><div><h2>Daily Summary</h2><div class="meta">${(meta.rows||rows.length).toLocaleString()} date rows • Data sheet only • latest admin upload is used automatically</div></div>
     <div class="daily-filter-actions"><button class="btn" id="dailyCsvBtn" type="button">Export CSV</button><button class="btn primary" id="dailyManagementBtn" type="button">▣ Management View</button></div></div>
     <div class="daily-filter-grid">
@@ -6438,14 +6507,9 @@ function dailyFilterPanel(){
       <div class="filter-group"><span class="mini-label">Trend To</span><input id="dailyTrendTo" type="date" value="${esc(f.trendTo||'')}"></div>
       <div class="filter-group filter-controls-group"><span class="mini-label">Filters</span><div class="filter-control-buttons"><button class="btn" id="dailyResetBtn" type="button">Reset</button><button class="btn filter-toggle-btn" id="dailyFilterToggle" type="button">Hide Filters</button></div></div>
     </div>
-    <details class="daily-working-days" ${(monthManual||goneManual)?'open':''}>
-      <summary><b>Day Consideration by Topic</b><span>Auto gone: ${autoDays} days • Month overrides: ${monthManual} • Gone-day overrides: ${goneManual}</span></summary>
-      <div class="daily-working-grid">${dailyWorkingDayInputs()}</div>
-      <div class="daily-working-actions"><button class="btn" id="dailyWorkingReset" type="button">Reset All Day Values to Default / Auto</button></div>
-    </details>
+    <div class="daily-days-source"><div><b>Working Days:</b> centrally controlled from Data Management → Days Setup. <span>${setupCount} rule${setupCount===1?'':'s'} found for ${esc(dailyMonthLabel(f.month))}.</span></div>${canSetup?'<button class="btn" id="openDaysSetupBtn" type="button">Open Days Setup</button>':''}</div>
   </div>`
 }
-
 function dailyBindFilters(){
   if($('#dailyMonth'))$('#dailyMonth').onchange=()=>{
     const month=$('#dailyMonth').value;state.dailySummaryFilters.month=month;state.dailySummaryFilters.reportDate=dailyDefaultReportDate(month);
@@ -6464,6 +6528,8 @@ function dailyBindFilters(){
   if($('#dailyCsvBtn'))$('#dailyCsvBtn').onclick=exportDailySummaryCSV;
   if($('#dailyManagementBtn'))$('#dailyManagementBtn').onclick=openDailySummarySnapshot;
   dailyBindWorkingDayInputs()
+
+  if($('#openDaysSetupBtn'))$('#openDaysSetupBtn').onclick=()=>{state.tab='days_setup';render()};
 }
 function renderDailySummary(){
   metricCardSet([]);dailySummaryEnsureFilters();
@@ -7664,6 +7730,423 @@ function renderSupabaseMonitor(){
   startSupabaseMonitorTimer()
 }
 
+
+/* ================= v64 CENTRAL DAYS SETUP =================
+   Rules are saved by Year + Month and can target Menu/Submenu/Topic.
+   Days Gone includes the first day of the month:
+      inclusive elapsed calendar days - Days Adjust
+   then it is capped by Days Consider.
+=========================================================== */
+
+function daysSetupSig(v){
+  return String(v??'').trim().toLowerCase().replace(/&/g,'and').replace(/[^a-z0-9]+/g,'')
+}
+function daysTopicValue(tab,label){return`${tab}::${daysSetupSig(label)}`}
+function daysSetupMonthKey(year,month){return`${Number(year)}-${String(Number(month)).padStart(2,'0')}`}
+function daysSetupMonthLabel(year,month){
+  return new Date(Number(year),Number(month)-1,1).toLocaleDateString(undefined,{month:'long',year:'numeric'})
+}
+function daysSetupCurrentYM(){
+  const d=new Date();
+  return{year:d.getFullYear(),month:d.getMonth()+1}
+}
+function daysSetupMainLabel(el){
+  const txt=(el?.textContent||'').replace(/⌄/g,'').trim();
+  return txt||'Menu'
+}
+function daysSetupMenuCatalog(){
+  const nav=$('.nav');if(!nav)return[];
+  const out=[];
+  [...nav.children].forEach(child=>{
+    if(child.classList.contains('hidden'))return;
+    if(child.matches('button[data-tab]')){
+      const tab=child.dataset.tab,label=daysSetupMainLabel(child);
+      out.push({key:tab,label,submenus:[{key:tab,label,tab}]});
+      return
+    }
+    const subs=[...child.querySelectorAll('[data-tab]')].filter(b=>!b.classList.contains('hidden'));
+    const toggle=[...child.children].find(x=>x.tagName==='BUTTON'&&!x.dataset.tab);
+    if(!toggle||!subs.length)return;
+    const label=daysSetupMainLabel(toggle);
+    const key=child.dataset.daysMenuKey||child.id||daysSetupSig(label);
+    out.push({key,label,submenus:subs.map(b=>({key:b.dataset.tab,label:daysSetupMainLabel(b),tab:b.dataset.tab}))})
+  });
+  return out
+}
+function daysSetupMainKeyForTab(tab){
+  for(const m of daysSetupMenuCatalog())if(m.submenus.some(s=>s.tab===tab))return m.key;
+  return tab
+}
+function daysSetupSubmenuLabel(tab){
+  for(const m of daysSetupMenuCatalog()){
+    const s=m.submenus.find(x=>x.tab===tab);if(s)return s.label
+  }
+  return MENU_DEFS.find(x=>x.key===tab)?.label||tab
+}
+function daysSetupRendererForTab(tab){
+  const map={
+    overview:renderOverview,delivery:renderDelivery,yarn:renderYarnDyeing,knitting:renderKnitting,dyeing:renderDyeing,
+    finishing:renderFinishing,chemical:renderChemicalLab,etl:renderETL,
+    ott_yarn:renderOTTDept,ott_knitting:renderOTTDept,ott_dyeing:renderOTTDept,ott_delivery:renderOTTDept,
+    ott_lock:renderOTTDept,ott_booking:renderOTTBooking,ott_overall:renderOTTOverall,
+    lock_board:renderLockPlanDetailsBoard,lock_event:renderLockPlanEventDetail,
+    daily_summary:renderDailySummary,data:renderData,days_setup:renderDaysSetup,
+    supabase_monitor:renderSupabaseMonitor,users:renderUsers
+  };
+  return map[tab]||null
+}
+function daysSetupExtractLiteralTopics(tab){
+  const fn=daysSetupRendererForTab(tab);if(!fn)return[];
+  const src=String(fn),set=new Set(),patterns=[
+    /\bkpi(?:Multi)?\(\s*['"`]([^'"`]+)['"`]/g,
+    /\bpanel\(\s*['"`]([^'"`]+)['"`]/g,
+    /\b(?:p|c)\(\s*['"`]([^'"`]+)['"`]/g,
+    /\bottCard\(\s*['"`]([^'"`]+)['"`]/g,
+    /\bsnapCard\([^,]+,\s*['"`]([^'"`]+)['"`]/g,
+    /\bdailyMiniCard\(\s*['"`]([^'"`]+)['"`]/g,
+    /<div class=["']section-band[^"']*["']>([^<`$]+)</g,
+    /<h3[^>]*>([^<`$]+)<\/h3>/g,
+    /title:\s*['"`]([^'"`]+)['"`]/g
+  ];
+  for(const re of patterns){
+    let m;while((m=re.exec(src))){
+      const label=String(m[1]||'').replace(/\s+/g,' ').trim();
+      if(label&&label.length<100&&!/source-tag|selected|detail$/i.test(label))set.add(label)
+    }
+  }
+  if(tab==='daily_summary'){
+    DAILY_SUMMARY_TARGETS.forEach(x=>set.add(x.label));
+    DAILY_SUMMARY_TOP.forEach(x=>set.add(x.label));
+    set.add('Last 7 Days — Production Trend')
+  }
+  if(tab==='dyeing'){
+    ['Total Dyeing Production','Avg Dyeing Prod. / Day','Prod. EFL','Prod. EKL + Ext','Pluvia'].forEach(x=>set.add(x))
+  }
+  if(tab==='delivery'){
+    ['Received','Delivered','On Time Delivery','Excess Delivery without PO Qty','Additional Delivery Qty','Total Excess (Qty)','Fabric Delivery'].forEach(x=>set.add(x))
+  }
+  if(tab==='knitting'){
+    ['Knitting Overall Prod.','Knitting In-house Prod.','Knitting Subcontract Prod.','MC Utilization','Capacity Utilization','Overall OTT','Efficiency','Greige Supply'].forEach(x=>set.add(x))
+  }
+  if(tab==='finishing'){
+    ['Heat Set Production','Handedover kg','Stenter Prod. Kg','Dryer Prod. Kg','Compactor Prod. Kg','Brush Prod. Kg','Peach Prod. Kg'].forEach(x=>set.add(x))
+  }
+  if(tab==='yarn'){
+    ['Overall Total Prod.','Total In-house Prod.','Sub-Contract Prod.','Twisting Total','Capacity Utilization','B/M/D','YD OTD','YD - Inhouse','YD - Outside'].forEach(x=>set.add(x))
+  }
+  if(tab==='chemical')set.add('Chemical Lab');
+  if(tab==='etl')set.add('ETL');
+  if(tab==='lock_board')set.add('Lock Plan');
+  return [...set].sort((a,b)=>a.localeCompare(b))
+}
+function daysCaptureLiveTopics(tab=state.tab){
+  if(tab==='days_setup')return;
+  const reg=state.daysSetupUI.topicRegistry||(state.daysSetupUI.topicRegistry={});
+  const set=new Set(reg[tab]||[]);
+  $$('#kpis .label,#content .panel h3,#content .section-band,#content .snap-card h3,#content .daily-mini-label,#content .daily-status-title').forEach(el=>{
+    const label=(el.textContent||'').replace(/\s+/g,' ').trim();
+    if(label&&label.length<120)set.add(label)
+  });
+  reg[tab]=[...set].sort((a,b)=>a.localeCompare(b))
+}
+function daysSetupTopicsForTab(tab){
+  const set=new Set(daysSetupExtractLiteralTopics(tab));
+  (state.daysSetupUI.topicRegistry?.[tab]||[]).forEach(x=>set.add(x));
+  return [...set].map(label=>({value:daysTopicValue(tab,label),label,tab})).sort((a,b)=>a.label.localeCompare(b.label))
+}
+function daysSetupAllTopicOptions(submenuKeys=null){
+  const catalog=daysSetupMenuCatalog(),subs=[];
+  catalog.forEach(m=>m.submenus.forEach(s=>subs.push({...s,menuKey:m.key,menuLabel:m.label})));
+  const use=!submenuKeys||submenuKeys.includes('*')?subs:subs.filter(s=>submenuKeys.includes(s.key));
+  const out=[];
+  use.forEach(s=>daysSetupTopicsForTab(s.tab).forEach(t=>out.push({
+    value:t.value,label:`${s.label} › ${t.label}`,topicLabel:t.label,tab:s.tab,menuKey:s.menuKey
+  })));
+  return out
+}
+function daysSetupAllSubmenuOptions(menuKeys=null){
+  const all=daysSetupMenuCatalog().flatMap(m=>m.submenus.map(s=>({value:s.key,label:`${m.label} › ${s.label}`,tab:s.tab,menuKey:m.key})));
+  return !menuKeys||menuKeys.includes('*')?all:all.filter(x=>menuKeys.includes(x.menuKey))
+}
+function daysSetupScopeMatch(sel,val){
+  return !Array.isArray(sel)||!sel.length||sel.includes('*')||sel.includes(val)
+}
+function daysSetupRuleFor(tab,topic,year,month){
+  const rows=state.data?.daysSetup?.rows||[],main=daysSetupMainKeyForTab(tab),topicVal=daysTopicValue(tab,topic);
+  const candidates=rows.filter(r=>
+    Number(r.year)===Number(year)&&Number(r.month)===Number(month)&&
+    daysSetupScopeMatch(r.menus,main)&&daysSetupScopeMatch(r.submenus,tab)&&daysSetupScopeMatch(r.topics,topicVal)
+  );
+  if(!candidates.length)return null;
+  const score=r=>{
+    const specific=a=>Array.isArray(a)&&a.length&&!a.includes('*')?1:0;
+    const narrow=a=>Array.isArray(a)&&a.length&&!a.includes('*')?1/Math.max(1,a.length):0;
+    return specific(r.topics)*100+specific(r.submenus)*20+specific(r.menus)*5+narrow(r.topics)+narrow(r.submenus)+narrow(r.menus)
+  };
+  return candidates.sort((a,b)=>score(b)-score(a))[0]
+}
+function daysSetupCalcRule(rule,year,month){
+  if(!rule)return null;
+  const consider=Math.max(0,Math.round(Number(rule.daysConsider)||0)),
+        adjust=Math.max(0,Math.round(Number(rule.daysAdjust)||0)),
+        start=new Date(Number(year),Number(month)-1,1),
+        end=new Date(Number(year),Number(month),0),
+        today=new Date();
+  today.setHours(0,0,0,0);
+  let elapsed=0;
+  if(today>=start){
+    const asOf=today>end?end:today;
+    elapsed=Math.floor((asOf-start)/86400000)+1;
+  }
+  const gone=Math.max(0,Math.min(consider,elapsed-adjust));
+  const left=Math.max(0,consider-gone);
+  return{consider,adjust,elapsed,gone,left}
+}
+function daysSetupMonthKeysFromRange(from,to){
+  if(!from||!to||from>to)return[];
+  const a=new Date(from+'T00:00:00'),b=new Date(to+'T00:00:00');if(isNaN(a)||isNaN(b))return[];
+  const out=[];let y=a.getFullYear(),m=a.getMonth()+1;
+  while(y<b.getFullYear()||(y===b.getFullYear()&&m<=b.getMonth()+1)){
+    out.push(daysSetupMonthKey(y,m));m++;if(m>12){m=1;y++}
+  }
+  return out
+}
+function daysSetupBasis(tab,topic,{fallbackGone=null,fallbackConsider=null,monthKey=null,from=null,to=null}={}){
+  const monthKeys=monthKey?[monthKey]:daysSetupMonthKeysFromRange(from||$('#fromDate')?.value||'',to||$('#toDate')?.value||'');
+  let configured=false,consider=0,gone=0,left=0,matched=0;
+  for(const key of monthKeys){
+    const [y,m]=key.split('-').map(Number),rule=daysSetupRuleFor(tab,topic,y,m);
+    if(!rule)continue;
+    const calc=daysSetupCalcRule(rule,y,m);if(!calc)continue;
+    configured=true;matched++;consider+=calc.consider;gone+=calc.gone;left+=calc.left
+  }
+  if(!configured)return{
+    configured:false,consider:fallbackConsider===null?fallbackGone:fallbackConsider,
+    gone:fallbackGone,left:(fallbackConsider!==null&&fallbackGone!==null)?Math.max(0,fallbackConsider-fallbackGone):null,matched:0
+  };
+  return{configured:true,consider,gone,left,matched}
+}
+function daysSetupGone(tab,topic,fallback,monthKey=null){
+  const x=daysSetupBasis(tab,topic,{fallbackGone:fallback,monthKey});return x.configured?x.gone:fallback
+}
+function daysSetupConsider(tab,topic,fallback,monthKey=null){
+  const x=daysSetupBasis(tab,topic,{fallbackGone:null,fallbackConsider:fallback,monthKey});return x.configured?x.consider:fallback
+}
+function daysSetupKpiGone(tab,topic,fallback){
+  const x=daysSetupBasis(tab,topic,{fallbackGone:fallback});return x.configured&&x.gone>0?x.gone:fallback
+}
+function daysSetupRecommendedSeed(){
+  const defs=[
+    ['daily_summary','Fabric Delivery',26,3],
+    ['daily_summary','FFS Receive',28,2],
+    ['daily_summary','Weight Sheet Release',28,2],
+    ['daily_summary','Handedover to QAD',28,2],
+    ['daily_summary','Dyeing_EFL',28,2],
+    ['daily_summary','Dyeing_EKL+Ext',28,2],
+    ['daily_summary','Pluvia',28,2],
+    ['daily_summary','Outside Dyeing [Grey]',28,2],
+    ['daily_summary','Greige Supply',28,2],
+    ['daily_summary','YD - Inhouse',28,2],
+    ['yarn','YD - Outside',28,2],
+    ['etl','ETL',28,2],
+    ['chemical','Chemical Lab',28,2],
+    ['lock_board','Lock Plan',28,2]
+  ];
+  return defs.map((d,i)=>({
+    id:`seed-${i+1}`,year:2026,month:11,
+    menus:[daysSetupMainKeyForTab(d[0])],submenus:[d[0]],topics:[daysTopicValue(d[0],d[1])],
+    daysConsider:d[2],daysAdjust:d[3]
+  }))
+}
+function daysSetupEnsureDraft(){
+  if(state.daysSetupUI.draft)return;
+  const saved=(state.data?.daysSetup?.rows||[]).map(r=>({...r,menus:[...(r.menus||['*'])],submenus:[...(r.submenus||['*'])],topics:[...(r.topics||['*'])]}));
+  state.daysSetupUI.draft=saved.length?saved:daysSetupRecommendedSeed();
+  const cur=daysSetupCurrentYM();
+  state.daysSetupUI.year=state.daysSetupUI.year||cur.year;
+  state.daysSetupUI.month=state.daysSetupUI.month||cur.month;
+  if(!saved.length&&cur.year===2026&&cur.month===11){state.daysSetupUI.year=2026;state.daysSetupUI.month=11}
+}
+function daysSetupYears(){
+  daysSetupEnsureDraft();const cur=daysSetupCurrentYM(),set=new Set([cur.year-1,cur.year,cur.year+1,2026]);
+  (state.daysSetupUI.draft||[]).forEach(r=>set.add(Number(r.year)));
+  return [...set].filter(Number.isFinite).sort((a,b)=>a-b)
+}
+function daysSetupRowsForSelectedPeriod(){
+  daysSetupEnsureDraft();return (state.daysSetupUI.draft||[]).filter(r=>Number(r.year)===Number(state.daysSetupUI.year)&&Number(r.month)===Number(state.daysSetupUI.month))
+}
+function daysSetupSummary(values,options,allText){
+  if(!values?.length||values.includes('*'))return allText;
+  const map=new Map(options.map(o=>[o.value,o.label])),labels=values.map(v=>map.get(v)||v);
+  if(labels.length===1)return labels[0];
+  if(labels.length===2)return labels.join(', ');
+  return`${labels.length} selected`
+}
+function daysSetupPicker(row,kind,options,allText){
+  const selected=row[kind]||['*'],summary=daysSetupSummary(selected,options,allText);
+  return`<details class="days-scope-picker" data-row-id="${esc(row.id)}" data-kind="${esc(kind)}">
+    <summary title="${esc(summary)}">${esc(summary)} <span>⌄</span></summary>
+    <div class="days-picker-pop">
+      <input class="days-picker-search" placeholder="Search...">
+      <div class="days-picker-options">${options.map(o=>`<label><input type="checkbox" class="days-picker-box" value="${esc(o.value)}" ${selected.includes(o.value)?'checked':''}><span>${esc(o.label)}</span></label>`).join('')}</div>
+      <div class="days-picker-actions">
+        <button class="btn days-picker-all" type="button">All incl. future</button>
+        <button class="btn days-picker-clear" type="button">Clear</button>
+        <button class="btn primary days-picker-apply" type="button">Apply</button>
+      </div>
+    </div>
+  </details>`
+}
+function daysSetupRowHtml(row){
+  const menus=daysSetupMenuCatalog().map(m=>({value:m.key,label:m.label}));
+  const subs=daysSetupAllSubmenuOptions(row.menus);
+  const topics=daysSetupAllTopicOptions(row.submenus);
+  const calc=daysSetupCalcRule(row,row.year,row.month)||{gone:0,left:0};
+  return`<tr data-days-row="${esc(row.id)}">
+    <td>${daysSetupPicker(row,'menus',menus,'All menus')}</td>
+    <td>${daysSetupPicker(row,'submenus',subs,'All submenus')}</td>
+    <td>${daysSetupPicker(row,'topics',topics,'All topics')}</td>
+    <td class="days-num-edit"><input class="days-consider-input" type="number" min="0" max="366" step="1" value="${Number(row.daysConsider)||0}"></td>
+    <td class="days-num-edit"><input class="days-adjust-input" type="number" min="0" max="366" step="1" value="${Number(row.daysAdjust)||0}"></td>
+    <td class="days-calc"><b>${calc.gone}</b><small>automatic</small></td>
+    <td class="days-calc"><b>${calc.left}</b><small>automatic</small></td>
+    <td class="days-row-actions"><button class="days-delete-row" type="button" title="Delete row">×</button></td>
+  </tr>`
+}
+function daysSetupAddRow(){
+  daysSetupEnsureDraft();
+  const id=(crypto?.randomUUID?.()||`ds-${Date.now()}-${Math.random().toString(16).slice(2)}`);
+  state.daysSetupUI.draft.push({
+    id,year:Number(state.daysSetupUI.year),month:Number(state.daysSetupUI.month),
+    menus:['*'],submenus:['*'],topics:['*'],
+    daysConsider:new Date(Number(state.daysSetupUI.year),Number(state.daysSetupUI.month),0).getDate(),
+    daysAdjust:0
+  });
+  state.daysSetupUI.dirty=true;renderDaysSetup()
+}
+function daysSetupUpdateRow(id,patch){
+  const r=(state.daysSetupUI.draft||[]).find(x=>x.id===id);if(!r)return;
+  Object.assign(r,patch);state.daysSetupUI.dirty=true
+}
+async function daysSetupSave(){
+  const btn=$('#daysSaveBtn'),msg=$('#daysSaveStatus');if(!btn)return;
+  btn.disabled=true;btn.textContent='Saving...';if(msg)msg.textContent='';
+  try{
+    const now=new Date().toISOString();
+    const rows=(state.daysSetupUI.draft||[]).map(r=>({
+      id:r.id,year:Number(r.year),month:Number(r.month),
+      menus:Array.isArray(r.menus)&&r.menus.length?r.menus:['*'],
+      submenus:Array.isArray(r.submenus)&&r.submenus.length?r.submenus:['*'],
+      topics:Array.isArray(r.topics)&&r.topics.length?r.topics:['*'],
+      daysConsider:Math.max(0,Math.round(Number(r.daysConsider)||0)),
+      daysAdjust:Math.max(0,Math.round(Number(r.daysAdjust)||0))
+    }));
+    const meta={updatedAt:now,updatedBy:state.profile?.display_name||state.profile?.email||'User',rows:rows.length};
+    await saveDashboardSource('days_setup','Days Setup',{daysSetup:{rows,meta}},now);
+    state.daysSetupUI.dirty=false;
+    if(msg)msg.textContent='Saved successfully. Average calculations now use the matching setup rules.';
+    await loadData();
+    state.tab='days_setup';render()
+  }catch(e){
+    if(msg)msg.textContent=uploadErrorMessage(e,'Days Setup save')
+  }finally{
+    if(btn){btn.disabled=false;btn.textContent='Save Setup'}
+  }
+}
+function renderDaysSetup(){
+  metricCardSet([]);daysSetupEnsureDraft();
+  const y=Number(state.daysSetupUI.year),m=Number(state.daysSetupUI.month),rows=daysSetupRowsForSelectedPeriod(),
+        years=daysSetupYears(),monthName=daysSetupMonthLabel(y,m),savedMeta=state.data?.daysSetup?.meta||{},
+        total=(state.daysSetupUI.draft||[]).length;
+  $('#content').innerHTML=`<div class="days-setup-page">
+    <div class="days-setup-hero">
+      <div><span class="days-eyebrow">WORKING DAY CONTROL</span><h2>Days Setup</h2>
+        <p>Central working-day rules for till-date average and required-average calculations.</p></div>
+      <div class="days-hero-actions">
+        <div class="days-period-box"><span>Year</span><select id="daysYear">${years.map(v=>`<option value="${v}" ${v===y?'selected':''}>${v}</option>`).join('')}</select></div>
+        <div class="days-period-box"><span>Month</span><select id="daysMonth">${Array.from({length:12},(_,i)=>i+1).map(v=>`<option value="${v}" ${v===m?'selected':''}>${new Date(2000,v-1,1).toLocaleDateString(undefined,{month:'long'})}</option>`).join('')}</select></div>
+        <button class="btn" id="daysAddRowBtn" type="button">＋ Add Row</button>
+        <button class="btn primary" id="daysSaveBtn" type="button">Save Setup</button>
+      </div>
+    </div>
+    <div class="days-setup-info">
+      <div><b>${esc(monthName)}</b><span>Month start is included automatically in Days Gone calculation; the start date stays hidden as requested.</span></div>
+      <div class="days-info-stat"><b>${rows.length}</b><span>rows this month</span></div>
+      <div class="days-info-stat"><b>${total}</b><span>all saved/draft rows</span></div>
+      <div class="days-info-stat"><b>${savedMeta.updatedAt?new Date(savedMeta.updatedAt).toLocaleDateString():'—'}</b><span>last saved</span></div>
+    </div>
+    <div class="days-formula-note">
+      <b>Calculation:</b> Days Gone = inclusive elapsed calendar days from month start − Days Adjust, capped at Days Consider.
+      Days Left = Days Consider − Days Gone. Only <b>Days Consider</b> and <b>Days Adjust</b> are editable day values.
+    </div>
+    <div class="days-table-panel">
+      <div class="days-table-head"><div><h3>${esc(monthName)} Setup</h3><p>Menu, Submenu and Topic use multi-selection. “All incl. future” automatically covers future additions within that level.</p></div><span id="daysSaveStatus"></span></div>
+      <div class="days-table-scroll"><table class="days-table">
+        <thead><tr>
+          <th>Apply for (Menus)</th><th>Apply for (Submenus)</th><th>Apply for (Topics)</th>
+          <th>Days Consider</th><th>Days Adjust</th><th>Days Gone</th><th>Days Left</th><th></th>
+        </tr></thead>
+        <tbody>${rows.length?rows.map(daysSetupRowHtml).join(''):`<tr><td colspan="8"><div class="days-empty"><b>No setup rows for ${esc(monthName)}</b><span>Click “Add Row” to create one.</span></div></td></tr>`}</tbody>
+      </table></div>
+    </div>
+    <div class="days-setup-foot">
+      <b>Dynamic catalog:</b> menus/submenus are read from the live navigation. Topics are discovered from dashboard renderers and from pages as they are opened, so newly added dashboard content can appear in Days Setup without maintaining a separate hard-coded list.
+    </div>
+  </div>`;
+  daysBindUI()
+}
+function daysBindUI(){
+  if($('#daysYear'))$('#daysYear').onchange=e=>{state.daysSetupUI.year=Number(e.target.value);renderDaysSetup()};
+  if($('#daysMonth'))$('#daysMonth').onchange=e=>{state.daysSetupUI.month=Number(e.target.value);renderDaysSetup()};
+  if($('#daysAddRowBtn'))$('#daysAddRowBtn').onclick=daysSetupAddRow;
+  if($('#daysSaveBtn'))$('#daysSaveBtn').onclick=daysSetupSave;
+
+  $$('.days-table tbody tr[data-days-row]').forEach(tr=>{
+    const id=tr.dataset.daysRow;
+    const consider=tr.querySelector('.days-consider-input'),adjust=tr.querySelector('.days-adjust-input');
+    if(consider)consider.onchange=()=>{daysSetupUpdateRow(id,{daysConsider:Number(consider.value)||0});renderDaysSetup()};
+    if(adjust)adjust.onchange=()=>{daysSetupUpdateRow(id,{daysAdjust:Number(adjust.value)||0});renderDaysSetup()};
+    const del=tr.querySelector('.days-delete-row');if(del)del.onclick=()=>{
+      state.daysSetupUI.draft=(state.daysSetupUI.draft||[]).filter(x=>x.id!==id);state.daysSetupUI.dirty=true;renderDaysSetup()
+    }
+  });
+
+  $$('.days-scope-picker').forEach(d=>{
+    const id=d.dataset.rowId,kind=d.dataset.kind;
+    const search=d.querySelector('.days-picker-search');
+    if(search)search.oninput=()=>{
+      const q=search.value.trim().toLowerCase();
+      d.querySelectorAll('.days-picker-options label').forEach(l=>l.classList.toggle('hidden',q&&!l.textContent.toLowerCase().includes(q)))
+    };
+    d.querySelector('.days-picker-all')?.addEventListener('click',e=>{
+      e.preventDefault();daysSetupUpdateRow(id,{[kind]:['*']});renderDaysSetup()
+    });
+    d.querySelector('.days-picker-clear')?.addEventListener('click',e=>{
+      e.preventDefault();d.querySelectorAll('.days-picker-box').forEach(x=>x.checked=false)
+    });
+    d.querySelector('.days-picker-apply')?.addEventListener('click',e=>{
+      e.preventDefault();
+      let vals=[...d.querySelectorAll('.days-picker-box:checked')].map(x=>x.value);
+      if(!vals.length)vals=['*'];
+      const row=(state.daysSetupUI.draft||[]).find(x=>x.id===id);
+      if(kind==='menus'){
+        const validSubs=new Set(daysSetupAllSubmenuOptions(vals).map(x=>x.value));
+        const currentSubs=row?.submenus||['*'];
+        const nextSubs=currentSubs.includes('*')?['*']:currentSubs.filter(x=>validSubs.has(x));
+        daysSetupUpdateRow(id,{menus:vals,submenus:nextSubs.length?nextSubs:['*'],topics:['*']})
+      }else if(kind==='submenus'){
+        daysSetupUpdateRow(id,{submenus:vals,topics:['*']})
+      }else daysSetupUpdateRow(id,{topics:vals});
+      renderDaysSetup()
+    })
+  });
+
+  document.addEventListener('click',daysSetupOutsideClose,{once:true})
+}
+function daysSetupOutsideClose(e){
+  $$('.days-scope-picker[open]').forEach(d=>{if(!d.contains(e.target))d.removeAttribute('open')})
+}
+
 function renderData(){
   metricCardSet([]);
   const d=state.data||{},df=d.departmentFiles||{},ott=d.ottSources||{},lockDetails=d.lockPlanDetails||{},pmcUrgent=d.pmcUrgent||{},dailySummary=d.dailySummary||{},p=effectivePermissions();
@@ -7855,18 +8338,55 @@ function renderKpiToolbarHeading(tab){
   $('#kpiInlineExportBtn').onclick=exportCurrent;
   $('#kpiManagementBtn').onclick=openKpiManagementView
 }
-function render(){if(!state.data)return;if(state.tab!=='supabase_monitor')stopSupabaseMonitorTimer();destroyCharts();applyMenuPermissions();syncBuyerOptions(false);const isOtt=OTT_TABS.includes(state.tab),isKpi=KPI_TABS.includes(state.tab),isLockDetails=['lock_board','lock_event'].includes(state.tab),isDaily=state.tab==='daily_summary',isMonitor=state.tab==='supabase_monitor',special=['data','users','supabase_monitor'].includes(state.tab)||isOtt||isLockDetails||isDaily;$('.toolbar').classList.toggle('hidden',special);$('#exportBtn').classList.toggle('hidden',special||isKpi);
+
+function render(){
+  if(!state.data)return;
+  if(state.tab!=='supabase_monitor')stopSupabaseMonitorTimer();
+  destroyCharts();applyMenuPermissions();syncBuyerOptions(false);
+  const isOtt=OTT_TABS.includes(state.tab),isKpi=KPI_TABS.includes(state.tab),
+        isLockDetails=['lock_board','lock_event'].includes(state.tab),isDaily=state.tab==='daily_summary',
+        isMonitor=state.tab==='supabase_monitor',isDays=state.tab==='days_setup',
+        special=['data','days_setup','users','supabase_monitor'].includes(state.tab)||isOtt||isLockDetails||isDaily;
+  $('.toolbar').classList.toggle('hidden',special);$('#exportBtn').classList.toggle('hidden',special||isKpi);
   const isOverview=state.tab==='overview';
   $('.toolbar')?.classList.toggle('overview-toolbar',isOverview);
   $('#buyerFilterGroup')?.classList.toggle('hidden',isOverview);
-  const osg=$('#overviewSnapshotGroup');if(osg)osg.classList.toggle('hidden',!isOverview);$('#kpis').classList.toggle('overview-kpis',state.tab==='overview');$('#kpis').classList.toggle('knitting-kpis',state.tab==='knitting');$('#kpis').classList.toggle('finishing-kpis',state.tab==='finishing');$('#kpis').classList.toggle('delivery-kpis',state.tab==='delivery');$('#kpis').classList.toggle('yarn-kpis',state.tab==='yarn');$('#kpis').classList.toggle('chemical-kpis',state.tab==='chemical');$('#kpis').classList.toggle('etl-kpis',state.tab==='etl');$$('.kpi-submenu button[data-tab],.ott-submenu button[data-tab],.lock-submenu button[data-tab],.nav>button[data-tab]').forEach(b=>b.classList.toggle('active',b.dataset.tab===state.tab));
+  const osg=$('#overviewSnapshotGroup');if(osg)osg.classList.toggle('hidden',!isOverview);
+  $('#kpis').classList.toggle('overview-kpis',state.tab==='overview');
+  $('#kpis').classList.toggle('knitting-kpis',state.tab==='knitting');
+  $('#kpis').classList.toggle('finishing-kpis',state.tab==='finishing');
+  $('#kpis').classList.toggle('delivery-kpis',state.tab==='delivery');
+  $('#kpis').classList.toggle('yarn-kpis',state.tab==='yarn');
+  $('#kpis').classList.toggle('chemical-kpis',state.tab==='chemical');
+  $('#kpis').classList.toggle('etl-kpis',state.tab==='etl');
+
+  $$('.kpi-submenu button[data-tab],.ott-submenu button[data-tab],.lock-submenu button[data-tab],.data-submenu button[data-tab],.nav>button[data-tab]').forEach(b=>b.classList.toggle('active',b.dataset.tab===state.tab));
   const kb=$('#kpiBoardBtn');if(kb)kb.classList.toggle('active',KPI_TABS.includes(state.tab));
   const ob=$('#ottBoardBtn');if(ob)ob.classList.toggle('active',OTT_TABS.includes(state.tab));
   const lb=$('#lockDetailsBtn');if(lb)lb.classList.toggle('active',['lock_board','lock_event'].includes(state.tab));
-  const fns={overview:renderOverview,dyeing:renderDyeing,knitting:renderKnitting,finishing:renderFinishing,delivery:renderDelivery,yarn:renderYarnDyeing,chemical:renderChemicalLab,etl:renderETL,
+  const db=$('#dataManagementBtn');if(db)db.classList.toggle('active',['data','days_setup'].includes(state.tab));
+
+  const fns={
+    overview:renderOverview,dyeing:renderDyeing,knitting:renderKnitting,finishing:renderFinishing,delivery:renderDelivery,yarn:renderYarnDyeing,chemical:renderChemicalLab,etl:renderETL,
     ott_yarn:()=>renderOTTDept('ott_yarn'),ott_knitting:()=>renderOTTDept('ott_knitting'),ott_dyeing:()=>renderOTTDept('ott_dyeing'),ott_delivery:()=>renderOTTDept('ott_delivery'),ott_lock:()=>renderOTTDept('ott_lock'),ott_booking:renderOTTBooking,ott_overall:renderOTTOverall,
-    lock_board:renderLockPlanDetailsBoard,lock_event:renderLockPlanEventDetail,daily_summary:renderDailySummary,data:renderData,supabase_monitor:renderSupabaseMonitor,users:renderUsers};if(isKpi)renderKpiToolbarHeading(state.tab);else renderKpiToolbarHeading(null);(fns[state.tab]||renderOverview)();applyAllFilterVisibility();if(special){$('#countText').textContent='';return}if(state.tab==='dyeing')$('#countText').textContent=`${dyeingBuyerRows().length} buyer/date records • ${dyeingDateRows().length} overall date records`;else if(state.tab==='knitting')$('#countText').textContent=`${knittingBuyerRows().length} buyer/date records • ${knittingDateRows().length} overall date records`;else if(state.tab==='finishing')$('#countText').textContent=`${finishingDateRows().length} finishing date records`;else if(state.tab==='delivery')$('#countText').textContent=`${deliveryBuyerRows().length} buyer/date records • ${deliveryDateRows().length} delivery date records`;else if(state.tab==='yarn')$('#countText').textContent=`${yarnDyeingBuyerRows().length} buyer/date records • ${yarnDyeingDateRows().length} Yarn Dyeing date records`;else if(state.tab==='chemical')$('#countText').textContent=`${chemicalLabRows().length} Chemical Lab date records`;else if(state.tab==='etl')$('#countText').textContent=`${etlRows().length} ETL date records`;else if(state.tab==='overview')$('#countText').textContent='Executive summary • 7 departments • date-wise view';else $('#countText').textContent=`${currentDateRows('Dyeing').length} daily records`;}
-let swElapsed=0,swStartedAt=null,swTimer=null;
+    lock_board:renderLockPlanDetailsBoard,lock_event:renderLockPlanEventDetail,daily_summary:renderDailySummary,
+    data:renderData,days_setup:renderDaysSetup,supabase_monitor:renderSupabaseMonitor,users:renderUsers
+  };
+  if(isKpi)renderKpiToolbarHeading(state.tab);else renderKpiToolbarHeading(null);
+  (fns[state.tab]||renderOverview)();
+  applyAllFilterVisibility();
+  setTimeout(()=>daysCaptureLiveTopics(state.tab),0);
+  if(special){$('#countText').textContent='';return}
+  if(state.tab==='dyeing')$('#countText').textContent=`${dyeingBuyerRows().length} buyer/date records • ${dyeingDateRows().length} overall date records`;
+  else if(state.tab==='knitting')$('#countText').textContent=`${knittingBuyerRows().length} buyer/date records • ${knittingDateRows().length} overall date records`;
+  else if(state.tab==='finishing')$('#countText').textContent=`${finishingDateRows().length} finishing date records`;
+  else if(state.tab==='delivery')$('#countText').textContent=`${deliveryBuyerRows().length} buyer/date records • ${deliveryDateRows().length} delivery date records`;
+  else if(state.tab==='yarn')$('#countText').textContent=`${yarnDyeingBuyerRows().length} buyer/date records • ${yarnDyeingDateRows().length} Yarn Dyeing date records`;
+  else if(state.tab==='chemical')$('#countText').textContent=`${chemicalLabRows().length} Chemical Lab date records`;
+  else if(state.tab==='etl')$('#countText').textContent=`${etlRows().length} ETL date records`;
+  else if(state.tab==='overview')$('#countText').textContent='Executive summary • 7 departments • date-wise view';
+  else $('#countText').textContent=`${currentDateRows('Dyeing').length} daily records`;
+}
 function updateStopwatch(){const el=$('#stopwatchText');if(!el)return;const ms=swElapsed+(swStartedAt?Date.now()-swStartedAt:0),sec=Math.floor(ms/1000),m=Math.floor(sec/60),s=sec%60;el.textContent=`${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`}
 function toggleStopwatch(){const btn=$('#stopwatchBtn');if(swTimer){swElapsed+=Date.now()-swStartedAt;swStartedAt=null;clearInterval(swTimer);swTimer=null;btn?.classList.remove('active-tool')}else{swStartedAt=Date.now();swTimer=setInterval(updateStopwatch,250);btn?.classList.add('active-tool')}updateStopwatch()}
 function resetStopwatch(){if(swTimer)clearInterval(swTimer);swTimer=null;swStartedAt=null;swElapsed=0;$('#stopwatchBtn')?.classList.remove('active-tool');updateStopwatch()}
@@ -8032,24 +8552,27 @@ function closeOpenFilterPickers(event){
   })
 }
 
-function bindUI(){initUtilityControls();
-  $$('.kpi-submenu button[data-tab],.ott-submenu button[data-tab],.lock-submenu button[data-tab],.nav>button[data-tab]').forEach(b=>b.onclick=()=>{
+
+function bindUI(){
+  initUtilityControls();
+  $$('.kpi-submenu button[data-tab],.ott-submenu button[data-tab],.lock-submenu button[data-tab],.data-submenu button[data-tab],.nav>button[data-tab]').forEach(b=>b.onclick=()=>{
     if(!canAccess(b.dataset.tab))return;
     state.tab=b.dataset.tab;
-    $('#kpiMenuWrap')?.classList.remove('open');$('#ottMenuWrap')?.classList.remove('open');$('#lockMenuWrap')?.classList.remove('open');
+    $('#kpiMenuWrap')?.classList.remove('open');$('#ottMenuWrap')?.classList.remove('open');$('#lockMenuWrap')?.classList.remove('open');$('#dataMenuWrap')?.classList.remove('open');
     render()
   });
-  const kpiWrap=$('#kpiMenuWrap'),kpiBtn=$('#kpiBoardBtn'),ottWrap=$('#ottMenuWrap'),ottBtn=$('#ottBoardBtn'),lockWrap=$('#lockMenuWrap'),lockBtn=$('#lockDetailsBtn');
-  if(kpiBtn)kpiBtn.onclick=e=>{e.stopPropagation();kpiWrap?.classList.toggle('open');ottWrap?.classList.remove('open');lockWrap?.classList.remove('open')};
-  if(ottBtn)ottBtn.onclick=e=>{e.stopPropagation();ottWrap?.classList.toggle('open');kpiWrap?.classList.remove('open');lockWrap?.classList.remove('open')};
-  if(lockBtn)lockBtn.onclick=e=>{e.stopPropagation();lockWrap?.classList.toggle('open');kpiWrap?.classList.remove('open');ottWrap?.classList.remove('open')};
-  if(kpiWrap)kpiWrap.addEventListener('mouseleave',()=>kpiWrap.classList.remove('open'));
-  if(ottWrap)ottWrap.addEventListener('mouseleave',()=>ottWrap.classList.remove('open'));
-  if(lockWrap)lockWrap.addEventListener('mouseleave',()=>lockWrap.classList.remove('open'));
+  const kpiWrap=$('#kpiMenuWrap'),kpiBtn=$('#kpiBoardBtn'),
+        ottWrap=$('#ottMenuWrap'),ottBtn=$('#ottBoardBtn'),
+        lockWrap=$('#lockMenuWrap'),lockBtn=$('#lockDetailsBtn'),
+        dataWrap=$('#dataMenuWrap'),dataBtn=$('#dataManagementBtn');
+  const closeOthers=keep=>[kpiWrap,ottWrap,lockWrap,dataWrap].forEach(w=>{if(w&&w!==keep)w.classList.remove('open')});
+  if(kpiBtn)kpiBtn.onclick=e=>{e.stopPropagation();kpiWrap?.classList.toggle('open');closeOthers(kpiWrap)};
+  if(ottBtn)ottBtn.onclick=e=>{e.stopPropagation();ottWrap?.classList.toggle('open');closeOthers(ottWrap)};
+  if(lockBtn)lockBtn.onclick=e=>{e.stopPropagation();lockWrap?.classList.toggle('open');closeOthers(lockWrap)};
+  if(dataBtn)dataBtn.onclick=e=>{e.stopPropagation();dataWrap?.classList.toggle('open');closeOthers(dataWrap)};
+  [kpiWrap,ottWrap,lockWrap,dataWrap].forEach(w=>w?.addEventListener('mouseleave',()=>w.classList.remove('open')));
   document.addEventListener('click',e=>{
-    if(kpiWrap&&!kpiWrap.contains(e.target))kpiWrap.classList.remove('open');
-    if(ottWrap&&!ottWrap.contains(e.target))ottWrap.classList.remove('open');
-    if(lockWrap&&!lockWrap.contains(e.target))lockWrap.classList.remove('open');
+    [kpiWrap,ottWrap,lockWrap,dataWrap].forEach(w=>{if(w&&!w.contains(e.target))w.classList.remove('open')});
     closeOpenFilterPickers(e)
   });
   bindKpiMultiFilters();
@@ -8060,8 +8583,7 @@ function bindUI(){initUtilityControls();
   if($('#overviewSnapshotBtn'))$('#overviewSnapshotBtn').onclick=openOverviewSnapshot;
   if($('#overviewCopyImageBtn'))$('#overviewCopyImageBtn').onclick=copyOverviewSnapshotImage;
   if($('#overviewSnapshotClose'))$('#overviewSnapshotClose').onclick=closeOverviewSnapshot;
-  const osm=$('#overviewSnapshotModal');
-  if(osm)osm.addEventListener('click',e=>{if(e.target===osm)closeOverviewSnapshot()});
+  const osm=$('#overviewSnapshotModal');if(osm)osm.addEventListener('click',e=>{if(e.target===osm)closeOverviewSnapshot()});
   if($('#ottCopyImageBtn'))$('#ottCopyImageBtn').onclick=copyOttSnapshotImage;
   if($('#ottSnapshotClose'))$('#ottSnapshotClose').onclick=closeOttSnapshot;
   const otsm=$('#ottSnapshotModal');if(otsm)otsm.addEventListener('click',e=>{if(e.target===otsm)closeOttSnapshot()});
@@ -8092,7 +8614,7 @@ const sb=supabase.createClient(window.APP_CONFIG.SUPABASE_URL,window.APP_CONFIG.
 const DASHBOARD_SOURCE_ROWS={
   main:1,daily:2,
   dyeing:10,knitting:11,finishing:12,delivery:13,yarn:14,chemical:15,etl:16,targets:17,
-  ott_yarn:20,ott_knitting:21,ott_dyeing:22,ott_delivery:23,ott_lock:24,lock_details:25,pmc_urgent:26
+  ott_yarn:20,ott_knitting:21,ott_dyeing:22,ott_delivery:23,ott_lock:24,lock_details:25,pmc_urgent:26,days_setup:27
 };
 const DASHBOARD_SOURCE_IDS=Object.values(DASHBOARD_SOURCE_ROWS);
 function dashboardSourceRowId(key){return DASHBOARD_SOURCE_ROWS[key]||null}
@@ -8166,7 +8688,7 @@ async function saveDashboardSource(key,fileName,payload,now=new Date().toISOStri
 function emptyDashboardData(){
   return{
     sheets:Object.fromEntries([...REQUIRED_SHEETS,...DYEING_SHEETS,...KNITTING_SHEETS,...FINISHING_SHEETS,...DELIVERY_SHEETS,...YARN_DYEING_SHEETS,...CHEMICAL_LAB_SHEETS,...ETL_SHEETS].map(s=>[s,[]])),
-    departmentFiles:{},targets:[],ottSources:{},lockPlanDetails:{events:[],meta:{}},pmcUrgent:{rows:[],meta:{}},dailySummary:{rows:[],meta:{}},
+    departmentFiles:{},targets:[],ottSources:{},lockPlanDetails:{events:[],meta:{}},pmcUrgent:{rows:[],meta:{}},dailySummary:{rows:[],meta:{}},daysSetup:{rows:[],meta:{}},
     fileName:'No workbook uploaded',uploadedAt:null
   }
 }
@@ -8179,6 +8701,7 @@ function mergeDashboardSource(target,payload){
   if(payload.lockPlanDetails)target.lockPlanDetails=payload.lockPlanDetails;
   if(payload.pmcUrgent)target.pmcUrgent=payload.pmcUrgent;
   if(payload.dailySummary)target.dailySummary=payload.dailySummary;
+  if(payload.daysSetup)target.daysSetup=payload.daysSetup;
   return target
 }
 
@@ -8275,7 +8798,7 @@ async function loadData(){
   overlayIds.forEach(id=>{const row=byId.get(id);if(row?.data)mergeDashboardSource(merged,row.data)});
   for(const s of [...REQUIRED_SHEETS,...DYEING_SHEETS,...KNITTING_SHEETS,...FINISHING_SHEETS,...DELIVERY_SHEETS,...YARN_DYEING_SHEETS,...CHEMICAL_LAB_SHEETS,...ETL_SHEETS])merged.sheets[s]=merged.sheets[s]||[];
   merged.departmentFiles=merged.departmentFiles||{};merged.targets=merged.targets||[];merged.ottSources=merged.ottSources||{};
-  merged.lockPlanDetails=merged.lockPlanDetails||{events:[],meta:{}};merged.pmcUrgent=merged.pmcUrgent||{rows:[],meta:{}};merged.dailySummary=merged.dailySummary||{rows:[],meta:{}};
+  merged.lockPlanDetails=merged.lockPlanDetails||{events:[],meta:{}};merged.pmcUrgent=merged.pmcUrgent||{rows:[],meta:{}};merged.dailySummary=merged.dailySummary||{rows:[],meta:{}};merged.daysSetup=merged.daysSetup||{rows:[],meta:{}};
   const latest=decoded.map(r=>r.uploaded_at).filter(Boolean).sort().at(-1)||main?.uploaded_at||null;
   merged.uploadedAt=latest;state.data=merged;
   setFilterDefaults();
