@@ -3439,22 +3439,28 @@ body.dark-mode .nav{
 
 
 /* ================= v64 Data Management submenu ================= */
-.data-menu-wrap{position:relative;display:flex;align-items:stretch;height:100%}
+.data-menu-wrap{position:relative;height:52px;display:flex;align-items:stretch}
 .data-menu-toggle{
-  height:54px;border:0;border-bottom:3px solid transparent;background:transparent;padding:0 18px;
-  color:#233c33;font-size:11px;white-space:nowrap
+  height:52px;border:0;background:transparent;color:#49554f;padding:0 18px;
+  border-bottom:3px solid transparent;font-size:12px;font-weight:600;
+  display:flex;align-items:center;gap:7px;white-space:nowrap
 }
-.data-menu-toggle:hover,.data-menu-toggle.active{color:#005c42;font-weight:800;border-bottom-color:#efb400}
-.data-menu-arrow{font-size:12px;margin-left:7px}
+.data-menu-toggle:hover,.data-menu-toggle.active{color:#07563f;border-bottom-color:var(--amber);font-weight:800}
+.data-menu-arrow{font-size:15px;transition:transform .16s ease}
+.data-menu-wrap.open .data-menu-arrow,.data-menu-wrap:hover .data-menu-arrow{transform:rotate(180deg)}
 .data-submenu{
-  display:none;position:absolute;left:0;top:52px;width:260px;padding:8px;background:#fff;border:1px solid #dce5e0;
-  border-top:3px solid var(--green);border-radius:0 0 9px 9px;box-shadow:0 14px 35px rgba(24,61,48,.18);z-index:3000
+  display:none;position:absolute;left:0;top:49px;width:300px;padding:9px;background:#fff;
+  border:1px solid #dce5e0;border-top:3px solid var(--green);border-radius:0 0 9px 9px;
+  box-shadow:0 14px 35px rgba(24,61,48,.18);grid-template-columns:1fr;gap:5px;z-index:3200
 }
-.data-menu-wrap.open .data-submenu,.data-menu-wrap:hover .data-submenu{display:grid;gap:5px}
+.data-menu-wrap.open .data-submenu,.data-menu-wrap:hover .data-submenu{display:grid}
 .data-submenu button{
-  height:38px;border:0;border-radius:5px;padding:0 12px;text-align:left;background:#f8fbf9;color:#344d43;font-size:11px
+  height:39px!important;border:0!important;border-radius:5px;padding:0 12px!important;
+  text-align:left;background:#f8fbf9!important;color:#344d43!important;font-size:11px!important
 }
-.data-submenu button:hover,.data-submenu button.active{background:#e8f4ef;color:#075d45;font-weight:800}
+.data-submenu button:hover,.data-submenu button.active{
+  background:#e8f4ef!important;color:#075d45!important;font-weight:800
+}
 body.dark-mode .data-submenu{background:#17231e;border-color:#355046}
 body.dark-mode .data-submenu button{background:#1d2b25;color:#c8ded4}
 body.dark-mode .data-submenu button:hover,body.dark-mode .data-submenu button.active{background:#234437;color:#e3f6ed}
@@ -7801,7 +7807,7 @@ function renderSupabaseMonitor(){
 function daysSetupSig(v){
   return String(v??'').trim().toLowerCase().replace(/&/g,'and').replace(/[^a-z0-9]+/g,'')
 }
-function daysTopicValue(tab,label){return`${tab}::${daysSetupSig(label)}`}
+function daysTopicValue(tab,label){return`${tab}::${daysSetupSig(String(label??'').replace(/[_]+/g,' ').replace(/[‐‑‒–—−]/g,'-').replace(/\s*-\s*/g,'-').replace(/\bInhouse\b/gi,'In-house'))}`}
 function daysSetupMonthKey(year,month){return`${Number(year)}-${String(Number(month)).padStart(2,'0')}`}
 function daysSetupMonthLabel(year,month){
   return new Date(Number(year),Number(month)-1,1).toLocaleDateString(undefined,{month:'long',year:'numeric'})
@@ -7899,20 +7905,90 @@ function daysSetupExtractLiteralTopics(tab){
   if(tab==='lock_board')set.add('Lock Plan');
   return [...set].sort((a,b)=>a.localeCompare(b))
 }
+
 function daysCaptureLiveTopics(tab=state.tab){
   if(tab==='days_setup')return;
   const reg=state.daysSetupUI.topicRegistry||(state.daysSetupUI.topicRegistry={});
-  const set=new Set(reg[tab]||[]);
+  const byKey=new Map();
+
+  const add=label=>{
+    const clean=daysTopicCleanLabel(label),key=daysTopicDedupeKey(clean);
+    if(!key)return;
+    byKey.set(key,daysTopicPreferredLabel(byKey.get(key),clean))
+  };
+
+  (reg[tab]||[]).forEach(add);
   $$('#kpis .label,#content .panel h3,#content .section-band,#content .snap-card h3,#content .daily-mini-label,#content .daily-status-title').forEach(el=>{
     const label=(el.textContent||'').replace(/\s+/g,' ').trim();
-    if(label&&label.length<120)set.add(label)
+    if(label&&label.length<120)add(label)
   });
-  reg[tab]=[...set].sort((a,b)=>a.localeCompare(b))
+
+  reg[tab]=[...byKey.values()].sort((a,b)=>a.localeCompare(b,undefined,{sensitivity:'base'}))
 }
+function daysTopicCleanLabel(label){
+  let s=String(label??'')
+    .normalize('NFKC')
+    .replace(/\u00a0/g,' ')
+    .replace(/[_]+/g,' ')
+    .replace(/[‐‑‒–—−]/g,'-')
+    .replace(/\s*-\s*/g,' - ')
+    .replace(/\s+/g,' ')
+    .trim();
+
+  // Clean common dashboard wording without changing the underlying topic identity.
+  s=s
+    .replace(/\bInhouse\b/gi,'In-house')
+    .replace(/\bEkl\+Ext\b/gi,'EKL+Ext')
+    .replace(/\bEfl\b/g,'EFL')
+    .replace(/\bFfs\b/g,'FFS')
+    .replace(/\bYd\b/g,'YD')
+    .replace(/\bOtd\b/g,'OTD')
+    .replace(/\bOtt\b/g,'OTT')
+    .replace(/\bRft\b/g,'RFT')
+    .replace(/\bMlt\b/g,'MLT')
+    .replace(/\bEtl\b/g,'ETL');
+
+  return s
+}
+function daysTopicDedupeKey(label){
+  return daysSetupSig(daysTopicCleanLabel(label))
+}
+function daysTopicLabelScore(label){
+  const raw=String(label??'').trim(),clean=daysTopicCleanLabel(raw);
+  let score=0;
+  if(raw===clean)score+=4;
+  if(!/_/.test(raw))score+=3;
+  if(!/[A-Z]{4,}/.test(raw.replace(/\b(?:EFL|EKL|FFS|YD|OTD|OTT|RFT|MLT|ETL)\b/g,'')))score+=5;
+  if(/[a-z]/.test(raw))score+=3;
+  if(/\b(?:EFL|EKL|FFS|YD|OTD|OTT|RFT|MLT|ETL)\b/.test(clean))score+=1;
+  score-=Math.abs(clean.length-raw.length)*0.01;
+  return score
+}
+function daysTopicPreferredLabel(a,b){
+  if(!a)return daysTopicCleanLabel(b);
+  if(!b)return daysTopicCleanLabel(a);
+  const aa=daysTopicCleanLabel(a),bb=daysTopicCleanLabel(b);
+  const sa=daysTopicLabelScore(a),sb=daysTopicLabelScore(b);
+  if(sb>sa)return bb;
+  if(sa>sb)return aa;
+  return aa.localeCompare(bb,undefined,{sensitivity:'base'})<=0?aa:bb
+}
+
+
 function daysSetupTopicsForTab(tab){
-  const set=new Set(daysSetupExtractLiteralTopics(tab));
-  (state.daysSetupUI.topicRegistry?.[tab]||[]).forEach(x=>set.add(x));
-  return [...set].map(label=>({value:daysTopicValue(tab,label),label,tab})).sort((a,b)=>a.label.localeCompare(b.label))
+  const byKey=new Map();
+  const add=label=>{
+    const clean=daysTopicCleanLabel(label),key=daysTopicDedupeKey(clean);
+    if(!key)return;
+    const previous=byKey.get(key);
+    byKey.set(key,daysTopicPreferredLabel(previous,clean))
+  };
+  daysSetupExtractLiteralTopics(tab).forEach(add);
+  (state.daysSetupUI.topicRegistry?.[tab]||[]).forEach(add);
+
+  return [...byKey.entries()]
+    .map(([key,label])=>({value:`${tab}::${key}`,label,tab}))
+    .sort((a,b)=>a.label.localeCompare(b.label,undefined,{sensitivity:'base'}))
 }
 function daysSetupAllTopicOptions(submenuKeys=null){
   const catalog=daysSetupMenuCatalog(),subs=[];
@@ -7945,6 +8021,7 @@ function daysSetupRuleFor(tab,topic,year,month){
   };
   return candidates.sort((a,b)=>score(b)-score(a))[0]
 }
+
 function daysSetupCalcRule(rule,year,month){
   if(!rule)return null;
   const consider=Math.max(0,Math.round(Number(rule.daysConsider)||0)),
@@ -7953,14 +8030,31 @@ function daysSetupCalcRule(rule,year,month){
         end=new Date(Number(year),Number(month),0),
         today=new Date();
   today.setHours(0,0,0,0);
-  let elapsed=0;
-  if(today>=start){
-    const asOf=today>end?end:today;
-    elapsed=Math.floor((asOf-start)/86400000)+1;
+  start.setHours(0,0,0,0);end.setHours(0,0,0,0);
+
+  let elapsed=0,gone=0,left=0,periodState='future';
+
+  if(today>end){
+    // Closed/past month: no working days remain.
+    // Final realized days = configured Days Consider minus adjustment.
+    periodState='past';
+    elapsed=end.getDate();
+    gone=Math.max(0,consider-adjust);
+    left=0;
+  }else if(today>=start){
+    // Running/current month: include the first day of the month.
+    periodState='current';
+    elapsed=Math.floor((today-start)/86400000)+1;
+    gone=Math.max(0,Math.min(consider,elapsed-adjust));
+    left=Math.max(0,consider-gone);
+  }else{
+    // Future month has not started.
+    elapsed=0;
+    gone=0;
+    left=consider;
   }
-  const gone=Math.max(0,Math.min(consider,elapsed-adjust));
-  const left=Math.max(0,consider-gone);
-  return{consider,adjust,elapsed,gone,left}
+
+  return{consider,adjust,elapsed,gone,left,periodState}
 }
 function daysSetupMonthKeysFromRange(from,to){
   if(!from||!to||from>to)return[];
@@ -8136,8 +8230,9 @@ function renderDaysSetup(){
       <div class="days-info-stat"><b>${savedMeta.updatedAt?new Date(savedMeta.updatedAt).toLocaleDateString():'—'}</b><span>last saved</span></div>
     </div>
     <div class="days-formula-note">
-      <b>Calculation:</b> Days Gone = inclusive elapsed calendar days from month start − Days Adjust, capped at Days Consider.
-      Days Left = Days Consider − Days Gone. Only <b>Days Consider</b> and <b>Days Adjust</b> are editable day values.
+      <b>Calculation:</b> Current month: Days Gone = inclusive elapsed days − Days Adjust, capped at Days Consider.
+      Closed/past month: Days Gone = Days Consider − Days Adjust and Days Left = 0.
+      Only <b>Days Consider</b> and <b>Days Adjust</b> are editable day values.
     </div>
     <div class="days-table-panel">
       <div class="days-table-head"><div><h3>${esc(monthName)} Setup</h3><p>Menu, Submenu and Topic use multi-selection. “All incl. future” automatically covers future additions within that level.</p></div><span id="daysSaveStatus"></span></div>
