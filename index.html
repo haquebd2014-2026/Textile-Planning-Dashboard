@@ -5930,6 +5930,66 @@ function applyMenuPermissions(){
     else state.tab='overview'
   }
 }
+const USER_PERMISSION_GROUPS=[
+  {key:'kpi',title:'KPI Board',icon:'KPI',desc:'Department KPI dashboards and executive overview',items:[
+    ['overview','Overview','Executive summary across departments'],
+    ['delivery','Delivery','Delivery KPI dashboard'],
+    ['yarn','Yarn Dyeing','Yarn Dyeing KPI dashboard'],
+    ['knitting','Knitting','Knitting KPI dashboard'],
+    ['dyeing','Dyeing','Dyeing KPI dashboard'],
+    ['finishing','Finishing','Finishing KPI dashboard'],
+    ['chemical','Chemical Lab','Chemical Lab KPI dashboard'],
+    ['etl','ETL','ETL KPI dashboard']
+  ]},
+  {key:'ott',title:'OTT Board',icon:'OTT',desc:'Department OTT, overall OTT and booking status',items:[
+    ['ott_yarn','Yarn Dyeing OTT','Yarn Dyeing OTT analysis'],
+    ['ott_knitting','Knitting OTT','Knitting OTT analysis'],
+    ['ott_dyeing','Dyeing OTT','Dyeing OTT analysis'],
+    ['ott_delivery','Delivery OTT','Delivery OTT analysis'],
+    ['ott_lock','Lock Plan OTT','Lock Plan OTT analysis'],
+    ['ott_booking','Booking OTT Status','Cross-department booking OTT status'],
+    ['ott_overall','Overall OTT','Combined OTT management board']
+  ]},
+  {key:'lock',title:'Lock Plan Details',icon:'LP',desc:'Detailed Lock Plan management and event investigation',items:[
+    ['lock_board','Lock Plan Details Board','Cards, charts and management reports'],
+    ['lock_event','Event Detail','Event-level table with Booking No. filtering']
+  ]},
+  {key:'daily',title:'Daily Summary',icon:'DAY',desc:'Daily production snapshot and source upload',items:[
+    ['daily_summary','Daily Summary Dashboard','Daily production scenario, trends and management view'],
+    ['upload_daily_summary','Upload Daily Summary Data','Upload / replace Daily Report Data sheet']
+  ]},
+  {key:'data_kpi',title:'Data Management — KPI & Setup',icon:'KPI↑',desc:'Allow specific KPI/target uploads and central day setup',items:[
+    ['data','Data Management Status','Open Data Management and see current source status'],
+    ['days_setup','Days Setup','Configure working-day rules used by till-date and required-average calculations'],
+    ['upload_dyeing','Upload Dyeing Data','Upload / replace Dyeing_Dashboard'],
+    ['upload_knitting','Upload Knitting Data','Upload / replace Knitting_Dashboard'],
+    ['upload_finishing','Upload Finishing Data','Upload / replace Finishing_Dashboard'],
+    ['upload_delivery','Upload Delivery Data','Upload / replace Delivery_Dashboard'],
+    ['upload_yarn','Upload Yarn Dyeing Data','Upload / replace Yarn_Dyeing_Dashboard'],
+    ['upload_chemical','Upload Chemical Lab Data','Upload / replace Chemical_Lab_Dashboard'],
+    ['upload_etl','Upload ETL Data','Upload / replace ETL_Dashboard'],
+    ['upload_targets','Upload Target Data','Upload / replace Dashboard_Target']
+  ]},
+  {key:'data_ott',title:'Data Management — OTT Uploads',icon:'OTT↑',desc:'Allow source upload one department at a time',items:[
+    ['upload_ott_yarn','Upload Yarn Dyeing OTT','Upload / replace Yarn Dyeing OTT source'],
+    ['upload_ott_knitting','Upload Knitting OTT','Upload / replace Knitting OTT source'],
+    ['upload_ott_dyeing','Upload Dyeing OTT','Upload / replace Dyeing OTT source'],
+    ['upload_ott_delivery','Upload Delivery OTT','Upload / replace Delivery OTT source'],
+    ['upload_ott_lock','Upload Lock Plan OTT','Upload / replace Lock Plan OTT source']
+  ]},
+  {key:'data_lock',title:'Data Management — Lock Plan Details',icon:'LP↑',desc:'Lock Plan event and booking-level operational source uploads',items:[
+    ['upload_lock_details','Upload Lock Plan Details','Upload / replace Lock Plan Details.xlsx'],
+    ['upload_pmc_urgent','Upload PMC1 Urgent Data','Upload / replace PMC1_Urgent_Filtered_Export.xlsx']
+  ]}
+];
+const USER_PERMISSION_PRESETS={
+  standard:[...KPI_TABS,...OTT_TABS,'lock_board','lock_event'],
+  kpi:[...KPI_TABS],
+  ott:[...OTT_TABS],
+  management:['overview','ott_overall','lock_board'],
+  none:[]
+};
+
 function normalizeManagedUserPermissions(perms={}){
   const p={...DEFAULT_PERMISSIONS,...perms};
   if(!Object.prototype.hasOwnProperty.call(perms,'lock_board')&&Object.prototype.hasOwnProperty.call(perms,'lock_details'))p.lock_board=perms.lock_details===true;
@@ -8387,6 +8447,7 @@ function render(){
   else if(state.tab==='overview')$('#countText').textContent='Executive summary • 7 departments • date-wise view';
   else $('#countText').textContent=`${currentDateRows('Dyeing').length} daily records`;
 }
+let swElapsed=0,swStartedAt=null,swTimer=null;
 function updateStopwatch(){const el=$('#stopwatchText');if(!el)return;const ms=swElapsed+(swStartedAt?Date.now()-swStartedAt:0),sec=Math.floor(ms/1000),m=Math.floor(sec/60),s=sec%60;el.textContent=`${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`}
 function toggleStopwatch(){const btn=$('#stopwatchBtn');if(swTimer){swElapsed+=Date.now()-swStartedAt;swStartedAt=null;clearInterval(swTimer);swTimer=null;btn?.classList.remove('active-tool')}else{swStartedAt=Date.now();swTimer=setInterval(updateStopwatch,250);btn?.classList.add('active-tool')}updateStopwatch()}
 function resetStopwatch(){if(swTimer)clearInterval(swTimer);swTimer=null;swStartedAt=null;swElapsed=0;$('#stopwatchBtn')?.classList.remove('active-tool');updateStopwatch()}
