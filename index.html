@@ -3731,7 +3731,7 @@ const OTT_CONFIG={
   ott_knitting:{key:'knitting',label:'Knitting OTT',short:'Knitting',fileName:'Knitting OTT_2026-2027.xlsx',hasFloor:false},
   ott_dyeing:{key:'dyeing',label:'Dyeing OTT',short:'Dyeing',fileName:'Dyeing OTT_2026-2027.xlsx',hasFloor:true},
   ott_delivery:{key:'delivery',label:'Delivery OTT',short:'Delivery',fileName:'Delivery Floor OTT_2026-2027.xlsx',hasFloor:true},
-  ott_lock:{key:'lock',label:'Lock Plan OTT',short:'Lock Plan',fileName:'Lock Plan OTT_2026-2027.xlsx',hasFloor:true},
+  ott_lock:{key:'lock',label:'Lock Plan OTT',short:'Lock Plan',fileName:'Auto from Lock Plan Details.xlsx',hasFloor:true},
   ott_booking:{key:'booking',label:'Booking OTT Status',short:'Booking Status',fileName:'',hasFloor:true},
   ott_overall:{key:'overall',label:'Overall OTT',short:'Overall',fileName:'',hasFloor:true}
 };
@@ -4752,12 +4752,86 @@ function normalizeOTTWorkbook(wb,tab){
   return rows
 }
 
+
+/* ================= v67 LOCK PLAN DETAILS -> LOCK PLAN OTT =================
+   Booking No.   <- Booking No.
+   Buyer         <- Buyer
+   Plan          <- Start / End
+   Actual        <- A-Start / A-End
+   Result        <- S-OTD / E-OTD (YES=Pass, NO=Fail)
+   Details       <- intentionally blank
+   Fail Reason   <- LS-Remarks/Fail Reason / LE-Remarks/Fail Reason
+   Related Dept. <- LS-Dept / LE-Dept
+   Floor         <- FLOOR
+   Type          <- Start / End according to source event
+   Month         <- Lock.Start. Month / Lock. End Month
+======================================================================== */
+function lockPlanOttMonthFromEvent(r){
+  const src=ottClean(r?.MonthSource);
+  if(src)return src;
+  if(r?.MonthKey)return lpdMonthLabel(r.MonthKey);
+  if(r?.LockPlan){
+    const d=new Date(r.LockPlan+'T00:00:00');
+    if(!isNaN(d))return d.toLocaleDateString(undefined,{month:'short',year:'numeric'})
+  }
+  return''
+}
+function lockPlanDetailsToOttRows(events){
+  const rows=(events||[]).map(r=>{
+    const ev=String(r?.Event||'').trim().toUpperCase();
+    const result=r?.OTD==='PASS'?'Pass':r?.OTD==='FAIL'?'Fail':'';
+    return{
+      BookingNo:ottClean(r?.BookingNo),
+      Buyer:ottClean(r?.Buyer),
+      Plan:r?.LockPlan||null,
+      Actual:r?.Actual||null,
+      Result:result,
+      FailReason:ottClean(r?.DetailReason),
+      RelatedDept:ottClean(r?.Responsible),
+      Floor:ottClean(r?.Floor),
+      Type:ev==='START'?'Start':ev==='END'?'End':ottNormType(ev),
+      Month:lockPlanOttMonthFromEvent(r),
+      DetailsRemarks:''
+    }
+  }).filter(r=>r.BookingNo&&(r.Plan||r.Actual||r.Result||r.FailReason||r.RelatedDept||r.Type||r.Month));
+  rows.sort((a,b)=>
+    (a.Plan||'9999').localeCompare(b.Plan||'9999')||
+    a.BookingNo.localeCompare(b.BookingNo,undefined,{numeric:true,sensitivity:'base'})||
+    a.Type.localeCompare(b.Type)
+  );
+  return rows
+}
+function lockPlanOttDerivedRows(){
+  const events=state.data?.lockPlanDetails?.events||[];
+  const cache=state._lockPlanOttDerivedCache;
+  if(cache?.events===events)return cache.rows;
+  const rows=lockPlanDetailsToOttRows(events);
+  state._lockPlanOttDerivedCache={events,rows};
+  return rows
+}
+function lockPlanOttSourceInfo(){
+  const derived=lockPlanOttDerivedRows();
+  const legacy=state.data?.ottSources?.lock?.rows||[];
+  if(derived.length)return{
+    rows:derived,mode:'derived',
+    sourceFile:state.data?.lockPlanDetails?.meta?.fileName||'Lock Plan Details.xlsx',
+    updatedAt:state.data?.lockPlanDetails?.meta?.uploadedAt||null
+  };
+  if(legacy.length)return{
+    rows:legacy,mode:'legacy',
+    sourceFile:state.data?.ottSources?.lock?.meta?.fileName||'Legacy Lock Plan OTT source',
+    updatedAt:state.data?.ottSources?.lock?.meta?.uploadedAt||null
+  };
+  return{rows:[],mode:'none',sourceFile:'Lock Plan Details.xlsx',updatedAt:null}
+}
+
+
 function ottSource(tab){
   if(!OTT_SOURCE_TABS.includes(tab))return[];
+  if(tab==='ott_lock')return lockPlanOttSourceInfo().rows;
   const cfg=OTT_CONFIG[tab];
   return state.data?.ottSources?.[cfg.key]?.rows||[]
 }
-
 function ottRowsWithDept(tab){
   if(tab==='ott_overall'||tab==='ott_booking'){
     return OTT_SOURCE_TABS.flatMap(t=>{
@@ -5039,7 +5113,7 @@ function ottFilterPanel(tab){
     ?`${ottBookingOptions('ott_booking').length.toLocaleString()} unique bookings combined from 5 OTT sources`
     :tab==='ott_overall'
       ?`${base.length.toLocaleString()} checks combined from 5 OTT sources`
-      :`${base.length.toLocaleString()} checks • ${(state.data?.ottSources?.[cfg.key]?.meta?.bookings||0).toLocaleString()} bookings`;
+      :`${base.length.toLocaleString()} checks • ${new Set(base.map(r=>ottBookingKey(r.BookingNo)).filter(Boolean)).size.toLocaleString()} bookings`;
 
   let stage=ottDateContextRows(base);
   const buyers=ottCanonicalOptions(stage,'Buyer');ottPruneListFilter('buyer',buyers);stage=stage.filter(r=>ottMultiMatch(r.Buyer,f.buyer));
@@ -5976,15 +6050,14 @@ const USER_PERMISSION_GROUPS=[
     ['upload_etl','Upload ETL Data','Upload / replace ETL_Dashboard'],
     ['upload_targets','Upload Target Data','Upload / replace Dashboard_Target']
   ]},
-  {key:'data_ott',title:'Data Management — OTT Uploads',icon:'OTT↑',desc:'Allow source upload one department at a time',items:[
+  {key:'data_ott',title:'Data Management — OTT Uploads',icon:'OTT↑',desc:'Four direct OTT uploads. Lock Plan OTT is automatic from Lock Plan Details.',items:[
     ['upload_ott_yarn','Upload Yarn Dyeing OTT','Upload / replace Yarn Dyeing OTT source'],
     ['upload_ott_knitting','Upload Knitting OTT','Upload / replace Knitting OTT source'],
     ['upload_ott_dyeing','Upload Dyeing OTT','Upload / replace Dyeing OTT source'],
-    ['upload_ott_delivery','Upload Delivery OTT','Upload / replace Delivery OTT source'],
-    ['upload_ott_lock','Upload Lock Plan OTT','Upload / replace Lock Plan OTT source']
+    ['upload_ott_delivery','Upload Delivery OTT','Upload / replace Delivery OTT source']
   ]},
-  {key:'data_lock',title:'Data Management — Lock Plan Details',icon:'LP↑',desc:'Lock Plan event and booking-level operational source uploads',items:[
-    ['upload_lock_details','Upload Lock Plan Details','Upload / replace Lock Plan Details.xlsx'],
+  {key:'data_lock',title:'Data Management — Lock Plan Details',icon:'LP↑',desc:'Lock Plan Details also feeds Lock Plan OTT automatically',items:[
+    ['upload_lock_details','Upload Lock Plan Details','Upload / replace Lock Plan Details.xlsx and generate Lock Plan OTT'],
     ['upload_pmc_urgent','Upload PMC1 Urgent Data','Upload / replace PMC1_Urgent_Filtered_Export.xlsx']
   ]}
 ];
@@ -7604,9 +7677,9 @@ async function handleLockPlanDetailsUpload(){
     st.textContent='Reading and validating Lock Plan Details workbook...';
     const wb=XLSX.read(await f.arrayBuffer(),{type:'array'}),events=normalizeLockPlanDetailsWorkbook(wb),plans=events.map(r=>r.LockPlan).filter(Boolean).sort(),actual=events.map(r=>r.Actual).filter(Boolean).sort(),now=new Date().toISOString(),
           meta={fileName:f.name,uploadedAt:now,eventRows:events.length,bookings:new Set(events.map(r=>r.BookingNo)).size,dateFrom:plans[0]||null,dateTo:plans.slice(-1)[0]||null,actualTo:actual.slice(-1)[0]||null};
-    st.textContent=`Validated ${events.length.toLocaleString()} Start/End events / ${meta.bookings.toLocaleString()} bookings. Publishing lightweight source row...`;
+    st.textContent=`Validated ${events.length.toLocaleString()} Start/End events / ${meta.bookings.toLocaleString()} bookings. Publishing Lock Plan Details source...`;
     await saveDashboardSource('lock_details',f.name,{lockPlanDetails:{events,meta}},now);
-    st.textContent=`Lock Plan Details published successfully. Plan range ${meta.dateFrom||'—'} to ${meta.dateTo||'—'}; actual data through ${meta.actualTo||'—'}.`;
+    st.textContent=`Lock Plan Details published successfully. Lock Plan OTT is generated automatically from the same ${events.length.toLocaleString()} Start/End events. Plan range ${meta.dateFrom||'—'} to ${meta.dateTo||'—'}; actual data through ${meta.actualTo||'—'}.`;
     await loadData()
   }catch(e){st.textContent=uploadErrorMessage(e,'Lock Plan Details upload')}
 }
@@ -8351,8 +8424,8 @@ function renderData(){
     </article>`
   };
 
-  const autoCard=({title,group='ott',subtitle,metrics=[],icon='AUTO'})=>`<article class="dm-source-card dm-${group} dm-auto-source" data-loaded="1" data-search="${esc(`${title} ${subtitle||''}`.toLowerCase())}">
-    <div class="dm-source-top"><div class="dm-source-icon">${esc(icon)}</div><div class="dm-source-name"><h4>${esc(title)}</h4><span>System generated</span></div><span class="dm-health loaded"><i></i>Automatic</span></div>
+  const autoCard=({title,group='ott',subtitle,metrics=[],icon='AUTO',loaded=true,statusLabel=''})=>`<article class="dm-source-card dm-${group} dm-auto-source" data-loaded="${loaded?'1':'0'}" data-search="${esc(`${title} ${subtitle||''}`.toLowerCase())}">
+    <div class="dm-source-top"><div class="dm-source-icon">${esc(icon)}</div><div class="dm-source-name"><h4>${esc(title)}</h4><span>System generated</span></div><span class="dm-health ${loaded?'loaded':'missing'}"><i></i>${esc(statusLabel||(loaded?'Automatic':'Awaiting source'))}</span></div>
     <div class="dm-auto-body"><p>${esc(subtitle||'')}</p><div class="dm-auto-metrics">${metrics.map(x=>`<div><b>${esc(x.value)}</b><span>${esc(x.label)}</span></div>`).join('')}</div></div>
   </article>`;
 
@@ -8367,27 +8440,53 @@ function renderData(){
     sourceCard({perm:'upload_targets',title:'Target Data',group:'kpi',icon:'TG',workbook:'Dashboard_Target.xlsx',sheets:'Target • Department | Topics | Target',maxMb:20,inputId:'targetFileInput',buttonId:'targetUploadBtn',statusId:'targetUploadStatus',buttonText:'Upload / Replace',fileName:targetMeta.fileName,updated:targetMeta.uploadedAt,periodText:'Target master',loaded:!!(targetMeta.fileName||(d.targets||[]).length),pills:[`${(d.targets||[]).length} active targets`]})
   ].filter(Boolean);
 
-  const ottSource=(tab,perm,title,workbook,inputId,buttonId,statusId,icon)=>{
+  const ottUploadSource=(tab,perm,title,workbook,inputId,buttonId,statusId,icon)=>{
     const cfg=OTT_CONFIG[tab],src=ott?.[cfg.key]||{},m=src.meta||{},rows=src.rows||[];
     return sourceCard({perm,title,group:'ott',icon,workbook,sheets:'Sheet: Data',maxMb:MAX_OTT_FILE_MB,inputId,buttonId,statusId,buttonText:'Upload / Replace',fileName:m.fileName,updated:m.uploadedAt,periodText:period(m),loaded:!!(m.fileName||rows.length),pills:[`${(m.rows||rows.length||0).toLocaleString()} checks`,`${(m.bookings||0).toLocaleString()} bookings`]})
   };
-  const ottSources=[
-    ottSource('ott_yarn','upload_ott_yarn','Yarn Dyeing OTT','Yarn Dyeing OTT_2026-2027.xlsx','ottYarnFileInput','ottYarnUploadBtn','ottYarnUploadStatus','YD'),
-    ottSource('ott_knitting','upload_ott_knitting','Knitting OTT','Knitting OTT_2026-2027.xlsx','ottKnittingFileInput','ottKnittingUploadBtn','ottKnittingUploadStatus','KN'),
-    ottSource('ott_dyeing','upload_ott_dyeing','Dyeing OTT','Dyeing OTT_2026-2027.xlsx','ottDyeingFileInput','ottDyeingUploadBtn','ottDyeingUploadStatus','DY'),
-    ottSource('ott_delivery','upload_ott_delivery','Delivery OTT','Delivery Floor OTT_2026-2027.xlsx','ottDeliveryFileInput','ottDeliveryUploadBtn','ottDeliveryUploadStatus','DL'),
-    ottSource('ott_lock','upload_ott_lock','Lock Plan OTT','Lock Plan OTT_2026-2027.xlsx','ottLockFileInput','ottLockUploadBtn','ottLockUploadStatus','LP')
+
+  const ottUploadCards=[
+    ottUploadSource('ott_yarn','upload_ott_yarn','Yarn Dyeing OTT','Yarn Dyeing OTT_2026-2027.xlsx','ottYarnFileInput','ottYarnUploadBtn','ottYarnUploadStatus','YD'),
+    ottUploadSource('ott_knitting','upload_ott_knitting','Knitting OTT','Knitting OTT_2026-2027.xlsx','ottKnittingFileInput','ottKnittingUploadBtn','ottKnittingUploadStatus','KN'),
+    ottUploadSource('ott_dyeing','upload_ott_dyeing','Dyeing OTT','Dyeing OTT_2026-2027.xlsx','ottDyeingFileInput','ottDyeingUploadBtn','ottDyeingUploadStatus','DY'),
+    ottUploadSource('ott_delivery','upload_ott_delivery','Delivery OTT','Delivery Floor OTT_2026-2027.xlsx','ottDeliveryFileInput','ottDeliveryUploadBtn','ottDeliveryUploadStatus','DL')
   ].filter(Boolean);
 
+  const lockOttInfo=lockPlanOttSourceInfo(),lockOttRows=lockOttInfo.rows,
+        lockOttBookings=new Set(lockOttRows.map(r=>ottBookingKey(r.BookingNo)).filter(Boolean)).size,
+        lockOttLoaded=lockOttRows.length>0,
+        lockOttAutoVisible=state.profile?.role==='admin'||p.data===true||p.upload_lock_details===true||p.ott_lock===true,
+        lockOttSubtitle=lockOttInfo.mode==='derived'
+          ?`Automatically extracted from ${lockOttInfo.sourceFile}. Start/End events are converted to Lock Plan OTT checks using the configured mapping.`
+          :lockOttInfo.mode==='legacy'
+            ?'Legacy Lock Plan OTT source is being used temporarily because Lock Plan Details data is not available. Upload Lock Plan Details to switch automatically.'
+            :'Upload Lock Plan Details.xlsx in Daily & Lock Plan Data. Lock Plan OTT will be generated automatically; no separate Lock Plan OTT upload is required.',
+        lockOttAuto=lockOttAutoVisible?autoCard({
+          title:'Lock Plan OTT',group:'ott',icon:'LP',loaded:lockOttLoaded,
+          statusLabel:lockOttInfo.mode==='derived'?'From Lock Plan Details':lockOttInfo.mode==='legacy'?'Legacy fallback':'Awaiting Lock Plan Details',
+          subtitle:lockOttSubtitle,
+          metrics:[
+            {value:lockOttRows.length.toLocaleString(),label:'OTT checks'},
+            {value:lockOttBookings.toLocaleString(),label:'bookings'},
+            {value:lockOttInfo.mode==='derived'?'Start + End':lockOttInfo.mode==='legacy'?'Legacy':'—',label:'source mode'}
+          ]
+        }):'';
+
+  const ottSources=[...ottUploadCards,lockOttAuto].filter(Boolean);
+
   const dailySource=sourceCard({perm:'upload_daily_summary',title:'Daily Summary Data',group:'ops',icon:'DAY',workbook:'Daily Report.xlsx',sheets:'Required sheet: Data only • Summary sheet ignored',maxMb:MAX_DAILY_SUMMARY_MB,inputId:'dailySummaryFileInput',buttonId:'dailySummaryUploadBtn',statusId:'dailySummaryUploadStatus',buttonText:'Upload / Replace',fileName:dailyMeta.fileName,updated:dailyMeta.uploadedAt,periodText:period(dailyMeta),loaded:!!(dailyMeta.fileName||(dailySummary.rows||[]).length),pills:[`${(dailyMeta.rows||0).toLocaleString()} date rows`]});
-  const lockSource=sourceCard({perm:'upload_lock_details',title:'Lock Plan Details',group:'ops',icon:'LP',workbook:'Lock Plan Details.xlsx',sheets:'Sheet: Data • detailed Start/End event source',maxMb:MAX_LOCK_PLAN_DETAILS_MB,inputId:'lockPlanDetailsFileInput',buttonId:'lockPlanDetailsUploadBtn',statusId:'lockPlanDetailsUploadStatus',buttonText:'Upload / Replace',fileName:lockDetailMeta.fileName,updated:lockDetailMeta.uploadedAt,periodText:period(lockDetailMeta),loaded:!!(lockDetailMeta.fileName||(lockDetails.events||[]).length),pills:[`${(lockDetailMeta.eventRows||0).toLocaleString()} events`,`${(lockDetailMeta.bookings||0).toLocaleString()} bookings`],note:lockDetailMeta.actualTo?`Actual data through ${lockDetailMeta.actualTo}`:''});
+  const lockSource=sourceCard({perm:'upload_lock_details',title:'Lock Plan Details',group:'ops',icon:'LP',workbook:'Lock Plan Details.xlsx',sheets:'Sheet: Data • detailed Start/End event source',maxMb:MAX_LOCK_PLAN_DETAILS_MB,inputId:'lockPlanDetailsFileInput',buttonId:'lockPlanDetailsUploadBtn',statusId:'lockPlanDetailsUploadStatus',buttonText:'Upload / Replace',fileName:lockDetailMeta.fileName,updated:lockDetailMeta.uploadedAt,periodText:period(lockDetailMeta),loaded:!!(lockDetailMeta.fileName||(lockDetails.events||[]).length),pills:[`${(lockDetailMeta.eventRows||0).toLocaleString()} events`,`${(lockDetailMeta.bookings||0).toLocaleString()} bookings`],note:`Feeds Lock Plan Details boards + automatically generates Lock Plan OTT.${lockDetailMeta.actualTo?` Actual data through ${lockDetailMeta.actualTo}.`:''}`});
   const pmcUrgentSource=sourceCard({perm:'upload_pmc_urgent',title:'PMC1 Urgent Data',group:'ops',icon:'PMC',workbook:'PMC1_Urgent_Filtered_Export.xlsx',sheets:'Sheet: PMC1_Urgent • booking/batch operational detail',maxMb:MAX_PMC_URGENT_MB,inputId:'pmcUrgentFileInput',buttonId:'pmcUrgentUploadBtn',statusId:'pmcUrgentUploadStatus',buttonText:'Upload / Replace',fileName:pmcUrgentMeta.fileName,updated:pmcUrgentMeta.uploadedAt,periodText:period(pmcUrgentMeta),loaded:!!(pmcUrgentMeta.fileName||(pmcUrgent.rows||[]).length),pills:[`${(pmcUrgentMeta.rows||0).toLocaleString()} rows`,`${(pmcUrgentMeta.bookings||0).toLocaleString()} bookings`,`${(pmcUrgentMeta.batches||0).toLocaleString()} batches`],note:'Used by Event Detail → Details popup. Matching is by Booking No.'});
 
   const loadedKpi=kpiSources.filter(x=>x.includes('data-loaded="1"')).length;
   const loadedOtt=ottSources.filter(x=>x.includes('data-loaded="1"')).length;
   const loadedOps=[dailySource,lockSource,pmcUrgentSource].filter(x=>x&&x.includes('data-loaded="1"')).length;
-  const combinedRows=OTT_SOURCE_TABS.reduce((n,t)=>n+(ott?.[OTT_CONFIG[t].key]?.rows||[]).length,0);
-  const overallOtt=(p.data===true||state.profile?.role==='admin'||ottSources.length)?autoCard({title:'Overall OTT',group:'ott',icon:'AUTO',subtitle:'Automatically compiled from the five departmental OTT sources. No separate upload is required.',metrics:[{value:`${loadedOtt}/5`,label:'sources loaded'},{value:combinedRows.toLocaleString(),label:'combined checks'}]}):'';
+  const combinedRows=OTT_SOURCE_TABS.reduce((n,t)=>n+ottSource(t).length,0);
+  const overallOtt=(p.data===true||state.profile?.role==='admin'||ottSources.length)?autoCard({
+    title:'Overall OTT',group:'ott',icon:'AUTO',
+    subtitle:'Automatically compiled from four direct departmental OTT uploads plus Lock Plan OTT extracted from Lock Plan Details.',
+    metrics:[{value:`${loadedOtt}/5`,label:'sources ready'},{value:combinedRows.toLocaleString(),label:'combined checks'}]
+  }):'';
 
   const section=(id,kind,title,subtitle,cards,countLabel)=>cards.length?`<section class="dm-section dm-section-${kind}" id="${id}">
     <div class="dm-section-head"><div><span class="dm-section-kicker">${esc(kind==='kpi'?'Performance Data':kind==='ott'?'On-Time Tracking':'Operational Data')}</span><h3>${esc(title)}</h3><p>${esc(subtitle)}</p></div><span class="dm-section-count">${esc(countLabel)}</span></div>
@@ -8397,7 +8496,7 @@ function renderData(){
   const opsCards=[dailySource,lockSource,pmcUrgentSource].filter(Boolean);
   const kpiSection=section('dmKpiSection','kpi','KPI Board Data','Department production, quality, utilization and target source files.',kpiSources,`${loadedKpi}/${kpiSources.length} loaded`);
   const ottCardsForSection=[...ottSources,overallOtt].filter(Boolean);
-  const ottSection=section('dmOttSection','ott','OTT Board Data','Department OTT source files plus the automatically generated Overall OTT dataset.',ottCardsForSection,`${loadedOtt}/5 uploaded`);
+  const ottSection=section('dmOttSection','ott','OTT Board Data','Four direct OTT uploads + Lock Plan OTT automatically extracted from Lock Plan Details + Overall OTT.',ottCardsForSection,`${loadedOtt}/5 ready`);
   const opsSection=section('dmOpsSection','ops','Daily & Lock Plan Data','Operational daily production and detailed Lock Plan event sources.',opsCards,`${loadedOps}/${opsCards.length} loaded`);
 
   const visibleTotal=kpiSources.length+ottSources.length+opsCards.length;
@@ -8451,7 +8550,6 @@ function renderData(){
   bind('ottKnittingUploadBtn','upload_ott_knitting',()=>handleOTTUpload('ott_knitting','ottKnittingFileInput','ottKnittingUploadStatus'));
   bind('ottDyeingUploadBtn','upload_ott_dyeing',()=>handleOTTUpload('ott_dyeing','ottDyeingFileInput','ottDyeingUploadStatus'));
   bind('ottDeliveryUploadBtn','upload_ott_delivery',()=>handleOTTUpload('ott_delivery','ottDeliveryFileInput','ottDeliveryUploadStatus'));
-  bind('ottLockUploadBtn','upload_ott_lock',()=>handleOTTUpload('ott_lock','ottLockFileInput','ottLockUploadStatus'));
   bind('lockPlanDetailsUploadBtn','upload_lock_details',handleLockPlanDetailsUpload);
   bind('pmcUrgentUploadBtn','upload_pmc_urgent',handlePmcUrgentUpload);
 
