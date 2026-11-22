@@ -3544,6 +3544,52 @@ body.dark-mode .days-table tbody tr:nth-child(even) td{background:#142019}
 }
 @media(max-width:650px){.days-setup-info{grid-template-columns:1fr}.days-setup-info>div:first-child{grid-column:auto}}
 
+
+/* ================= v68 PMC1 Shade wrap fix ================= */
+/* Keep Batch + Shade frozen. Shade now wraps fully inside its own column
+   so long shade descriptions never overlap BPTotal or later columns. */
+.pmc-table-wrap th.pmc-freeze-shade,
+.pmc-table-wrap td.pmc-freeze-shade{
+  min-width:190px!important;
+  width:190px!important;
+  max-width:190px!important;
+  white-space:normal!important;
+  overflow-wrap:anywhere!important;
+  word-break:normal!important;
+  text-overflow:clip!important;
+  overflow:hidden!important;
+  line-height:1.28!important;
+  padding-top:9px!important;
+  padding-bottom:9px!important;
+  vertical-align:middle!important;
+}
+.pmc-table-wrap td.pmc-freeze-shade{
+  font-size:14px!important;
+  font-weight:800!important;
+}
+.pmc-table-wrap th.pmc-freeze-shade{
+  font-size:13px!important;
+}
+.pmc-table-wrap th.pmc-freeze-batch,
+.pmc-table-wrap td.pmc-freeze-batch{
+  min-width:182px!important;
+  width:182px!important;
+  max-width:182px!important;
+}
+/* Shade sits immediately after the widened Batch frozen pane. */
+.pmc-table-wrap th.pmc-freeze-shade,
+.pmc-table-wrap td.pmc-freeze-shade{
+  left:182px!important;
+}
+/* Ensure rows expand naturally to wrapped Shade content. */
+.pmc-table-wrap tbody tr{
+  height:auto!important;
+  min-height:48px!important;
+}
+.pmc-table-wrap tbody td{
+  height:auto!important;
+}
+
 </style></head><body><div id="app" class="hidden"><div class="app-sticky-header"><div class="top-accent"></div><header class="header"><div class="header-left"><div class="brand-mark">TP</div><div><div class="brand-title">Textile Planning Dashboard</div><div class="brand-sub">Planning, Monitoring & Control</div></div></div><div class="header-actions"><div class="utility-tools"><button class="tool-btn stopwatch-btn" id="stopwatchBtn" title="Click to start/pause • Double-click to reset">⏱ <span id="stopwatchText">00:00</span></button><button class="tool-btn" id="fullscreenBtn" title="Enter full screen">⛶ Full</button><button class="tool-btn" id="themeBtn" title="Switch dark/light mode">☾ Dark</button></div><span class="greeting" id="greeting">Good morning</span><button class="btn" id="exportBtn">Export CSV</button><button class="btn" id="signOutBtn">Sign out</button><button class="btn primary" id="refreshBtn">Refresh</button></div></header><nav class="nav">
   <button data-tab="daily_summary" class="main-nav-btn">Daily Summary</button>
   <div class="kpi-menu-wrap" id="kpiMenuWrap" data-days-menu-key="kpi">
