@@ -3898,12 +3898,26 @@ const DATA_UPLOAD_PERMISSION_KEYS=[
   'upload_dyeing','upload_knitting','upload_finishing','upload_delivery','upload_yarn','upload_chemical','upload_etl','upload_targets',
   'upload_ott_yarn','upload_ott_knitting','upload_ott_dyeing','upload_ott_delivery','upload_ott_lock','upload_lock_details','upload_pmc_urgent','upload_daily_summary'
 ];
+const CONVERTER_PERMISSION_KEYS=[
+  'converter_upload_01','converter_download_01_urgent','converter_download_01_clean',
+  'converter_upload_02','converter_download_02',
+  'converter_upload_03','converter_download_03',
+  'converter_upload_07','converter_download_07',
+  'converter_upload_08','converter_download_08',
+  'converter_upload_10','converter_download_10'
+];
 const DEFAULT_PERMISSIONS={
   overview:true,dyeing:true,knitting:true,finishing:true,delivery:true,yarn:true,chemical:true,etl:true,
   ott_yarn:true,ott_knitting:true,ott_dyeing:true,ott_delivery:true,ott_lock:true,ott_booking:true,ott_overall:true,
-  lock_board:true,lock_event:true,daily_summary:true,data:false,days_setup:false,converter:true,
+  lock_board:true,lock_event:true,daily_summary:true,data:false,days_setup:false,converter:false,
   upload_dyeing:false,upload_knitting:false,upload_finishing:false,upload_delivery:false,upload_yarn:false,upload_chemical:false,upload_etl:false,upload_targets:false,
   upload_ott_yarn:false,upload_ott_knitting:false,upload_ott_dyeing:false,upload_ott_delivery:false,upload_ott_lock:false,upload_lock_details:false,upload_pmc_urgent:false,upload_daily_summary:false,
+  converter_upload_01:false,converter_download_01_urgent:false,converter_download_01_clean:false,
+  converter_upload_02:false,converter_download_02:false,
+  converter_upload_03:false,converter_download_03:false,
+  converter_upload_07:false,converter_download_07:false,
+  converter_upload_08:false,converter_download_08:false,
+  converter_upload_10:false,converter_download_10:false,
   users:false
 };
 const state={
@@ -6063,6 +6077,7 @@ function effectivePermissions(){
     ...DEFAULT_PERMISSIONS,
     ...Object.fromEntries(MENU_DEFS.map(m=>[m.key,true])),
     ...Object.fromEntries(DATA_UPLOAD_PERMISSION_KEYS.map(k=>[k,true])),
+    ...Object.fromEntries(CONVERTER_PERMISSION_KEYS.map(k=>[k,true])),
     data:true,users:true
   };
   const saved=state.profile?.permissions||{},merged={...DEFAULT_PERMISSIONS,...saved,users:false};
@@ -6166,6 +6181,28 @@ const USER_PERMISSION_GROUPS=[
   {key:'data_lock',title:'Data Management — Lock Plan Details',icon:'LP↑',desc:'Lock Plan Details also feeds Lock Plan OTT automatically',items:[
     ['upload_lock_details','Upload Lock Plan Details','Upload / replace Lock Plan Details.xlsx and generate Lock Plan OTT'],
     ['upload_pmc_urgent','Upload PMC1 Urgent Data','Upload / replace PMC1_Urgent_Filtered_Export.xlsx']
+  ]},
+  {key:'converter_access',title:'Converter Studio',icon:'CVT',desc:'Session-only converter access with separate upload and download permissions. No workbook data is saved to Supabase.',items:[
+    ['converter','Converter Studio Access','Show and open the Converter Studio menu'],
+
+    ['converter_upload_01','Upload 01 — PMC 1 File','Allow PMC 1 source file selection / drag-drop'],
+    ['converter_download_01_urgent','Download 01A — PMC1 Urgent','Allow PMC1_Urgent binary/CSV output'],
+    ['converter_download_01_clean','Download 01B — PMC1 Cleaned Workbook','Allow cleaned PMC 1 binary output'],
+
+    ['converter_upload_02','Upload 02 — Yarn Summary','Allow Yarn Summary source file upload'],
+    ['converter_download_02','Download 02 — Yarn Summary','Allow Summary binary/CSV output'],
+
+    ['converter_upload_03','Upload 03 — Yarn Allocation','Allow Yarn Allocation source file upload'],
+    ['converter_download_03','Download 03 — Yarn Allocation','Allow Yarn Allocation binary/CSV output'],
+
+    ['converter_upload_07','Upload 07 — Textile Lock Plan','Allow Textile Lock Plan source file upload'],
+    ['converter_download_07','Download 07 — Lock Plan Details','Allow Lock Plan Details binary/CSV output'],
+
+    ['converter_upload_08','Upload 08 — Daily Report','Allow Daily Report source file upload'],
+    ['converter_download_08','Download 08 — Daily Report','Allow Daily Report binary/CSV output'],
+
+    ['converter_upload_10','Upload 10 — Column Extractor','Allow any Excel file to be opened in Column Extractor'],
+    ['converter_download_10','Download 10 — Extracted File','Allow Column Extractor XLSB/XLSX/CSV download']
   ]}
 ];
 const USER_PERMISSION_PRESETS={
@@ -8500,6 +8537,28 @@ const CONVERTER_TOOLS=[
   }
 ];
 
+
+function converterPermissionPayload(){
+  const p=effectivePermissions();
+  const permissions={converter:p.converter===true};
+  CONVERTER_PERMISSION_KEYS.forEach(k=>permissions[k]=p[k]===true);
+  return{type:'TEXTILE_CONVERTER_PERMISSIONS',permissions,isAdmin:state.profile?.role==='admin'}
+}
+function sendConverterPermissions(){
+  const frame=$('#converterFrame');
+  if(!frame?.contentWindow)return;
+  frame.contentWindow.postMessage(converterPermissionPayload(),'*')
+}
+function converterMessageBridge(e){
+  const frame=$('#converterFrame');
+  if(!frame?.contentWindow||e.source!==frame.contentWindow)return;
+  if(e.data?.type==='TEXTILE_CONVERTER_READY')sendConverterPermissions()
+}
+if(!window.__converterPermissionBridgeBound){
+  window.addEventListener('message',converterMessageBridge);
+  window.__converterPermissionBridgeBound=true
+}
+
 function renderConverterStudio(){
   metricCardSet([]);
   const requested=state.converterUI?.tool||CONVERTER_TOOLS[0].id,
@@ -8536,7 +8595,7 @@ function renderConverterStudio(){
         <div class="converter-workspace-head">
           <div><span>${esc(tool.short||tool.label)}</span><b>${esc(tool.label)}</b></div>
           <div class="converter-session-pills">
-            <span>⚡ Quick Upload</span><span>◫ Web Worker</span><span>⬇ Binary .XLSB</span><span>⊘ No Persistence</span>
+            <span>⚡ Quick Upload</span><span>◫ Web Worker</span><span>⬇ Binary .XLSB</span><span>⊘ No Persistence</span><span>🔐 Permission Controlled</span>
           </div>
         </div>
         <iframe id="converterFrame"
@@ -8546,7 +8605,8 @@ function renderConverterStudio(){
           loading="eager"
           referrerpolicy="no-referrer"
           allow="clipboard-write"
-          sandbox="allow-scripts allow-downloads allow-forms allow-modals"></iframe>
+          sandbox="allow-scripts allow-downloads allow-forms allow-modals"
+          onload="sendConverterPermissions()"></iframe>
       </div>
     </section>
   </div>`;

@@ -1165,6 +1165,17 @@ html,body{font-family:"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif
 .session-only-tags{display:flex;gap:6px;flex-wrap:wrap}
 .session-only-tags i{font-style:normal;padding:3px 8px;border-radius:999px;background:#fff;border:1px solid #b6ddd7;color:#0f625b;font-size:10.5px;font-weight:700}
 
+
+/* v70 permission states */
+.permission-locked-slot{opacity:.78;border-style:dashed!important;background:#f8fafc!important}
+.permission-lock-box{
+  margin-top:14px;min-height:104px;border:1px dashed #cbd5e1;border-radius:10px;background:#f1f5f9;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:14px;color:#64748b
+}
+.permission-lock-box strong{font-size:12px;color:#475569}
+.permission-lock-box span{font-size:10.5px;margin-top:4px;line-height:1.4}
+.permission-locked-drop{opacity:.58;cursor:not-allowed!important;background:#f1f5f9!important;border-color:#cbd5e1!important}
+
     </style>
 </head>
 <body>
@@ -1480,6 +1491,50 @@ html,body{font-family:"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif
          * 1. CONFIGURATION, POLICY DEFINITIONS & GLOBAL APPLICATION STATE
          * ============================================================================
          */
+
+        /* ===== v70 Converter permissions supplied by parent dashboard ===== */
+        const CONVERTER_SLOT_PERMISSIONS = {
+            slot_01: 'converter_upload_01',
+            slot_02: 'converter_upload_02',
+            slot_03: 'converter_upload_03',
+            slot_07: 'converter_upload_07',
+            slot_08: 'converter_upload_08'
+        };
+        const CONVERTER_POLICY_DOWNLOAD_PERMISSIONS = {
+            policy_01: 'converter_download_01_urgent',
+            policy_02: 'converter_download_07',
+            policy_03: 'converter_download_02',
+            policy_04: 'converter_download_03',
+            policy_05: 'converter_download_08',
+            policy_07: 'converter_download_01_clean'
+        };
+        window.CONVERTER_ACCESS = {
+            received: false,
+            permissions: {
+                converter: false,
+                converter_upload_01:false,converter_download_01_urgent:false,converter_download_01_clean:false,
+                converter_upload_02:false,converter_download_02:false,
+                converter_upload_03:false,converter_download_03:false,
+                converter_upload_07:false,converter_download_07:false,
+                converter_upload_08:false,converter_download_08:false,
+                converter_upload_10:false,converter_download_10:false
+            }
+        };
+        function converterCan(key) {
+            return window.CONVERTER_ACCESS.permissions[key] === true;
+        }
+        function converterCanUploadSlot(slotId) {
+            const key = CONVERTER_SLOT_PERMISSIONS[slotId];
+            return key ? converterCan(key) : false;
+        }
+        function converterCanDownloadPolicy(policyId) {
+            const key = CONVERTER_POLICY_DOWNLOAD_PERMISSIONS[policyId];
+            return key ? converterCan(key) : false;
+        }
+        function converterDenied(label) {
+            showToast('Permission denied: ' + label + '. Contact an Admin.', 'error');
+        }
+
         const FILE_SLOTS = [
             { id: 'slot_01', code: 'Upload 01', title: 'PMC 1 file', hint: 'Sheet "1" (Urgent + AA/AC/AD) & Cleaned Workbook (No DEL. CHECK/LOCAL)', primary: true },
             { id: 'slot_02', code: 'Upload 02', title: 'Yarn Summary File (bulk)', hint: 'Sheet "Summary" (A4:M4 -> Summary.xlsb / Data A1)', primary: true },
@@ -3109,6 +3164,25 @@ html,body{font-family:"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif
                 const card = document.createElement('div');
                 card.id = `card-${state.id}`;
 
+                if (!converterCanUploadSlot(state.id)) {
+                    card.className = 'slot-card permission-locked-slot';
+                    card.innerHTML = `
+                        <div class="slot-header">
+                          <div>
+                            <div class="slot-code">${state.code}</div>
+                            <div class="slot-title">${state.title}</div>
+                            <div class="slot-hint">${state.hint}</div>
+                          </div>
+                          <span class="badge badge-pending">Permission required</span>
+                        </div>
+                        <div class="permission-lock-box">
+                          <strong>Upload disabled for this user</strong>
+                          <span>Admin permission required: ${escapeHTML(CONVERTER_SLOT_PERMISSIONS[state.id] || 'upload access')}</span>
+                        </div>`;
+                    grid.appendChild(card);
+                    return;
+                }
+
                 let cardClass = 'slot-card';
                 if (state.status === 'ready') cardClass += ' ready-slot';
                 else if (state.status === 'parsing') cardClass += ' parsing-slot';
@@ -3242,6 +3316,10 @@ html,body{font-family:"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif
             if (files && files.length > 0) processUploadedFile(files[0], slotId);
         }
         function processUploadedFile(file, slotId, forceFullParse = false) {
+            if (!converterCanUploadSlot(slotId)) {
+                converterDenied('upload ' + (slotId || '').replace('slot_',''));
+                return;
+            }
             const slot = window.APP_DATA.slots[slotId];
             slot.status = 'parsing';
             slot.rawFile = file;
@@ -4088,6 +4166,10 @@ html,body{font-family:"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif
 
         function downloadActiveBinaryExcel() {
             const pid = window.APP_DATA.activePolicy;
+            if (!converterCanDownloadPolicy(pid)) {
+                converterDenied('download for ' + pid.replace('policy_','Policy '));
+                return;
+            }
             const pState = window.APP_DATA.results[pid];
 
             if (pid === 'policy_07') {
@@ -4190,6 +4272,10 @@ html,body{font-family:"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif
 
         function downloadActiveCSV() {
             const pid = window.APP_DATA.activePolicy;
+            if (!converterCanDownloadPolicy(pid)) {
+                converterDenied('CSV download for ' + pid.replace('policy_','Policy '));
+                return;
+            }
             const pState = window.APP_DATA.results[pid];
             const s8 = window.APP_DATA.slots['slot_08'];
             const s9 = window.APP_DATA.slots['slot_09'];
@@ -4420,6 +4506,29 @@ html,body{font-family:"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif
             renderActivePolicyView();
         }
 
+
+        const __renderActivePolicyViewPermissionBase = renderActivePolicyView;
+        renderActivePolicyView = function() {
+            __renderActivePolicyViewPermissionBase();
+            const pid=window.APP_DATA.activePolicy;
+            const allowed=converterCanDownloadPolicy(pid);
+            const xlsb=document.getElementById('btn-download-xlsb');
+            const csv=document.getElementById('btn-download-csv');
+            if(xlsb && !allowed){
+                xlsb.disabled=true;
+                xlsb.title='Download permission not granted for this output';
+                xlsb.textContent='Download permission required';
+            }
+            if(csv && !allowed){
+                csv.disabled=true;
+                csv.title='Download permission not granted for this output';
+            }
+            const badge=document.getElementById('policy-engine-badge');
+            if(badge && window.CONVERTER_ACCESS.received && !allowed && badge.classList.contains('badge-ready')){
+                badge.textContent += ' • Download locked';
+            }
+        };
+
         function clearAllWorkbooks() {
             FILE_SLOTS.forEach(s => clearSlot(s.id));
             document.getElementById('last-export-size-badge').classList.add('hidden');
@@ -4473,9 +4582,27 @@ html,body{font-family:"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif
             }, 4000);
         }
 
+        window.addEventListener('message', (e) => {
+            const msg=e.data||{};
+            if(msg.type!=='TEXTILE_CONVERTER_PERMISSIONS')return;
+            const incoming=msg.permissions&&typeof msg.permissions==='object'?msg.permissions:{};
+            Object.keys(window.CONVERTER_ACCESS.permissions).forEach(k=>{
+                window.CONVERTER_ACCESS.permissions[k]=incoming[k]===true
+            });
+            if(msg.isAdmin===true){
+                Object.keys(window.CONVERTER_ACCESS.permissions).forEach(k=>window.CONVERTER_ACCESS.permissions[k]=true)
+            }
+            window.CONVERTER_ACCESS.received=true;
+            renderAllCards();
+            renderActivePolicyView();
+            if(typeof window.applyExtractorPermissionUI==='function')window.applyExtractorPermissionUI();
+            appendAuditLog('[ACCESS] Converter permissions loaded for this session.','success');
+        });
+
         window.addEventListener('DOMContentLoaded', () => {
             renderAllCards();
             renderActivePolicyView();
+            try{window.parent.postMessage({type:'TEXTILE_CONVERTER_READY'},'*')}catch(_){}
         });
     </script>
 <script>
@@ -4585,6 +4712,7 @@ function xWorker(){
     worker.postMessage({a:'scan',i:sheetIdx(),hr:hr});
   }
   function load(file){
+    if(!converterCan('converter_upload_10')){converterDenied('Upload 10 — Column Extractor');return;}
     EX.file=file;EX.cols=[];EX.sel=new Set();
     $('ex-drop').classList.add('hidden');$('ex-work').classList.remove('hidden');
     $('ex-fname').textContent=file.name;$('ex-fmeta').textContent=fmtSize(file.size);
@@ -4605,7 +4733,7 @@ function xWorker(){
     });
     box.innerHTML=h||'<div class="ex-empty">No column matches &ldquo;'+escapeHTML(EX.q)+'&rdquo;.</div>';
     $('ex-count').textContent=EX.sel.size+' of '+EX.cols.length+' columns selected';
-    $('ex-go').disabled=EX.sel.size===0;
+    $('ex-go').disabled=EX.sel.size===0||!converterCan('converter_download_10');
   }
   function renderPreview(){
     var idx=[];EX.cols.forEach(function(k,i){if(EX.sel.has(k.c))idx.push(i);});
@@ -4660,18 +4788,42 @@ function xWorker(){
     var c=+b.dataset.c;EX.sel.has(c)?EX.sel.delete(c):EX.sel.add(c);refresh();
   });
   $('ex-go').addEventListener('click',function(){
+    if(!converterCan('converter_download_10')){converterDenied('Download 10 — Extracted File');return;}
     var cols=EX.cols.filter(function(k){return EX.sel.has(k.c);}).map(function(k){return k.c;});
     if(!cols.length)return;
     $('ex-go').disabled=true;status('Building file...','badge-parsing');
     worker.postMessage({a:'export',i:sheetIdx(),hr:parseInt($('ex-hrow').value,10)||EX.hr,cols:cols,fmt:$('ex-fmt').value,name:$('ex-oname').value.trim()||'Data'});
   });
 
+
+  window.applyExtractorPermissionUI=function(){
+    var canUpload=converterCan('converter_upload_10'),canDownload=converterCan('converter_download_10');
+    var fileInput=$('ex-file'),drop=$('ex-drop'),go=$('ex-go'),statusEl=$('ex-status');
+    if(fileInput)fileInput.disabled=!canUpload;
+    if(drop){
+      drop.classList.toggle('permission-locked-drop',!canUpload);
+      drop.title=canUpload?'':'Upload 10 permission is not granted';
+    }
+    if(statusEl && !canUpload){
+      statusEl.className='badge badge-pending';statusEl.textContent='Upload permission required';
+    }
+    if(go){
+      if(!canDownload)go.disabled=true;
+      go.title=canDownload?'':'Download 10 permission is not granted';
+    }
+  };
+  window.applyExtractorPermissionUI();
+
   /* Smart routing: drop files anywhere on the page and each goes to the matching upload slot by filename. */
   var RULES=[[/pmc/i,'slot_01','Upload 01'],[/summary/i,'slot_02','Upload 02'],[/alloc/i,'slot_03','Upload 03'],[/lock/i,'slot_07','Upload 07'],[/daily/i,'slot_08','Upload 08']];
   function route(f){
     for(var i=0;i<RULES.length;i++){
-      if(RULES[i][0].test(f.name)){showToast(f.name+' -> '+RULES[i][2],'info');processUploadedFile(f,RULES[i][1]);return;}
+      if(RULES[i][0].test(f.name)){
+        if(!converterCanUploadSlot(RULES[i][1])){converterDenied(RULES[i][2]);return;}
+        showToast(f.name+' -> '+RULES[i][2],'info');processUploadedFile(f,RULES[i][1]);return;
+      }
     }
+    if(!converterCan('converter_upload_10')){converterDenied('Upload 10 — Column Extractor');return;}
     showToast(f.name+' -> Column Extractor (no policy match)','info');load(f);
     $('extractor').scrollIntoView({behavior:'smooth',block:'start'});
   }
