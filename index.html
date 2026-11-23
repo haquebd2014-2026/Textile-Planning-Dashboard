@@ -3590,6 +3590,62 @@ body.dark-mode .days-table tbody tr:nth-child(even) td{background:#142019}
   height:auto!important;
 }
 
+
+/* ================= v69 Converter Studio ================= */
+.converter-nav-btn{white-space:nowrap}
+#content:has(.converter-page){display:block!important;width:100%!important}
+.page:has(.converter-page){max-width:1900px!important;padding-left:10px!important;padding-right:10px!important}
+.converter-page{width:100%;min-width:0}
+.converter-hero{
+  display:grid;grid-template-columns:minmax(330px,.9fr) minmax(620px,1.6fr);gap:12px;align-items:stretch;
+  border:1px solid #d7e5de;border-top:4px solid #087252;border-radius:10px;padding:13px 15px;
+  background:linear-gradient(110deg,#fff 0%,#f5faf7 62%,#eef7f2 100%);box-shadow:0 4px 14px rgba(27,75,57,.045)
+}
+.converter-eyebrow{display:block;font-size:7px;letter-spacing:1.15px;font-weight:900;color:#29735b}
+.converter-hero h2{margin:2px 0 3px;font:700 24px Georgia,serif;color:#07563f}
+.converter-hero p{margin:0;max-width:710px;font-size:8.3px;line-height:1.5;color:#6f7d77}
+.converter-privacy-grid{display:grid;grid-template-columns:repeat(4,minmax(130px,1fr));gap:7px}
+.converter-privacy-grid>div{
+  border:1px solid #d7e6df;border-radius:7px;background:rgba(255,255,255,.82);padding:8px 9px;min-height:58px
+}
+.converter-privacy-grid b{display:block;font-size:8px;color:#075d45}
+.converter-privacy-grid span{display:block;margin-top:2px;font-size:6.8px;line-height:1.4;color:#7b8983}
+.converter-shell{
+  display:grid;grid-template-columns:218px minmax(0,1fr);gap:9px;margin-top:9px;min-height:calc(100vh - 150px)
+}
+.converter-tool-nav{
+  border:1px solid var(--line);border-radius:9px;background:var(--card);padding:8px;display:flex;flex-direction:column;gap:7px
+}
+.converter-tool-nav-head{display:flex;align-items:center;justify-content:space-between;padding:5px 5px 7px;border-bottom:1px solid var(--line)}
+.converter-tool-nav-head span{font-size:7px;letter-spacing:1px;font-weight:900;color:#7a8882}.converter-tool-nav-head b{font:700 15px Georgia,serif;color:#087252}
+.converter-tool-btn{
+  width:100%;border:1px solid #dce6e1;border-radius:7px;background:#fafcfb;padding:9px;text-align:left;cursor:pointer;color:var(--text)
+}
+.converter-tool-btn:hover,.converter-tool-btn.active{border-color:#81b7a2;background:#edf7f2;box-shadow:inset 3px 0 0 #087252}
+.converter-tool-btn strong{display:block;margin-top:4px;font-size:9px;color:#164b3b}.converter-tool-btn small{display:block;margin-top:3px;font-size:6.8px;line-height:1.4;color:#7a8782}
+.converter-tool-badge{display:inline-flex;padding:2px 6px;border-radius:999px;background:#dff2e8;color:#087252;font-size:6px;font-weight:900;letter-spacing:.6px}
+.converter-future-note{margin-top:auto;padding:9px;border:1px dashed #cbdad3;border-radius:7px;background:#f8fbf9}
+.converter-future-note b{display:block;font-size:7.5px;color:#4f675d}.converter-future-note span{display:block;margin-top:2px;font-size:6.5px;line-height:1.4;color:#89958f}
+.converter-workspace{min-width:0;border:1px solid #d5e1dc;border-radius:9px;overflow:hidden;background:#fff}
+.converter-workspace-head{
+  min-height:45px;padding:7px 10px;display:flex;align-items:center;justify-content:space-between;gap:10px;
+  border-bottom:1px solid #dce6e1;background:linear-gradient(180deg,#fafcfb,#f3f8f5)
+}
+.converter-workspace-head>div:first-child span{display:block;font-size:6.3px;color:#85918c;text-transform:uppercase;letter-spacing:.8px}
+.converter-workspace-head>div:first-child b{display:block;font-size:10px;color:#075d45;margin-top:1px}
+.converter-session-pills{display:flex;flex-wrap:wrap;gap:5px;justify-content:flex-end}
+.converter-session-pills span{padding:3px 7px;border:1px solid #d7e3dd;border-radius:999px;background:#fff;font-size:6.5px;color:#557067;font-weight:700}
+.converter-frame{display:block;width:100%;height:calc(100vh - 205px);min-height:660px;border:0;background:#eef0f6}
+body.dark-mode .converter-hero,body.dark-mode .converter-tool-nav,body.dark-mode .converter-workspace{background:#15221c;border-color:#30483e}
+body.dark-mode .converter-privacy-grid>div,body.dark-mode .converter-tool-btn,body.dark-mode .converter-workspace-head{background:#192820;border-color:#345044}
+body.dark-mode .converter-tool-btn.active{background:#1f3a2e}
+body.dark-mode .converter-hero h2,body.dark-mode .converter-tool-btn strong,body.dark-mode .converter-workspace-head>div:first-child b{color:#d9eee5}
+@media(max-width:1150px){
+  .converter-hero{grid-template-columns:1fr}.converter-privacy-grid{grid-template-columns:repeat(2,1fr)}
+  .converter-shell{grid-template-columns:1fr}.converter-tool-nav{display:grid;grid-template-columns:1fr 2fr}.converter-tool-nav-head,.converter-future-note{display:none}
+}
+@media(max-width:700px){.converter-privacy-grid{grid-template-columns:1fr}.converter-session-pills{display:none}.converter-frame{min-height:720px}}
+
 </style></head><body><div id="app" class="hidden"><div class="app-sticky-header"><div class="top-accent"></div><header class="header"><div class="header-left"><div class="brand-mark">TP</div><div><div class="brand-title">Textile Planning Dashboard</div><div class="brand-sub">Planning, Monitoring & Control</div></div></div><div class="header-actions"><div class="utility-tools"><button class="tool-btn stopwatch-btn" id="stopwatchBtn" title="Click to start/pause • Double-click to reset">⏱ <span id="stopwatchText">00:00</span></button><button class="tool-btn" id="fullscreenBtn" title="Enter full screen">⛶ Full</button><button class="tool-btn" id="themeBtn" title="Switch dark/light mode">☾ Dark</button></div><span class="greeting" id="greeting">Good morning</span><button class="btn" id="exportBtn">Export CSV</button><button class="btn" id="signOutBtn">Sign out</button><button class="btn primary" id="refreshBtn">Refresh</button></div></header><nav class="nav">
   <button data-tab="daily_summary" class="main-nav-btn">Daily Summary</button>
   <div class="kpi-menu-wrap" id="kpiMenuWrap" data-days-menu-key="kpi">
@@ -3631,6 +3687,7 @@ body.dark-mode .days-table tbody tr:nth-child(even) td{background:#142019}
       <button data-tab="days_setup">Days Setup</button>
     </div>
   </div>
+  <button data-tab="converter" class="main-nav-btn converter-nav-btn">Converter Studio</button>
   <button data-tab="supabase_monitor" class="main-nav-btn hidden" id="supabaseMonitorNav">Supabase Monitor</button>
   <button data-tab="users" class="main-nav-btn">User Management</button>
 </nav></div><main class="page"><section class="toolbar"><div class="kpi-toolbar-head hidden" id="kpiToolbarHead"></div><div class="filters">
@@ -3834,7 +3891,8 @@ const MENU_DEFS=[
   {key:'lock_event',label:'Event Detail'},
   {key:'daily_summary',label:'Daily Summary'},
   {key:'data',label:'Data Management'},
-  {key:'days_setup',label:'Days Setup'}
+  {key:'days_setup',label:'Days Setup'},
+  {key:'converter',label:'Converter Studio'}
 ];
 const DATA_UPLOAD_PERMISSION_KEYS=[
   'upload_dyeing','upload_knitting','upload_finishing','upload_delivery','upload_yarn','upload_chemical','upload_etl','upload_targets',
@@ -3843,7 +3901,7 @@ const DATA_UPLOAD_PERMISSION_KEYS=[
 const DEFAULT_PERMISSIONS={
   overview:true,dyeing:true,knitting:true,finishing:true,delivery:true,yarn:true,chemical:true,etl:true,
   ott_yarn:true,ott_knitting:true,ott_dyeing:true,ott_delivery:true,ott_lock:true,ott_booking:true,ott_overall:true,
-  lock_board:true,lock_event:true,daily_summary:true,data:false,days_setup:false,
+  lock_board:true,lock_event:true,daily_summary:true,data:false,days_setup:false,converter:true,
   upload_dyeing:false,upload_knitting:false,upload_finishing:false,upload_delivery:false,upload_yarn:false,upload_chemical:false,upload_etl:false,upload_targets:false,
   upload_ott_yarn:false,upload_ott_knitting:false,upload_ott_dyeing:false,upload_ott_delivery:false,upload_ott_lock:false,upload_lock_details:false,upload_pmc_urgent:false,upload_daily_summary:false,
   users:false
@@ -3854,6 +3912,7 @@ const state={
   lockDetailFilters:{_initialized:false,event:[],booking:[],floor:[],pmc:[],buyer:[],lockPlanFrom:'',lockPlanTo:'',otd:[],reason:[],responsible:[],month:[],week:[],status:[]},
   dailySummaryFilters:{_initialized:false,month:'',reportDate:'',trendFrom:'',trendTo:'',monthDays:{},goneDays:{}},
   daysSetupUI:{year:null,month:null,draft:null,dirty:false,topicRegistry:{}},
+  converterUI:{tool:'production_data'},
   kpiFilters:{months:[],buyers:[]},
   filterHidden:{kpi:false,ott:false,lock:false,daily:false},
   supabaseMonitor:{data:null,loading:false,error:'',timer:null,lastFetchedAt:null,nextRefreshAt:null},
@@ -6040,6 +6099,7 @@ function applyMenuPermissions(){
   const canDataStatus=p.data===true||DATA_UPLOAD_PERMISSION_KEYS.some(k=>p[k]===true);
   if(dataWrap)dataWrap.classList.toggle('hidden',!(canDataStatus||p.days_setup===true));
 
+  const converterBtn=$('.nav>button[data-tab="converter"]');if(converterBtn)converterBtn.classList.toggle('hidden',p.converter!==true);
   const monitorBtn=$('#supabaseMonitorNav');if(monitorBtn)monitorBtn.classList.toggle('hidden',state.profile?.role!=='admin');
   const usersBtn=$('.nav>button[data-tab="users"]');if(usersBtn)usersBtn.classList.toggle('hidden',state.profile?.role!=='admin');
 
@@ -6052,6 +6112,7 @@ function applyMenuPermissions(){
     else if(canAccess('lock_event'))state.tab='lock_event';
     else if(canAccess('data'))state.tab='data';
     else if(canAccess('days_setup'))state.tab='days_setup';
+    else if(canAccess('converter'))state.tab='converter';
     else if(state.profile?.role==='admin')state.tab='users';
     else state.tab='overview'
   }
@@ -7975,7 +8036,7 @@ function daysSetupRendererForTab(tab){
     ott_yarn:renderOTTDept,ott_knitting:renderOTTDept,ott_dyeing:renderOTTDept,ott_delivery:renderOTTDept,
     ott_lock:renderOTTDept,ott_booking:renderOTTBooking,ott_overall:renderOTTOverall,
     lock_board:renderLockPlanDetailsBoard,lock_event:renderLockPlanEventDetail,
-    daily_summary:renderDailySummary,data:renderData,days_setup:renderDaysSetup,
+    daily_summary:renderDailySummary,data:renderData,days_setup:renderDaysSetup,converter:renderConverterStudio,
     supabase_monitor:renderSupabaseMonitor,users:renderUsers
   };
   return map[tab]||null
@@ -8421,6 +8482,83 @@ function daysSetupOutsideClose(e){
   $$('.days-scope-picker[open]').forEach(d=>{if(!d.contains(e.target))d.removeAttribute('open')})
 }
 
+
+/* ================= v69 CONVERTER STUDIO =================
+   This area is deliberately session-only.
+   Uploaded file bytes and generated outputs remain inside the iframe/browser.
+   No converter file data is written to Supabase or dashboard_data.
+   Add future tools by appending another object to CONVERTER_TOOLS.
+========================================================== */
+const CONVERTER_TOOLS=[
+  {
+    id:'production_data',
+    label:'Production Data Consolidation',
+    short:'Production Converter',
+    description:'Predefined textile production consolidation, extraction and lightweight binary export.',
+    src:'converter_studio.html',
+    badge:'LIVE'
+  }
+];
+
+function renderConverterStudio(){
+  metricCardSet([]);
+  const requested=state.converterUI?.tool||CONVERTER_TOOLS[0].id,
+        tool=CONVERTER_TOOLS.find(x=>x.id===requested)||CONVERTER_TOOLS[0];
+  state.converterUI.tool=tool.id;
+
+  $('#content').innerHTML=`<div class="converter-page">
+    <section class="converter-hero">
+      <div class="converter-hero-copy">
+        <span class="converter-eyebrow">PRIVATE • SESSION-ONLY FILE PROCESSING</span>
+        <h2>Converter Studio</h2>
+        <p>Upload → apply predefined logic → download a lightweight file. File payloads stay inside this browser session and are never saved to the dashboard database.</p>
+      </div>
+      <div class="converter-privacy-grid">
+        <div><b>Browser Memory</b><span>Uploaded files exist only in this tab/session.</span></div>
+        <div><b>No Supabase File Traffic</b><span>No converter file bytes are inserted into or read back from dashboard_data.</span></div>
+        <div><b>Refresh = Clear</b><span>Reloading the page discards uploaded converter files and results.</span></div>
+        <div><b>Multi-user Safe</b><span>Each user's browser session is independent; there is no shared converter state.</span></div>
+      </div>
+    </section>
+
+    <section class="converter-shell">
+      <aside class="converter-tool-nav">
+        <div class="converter-tool-nav-head"><span>TOOLS</span><b>${CONVERTER_TOOLS.length}</b></div>
+        ${CONVERTER_TOOLS.map(x=>`<button type="button" class="converter-tool-btn ${x.id===tool.id?'active':''}" data-converter-tool="${esc(x.id)}">
+          <span class="converter-tool-badge">${esc(x.badge||'TOOL')}</span>
+          <strong>${esc(x.label)}</strong>
+          <small>${esc(x.description)}</small>
+        </button>`).join('')}
+        <div class="converter-future-note"><b>Expandable menu</b><span>New conversion tools can be added here later without changing database storage.</span></div>
+      </aside>
+
+      <div class="converter-workspace">
+        <div class="converter-workspace-head">
+          <div><span>${esc(tool.short||tool.label)}</span><b>${esc(tool.label)}</b></div>
+          <div class="converter-session-pills">
+            <span>⚡ Quick Upload</span><span>◫ Web Worker</span><span>⬇ Binary .XLSB</span><span>⊘ No Persistence</span>
+          </div>
+        </div>
+        <iframe id="converterFrame"
+          class="converter-frame"
+          src="${esc(tool.src)}"
+          title="${esc(tool.label)}"
+          loading="eager"
+          referrerpolicy="no-referrer"
+          allow="clipboard-write"
+          sandbox="allow-scripts allow-downloads allow-forms allow-modals"></iframe>
+      </div>
+    </section>
+  </div>`;
+
+  $$('.converter-tool-btn[data-converter-tool]').forEach(btn=>btn.onclick=()=>{
+    const id=btn.dataset.converterTool;
+    if(!CONVERTER_TOOLS.some(x=>x.id===id))return;
+    state.converterUI.tool=id;
+    renderConverterStudio()
+  })
+}
+
 function renderData(){
   metricCardSet([]);
   const d=state.data||{},df=d.departmentFiles||{},ott=d.ottSources||{},lockDetails=d.lockPlanDetails||{},pmcUrgent=d.pmcUrgent||{},dailySummary=d.dailySummary||{},p=effectivePermissions();
@@ -8645,7 +8783,7 @@ function render(){
   const isOtt=OTT_TABS.includes(state.tab),isKpi=KPI_TABS.includes(state.tab),
         isLockDetails=['lock_board','lock_event'].includes(state.tab),isDaily=state.tab==='daily_summary',
         isMonitor=state.tab==='supabase_monitor',isDays=state.tab==='days_setup',
-        special=['data','days_setup','users','supabase_monitor'].includes(state.tab)||isOtt||isLockDetails||isDaily;
+        special=['data','days_setup','converter','users','supabase_monitor'].includes(state.tab)||isOtt||isLockDetails||isDaily;
   $('.toolbar').classList.toggle('hidden',special);$('#exportBtn').classList.toggle('hidden',special||isKpi);
   const isOverview=state.tab==='overview';
   $('.toolbar')?.classList.toggle('overview-toolbar',isOverview);
@@ -8669,7 +8807,7 @@ function render(){
     overview:renderOverview,dyeing:renderDyeing,knitting:renderKnitting,finishing:renderFinishing,delivery:renderDelivery,yarn:renderYarnDyeing,chemical:renderChemicalLab,etl:renderETL,
     ott_yarn:()=>renderOTTDept('ott_yarn'),ott_knitting:()=>renderOTTDept('ott_knitting'),ott_dyeing:()=>renderOTTDept('ott_dyeing'),ott_delivery:()=>renderOTTDept('ott_delivery'),ott_lock:()=>renderOTTDept('ott_lock'),ott_booking:renderOTTBooking,ott_overall:renderOTTOverall,
     lock_board:renderLockPlanDetailsBoard,lock_event:renderLockPlanEventDetail,daily_summary:renderDailySummary,
-    data:renderData,days_setup:renderDaysSetup,supabase_monitor:renderSupabaseMonitor,users:renderUsers
+    data:renderData,days_setup:renderDaysSetup,converter:renderConverterStudio,supabase_monitor:renderSupabaseMonitor,users:renderUsers
   };
   if(isKpi)renderKpiToolbarHeading(state.tab);else renderKpiToolbarHeading(null);
   (fns[state.tab]||renderOverview)();
