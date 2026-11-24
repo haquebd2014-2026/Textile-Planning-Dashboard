@@ -1176,6 +1176,8 @@ html,body{font-family:"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif
 .permission-lock-box span{font-size:10.5px;margin-top:4px;line-height:1.4}
 .permission-locked-drop{opacity:.58;cursor:not-allowed!important;background:#f1f5f9!important;border-color:#cbd5e1!important}
 
+/* v71 Upload 10 fast sheet scan */
+#extractor .panel-subtitle{max-width:1050px}
     </style>
 </head>
 <body>
@@ -1216,7 +1218,7 @@ html,body{font-family:"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif
     <main class="container main-workspace">
         <section class="session-only-note">
             <div><b>Session-only converter</b><span>Uploaded files and generated results stay in browser memory. Refresh/close clears them.</span></div>
-            <div class="session-only-tags"><i>No Supabase file save</i><i>No database storage</i><i>No persistence</i><i>Binary .XLSB</i></div>
+            <div class="session-only-tags"><i>No Supabase file save</i><i>No database storage</i><i>No persistence</i><i>Binary .XLSB</i><i>Upload 10 Fast Sheet Scan</i></div>
         </section>
 
         <!-- Step 1 Banner -->
@@ -1255,7 +1257,7 @@ html,body{font-family:"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif
                     <span class="panel-tag">Upload 10</span>
                     <div>
                         <div class="panel-title">Column Extractor</div>
-                        <div class="panel-subtitle">Open any Excel file, pick the sheet and header row, keep only the columns you need, and download a light binary copy.</div>
+                        <div class="panel-subtitle">Open any Excel file, pick the sheet and header row, keep only the columns you need, and download a light binary copy. Fast Sheet Scan reads only a small preview window when switching sheets; the full sheet loads only when you download.</div>
                     </div>
                 </div>
                 <span id="ex-status" class="badge badge-pending">No file yet</span>
@@ -4609,21 +4611,77 @@ html,body{font-family:"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif
 /* ===== Upload 10: Column Extractor (own worker, independent of the policies) ===== */
 function xWorker(){
   importScripts('https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js');
-  var bytes=null,names=[],cur={i:-1,ws:null};
-  function txt(c){if(!c||c.v==null)return '';var s=c.w!=null?c.w:(c.v instanceof Date?c.v.toISOString().slice(0,10):c.v);return String(s).trim();}
-  function sheet(i){
-    if(cur.i===i)return cur.ws;
-    cur={i:-1,ws:null};
-    var wb=XLSX.read(bytes,{type:'array',dense:true,cellDates:true,cellNF:true,sheets:i});
-    var ws=wb.Sheets[names[i]];
-    if(!ws){wb=XLSX.read(bytes,{type:'array',dense:true,cellDates:true,cellNF:true});ws=wb.Sheets[names[i]];}
-    cur={i:i,ws:ws};return ws;
+
+  var bytes=null,names=[];
+  // Lightweight scan cache by sheet. Full export cache keeps only one sheet.
+  var scanCache=new Map(),fullCur={i:-1,ws:null};
+
+  function txt(c){
+    if(!c||c.v==null)return '';
+    var s=c.w!=null?c.w:(c.v instanceof Date?c.v.toISOString().slice(0,10):c.v);
+    return String(s).trim();
   }
+
+  function readTargetSheet(i,opts){
+    var base={
+      type:'array',
+      dense:true,
+      cellDates:true,
+      sheets:i,
+      bookVBA:false
+    };
+    var wb=XLSX.read(bytes,Object.assign(base,opts||{}));
+    var ws=wb.Sheets[names[i]];
+    if(!ws){
+      // Rare fallback: select by actual sheet name.
+      base.sheets=names[i];
+      wb=XLSX.read(bytes,Object.assign(base,opts||{}));
+      ws=wb.Sheets[names[i]];
+    }
+    if(!ws)throw new Error('Could not open sheet "'+(names[i]||i)+'".');
+    return ws;
+  }
+
+  function scanSheet(i,requestedHeaderRow){
+    // We only need enough rows for:
+    // header detection (first 30), unnamed-column detection (next 200), and preview.
+    var needed=Math.max(260,(requestedHeaderRow||0)+25);
+    var cached=scanCache.get(i);
+    if(cached&&cached.limit>=needed)return cached.ws;
+
+    var ws=readTargetSheet(i,{
+      sheetRows:needed,
+      cellNF:false,
+      cellFormula:false,
+      cellHTML:false,
+      cellStyles:false
+    });
+    scanCache.set(i,{limit:needed,ws:ws});
+    return ws;
+  }
+
+  function fullSheet(i){
+    if(fullCur.i===i&&fullCur.ws)return fullCur.ws;
+    // Full parsing is intentionally postponed until the user downloads.
+    // Keeping one full sheet controls memory for huge workbooks.
+    var ws=readTargetSheet(i,{
+      cellNF:true,
+      cellFormula:false,
+      cellHTML:false,
+      cellStyles:false
+    });
+    fullCur={i:i,ws:ws};
+    return ws;
+  }
+
   function geo(ws){
     var g=ws['!data']||(Array.isArray(ws)?ws:[]);
     var ref=ws['!ref']?XLSX.utils.decode_range(ws['!ref']):{s:{r:0,c:0},e:{r:-1,c:-1}};
-    return {g:g,ref:ref};
+    // When sheetRows truncates parsing, SheetJS can expose the original range in !fullref.
+    var fullRef=ws['!fullref']?XLSX.utils.decode_range(ws['!fullref']):ref;
+    return {g:g,ref:ref,fullRef:fullRef};
   }
+
   onmessage=function(e){
     var m=e.data;
     try{
@@ -4632,15 +4690,28 @@ function xWorker(){
         rd.onload=function(){
           try{
             bytes=new Uint8Array(rd.result);
-            names=XLSX.read(bytes,{type:'array',bookSheets:true}).SheetNames||[];
-            cur={i:-1,ws:null};
+            // Metadata-only open: get sheet names without parsing worksheet bodies.
+            names=XLSX.read(bytes,{
+              type:'array',
+              bookSheets:true,
+              bookProps:false,
+              bookVBA:false
+            }).SheetNames||[];
+            scanCache.clear();
+            fullCur={i:-1,ws:null};
             postMessage({t:'loaded',names:names});
-          }catch(err){postMessage({t:'err',msg:err.message});}
+          }catch(err){
+            postMessage({t:'err',msg:err.message||'Could not read workbook metadata.'});
+          }
         };
         rd.onerror=function(){postMessage({t:'err',msg:'Could not read the file from disk.'});};
         rd.readAsArrayBuffer(m.file);
+
       }else if(m.a==='scan'){
-        var ws=sheet(m.i),o=geo(ws),g=o.g,ref=o.ref,hr=m.hr>0?m.hr-1:-1;
+        var started=Date.now();
+        var ws=scanSheet(m.i,m.hr||0),o=geo(ws),g=o.g,ref=o.ref,fullRef=o.fullRef;
+        var hr=m.hr>0?m.hr-1:-1;
+
         if(hr<0){
           hr=ref.s.r;
           for(var r=ref.s.r;r<=Math.min(ref.e.r,ref.s.r+30);r++){
@@ -4649,24 +4720,58 @@ function xWorker(){
             if(n>=2){hr=r;break;}
           }
         }
+
+        // If user manually picked a header beyond the current lightweight window,
+        // enlarge only that window, not the entire worksheet.
+        if(hr>ref.e.r){
+          ws=scanSheet(m.i,hr+1);
+          o=geo(ws);g=o.g;ref=o.ref;fullRef=o.fullRef;
+        }
+
         var cols=[];
         for(var c2=ref.s.c;c2<=ref.e.c;c2++){
           var nm=txt((g[hr]||[])[c2]),has=false;
-          if(!nm){for(var r2=hr+1;r2<=Math.min(ref.e.r,hr+200);r2++){if(txt((g[r2]||[])[c2])!==''){has=true;break;}}}
-          if(nm||has)cols.push({c:c2,l:XLSX.utils.encode_col(c2),n:nm||('Column '+XLSX.utils.encode_col(c2))});
+          if(!nm){
+            for(var r2=hr+1;r2<=Math.min(ref.e.r,hr+200);r2++){
+              if(txt((g[r2]||[])[c2])!==''){has=true;break;}
+            }
+          }
+          if(nm||has){
+            cols.push({c:c2,l:XLSX.utils.encode_col(c2),n:nm||('Column '+XLSX.utils.encode_col(c2))});
+          }
         }
+
         var pv=[];
         for(var r3=hr+1;r3<=Math.min(ref.e.r,hr+10);r3++){
           pv.push(cols.map(function(k){return txt((g[r3]||[])[k.c]);}));
         }
-        postMessage({t:'scan',i:m.i,hr:hr+1,auto:!(m.hr>0),cols:cols,pv:pv,rows:Math.max(0,ref.e.r-hr)});
+
+        var rowCount=Math.max(0,fullRef.e.r-hr);
+        postMessage({
+          t:'scan',
+          i:m.i,
+          hr:hr+1,
+          auto:!(m.hr>0),
+          cols:cols,
+          pv:pv,
+          rows:rowCount,
+          ms:Date.now()-started
+        });
+
       }else if(m.a==='export'){
-        var ws2=sheet(m.i),o2=geo(ws2),g2=o2.g,ref2=o2.ref,h=m.hr-1,cs=m.cols,last=h;
+        var exportStarted=Date.now();
+        var ws2=fullSheet(m.i),o2=geo(ws2),g2=o2.g,ref2=o2.ref,h=m.hr-1,cs=m.cols,last=h;
+
         for(var rr=ref2.e.r;rr>h;rr--){
           var rw=g2[rr];if(!rw)continue;
-          var any=false;for(var j=0;j<cs.length;j++){var cl=rw[cs[j]];if(cl&&cl.t!=='z'&&cl.v!=null&&cl.v!==''){any=true;break;}}
+          var any=false;
+          for(var j=0;j<cs.length;j++){
+            var cl=rw[cs[j]];
+            if(cl&&cl.t!=='z'&&cl.v!=null&&cl.v!==''){any=true;break;}
+          }
           if(any){last=rr;break;}
         }
+
         var out=[],wd=cs.map(function(){return 8;});
         for(var r4=h;r4<=last;r4++){
           var src=g2[r4]||[],dst=new Array(cs.length);
@@ -4676,38 +4781,68 @@ function xWorker(){
               var t=txt(cell)||('Column '+XLSX.utils.encode_col(cs[k]));
               dst[k]={t:'s',v:t};wd[k]=Math.max(wd[k],t.length);
             }else if(cell&&cell.t!=='z'&&cell.v!=null&&cell.v!==''){
-              var nc={t:cell.t,v:cell.v};if(cell.z)nc.z=cell.z;dst[k]=nc;
-              if(r4<h+200){var L=String(cell.w!=null?cell.w:cell.v).length;if(L>wd[k])wd[k]=L;}
+              var nc={t:cell.t,v:cell.v};
+              if(cell.z)nc.z=cell.z;
+              dst[k]=nc;
+              if(r4<h+200){
+                var L=String(cell.w!=null?cell.w:cell.v).length;
+                if(L>wd[k])wd[k]=L;
+              }
             }
           }
           out.push(dst);
         }
-        var nws={'!data':out,'!ref':XLSX.utils.encode_range({s:{r:0,c:0},e:{r:out.length-1,c:cs.length-1}}),
-          '!cols':wd.map(function(w){return {wch:Math.min(Math.max(w+2,8),50)};})};
+
+        var nws={
+          '!data':out,
+          '!ref':XLSX.utils.encode_range({
+            s:{r:0,c:0},
+            e:{r:Math.max(0,out.length-1),c:Math.max(0,cs.length-1)}
+          }),
+          '!cols':wd.map(function(w){return {wch:Math.min(Math.max(w+2,8),50)};})
+        };
+
         var u8;
         if(m.fmt==='csv'){
-          var bom=new Uint8Array([239,187,191]),body=new TextEncoder().encode(XLSX.utils.sheet_to_csv(nws,{dateNF:'yyyy-mm-dd'}));
-          u8=new Uint8Array(bom.length+body.length);u8.set(bom,0);u8.set(body,bom.length);
+          var bom=new Uint8Array([239,187,191]);
+          var body=new TextEncoder().encode(XLSX.utils.sheet_to_csv(nws,{dateNF:'yyyy-mm-dd'}));
+          u8=new Uint8Array(bom.length+body.length);
+          u8.set(bom,0);u8.set(body,bom.length);
         }else{
           var wbo=XLSX.utils.book_new();
           XLSX.utils.book_append_sheet(wbo,nws,(m.name||'Data').slice(0,31));
-          u8=new Uint8Array(XLSX.write(wbo,{bookType:m.fmt,type:'array',bookSST:true,compression:true}));
+          u8=new Uint8Array(XLSX.write(wbo,{
+            bookType:m.fmt,
+            type:'array',
+            bookSST:true,
+            compression:true
+          }));
         }
-        postMessage({t:'file',buf:u8,rows:out.length-1,cols:cs.length},[u8.buffer]);
+
+        postMessage({
+          t:'file',
+          buf:u8,
+          rows:Math.max(0,out.length-1),
+          cols:cs.length,
+          ms:Date.now()-exportStarted
+        },[u8.buffer]);
       }
-    }catch(err){postMessage({t:'err',msg:err.message||'Extractor error.'});}
+
+    }catch(err){
+      postMessage({t:'err',msg:err.message||'Extractor error.'});
+    }
   };
 }
 (function(){
   var $=function(id){return document.getElementById(id);};
-  var EX={file:null,hr:0,cols:[],sel:new Set(),pv:[],q:''};
+  var EX={file:null,hr:0,cols:[],sel:new Set(),pv:[],q:'',sheetTimer:null};
   var worker=new Worker(URL.createObjectURL(new Blob(['('+xWorker.toString()+')()'],{type:'application/javascript'})));
   var MIME={xlsb:'application/vnd.ms-excel.sheet.binary.macroEnabled.12',xlsx:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',csv:'text/csv;charset=utf-8'};
   function status(t,cls){var b=$('ex-status');b.className='badge '+(cls||'badge-pending');b.textContent=t;}
   function fmtSize(n){return n>=1048576?(n/1048576).toFixed(2)+' MB':(n/1024).toFixed(1)+' KB';}
   function sheetIdx(){return parseInt($('ex-sheet').value,10)||0;}
   function scan(auto){
-    status('Reading sheet...','badge-parsing');
+    status('Fast reading sheet...','badge-parsing');
     var hr=auto?0:(parseInt($('ex-hrow').value,10)||0);
     worker.postMessage({a:'scan',i:sheetIdx(),hr:hr});
   }
@@ -4722,7 +4857,7 @@ function xWorker(){
     worker.postMessage({a:'load',file:file});
   }
   function reset(){
-    EX.file=null;EX.cols=[];EX.sel=new Set();$('ex-file').value='';
+    EX.file=null;EX.cols=[];EX.sel=new Set();if(EX.sheetTimer)clearTimeout(EX.sheetTimer);$('ex-file').value='';
     $('ex-work').classList.add('hidden');$('ex-drop').classList.remove('hidden');status('No file yet');
   }
   function renderChips(){
@@ -4751,9 +4886,9 @@ function xWorker(){
     }else if(m.t==='scan'){
       EX.cols=m.cols;EX.pv=m.pv;EX.hr=m.hr;EX.sel=new Set(m.cols.map(function(k){return k.c;}));
       $('ex-hrow').value=m.hr;
-      $('ex-hhint').textContent=(m.auto?'Auto-detected \u2022 ':'')+m.rows.toLocaleString()+' data rows below it';
-      status(m.cols.length+' columns ready','badge-ready');
-      appendAuditLog('[UPLOAD 10] Sheet read: '+m.cols.length+' columns, '+m.rows.toLocaleString()+' rows (header row '+m.hr+').','success');
+      $('ex-hhint').textContent=(m.auto?'Auto-detected • ':'')+m.rows.toLocaleString()+' data rows below it';
+      status('Fast Scan • '+m.cols.length+' columns ready','badge-ready');
+      appendAuditLog('[UPLOAD 10] Fast sheet scan: '+m.cols.length+' columns, '+m.rows.toLocaleString()+' rows (header row '+m.hr+') in '+((m.ms||0)/1000).toFixed(2)+'s. Full sheet loads only when Download is clicked.','success');
       refresh();
     }else if(m.t==='file'){
       var ext=$('ex-fmt').value,base=EX.file.name.replace(/\.[^.]+$/,''),name=base+'_extracted.'+ext;
@@ -4764,7 +4899,7 @@ function xWorker(){
       $('ex-size').textContent=fmtSize(blob.size)+' vs '+fmtSize(EX.file.size)+' source ('+saved+'% smaller)';
       $('ex-size').classList.remove('hidden');
       status('Downloaded','badge-ready');$('ex-go').disabled=false;
-      appendAuditLog('[UPLOAD 10] Exported "'+name+'": '+m.rows.toLocaleString()+' rows x '+m.cols+' columns ('+fmtSize(blob.size)+').','success');
+      appendAuditLog('[UPLOAD 10] Exported "'+name+'": '+m.rows.toLocaleString()+' rows x '+m.cols+' columns ('+fmtSize(blob.size)+') in '+((m.ms||0)/1000).toFixed(2)+'s.','success');
       showToast('Downloaded "'+name+'" ('+fmtSize(blob.size)+')','success');
     }else if(m.t==='err'){
       status('Error','badge-error');$('ex-go').disabled=EX.sel.size===0;
@@ -4777,7 +4912,12 @@ function xWorker(){
   dz.addEventListener('dragleave',function(e){e.preventDefault();e.stopPropagation();dz.classList.remove('drag-active');});
   dz.addEventListener('drop',function(e){e.preventDefault();e.stopPropagation();dz.classList.remove('drag-active');if(e.dataTransfer.files[0])load(e.dataTransfer.files[0]);});
   $('ex-clear').addEventListener('click',reset);
-  $('ex-sheet').addEventListener('change',function(){$('ex-oname').value=$('ex-sheet').selectedOptions[0].textContent;scan(true);});
+  $('ex-sheet').addEventListener('change',function(){
+    $('ex-oname').value=$('ex-sheet').selectedOptions[0].textContent;
+    if(EX.sheetTimer)clearTimeout(EX.sheetTimer);
+    status('Preparing fast sheet scan...','badge-parsing');
+    EX.sheetTimer=setTimeout(function(){scan(true);},90);
+  });
   $('ex-hrow').addEventListener('change',function(){scan(false);});
   $('ex-search').addEventListener('input',function(e){EX.q=e.target.value.trim();renderChips();});
   $('ex-all').addEventListener('click',function(){EX.cols.forEach(function(k){EX.sel.add(k.c);});refresh();});
@@ -4791,7 +4931,7 @@ function xWorker(){
     if(!converterCan('converter_download_10')){converterDenied('Download 10 — Extracted File');return;}
     var cols=EX.cols.filter(function(k){return EX.sel.has(k.c);}).map(function(k){return k.c;});
     if(!cols.length)return;
-    $('ex-go').disabled=true;status('Building file...','badge-parsing');
+    $('ex-go').disabled=true;status('Loading full sheet + building file...','badge-parsing');
     worker.postMessage({a:'export',i:sheetIdx(),hr:parseInt($('ex-hrow').value,10)||EX.hr,cols:cols,fmt:$('ex-fmt').value,name:$('ex-oname').value.trim()||'Data'});
   });
 
