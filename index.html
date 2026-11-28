@@ -3646,6 +3646,20 @@ body.dark-mode .converter-hero h2,body.dark-mode .converter-tool-btn strong,body
 }
 @media(max-width:700px){.converter-privacy-grid{grid-template-columns:1fr}.converter-session-pills{display:none}.converter-frame{min-height:720px}}
 
+
+/* v73: independent Order Closure dashboard */
+#content:has(.order-closure-page){display:block!important;width:100%!important}
+.page:has(.order-closure-page){max-width:1900px!important;padding:8px 12px 20px!important}
+.order-closure-page{width:100%;min-width:0}
+#orderClosureHost{display:block;width:100%;min-width:0}
+@page orderClosurePrint{size:A4 landscape;margin:9mm}
+@media print{
+ body:has(#orderClosureHost) #app>.app-sticky-header,body:has(#orderClosureHost) #app>.page>.toolbar,body:has(#orderClosureHost) #kpis{display:none!important}
+ body:has(#orderClosureHost) #app>.page{max-width:none!important;padding:0!important;margin:0!important}
+ body:has(#orderClosureHost) #content{display:block!important;padding:0!important;margin:0!important}
+ body:has(#orderClosureHost) #orderClosureHost{page:orderClosurePrint}
+}
+.nav>button[data-tab="order_closure"]{white-space:nowrap}
 </style></head><body><div id="app" class="hidden"><div class="app-sticky-header"><div class="top-accent"></div><header class="header"><div class="header-left"><div class="brand-mark">TP</div><div><div class="brand-title">Textile Planning Dashboard</div><div class="brand-sub">Planning, Monitoring & Control</div></div></div><div class="header-actions"><div class="utility-tools"><button class="tool-btn stopwatch-btn" id="stopwatchBtn" title="Click to start/pause • Double-click to reset">⏱ <span id="stopwatchText">00:00</span></button><button class="tool-btn" id="fullscreenBtn" title="Enter full screen">⛶ Full</button><button class="tool-btn" id="themeBtn" title="Switch dark/light mode">☾ Dark</button></div><span class="greeting" id="greeting">Good morning</span><button class="btn" id="exportBtn">Export CSV</button><button class="btn" id="signOutBtn">Sign out</button><button class="btn primary" id="refreshBtn">Refresh</button></div></header><nav class="nav">
   <button data-tab="daily_summary" class="main-nav-btn">Daily Summary</button>
   <div class="kpi-menu-wrap" id="kpiMenuWrap" data-days-menu-key="kpi">
@@ -3687,6 +3701,7 @@ body.dark-mode .converter-hero h2,body.dark-mode .converter-tool-btn strong,body
       <button data-tab="days_setup">Days Setup</button>
     </div>
   </div>
+  <button data-tab="order_closure" class="main-nav-btn hidden">Order Closure Updates</button>
   <button data-tab="converter" class="main-nav-btn converter-nav-btn">Converter Studio</button>
   <button data-tab="supabase_monitor" class="main-nav-btn hidden" id="supabaseMonitorNav">Supabase Monitor</button>
   <button data-tab="users" class="main-nav-btn">User Management</button>
@@ -3894,11 +3909,12 @@ const MENU_DEFS=[
   {key:'daily_summary',label:'Daily Summary'},
   {key:'data',label:'Data Management'},
   {key:'days_setup',label:'Days Setup'},
-  {key:'converter',label:'Converter Studio'}
+  {key:'converter',label:'Converter Studio'},
+  {key:'order_closure',label:'Order Closure Updates'}
 ];
 const DATA_UPLOAD_PERMISSION_KEYS=[
   'upload_dyeing','upload_knitting','upload_finishing','upload_delivery','upload_yarn','upload_chemical','upload_etl','upload_targets',
-  'upload_ott_yarn','upload_ott_knitting','upload_ott_dyeing','upload_ott_delivery','upload_ott_lock','upload_lock_details','upload_pmc_urgent','upload_daily_summary'
+  'upload_ott_yarn','upload_ott_knitting','upload_ott_dyeing','upload_ott_delivery','upload_ott_lock','upload_lock_details','upload_pmc_urgent','upload_daily_summary','upload_order_closure'
 ];
 const CONVERTER_PERMISSION_KEYS=[
   'converter_upload_01','converter_download_01_urgent','converter_download_01_clean',
@@ -3911,7 +3927,7 @@ const CONVERTER_PERMISSION_KEYS=[
 const DEFAULT_PERMISSIONS={
   overview:true,dyeing:true,knitting:true,finishing:true,delivery:true,yarn:true,chemical:true,etl:true,
   ott_yarn:true,ott_knitting:true,ott_dyeing:true,ott_delivery:true,ott_lock:true,ott_booking:true,ott_overall:true,
-  lock_board:true,lock_event:true,daily_summary:true,data:false,days_setup:false,converter:false,
+  lock_board:true,lock_event:true,daily_summary:true,data:false,days_setup:false,converter:false,order_closure:false,upload_order_closure:false,
   upload_dyeing:false,upload_knitting:false,upload_finishing:false,upload_delivery:false,upload_yarn:false,upload_chemical:false,upload_etl:false,upload_targets:false,
   upload_ott_yarn:false,upload_ott_knitting:false,upload_ott_dyeing:false,upload_ott_delivery:false,upload_ott_lock:false,upload_lock_details:false,upload_pmc_urgent:false,upload_daily_summary:false,
   converter_upload_01:false,converter_download_01_urgent:false,converter_download_01_clean:false,
@@ -6154,6 +6170,7 @@ function applyMenuPermissions(){
   const canDataStatus=p.data===true||DATA_UPLOAD_PERMISSION_KEYS.some(k=>p[k]===true);
   if(dataWrap)dataWrap.classList.toggle('hidden',!(canDataStatus||p.days_setup===true));
 
+  const closureBtn=$('.nav>button[data-tab="order_closure"]');if(closureBtn)closureBtn.classList.toggle('hidden',p.order_closure!==true);
   const converterBtn=$('.nav>button[data-tab="converter"]');if(converterBtn)converterBtn.classList.toggle('hidden',p.converter!==true);
   const monitorBtn=$('#supabaseMonitorNav');if(monitorBtn)monitorBtn.classList.toggle('hidden',state.profile?.role!=='admin');
   const usersBtn=$('.nav>button[data-tab="users"]');if(usersBtn)usersBtn.classList.toggle('hidden',state.profile?.role!=='admin');
@@ -6167,6 +6184,7 @@ function applyMenuPermissions(){
     else if(canAccess('lock_event'))state.tab='lock_event';
     else if(canAccess('data'))state.tab='data';
     else if(canAccess('days_setup'))state.tab='days_setup';
+    else if(canAccess('order_closure'))state.tab='order_closure';
     else if(canAccess('converter'))state.tab='converter';
     else if(state.profile?.role==='admin')state.tab='users';
     else state.tab='overview'
@@ -6221,6 +6239,10 @@ const USER_PERMISSION_GROUPS=[
   {key:'data_lock',title:'Data Management — Lock Plan Details',icon:'LP↑',desc:'Lock Plan Details also feeds Lock Plan OTT automatically',items:[
     ['upload_lock_details','Upload Lock Plan Details','Upload / replace Lock Plan Details.xlsx and generate Lock Plan OTT'],
     ['upload_pmc_urgent','Upload PMC1 Urgent Data','Upload / replace PMC1_Urgent_Filtered_Export.xlsx']
+  ]},
+  {key:'order_closure_access',title:'Order Closure Updates',icon:'OC',desc:'Shared order closure dashboard and independent source upload permission',items:[
+    ['order_closure','Order Closure Updates','View the dashboard and download filtered reports'],
+    ['upload_order_closure','Upload Order Closure Data','Upload / replace the shared order closure source']
   ]},
   {key:'converter_access',title:'Converter Studio',icon:'CVT',desc:'Session-only converter access with separate upload and download permissions. No workbook data is saved to Supabase.',items:[
     ['converter','Converter Studio Access','Show and open the Converter Studio menu'],
@@ -8113,7 +8135,7 @@ function daysSetupRendererForTab(tab){
     ott_yarn:renderOTTDept,ott_knitting:renderOTTDept,ott_dyeing:renderOTTDept,ott_delivery:renderOTTDept,
     ott_lock:renderOTTDept,ott_booking:renderOTTBooking,ott_overall:renderOTTOverall,
     lock_board:renderLockPlanDetailsBoard,lock_event:renderLockPlanEventDetail,
-    daily_summary:renderDailySummary,data:renderData,days_setup:renderDaysSetup,converter:renderConverterStudio,
+    daily_summary:renderDailySummary,data:renderData,days_setup:renderDaysSetup,converter:renderConverterStudio,order_closure:renderOrderClosure,
     supabase_monitor:renderSupabaseMonitor,users:renderUsers
   };
   return map[tab]||null
@@ -8659,6 +8681,416 @@ function renderConverterStudio(){
   })
 }
 
+const normalizeOrderClosureWorkbook=(()=>{
+var TYPES=['Bulk','Add','Drop','SMS'],TCOL={Bulk:'#3451b2',Add:'#e0a526',Drop:'#d6456b',SMS:'#0f766e'};
+function key(s){return String(s==null?'':s).toLowerCase().replace(/[^a-z0-9]/g,'');}
+function typeCalc(ot,wo){var c=String(ot==null?'':ot).trim().toLowerCase(),a=String(wo==null?'':wo).toLowerCase();
+  if(c==='bulk'&&a.indexOf('drop')>=0)return 'Drop';if(c==='bulk')return 'Bulk';if(c==='sms')return 'SMS';if(c==='add')return 'Add';return '';}
+function toSerial(v){
+  if(typeof v==='number')return Math.floor(v);
+  if(v instanceof Date)return Math.floor(v.getTime()/864e5+25569);
+  if(typeof v==='string'&&v.trim()){var t=Date.parse(v);if(!isNaN(t))return Math.floor(t/864e5+25569);}
+  return null;
+}
+function normalizeOrderClosureWorkbook(wb){
+  const labels=['Work Order','Buyer','Order Type','Status','Completion Date','Type','Gmts (Pcs)','Delivered'];
+  const names=wb.SheetNames.slice().sort((a,b)=>Number(/output/i.test(b))-Number(/output/i.test(a)));
+  let best=null,found=null;
+  for(const n of names){
+    const ws=wb.Sheets[n];if(!ws||!ws['!ref'])continue;
+    const rg=XLSX.utils.decode_range(ws['!ref']);
+    const a=XLSX.utils.sheet_to_json(ws,{header:1,defval:null,raw:true,blankrows:true,range:{s:{r:rg.s.r,c:0},e:{r:Math.min(rg.e.r,rg.s.r+14),c:rg.e.c}}});
+    for(let i=0;i<a.length;i++){
+      const h=a[i].map(key),score=labels.filter(x=>h.includes(key(x))).length;
+      if(!best||score>best.score)best={n,h,score,row:rg.s.r+i+1,headers:a[i]};
+      if(score===labels.length){found={n,h,row:rg.s.r+i,rg};break;}
+    }
+    if(found)break;
+  }
+  if(!found){const missing=labels.filter(x=>!best?.h.includes(key(x)));throw new Error('Missing required column(s): '+missing.join(', ')+'\nSheet: '+(best?.n||'(none)')+' • Header row: '+(best?.row||'not found')+'\nDetected columns: '+(best?.headers.filter(x=>x!=null).join(' | ')||'(none)')+'\nAvailable sheets: '+names.join(', '));}
+  const {n,h,row,rg}=found;
+  for(const l of labels)if(h.filter(x=>x===key(l)).length>1)throw new Error('Duplicate column: '+l+' in '+n+' header row '+(row+1));
+  const a=XLSX.utils.sheet_to_json(wb.Sheets[n],{header:1,defval:null,raw:true,blankrows:true,range:{s:{r:row,c:0},e:rg.e}});
+  const ix=l=>h.indexOf(key(l)),c={wo:ix('Work Order'),b:ix('Buyer'),ot:ix('Order Type'),st:ix('Status'),d:ix('Completion Date'),t:ix('Type'),p:ix('Gmts (Pcs)'),k:ix('Delivered')};
+  const rows=[];let skipped=0;
+  const number=(v,l,r)=>{if(v==null||String(v).trim()==='')return 0;const x=Number(v);if(!Number.isFinite(x))throw new Error(n+' row '+r+': '+l+' is not a valid number: '+String(v));return x;};
+  for(let i=1;i<a.length;i++){
+    const x=a[i];if(x[c.wo]==null||String(x[c.wo]).trim()==='')continue;
+    const st=String(x[c.st]??'').trim().toUpperCase(),status=st==='COMPLETE'?'C':st==='URGENT'?'U':null;
+    let ty=String(x[c.t]??'').trim();if(!TYPES.includes(ty))ty=typeCalc(x[c.ot],x[c.wo]);
+    if(!status||!ty){skipped++;continue;}
+    const rawDate=x[c.d];let date=toSerial(rawDate);if(date!==null&&typeof rawDate==='number'&&wb.Workbook?.WBProps?.date1904)date+=1462;
+    if(rawDate!=null&&String(rawDate).trim()!==''&&(date===null||!Number.isFinite(date)||date<1||date>2958465))throw new Error(n+' row '+(row+i+1)+': invalid Completion Date: '+String(rawDate));
+    rows.push({wo:x[c.wo],buyer:String(x[c.b]??'(blank)').trim(),ot:x[c.ot]??'',status,date,type:ty,pcs:number(x[c.p],'Gmts (Pcs)',row+i+1),kg:number(x[c.k],'Delivered',row+i+1)});
+  }
+  if(!rows.length)throw new Error(n+' has no COMPLETE or URGENT rows with valid order types. Skipped: '+skipped);
+  return{rows,sheet:n,skipped};
+}
+
+return normalizeOrderClosureWorkbook;
+})();
+
+const MAX_ORDER_CLOSURE_MB=30;
+let orderClosureUploading=false;
+async function publishOrderClosure(file,progress){
+  if(effectivePermissions().upload_order_closure!==true)throw new Error('Order Closure upload permission is not assigned.');
+  if(orderClosureUploading)throw new Error('An Order Closure upload is already in progress.');
+  if(!(file instanceof File)||!file.size)throw new Error('Choose a non-empty Excel or CSV file.');
+  if(!/\.(xlsb|xlsx|xls|xlsm|csv)$/i.test(file.name))throw new Error('Unsupported file extension. Choose .xlsb, .xlsx, .xls, .xlsm or .csv.');
+  if(file.size>MAX_ORDER_CLOSURE_MB*1024*1024)throw new Error('File exceeds '+MAX_ORDER_CLOSURE_MB+' MB.');
+  orderClosureUploading=true;
+  try{
+    progress('Reading and validating workbook…');
+    const buf=await file.arrayBuffer();
+    // Read only the standard source sheet first. Fall back to the existing
+    // schema discovery when the workbook has a different sheet name.
+    let parsed;
+    try{parsed=normalizeOrderClosureWorkbook(XLSX.read(buf,{type:'array',cellDates:false,sheets:'Output file'}));}
+    catch(e){if(!String(e?.message||e).includes('Missing required column(s)'))throw e;
+      parsed=normalizeOrderClosureWorkbook(XLSX.read(buf,{type:'array',cellDates:false}));}
+    const {rows,sheet,skipped}=parsed,now=new Date().toISOString();
+    const dates=rows.map(r=>r.date).filter(v=>v!==null).sort((a,b)=>a-b);
+    const iso=v=>v==null?null:new Date((v-25569)*864e5).toISOString().slice(0,10);
+    const meta={fileName:file.name,uploadedAt:now,size:file.size,sheet,skipped,rows:rows.length,complete:rows.filter(r=>r.status==='C').length,urgent:rows.filter(r=>r.status==='U').length,buyers:new Set(rows.map(r=>r.buyer)).size,dateFrom:iso(dates[0]),dateTo:iso(dates.at(-1))};
+    progress('Validated '+rows.length.toLocaleString()+' orders. Publishing shared source…');
+    await saveDashboardSource('order_closure',file.name,{orderClosure:{rows,meta}},now);
+    // Update this session without refetching unrelated source rows; refresh loads the same saved source.
+    state.data.orderClosure={rows,meta};state.data.uploadedAt=now;
+    const last=$('#lastUpdated');if(last)last.textContent='Last updated: '+new Date(now).toLocaleString();
+    return meta;
+  }finally{orderClosureUploading=false;}
+}
+async function handleOrderClosureUpload(){
+  const input=$('#orderClosureFileInput'),btn=$('#orderClosureUploadBtn'),st=$('#orderClosureUploadStatus');
+  if(!input?.files?.[0]){if(st)st.textContent='Choose the Order Closure source file first.';return;}
+  if(btn)btn.disabled=true;
+  try{
+    const m=await publishOrderClosure(input.files[0],v=>{if(st)st.textContent=v;});
+    if(state.tab==='data'){renderData();const newStatus=$('#orderClosureUploadStatus');if(newStatus)newStatus.textContent='Published '+m.rows.toLocaleString()+' orders. '+(m.skipped?'Skipped '+m.skipped+' unsupported rows.':'Ready in Order Closure Updates.');}
+    else if(state.tab==='order_closure')render();
+  }catch(e){if(st)st.textContent=uploadErrorMessage(e,'Order Closure upload');}
+  finally{if(btn)btn.disabled=false;}
+}
+/* v74 Order Closure: native DOM with isolated report styling and local event handlers. */
+let orderClosureDispose=null,orderClosureExcelJSLoading=null;
+function ensureOrderClosureExcelJS(){
+  if(window.ExcelJS)return Promise.resolve();
+  if(!orderClosureExcelJSLoading)orderClosureExcelJSLoading=new Promise((resolve,reject)=>{
+    const script=document.createElement('script');script.src='https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.4.0/exceljs.min.js';
+    script.onload=()=>{if(window.ExcelJS)resolve();else reject(new Error('Excel export library unavailable.'));};
+    script.onerror=()=>reject(new Error('Could not load Excel export library. Check internet and retry.'));
+    document.head.appendChild(script);
+  }).catch(e=>{orderClosureExcelJSLoading=null;throw e;});
+  return orderClosureExcelJSLoading;
+}
+function renderDashboardFromClosure(){render()}
+const ORDER_CLOSURE_MARKUP="<style>\n:host{display:block;min-width:0;--ink:#171f3d;--bg:#eef0f6;--card:#fff;--line:#dfe3ee;--text:#14182b;--muted:#5f6784;--primary:#3451b2;--psoft:#eaeefb;--ok:#0f766e;--oksoft:#e6f5f3;--thread:#e0a526;--tsoft:#fdf3dc;--rose:#d6456b;--bad:#be123c}\n*{box-sizing:border-box;margin:0;padding:0}\n:host{font-family:\"Instrument Sans\",\"Segoe UI\",system-ui,sans-serif;font-size:14px;background:var(--bg);color:var(--text);line-height:1.45}\n.hide{display:none!important}\n.wrap{max-width:1500px;margin:0 auto;padding:0 18px}\n.top{background:var(--ink) repeating-linear-gradient(45deg,rgba(255,255,255,.035) 0 2px,transparent 2px 6px);color:#fff;border-bottom:3px solid var(--thread)}\n.top .wrap{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;padding-top:12px;padding-bottom:12px}\nh1{font-size:18px;letter-spacing:-.02em}.sub{font-size:12px;color:#aab2d0}\n.btn{border:1px solid var(--line);background:#fff;color:var(--text);border-radius:9px;padding:7px 13px;font:600 13px \"Instrument Sans\",system-ui,sans-serif;cursor:pointer;display:inline-flex;gap:6px;align-items:center}\n.btn:hover{border-color:#9aa4c7}.btn.pri{background:var(--thread);border-color:var(--thread);color:var(--ink)}.btn.sm{padding:4px 10px;font-size:12px}\n.btn.dark{background:transparent;color:#fff;border-color:#4a5585}.btn.dark:hover{border-color:#fff}\n:focus-visible{outline:2px solid var(--primary);outline-offset:2px}\n#landing{max-width:760px;margin:60px auto;padding:0 18px}\n#drop{display:block;text-align:center;border:2px dashed #b3bddb;border-radius:18px;background:#fff;padding:56px 24px;cursor:pointer;transition:.15s}\n#drop:hover,#drop.over{background:var(--psoft);border-color:var(--primary)}\n#drop strong{font-size:20px;display:block;margin-bottom:6px}#drop span{color:var(--muted)}\n.msg{margin-top:14px;color:var(--bad);font-weight:600;text-align:center}\n.feat{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-top:22px}\n.feat div{background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px 14px;font-size:13px;color:var(--muted)}.feat b{display:block;color:var(--text)}\n/* filters */\n.filters{position:sticky;top:0;z-index:20;background:rgba(238,240,246,.94);backdrop-filter:blur(6px);border-bottom:1px solid var(--line)}\n.filters .wrap{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center;padding-top:10px;padding-bottom:10px}\n.fg{display:flex;flex-wrap:wrap;gap:6px;align-items:center}.fl{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);margin-right:2px}\n.chip{border:1px solid #c5cce2;background:#fff;border-radius:999px;padding:5px 13px;font:600 12.5px \"Instrument Sans\",system-ui,sans-serif;cursor:pointer;color:var(--muted)}\n.chip:hover{border-color:var(--primary)}.chip.on{background:var(--primary);border-color:var(--primary);color:#fff}\n.chip.t-Bulk.on{background:#3451b2}.chip.t-Add.on{background:#e0a526;border-color:#e0a526;color:#171f3d}.chip.t-Drop.on{background:#d6456b;border-color:#d6456b}.chip.t-SMS.on{background:#0f766e;border-color:#0f766e}\n.chip.s-U.on{background:var(--thread);border-color:var(--thread);color:var(--ink)}\ninput[type=date],input[type=text]{border:1px solid #c5cce2;border-radius:9px;padding:5px 8px;font:inherit;background:#fff}\n.dd{position:relative}.ddp{position:absolute;top:calc(100% + 6px);left:0;z-index:30;width:270px;background:#fff;border:1px solid var(--line);border-radius:12px;box-shadow:0 12px 30px rgba(23,31,61,.18);padding:10px}\n.ddl{max-height:240px;overflow:auto;margin-top:8px}.ddl label{display:flex;gap:8px;align-items:center;padding:4px 4px;border-radius:6px;cursor:pointer;font-size:13px}.ddl label:hover{background:var(--psoft)}\n.sw{display:inline-flex;gap:6px;align-items:center;font-size:12.5px;color:var(--muted)}\n/* cards */\nmain{padding:16px 0 50px;display:flex;flex-direction:column;gap:16px}\n.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:12px}\n.kc{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 16px;border-top:3px solid var(--k,#3451b2);display:flex;flex-direction:column;gap:2px;text-align:left;font:inherit;color:inherit}\nbutton.kc{cursor:pointer}button.kc:hover{box-shadow:0 6px 16px rgba(23,31,61,.1)}\n.kc .l{font-size:12px;font-weight:600;color:var(--muted)}.kc .v{font-size:26px;font-weight:700;letter-spacing:-.03em;line-height:1.15}.kc .v small{font-size:13px;font-weight:600;color:var(--muted);letter-spacing:0}\n.kc .s{font-size:12px;color:var(--muted)}\n.bar2{height:6px;border-radius:99px;background:#eceff7;overflow:hidden;display:flex;margin-top:6px}.bar2 i{display:block;height:100%}\n.row{display:grid;gap:16px}.r1{grid-template-columns:2fr 1fr}.r2{grid-template-columns:1.3fr 1fr}\n@media(max-width:1000px){.r1,.r2{grid-template-columns:1fr}}\n.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px}\n.ch{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:8px;margin-bottom:10px}.ch h2{font-size:15px;letter-spacing:-.01em}.ch small{color:var(--muted);font-size:12px}\n.cv{position:relative;height:300px}\n/* table */\n.tw{overflow:auto;border:1px solid var(--line);border-radius:10px;max-height:620px}\ntable{border-collapse:separate;border-spacing:0;font-size:12.5px;width:100%}\nth,td{padding:6px 9px;border-bottom:1px solid var(--line);border-right:1px solid #eef0f6;text-align:right;white-space:nowrap}\nthead th{position:sticky;background:#fff;text-align:center;font-weight:700;z-index:2}\nthead tr:nth-child(1) th{top:0}thead tr:nth-child(2) th{top:29px}thead tr:nth-child(3) th{top:58px;cursor:pointer;font-size:12px}\nthead tr:nth-child(3) th:hover{color:var(--primary)}\nth.gc{background:#e8edfb}th.gu{background:var(--tsoft)}th.gt{background:var(--oksoft)}\ntd.b,th.b{text-align:left;position:sticky;left:0;background:#fff;z-index:3;font-weight:600;min-width:170px}\nthead th.b{z-index:5}\ntbody tr{cursor:pointer}tbody tr:hover td{background:#f5f7fd}tbody tr.sel td{background:var(--psoft)}\ntbody td.z{color:#b6bcd2}\ntfoot td{position:sticky;bottom:0;background:var(--ink);color:#fff;font-weight:700;border-color:#2c3664}\n.sh{font-size:11px;color:var(--muted)}\n.nar{background:#fbfbfd;border:1px solid var(--line);border-radius:10px;padding:14px 16px;font-size:13.5px;line-height:1.65}\n.nar p+p{margin-top:8px}.nar ul{margin:6px 0 6px 18px}\ndetails summary{cursor:pointer;font-weight:700;font-size:15px}\n.note{font-size:12px;color:var(--muted)}\n#ptxt{display:none}\n@media print{\n @page{size:A4 landscape;margin:9mm}\n :host{background:#fff;font-size:11px}.top .btn,.filters,#vUpload,details,.noprint{display:none!important}\n .top{background:#fff;color:#000;border-bottom:2px solid #000}.top .sub{color:#444}\n #ptxt{display:block;font-size:11px;color:#444;margin-bottom:6px}\n .card,.kc{break-inside:avoid;border-color:#ccc}.tw{max-height:none;overflow:visible}.cv{height:240px}\n thead th{position:static}td.b,th.b{position:static}tfoot td{position:static}\n}\n\n.tabs{display:flex;gap:4px}.tab{border:0;background:transparent;color:#aab2d0;font:600 13.5px \"Instrument Sans\",system-ui,sans-serif;padding:8px 16px;border-radius:9px 9px 0 0;cursor:pointer;border-bottom:3px solid transparent}\n.tab:hover{color:#fff}.tab.on{color:#fff;border-bottom-color:var(--thread);background:rgba(255,255,255,.07)}\n.cards{grid-template-columns:repeat(7,minmax(0,1fr))!important;gap:10px}\n.kc{padding:12px 13px}.kc .v{font-size:22px}.kc .v small{font-size:12px}.kc .s{font-size:11.5px}.kc .l{font-size:11.5px}\n.kc .v.txt{font-size:17px;padding:4px 0;overflow-wrap:anywhere}\n@media(max-width:1280px){.cards{grid-template-columns:repeat(4,minmax(0,1fr))!important}}\n@media(max-width:720px){.cards{grid-template-columns:repeat(2,minmax(0,1fr))!important}}\n#fileCard{margin-top:18px}\n.fstats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:12px 0}\n.fstats div{background:#f7f8fc;border-radius:10px;padding:8px 12px}.fstats b{display:block;font-size:16px}.fstats span{font-size:11.5px;color:var(--muted)}\n#empty{max-width:520px;margin:80px auto;text-align:center;color:var(--muted)}#empty h2{color:var(--text);margin-bottom:8px}\n@media print{.tabs{display:none!important}.cards{grid-template-columns:repeat(7,minmax(0,1fr))!important}}\n\n.msg{white-space:pre-line;overflow-wrap:anywhere} #vUpload .note{line-height:1.5}\n\n:host{border:1px solid #dfe3ee;border-radius:8px;overflow:visible} .top{border-radius:7px 7px 0 0}.top .wrap{padding-left:16px;padding-right:16px} .filters{top:var(--oc-sticky-top,0px)} .wrap{max-width:none} .note.error-note{color:var(--bad);font-weight:600} #empty{padding:0 16px;margin:65px auto} @media print{:host{border:0!important;background:#fff!important;color:#111!important}.wrap{padding:0!important;max-width:none!important}.top{border-radius:0}.filters{position:static}.row{gap:8px}.card{padding:9px}.cards{gap:5px!important}.kc{padding:8px}.kc .v{font-size:17px}.kc .s,.kc .l{font-size:10px}.tw{overflow:visible!important;max-height:none!important}table{font-size:9px}th,td{padding:3px 4px;white-space:normal}td.b,th.b{min-width:95px}.cv{height:230px!important}.btn{display:none!important}}</style>\n<header class=\"top\"><div class=\"wrap\">\n  <div><h1>Order Closure Updates</h1><div class=\"sub\" id=\"fileLine\">Shared Close Order GMT &amp; Delivery Status source</div></div>\n  <div class=\"fg\" id=\"actBtns\" style=\"display:none\">\n    <button class=\"btn dark\" id=\"printBtn\" type=\"button\">Print / Save PDF</button>\n    <button class=\"btn dark\" id=\"xlsbBtn\" type=\"button\">Download order list (.xlsb)</button>\n    <button class=\"btn pri\" id=\"xlsBtn\" type=\"button\">Download summary (.xlsx)</button>\n  </div>\n</div></header>\n<div id=\"exportStatus\" class=\"note error-note\" role=\"status\" style=\"padding:0 18px\"></div>\n\n<div id=\"vDash\">\n<div id=\"empty\"><h2>No file loaded yet</h2><p>Upload the source workbook through Data Management → Source Upload → Order Closure Updates.</p><button class=\"btn pri\" id=\"goUpload\" type=\"button\" style=\"margin-top:14px\">Open Source Upload</button></div>\n\n<div id=\"app\" class=\"hide\">\n<div class=\"filters\"><div class=\"wrap\">\n  <div class=\"fg\"><span class=\"fl\">Status</span><button class=\"chip s-all\" data-s=\"all\">All</button><button class=\"chip s-C\" data-s=\"C\">Complete</button><button class=\"chip s-U\" data-s=\"U\">≥90% complete</button></div>\n  <div class=\"fg\" id=\"typeChips\"><span class=\"fl\">Type</span></div>\n  <div class=\"fg dd\"><span class=\"fl\">Buyer</span><button class=\"chip\" id=\"buyerBtn\">All buyers ▾</button>\n    <div class=\"ddp hide\" id=\"buyerPanel\"><input type=\"text\" id=\"bq\" placeholder=\"Search buyer...\" style=\"width:100%\"><div class=\"fg\" style=\"margin-top:8px\"><button class=\"btn sm\" id=\"bAll\">Select all</button><button class=\"btn sm\" id=\"bNone\">Clear</button></div><div class=\"ddl\" id=\"bList\"></div></div></div>\n  <div class=\"fg\"><span class=\"fl\">Completed between</span><input type=\"date\" id=\"dFrom\" aria-label=\"From date\"><span class=\"note\">to</span><input type=\"date\" id=\"dTo\" aria-label=\"To date\">\n    <button class=\"chip\" data-p=\"7\">Last 7 days</button><button class=\"chip\" data-p=\"30\">Last 30 days</button><button class=\"chip\" data-p=\"m\">Latest month</button><button class=\"chip\" data-p=\"all\">All dates</button></div>\n  <label class=\"sw\"><input type=\"checkbox\" id=\"dropChk\" checked> Count Drop pcs in Bulk</label>\n  <button class=\"btn sm\" id=\"resetBtn\" type=\"button\">Reset filters</button>\n</div></div>\n<main class=\"wrap\">\n  <div id=\"ptxt\"></div>\n  <section class=\"cards\" id=\"cards\"></section>\n  <section class=\"card\"><div class=\"ch\"><h2>Completion trend (Tons)</h2><div class=\"fg noprint\"><button class=\"chip\" data-per=\"day\">Daily</button><button class=\"chip\" data-per=\"week\">Weekly</button><button class=\"chip\" data-per=\"month\">Monthly</button></div></div><div class=\"cv\" style=\"height:330px\"><canvas id=\"cTrend\"></canvas></div><div class=\"note\">Fabric tons of completed orders by type, total on top of each bar; line = bookings. Click a bar to filter that period.</div></section>\n  <div class=\"row r2\">\n    <section class=\"card\"><div class=\"ch\"><h2>Top 10 buyers by fabric (Tons)</h2><small>Click a bar to filter</small></div><div class=\"cv\" style=\"height:340px\"><canvas id=\"cBuy\"></canvas></div></section>\n    <section class=\"card\"><div class=\"ch\"><h2>Covering note</h2><button class=\"btn sm noprint\" id=\"copyBtn\" type=\"button\">Copy text</button></div><div class=\"nar\" id=\"nar\"></div></section>\n  </div>\n  <section class=\"card\">\n    <div class=\"ch\"><h2 id=\"repTitle\">Buyer-wise summary</h2><small>Click a column label to sort &bull; click a row to filter that buyer</small></div>\n    <div class=\"tw\"><table id=\"tbl\"><thead id=\"th\"></thead><tbody id=\"tb\"></tbody><tfoot id=\"tf\"></tfoot></table></div>\n    <p class=\"note\" style=\"margin-top:8px\">Additional = Add + Drop orders. ≥90% orders have no completion date, so the date range does not remove them. Fabric kgs of Additional and Drop orders are shown in their own column and counted in Total Delivered.</p>\n  </section>\n</main>\n</div>\n</div>\n\n";
+function mountOrderClosure(root,source){
+var TYPES=['Bulk','Add','Drop','SMS'],TCOL={Bulk:'#3451b2',Add:'#e0a526',Drop:'#d6456b',SMS:'#0f766e'};
+function summarize(rows,dropInBulk){
+  function mk(){return {bn:0,bp:0,bk:0,an:0,ak:0,sn:0,sk:0,sp:0};}
+  var by=Object.create(null),tot={c:mk(),u:mk()};
+  rows.forEach(function(r){
+    var b=by[r.buyer]=by[r.buyer]||{buyer:r.buyer,c:mk(),u:mk()},g=r.status==='C'?'c':'u';
+    [b[g],tot[g]].forEach(function(x){
+      if(r.type==='Bulk'){x.bn++;x.bp+=r.pcs;x.bk+=r.kg;}
+      else if(r.type==='Drop'){x.an++;x.ak+=r.kg;if(dropInBulk)x.bp+=r.pcs;}
+      else if(r.type==='Add'){x.an++;x.ak+=r.kg;}
+      else if(r.type==='SMS'){x.sn++;x.sk+=r.kg;x.sp+=r.pcs;}
+    });
+  });
+  function fin(b){b.tp=b.c.bp+b.u.bp;b.tk=b.c.bk+b.c.ak+b.c.sk+b.u.bk+b.u.ak+b.u.sk;return b;}
+  return {list:Object.keys(by).map(function(k){return fin(by[k]);}),T:fin({buyer:'Grand Total',c:tot.c,u:tot.u})};
+}
+function filterRows(rows,f){
+  return rows.filter(function(r){
+    if(f.status!=='all'&&r.status!==f.status)return false;
+    if(f.types.indexOf(r.type)<0)return false;
+    if(f.buyers.length&&f.buyers.indexOf(r.buyer)<0)return false;
+    if(r.date!=null){if(f.from!=null&&r.date<f.from)return false;if(f.to!=null&&r.date>f.to)return false;}
+    return true;
+  });
+}
+var MON=['January','February','March','April','May','June','July','August','September','October','November','December'];
+function dparts(s){var d=new Date(Math.round((s-25569)*864e5));return {d:d.getUTCDate(),m:d.getUTCMonth(),y:d.getUTCFullYear()};}
+function ord(n){var v=n%100;return n+((v>=11&&v<=13)?'th':({1:'st',2:'nd',3:'rd'}[n%10]||'th'));}
+function dlong(s){var p=dparts(s);return ord(p.d)+' '+MON[p.m]+' '+p.y;}
+function dshort(s){var p=dparts(s);return p.d+' '+MON[p.m].slice(0,3)+' '+p.y;}
+function iso(s){return new Date(Math.round((s-25569)*864e5)).toISOString().slice(0,10);}
+function fromIso(v){if(!v)return null;var p=v.split('-');return Date.UTC(+p[0],+p[1]-1,+p[2])/864e5+25569;}
+function n0(v){return Math.round(v).toLocaleString('en-US');}
+function tons(kg){var t=kg/1000;return Math.abs(t)>=100?n0(t):t.toLocaleString('en-US',{maximumFractionDigits:1,minimumFractionDigits:1});}
+function periodKey(s,per){
+  if(per==='day')return s;
+  var p=dparts(s);
+  if(per==='month')return Date.UTC(p.y,p.m,1)/864e5+25569;
+  var wd=new Date(Math.round((s-25569)*864e5)).getUTCDay();return s-((wd+6)%7);
+}
+function periodEnd(k,per){
+  if(per==='day')return k;if(per==='week')return k+6;
+  var p=dparts(k);return Date.UTC(p.y,p.m+1,0)/864e5+25569;
+}
+function periodLabel(k,per){var p=dparts(k);return per==='month'?MON[p.m].slice(0,3)+' '+p.y:p.d+' '+MON[p.m].slice(0,3);}
+var GROUPS=[
+ {name:'Fabric Delivery Completed',cls:'gc',subs:[
+   {name:'Bulk',cols:[['Bookings','c.bn'],['Gmt PCS','c.bp'],['Fabric kgs','c.bk']]},
+   {name:'Additional & Drop',cols:[['Bookings','c.an'],['Fabric kgs','c.ak']]},
+   {name:'SMS',cols:[['Bookings','c.sn'],['Fabric kgs','c.sk']]}]},
+ {name:'≥90% Fabric Delivery Completed',cls:'gu',subs:[
+   {name:'Bulk',cols:[['Bookings','u.bn'],['Gmt PCS','u.bp'],['Fabric kgs','u.bk']]},
+   {name:'Additional & Drop',cols:[['Bookings','u.an'],['Fabric kgs','u.ak']]},
+   {name:'SMS',cols:[['Bookings','u.sn'],['Fabric kgs','u.sk']]}]},
+ {name:'Total Delivered',cls:'gt',subs:[{name:'All orders',cols:[['Gmt PCS','tp'],['Fabric kgs','tk']]}]}
+];
+function getv(b,path){var p=path.split('.');return p.length===2?b[p[0]][p[1]]:b[p[0]];}
+function narrative(sm,dropInBulk,lo,hi){
+  var T=sm.T,cKg=T.c.bk+T.c.ak+T.c.sk,uKg=T.u.bk+T.u.ak+T.u.sk,out={lo:lo,hi:hi};
+  out.title=lo!=null&&hi!=null?'Report Based On Fabric Delivery Completion Between '+dlong(lo)+' To '+dlong(hi):'Report Based On Fabric Delivery Completion';
+  out.lines=[
+   'Dear Sir,',
+   (hi!=null?'As of '+dlong(hi)+', we':'We')+' have completed '+n0(T.c.bn)+' fabric bookings, along with '+n0(T.c.an)+' additional & drop bookings and '+n0(T.c.sn)+' SMS bookings.',
+   'Key Delivery Highlights:',
+   '• Fabric Delivered (completed bookings): '+tons(cKg)+' Tons',
+   '• Garments Quantity (ERP): '+(T.c.bp/1e6).toFixed(1)+' Million PCS ('+(dropInBulk?'Bulk bookings including Drop pcs':'Bulk bookings, excluding additional & drop')+')',
+   '• Additionally, Over 90% Delivery Completed Bookings ('+n0(T.u.bn+T.u.an+T.u.sn)+'): '+tons(uKg)+' Tons of fabric against '+n0(T.u.bp)+' garment pcs',
+   'Total Fabric Delivered: '+tons(T.tk)+' Tons.'];
+  return out;
+}
+/* ==UI== */
+var S={fileMin:null,fileMax:null,rows:[],name:'',status:'all',types:TYPES.slice(),buyers:[],from:null,to:null,dropInBulk:true,per:'week',sort:{k:'buyer',dir:1}};
+var CH={};
+function $(id){return root.getElementById(id);}
+function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
+function fsz(n){return n>=1048576?(n/1048576).toFixed(2)+' MB':(n/1024).toFixed(1)+' KB';}
+function acceptClosureSource(source){
+  var meta=source.meta||{},rows=Array.isArray(source.rows)?source.rows:[];
+  S.rows=rows;S.name=meta.fileName||'';resetFilters(true);
+  rows.forEach(function(r){if(r.date!=null){S.fileMin=S.fileMin==null?r.date:Math.min(S.fileMin,r.date);S.fileMax=S.fileMax==null?r.date:Math.max(S.fileMax,r.date);}});
+  $('fileLine').textContent=rows.length?S.name+' • '+rows.length.toLocaleString()+' orders • Updated '+(meta.uploadedAt?new Date(meta.uploadedAt).toLocaleString():'—'):'No shared source uploaded';
+  $('empty').classList.toggle('hide',!!rows.length);$('app').classList.toggle('hide',!rows.length);
+  $('actBtns').style.display=rows.length?'':'none';
+  $('goUpload').classList.toggle('hide',!canAccess('data'));
+  if(rows.length){buildBuyerList();render();}
+}
+function resetFilters(keepDrop){
+  S.status='all';S.types=TYPES.slice();S.buyers=[];S.from=null;S.to=null;
+  $('dFrom').value='';$('dTo').value='';$('bq').value='';
+  if(!keepDrop){render();}
+}
+function dateLo(){return S.from!=null?S.from:S.fileMin;}
+function dateHi(){return S.to!=null?S.to:S.fileMax;}
+function F(){return {status:S.status,types:S.types,buyers:S.buyers,from:S.from,to:S.to};}
+function buildBuyerList(){
+  var names=Array.from(new Set(S.rows.map(function(r){return r.buyer;}))).sort(function(a,b){return a.localeCompare(b);});
+  var q=$('bq').value.trim().toLowerCase();
+  $('bList').innerHTML=names.filter(function(n){return !q||n.toLowerCase().indexOf(q)>=0;}).map(function(n){
+    return '<label><input type="checkbox" data-b="'+esc(n)+'"'+(S.buyers.indexOf(n)>=0?' checked':'')+'> '+esc(n)+'</label>';}).join('');
+}
+function toggle(arr,v){var i=arr.indexOf(v);if(i>=0)arr.splice(i,1);else arr.push(v);}
+function focusType(t){
+  if(S.types.length===TYPES.length)S.types=[t];
+  else{toggle(S.types,t);if(!S.types.length)S.types=TYPES.slice();}
+}
+function render(){
+  var rows=filterRows(S.rows,F()),sm=summarize(rows,S.dropInBulk),T=sm.T;
+  /* controls */
+  root.querySelectorAll('[data-s]').forEach(function(b){b.classList.toggle('on',b.dataset.s===S.status);});
+  $('typeChips').querySelectorAll('.chip').forEach(function(b){b.classList.toggle('on',S.types.indexOf(b.dataset.t)>=0&&S.types.length<TYPES.length);});
+  root.querySelectorAll('[data-per]').forEach(function(b){b.classList.toggle('on',b.dataset.per===S.per);});
+  $('buyerBtn').textContent=(S.buyers.length?S.buyers.length+' buyer'+(S.buyers.length>1?'s':''):'All buyers')+' ▾';
+  $('buyerBtn').classList.toggle('on',S.buyers.length>0);
+  /* cards */
+  var cKg=T.c.bk+T.c.ak+T.c.sk,uKg=T.u.bk+T.u.ak+T.u.sk,tot=T.tk||1;
+  var top=sm.list.slice().sort(function(a,b){return b.tk-a.tk;})[0];
+  var kgpp=T.c.bp?(T.c.bk/T.c.bp):0;
+  var cards=[
+   ['Total fabric delivered',tons(T.tk)+' <small>Tons</small>','Completed '+tons(cKg)+' T • ≥90% '+tons(uKg)+' T','#3451b2','<div class="bar2"><i style="width:'+(cKg/tot*100)+'%;background:#3451b2"></i><i style="width:'+(uKg/tot*100)+'%;background:#e0a526"></i></div>',null],
+   ['Bookings in view',n0(rows.length),n0(rows.filter(function(r){return r.status==='C';}).length)+' complete • '+n0(rows.filter(function(r){return r.status==='U';}).length)+' at ≥90%','#171f3d','',null],
+   ['Bulk garments',(T.c.bp/1e6).toFixed(2)+' <small>M pcs</small>',n0(T.c.bn)+' bulk bookings • '+kgpp.toFixed(3)+' kg per pc','#3451b2','',null],
+   ['Additional & Drop',n0(T.c.an+T.u.an)+' <small>bookings</small>',tons(T.c.ak+T.u.ak)+' Tons of fabric','#e0a526','',null],
+   ['SMS',n0(T.c.sn+T.u.sn)+' <small>bookings</small>',tons(T.c.sk+T.u.sk)+' Tons • '+n0(T.c.sp+T.u.sp)+' pcs','#0f766e','',null],
+   ['≥90% delivered',n0(T.u.bn+T.u.an+T.u.sn)+' <small>bookings</small>',tons(uKg)+' Tons • '+n0(T.u.bp)+' bulk pcs','#e0a526','','U'],
+   ['Top buyer',top?esc(top.buyer):'—',top?tons(top.tk)+' Tons • '+(top.tk/tot*100).toFixed(1)+'% of total':'','#d6456b','',null]
+  ];
+  $('cards').innerHTML=cards.map(function(c){
+    var tag=c[5]?'button type="button" data-card="'+c[5]+'"':'div';
+    return '<'+tag+' class="kc" style="--k:'+c[3]+'"><span class="l">'+c[0]+'</span><span class="v'+(c[0]==='Top buyer'?' txt':'')+'">'+c[1]+'</span><span class="s">'+c[2]+'</span>'+c[4]+'</'+(c[5]?'button':'div')+'>';}).join('');
+  /* narrative + title */
+  var nr=narrative(sm,S.dropInBulk,dateLo(),dateHi());
+  $('repTitle').textContent=nr.title;
+  $('nar').innerHTML='<p>'+esc(nr.lines[0])+'</p><p>'+esc(nr.lines[1])+'</p><p><b>'+esc(nr.lines[2])+'</b></p><ul>'+nr.lines.slice(3,6).map(function(l){return '<li>'+esc(l.replace('• ',''))+'</li>';}).join('')+'</ul><p><b>'+esc(nr.lines[6])+'</b></p>';
+  S.nar=nr;
+  var ft=[];ft.push(S.status==='all'?'All statuses':S.status==='C'?'Complete':'≥90% complete');
+  if(S.types.length<TYPES.length)ft.push(S.types.join(', '));
+  if(S.buyers.length)ft.push(S.buyers.length+' buyer(s): '+S.buyers.slice(0,6).join(', ')+(S.buyers.length>6?'…':''));
+  if(S.from!=null||S.to!=null)ft.push('Completed '+(S.from!=null?dshort(S.from):'start')+' – '+(S.to!=null?dshort(S.to):'latest'));
+  $('ptxt').textContent='Filters: '+ft.join(' • ');
+  /* table */
+  drawTable(sm);
+  drawCharts(rows,sm);
+}
+function drawTable(sm){
+  var h1='<tr><th class="b" rowspan="3">Buyer</th>',h2='<tr>',h3='<tr>',colsDef=[];
+  GROUPS.forEach(function(g){
+    var span=g.subs.reduce(function(a,s){return a+s.cols.length;},0);
+    h1+='<th class="'+g.cls+'" colspan="'+span+'">'+g.name+'</th>';
+    g.subs.forEach(function(s){h2+='<th class="'+g.cls+'" colspan="'+s.cols.length+'">'+s.name+'</th>';
+      s.cols.forEach(function(c){colsDef.push(c);h3+='<th class="'+g.cls+'" data-k="'+c[1]+'">'+c[0]+(S.sort.k===c[1]?(S.sort.dir>0?' ▲':' ▼'):'')+'</th>';});});
+  });
+  $('th').innerHTML=h1+'</tr>'+h2+'</tr>'+h3+'</tr>';
+  var list=sm.list.slice();
+  list.sort(function(a,b){
+    if(S.sort.k==='buyer')return S.sort.dir*a.buyer.localeCompare(b.buyer);
+    return S.sort.dir*(getv(a,S.sort.k)-getv(b,S.sort.k));
+  });
+  function cell(v,isKg){return '<td'+(v?'':' class="z"')+'>'+(v?n0(v):'–')+'</td>';}
+  $('tb').innerHTML=list.map(function(b){
+    return '<tr data-b="'+esc(b.buyer)+'"'+(S.buyers.indexOf(b.buyer)>=0?' class="sel"':'')+'><td class="b">'+esc(b.buyer)+'</td>'+colsDef.map(function(c){return cell(getv(b,c[1]));}).join('')+'</tr>';}).join('')||'<tr><td class="b">No data for these filters</td></tr>';
+  $('tf').innerHTML='<tr><td class="b" style="background:#171f3d;color:#fff">Grand Total</td>'+colsDef.map(function(c){return '<td>'+n0(getv(sm.T,c[1]))+'</td>';}).join('')+'</tr>';
+}
+function tl(v){return v>=100?Math.round(v).toLocaleString('en-US'):v.toFixed(1);}
+/* draws tons on every stacked bar: segment values inside (when they fit) and the total at the end */
+var LBL={id:'tonLabels',afterDatasetsDraw:function(ch,a,o){
+  var horiz=ch.options.indexAxis==='y',ctx=ch.ctx,bars=[];
+  ch.data.datasets.forEach(function(ds,di){if(ds.type==='line')return;var m=ch.getDatasetMeta(di);if(!m.hidden)bars.push({ds:ds,m:m});});
+  var n=ch.data.labels.length,FONT='"Instrument Sans",system-ui,sans-serif';
+  ctx.save();
+  for(var i=0;i<n;i++){
+    var tot=0,edge=null,cx=null,ey=null,wid=0;
+    bars.forEach(function(b){
+      var el=b.m.data[i],v=+b.ds.data[i]||0;if(!el)return;
+      ey=el.y;cx=el.x;wid=horiz?el.height:el.width;
+      if(!v)return;tot+=v;
+      if(horiz){if(edge==null||el.x>edge)edge=el.x;}else{if(edge==null||el.y<edge)edge=el.y;}
+      var size=horiz?Math.abs(el.x-el.base):Math.abs(el.base-el.y);
+      if(o&&o.seg&&size>=(horiz?30:17)&&(horiz||wid>=44)){
+        ctx.fillStyle=b.ds.backgroundColor==='#e0a526'?'#171f3d':'#fff';ctx.font='600 10px '+FONT;ctx.textAlign='center';ctx.textBaseline='middle';
+        ctx.fillText(tl(v),horiz?(el.x+el.base)/2:el.x,horiz?el.y:(el.y+el.base)/2);
+      }
+    });
+    if(!tot||(!horiz&&wid<20))continue;
+    ctx.fillStyle='#171f3d';ctx.font='700 11px '+FONT;
+    if(horiz){ctx.textAlign='left';ctx.textBaseline='middle';ctx.fillText(tl(tot),edge+6,ey);}
+    else{ctx.textAlign='center';ctx.textBaseline='bottom';ctx.fillText(tl(tot),cx,edge-4);}
+  }
+  ctx.restore();}};
+function mkChart(id,cfg){if(CH[id]){CH[id].destroy();}CH[id]=new Chart($(id),cfg);}
+function drawCharts(rows,sm){
+  var base={responsive:true,maintainAspectRatio:false,animation:{duration:350},plugins:{tpChartValueLabels:{display:false},legend:{position:'bottom',labels:{boxWidth:12,font:{family:'Instrument Sans'}}}}};
+  /* trend (completed, dated) */
+  var per=S.per,agg={};
+  rows.forEach(function(r){if(r.status!=='C'||r.date==null)return;var k=periodKey(r.date,per),a=agg[k]=agg[k]||{n:0,Bulk:0,Add:0,Drop:0,SMS:0};a.n++;a[r.type]+=r.kg/1000;});
+  var ks=Object.keys(agg).map(Number).sort(function(a,b){return a-b;});
+  mkChart('cTrend',{plugins:[LBL],data:{labels:ks.map(function(k){return periodLabel(k,per);}),datasets:TYPES.map(function(t){return {type:'bar',label:t+' (T)',data:ks.map(function(k){return +agg[k][t].toFixed(1);}),backgroundColor:TCOL[t],stack:'s',yAxisID:'y',borderRadius:2,order:1};}).concat([{type:'line',order:0,label:'Bookings',data:ks.map(function(k){return agg[k].n;}),borderColor:'#171f3d',backgroundColor:'#171f3d',tension:.25,pointRadius:ks.length>60?0:3,borderWidth:2,yAxisID:'y1'}])},
+    options:Object.assign({},base,{layout:{padding:{top:20}},plugins:Object.assign({},base.plugins,{tonLabels:{seg:true}}),interaction:{mode:'index',intersect:false},scales:{x:{stacked:true,grid:{display:false},ticks:{maxRotation:0,autoSkip:true,maxTicksLimit:14}},y:{stacked:true,grace:'6%',title:{display:true,text:'Tons'},grid:{color:'#eef0f6'}},y1:{position:'right',grid:{display:false},title:{display:true,text:'Bookings'}}},
+      onClick:function(e,els){if(!els.length)return;var k=ks[els[0].index];S.from=k;S.to=periodEnd(k,per);$('dFrom').value=iso(S.from);$('dTo').value=iso(S.to);render();}})});
+  /* top buyers */
+  var tb=sm.list.slice().sort(function(a,b){return b.tk-a.tk;}).slice(0,10);
+  mkChart('cBuy',{type:'bar',plugins:[LBL],data:{labels:tb.map(function(b){return b.buyer;}),datasets:[
+    {label:'Bulk (T)',data:tb.map(function(b){return +((b.c.bk+b.u.bk)/1000).toFixed(1);}),backgroundColor:TCOL.Bulk},
+    {label:'Additional & Drop (T)',data:tb.map(function(b){return +((b.c.ak+b.u.ak)/1000).toFixed(1);}),backgroundColor:TCOL.Add},
+    {label:'SMS (T)',data:tb.map(function(b){return +((b.c.sk+b.u.sk)/1000).toFixed(1);}),backgroundColor:TCOL.SMS}]},
+    options:Object.assign({},base,{indexAxis:'y',layout:{padding:{right:44}},plugins:Object.assign({},base.plugins,{tonLabels:{seg:false}}),scales:{x:{stacked:true,grid:{color:'#eef0f6'},title:{display:true,text:'Tons'}},y:{stacked:true,grid:{display:false}}},
+      onClick:function(e,els){if(els.length){toggle(S.buyers,tb[els[0].index].buyer);buildBuyerList();render();}}})});
+}
+async function exportXlsx(){
+  var rows=filterRows(S.rows,F()),sm=summarize(rows,S.dropInBulk),nr=narrative(sm,S.dropInBulk,dateLo(),dateHi());
+  await ensureOrderClosureExcelJS();
+  var wb=new ExcelJS.Workbook(),ws=wb.addWorksheet('Summary',{views:[{showGridLines:false}]});
+  var thin={style:'thin',color:{argb:'FF9AA4C7'}},bd={top:thin,left:thin,bottom:thin,right:thin};
+  var cols=[];GROUPS.forEach(function(g){g.subs.forEach(function(s){s.cols.forEach(function(c){cols.push(c);});});});
+  var last=cols.length+2;
+  ws.getColumn(1).width=2;ws.getColumn(2).width=26;for(var i=3;i<=last;i++)ws.getColumn(i).width=13;
+  ws.mergeCells(1,2,1,last);var t=ws.getCell(1,2);t.value=nr.title;t.font={bold:true,size:13};t.alignment={horizontal:'center'};ws.getRow(1).height=22;
+  var tone={gc:'FFE8EDFB',gu:'FFFDF3DC',gt:'FFE1F3F0'};
+  var c=3;ws.mergeCells(2,2,4,2);ws.getCell(2,2).value='Buyer';
+  GROUPS.forEach(function(g){
+    var span=g.subs.reduce(function(a,s){return a+s.cols.length;},0);
+    ws.mergeCells(2,c,2,c+span-1);ws.getCell(2,c).value=g.name;
+    g.subs.forEach(function(s){ws.mergeCells(3,c,3,c+s.cols.length-1);ws.getCell(3,c).value=s.name;
+      s.cols.forEach(function(cc){ws.getCell(4,c).value=cc[0];c++;});});
+  });
+  for(var r=2;r<=4;r++)for(var k=2;k<=last;k++){var cell=ws.getCell(r,k),gi=0;
+    var gk=k<3?null:(k-3<7?'gc':k-3<14?'gu':'gt');cell.font={bold:true,size:10};cell.alignment={horizontal:'center',vertical:'middle',wrapText:true};cell.border=bd;
+    cell.fill={type:'pattern',pattern:'solid',fgColor:{argb:gk?tone[gk]:'FFFFFFFF'}};}
+  var list=sm.list.slice().sort(function(a,b){return a.buyer.localeCompare(b.buyer);}),rr=5;
+  list.concat([sm.T]).forEach(function(b,ix){
+    var row=ws.getRow(rr++);row.getCell(2).value=b.buyer;
+    cols.forEach(function(cc,j){row.getCell(3+j).value=Math.round(getv(b,cc[1])*10)/10;row.getCell(3+j).numFmt='#,##0';});
+    for(var k=2;k<=last;k++){var x=row.getCell(k);x.border=bd;x.font={size:10,bold:b===sm.T};if(k>2)x.alignment={horizontal:'right'};if(b===sm.T)x.fill={type:'pattern',pattern:'solid',fgColor:{argb:'FFD9DEEF'}};}
+  });
+  rr++;nr.lines.forEach(function(l,i){ws.mergeCells(rr,2,rr,last);var x=ws.getCell(rr,2);x.value=l;x.alignment={wrapText:true,vertical:'top'};x.font={size:10.5,bold:(i===2||i===6)};rr++;});
+  ws.mergeCells(rr+1,2,rr+1,last);ws.getCell(rr+1,2).value='Filters: '+$('ptxt').textContent.replace('Filters: ','');ws.getCell(rr+1,2).font={italic:true,size:9,color:{argb:'FF5F6784'}};
+  return wb.xlsx.writeBuffer().then(function(buf){
+    var a=document.createElement('a');a.href=URL.createObjectURL(new Blob([buf],{type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'}));
+    a.download='Close Order Summary.xlsx';document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(a.href);},4000);
+  });
+}
+function exportXlsb(){
+  var rows=filterRows(S.rows,F());
+  var aoa=[['Work Order','Buyer','Order Type','Status','Completion Date','Type','Gmts (Pcs)','Delivered']].concat(rows.map(function(r){return [r.wo,r.buyer,r.ot,r.status==='C'?'COMPLETE':'URGENT',r.date,r.type,r.pcs,r.kg];}));
+  var ws=XLSX.utils.aoa_to_sheet(aoa);
+  for(var i=2;i<=aoa.length;i++){
+    if(ws['E'+i]&&typeof ws['E'+i].v==='number')ws['E'+i].z='d-mmm-yy';
+    if(ws['G'+i])ws['G'+i].z='#,##0';
+    if(ws['H'+i])ws['H'+i].z='#,##0.0';
+  }
+  ws['!cols']=[18,26,11,11,14,8,11,11].map(function(w){return {wch:w};});
+  var wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,'Order list');
+  var buf=XLSX.write(wb,{bookType:'xlsb',type:'array',bookSST:true,compression:true});
+  var a=document.createElement('a');a.href=URL.createObjectURL(new Blob([buf],{type:'application/vnd.ms-excel.sheet.binary.macroEnabled.12'}));
+  a.download='Close Order Details.xlsb';document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(a.href);},4000);
+}
+/* wiring */
+(function(){
+  TYPES.forEach(function(t){var b=document.createElement('button');b.className='chip t-'+t;b.dataset.t=t;b.textContent=t==='Add'?'Add (Additional)':t;$('typeChips').appendChild(b);});
+  var rt=document.createElement('button');rt.className='chip';rt.textContent='All types';rt.onclick=function(){S.types=TYPES.slice();render();};$('typeChips').appendChild(rt);
+  $('typeChips').addEventListener('click',function(e){var b=e.target.closest('[data-t]');if(b){focusType(b.dataset.t);render();}});
+  root.querySelectorAll('[data-s]').forEach(function(b){b.onclick=function(){S.status=b.dataset.s;render();};});
+  root.querySelectorAll('[data-per]').forEach(function(b){b.onclick=function(){S.per=b.dataset.per;render();};});
+  $('cards').addEventListener('click',function(e){var b=e.target.closest('[data-card]');if(b){S.status=S.status===b.dataset.card?'all':b.dataset.card;render();}});
+  $('dFrom').onchange=function(){S.from=fromIso($('dFrom').value);render();};
+  $('dTo').onchange=function(){S.to=fromIso($('dTo').value);render();};
+  root.querySelectorAll('[data-p]').forEach(function(b){b.onclick=function(){
+    var ds=S.rows.filter(function(r){return r.date!=null;}).map(function(r){return r.date;});if(!ds.length)return;
+    var hi=ds.reduce(function(a,b){return Math.max(a,b);},-Infinity),p=b.dataset.p;
+    if(p==='all'){S.from=null;S.to=null;}
+    else if(p==='m'){var q=dparts(hi);S.from=Date.UTC(q.y,q.m,1)/864e5+25569;S.to=hi;}
+    else{S.from=hi-(+p)+1;S.to=hi;}
+    $('dFrom').value=S.from!=null?iso(S.from):'';$('dTo').value=S.to!=null?iso(S.to):'';render();};});
+  $('dropChk').onchange=function(){S.dropInBulk=$('dropChk').checked;render();};
+  $('resetBtn').onclick=function(){resetFilters(false);buildBuyerList();};
+  $('buyerBtn').onclick=function(e){e.stopPropagation();$('buyerPanel').classList.toggle('hide');};
+  root.addEventListener('click',function(e){if(!e.target.closest('.dd'))$('buyerPanel').classList.add('hide');});
+  $('bq').oninput=buildBuyerList;
+  $('bList').addEventListener('change',function(e){var n=e.target.dataset.b;if(n!=null){toggle(S.buyers,n);render();}});
+  $('bAll').onclick=function(){S.buyers=Array.from(new Set(S.rows.map(function(r){return r.buyer;})));buildBuyerList();render();};
+  $('bNone').onclick=function(){S.buyers=[];buildBuyerList();render();};
+  $('tb').addEventListener('click',function(e){var tr=e.target.closest('tr[data-b]');if(tr){toggle(S.buyers,tr.dataset.b);buildBuyerList();render();}});
+  $('th').addEventListener('click',function(e){var th=e.target.closest('th');if(!th)return;var k=th.dataset.k||(th.classList.contains('b')?'buyer':null);if(!k)return;
+    S.sort=S.sort.k===k?{k:k,dir:-S.sort.dir}:{k:k,dir:k==='buyer'?1:-1};render();});
+  $('printBtn').onclick=function(){window.print();};
+  function exportAction(id,fn){return async function(){var btn=$(id);btn.disabled=true;$('exportStatus').textContent='';try{await fn();}catch(e){$('exportStatus').textContent='Export failed: '+(e.message||e);}finally{btn.disabled=false;}};}
+  $('xlsBtn').onclick=exportAction('xlsBtn',exportXlsx);$('xlsbBtn').onclick=exportAction('xlsbBtn',exportXlsb);
+  $('goUpload').onclick=function(){if(canAccess('data')){state.tab='data';renderDashboardFromClosure();document.getElementById('dmClosureSection')?.scrollIntoView({block:'start'});}};
+  $('copyBtn').onclick=function(){var t=S.nar.title+'\n\n'+S.nar.lines.join('\n');function done(){$('copyBtn').textContent='Copied';setTimeout(function(){$('copyBtn').textContent='Copy text';},1500);}function fallback(){var a=document.createElement('textarea');a.value=t;document.body.appendChild(a);a.select();try{if(document.execCommand('copy')){done();a.remove();return;}}catch(_){}a.remove();window.prompt('Copy covering note:',t);}if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(t).then(done,fallback);else fallback();};
+})();
+acceptClosureSource(source);
+return function(){Object.keys(CH).forEach(function(k){CH[k].destroy();});CH={};};
+
+}
+function renderOrderClosure(){
+  metricCardSet([]);
+  if(!canAccess('order_closure')){$('#content').innerHTML='<div class="alert">Order Closure access not assigned.</div>';return;}
+  const topics=['Total fabric delivered','Bookings in view','Bulk garments','Additional & Drop','SMS','≥90% delivered','Top buyer','Completion trend (Tons)','Top 10 buyers by fabric (Tons)','Covering note','Buyer-wise summary'];
+  if(state.daysSetupUI)state.daysSetupUI.topicRegistry.order_closure=topics;
+  $('#content').innerHTML='<div class="order-closure-page" id="orderClosureHost"></div>';
+  const host=$('#orderClosureHost'),root=host.attachShadow({mode:'open'});
+  host.style.setProperty('--oc-sticky-top',($('.app-sticky-header')?.offsetHeight||0)+'px');
+  root.innerHTML=ORDER_CLOSURE_MARKUP;
+  orderClosureDispose=mountOrderClosure(root,state.data?.orderClosure||{rows:[],meta:{}});
+}
+
 function renderData(){
   metricCardSet([]);
   const d=state.data||{},df=d.departmentFiles||{},ott=d.ottSources||{},lockDetails=d.lockPlanDetails||{},pmcUrgent=d.pmcUrgent||{},dailySummary=d.dailySummary||{},p=effectivePermissions();
@@ -8762,6 +9194,8 @@ function renderData(){
   const lockSource=sourceCard({perm:'upload_lock_details',title:'Lock Plan Details',group:'ops',icon:'LP',workbook:'Lock Plan Details.xlsx',sheets:'Sheet: Data • detailed Start/End event source',maxMb:MAX_LOCK_PLAN_DETAILS_MB,inputId:'lockPlanDetailsFileInput',buttonId:'lockPlanDetailsUploadBtn',statusId:'lockPlanDetailsUploadStatus',buttonText:'Upload / Replace',fileName:lockDetailMeta.fileName,updated:lockDetailMeta.uploadedAt,periodText:period(lockDetailMeta),loaded:!!(lockDetailMeta.fileName||(lockDetails.events||[]).length),pills:[`${(lockDetailMeta.eventRows||0).toLocaleString()} events`,`${(lockDetailMeta.bookings||0).toLocaleString()} bookings`],note:`Feeds Lock Plan Details boards + automatically generates Lock Plan OTT.${lockDetailMeta.actualTo?` Actual data through ${lockDetailMeta.actualTo}.`:''}`});
   const pmcUrgentSource=sourceCard({perm:'upload_pmc_urgent',title:'PMC1 Urgent Data',group:'ops',icon:'PMC',workbook:'PMC1_Urgent_Filtered_Export.xlsx',sheets:'Sheet: PMC1_Urgent • booking/batch operational detail',maxMb:MAX_PMC_URGENT_MB,inputId:'pmcUrgentFileInput',buttonId:'pmcUrgentUploadBtn',statusId:'pmcUrgentUploadStatus',buttonText:'Upload / Replace',fileName:pmcUrgentMeta.fileName,updated:pmcUrgentMeta.uploadedAt,periodText:period(pmcUrgentMeta),loaded:!!(pmcUrgentMeta.fileName||(pmcUrgent.rows||[]).length),pills:[`${(pmcUrgentMeta.rows||0).toLocaleString()} rows`,`${(pmcUrgentMeta.bookings||0).toLocaleString()} bookings`,`${(pmcUrgentMeta.batches||0).toLocaleString()} batches`],note:'Used by Event Detail → Details popup. Matching is by Booking No.'});
 
+  const closureMeta=d.orderClosure?.meta||{},closureRows=d.orderClosure?.rows||[];
+  const closureSource=sourceCard({perm:'upload_order_closure',title:'Order Closure Updates',group:'ops',icon:'OC',workbook:'Close Order GMT & Delivery Status.xlsb',sheets:'Output file • Work Order, Buyer, Status, Completion Date, Type, Gmts (Pcs), Delivered, Order Type',maxMb:MAX_ORDER_CLOSURE_MB,inputId:'orderClosureFileInput',buttonId:'orderClosureUploadBtn',statusId:'orderClosureUploadStatus',buttonText:'Upload / Replace',fileName:closureMeta.fileName,updated:closureMeta.uploadedAt,periodText:period(closureMeta),loaded:!!closureRows.length,pills:[`${closureRows.length.toLocaleString()} orders`,`${closureMeta.buyers||0} buyers`,`${closureMeta.complete||0} complete`,`${closureMeta.urgent||0} urgent`],note:'Shared saved source for Order Closure Updates; replaces only this source.'});
   const loadedKpi=kpiSources.filter(x=>x.includes('data-loaded="1"')).length;
   const loadedOtt=ottSources.filter(x=>x.includes('data-loaded="1"')).length;
   const loadedOps=[dailySource,lockSource,pmcUrgentSource].filter(x=>x&&x.includes('data-loaded="1"')).length;
@@ -8783,8 +9217,10 @@ function renderData(){
   const ottSection=section('dmOttSection','ott','OTT Board Data','Four direct OTT uploads + Lock Plan OTT automatically extracted from Lock Plan Details + Overall OTT.',ottCardsForSection,`${loadedOtt}/5 ready`);
   const opsSection=section('dmOpsSection','ops','Daily & Lock Plan Data','Operational daily production and detailed Lock Plan event sources.',opsCards,`${loadedOps}/${opsCards.length} loaded`);
 
-  const visibleTotal=kpiSources.length+ottSources.length+opsCards.length;
-  const loadedTotal=loadedKpi+loadedOtt+loadedOps;
+  const closureCards=[closureSource].filter(Boolean),loadedClosure=closureRows.length&&closureSource?1:0;
+  const closureSection=section('dmClosureSection','ops','Order Closure Updates','Shared completion and delivery status workbook.',closureCards,`${loadedClosure}/${closureCards.length} loaded`);
+  const visibleTotal=kpiSources.length+ottSources.length+opsCards.length+closureCards.length;
+  const loadedTotal=loadedKpi+loadedOtt+loadedOps+loadedClosure;
   const permissionsCount=DATA_UPLOAD_PERMISSION_KEYS.filter(k=>uploadAllowed(k)).length;
 
   $('#content').innerHTML=`<div class="dm-shell">
@@ -8795,6 +9231,7 @@ function renderData(){
         ${kpiSources.length?`<button class="dm-nav-btn active" data-dm-target="dmKpiSection"><span>KPI Board</span><b>${kpiSources.length}</b></button>`:''}
         ${ottSources.length?`<button class="dm-nav-btn" data-dm-target="dmOttSection"><span>OTT Board</span><b>${ottSources.length}</b></button>`:''}
         ${opsCards.length?`<button class="dm-nav-btn" data-dm-target="dmOpsSection"><span>Daily & Lock Plan</span><b>${opsCards.length}</b></button>`:''}
+        ${closureCards.length?`<button class="dm-nav-btn" data-dm-target="dmClosureSection"><span>Order Closure Updates</span><b>${closureCards.length}</b></button>`:''}
       </nav>
       <div class="dm-side-filter">
         <span>Source status</span>
@@ -8816,7 +9253,7 @@ function renderData(){
         </div>
       </div>
       ${!visibleTotal?'<div class="alert">No data source access has been assigned to this user.</div>':''}
-      ${kpiSection}${ottSection}${opsSection}
+      ${kpiSection}${ottSection}${opsSection}${closureSection}
     </main>
   </div>`;
 
@@ -8836,6 +9273,8 @@ function renderData(){
   bind('ottDeliveryUploadBtn','upload_ott_delivery',()=>handleOTTUpload('ott_delivery','ottDeliveryFileInput','ottDeliveryUploadStatus'));
   bind('lockPlanDetailsUploadBtn','upload_lock_details',handleLockPlanDetailsUpload);
   bind('pmcUrgentUploadBtn','upload_pmc_urgent',handlePmcUrgentUpload);
+  const closureInput=$('#orderClosureFileInput');if(closureInput)closureInput.accept='.xlsb,.xlsx,.xls,.xlsm,.csv';
+  bind('orderClosureUploadBtn','upload_order_closure',handleOrderClosureUpload);
 
   let healthMode='all';
   const applyDmFilters=()=>{
@@ -8879,11 +9318,12 @@ function renderKpiToolbarHeading(tab){
 function render(){
   if(!state.data)return;
   if(state.tab!=='supabase_monitor')stopSupabaseMonitorTimer();
+  if(orderClosureDispose){orderClosureDispose();orderClosureDispose=null;}
   destroyCharts();applyMenuPermissions();syncBuyerOptions(false);
   const isOtt=OTT_TABS.includes(state.tab),isKpi=KPI_TABS.includes(state.tab),
         isLockDetails=['lock_board','lock_event'].includes(state.tab),isDaily=state.tab==='daily_summary',
         isMonitor=state.tab==='supabase_monitor',isDays=state.tab==='days_setup',
-        special=['data','days_setup','converter','users','supabase_monitor'].includes(state.tab)||isOtt||isLockDetails||isDaily;
+        special=['data','days_setup','converter','order_closure','users','supabase_monitor'].includes(state.tab)||isOtt||isLockDetails||isDaily;
   $('.toolbar').classList.toggle('hidden',special);$('#exportBtn').classList.toggle('hidden',special||isKpi);
   const isOverview=state.tab==='overview';
   $('.toolbar')?.classList.toggle('overview-toolbar',isOverview);
@@ -8907,7 +9347,7 @@ function render(){
     overview:renderOverview,dyeing:renderDyeing,knitting:renderKnitting,finishing:renderFinishing,delivery:renderDelivery,yarn:renderYarnDyeing,chemical:renderChemicalLab,etl:renderETL,
     ott_yarn:()=>renderOTTDept('ott_yarn'),ott_knitting:()=>renderOTTDept('ott_knitting'),ott_dyeing:()=>renderOTTDept('ott_dyeing'),ott_delivery:()=>renderOTTDept('ott_delivery'),ott_lock:()=>renderOTTDept('ott_lock'),ott_booking:renderOTTBooking,ott_overall:renderOTTOverall,
     lock_board:renderLockPlanDetailsBoard,lock_event:renderLockPlanEventDetail,daily_summary:renderDailySummary,
-    data:renderData,days_setup:renderDaysSetup,converter:renderConverterStudio,supabase_monitor:renderSupabaseMonitor,users:renderUsers
+    data:renderData,days_setup:renderDaysSetup,converter:renderConverterStudio,order_closure:renderOrderClosure,supabase_monitor:renderSupabaseMonitor,users:renderUsers
   };
   if(isKpi)renderKpiToolbarHeading(state.tab);else renderKpiToolbarHeading(null);
   (fns[state.tab]||renderOverview)();
@@ -9152,7 +9592,7 @@ const sb=supabase.createClient(window.APP_CONFIG.SUPABASE_URL,window.APP_CONFIG.
 const DASHBOARD_SOURCE_ROWS={
   main:1,daily:2,
   dyeing:10,knitting:11,finishing:12,delivery:13,yarn:14,chemical:15,etl:16,targets:17,
-  ott_yarn:20,ott_knitting:21,ott_dyeing:22,ott_delivery:23,ott_lock:24,lock_details:25,pmc_urgent:26,days_setup:27
+  ott_yarn:20,ott_knitting:21,ott_dyeing:22,ott_delivery:23,ott_lock:24,lock_details:25,pmc_urgent:26,days_setup:27,order_closure:28
 };
 const DASHBOARD_SOURCE_IDS=Object.values(DASHBOARD_SOURCE_ROWS);
 function dashboardSourceRowId(key){return DASHBOARD_SOURCE_ROWS[key]||null}
@@ -9226,7 +9666,7 @@ async function saveDashboardSource(key,fileName,payload,now=new Date().toISOStri
 function emptyDashboardData(){
   return{
     sheets:Object.fromEntries([...REQUIRED_SHEETS,...DYEING_SHEETS,...KNITTING_SHEETS,...FINISHING_SHEETS,...DELIVERY_SHEETS,...YARN_DYEING_SHEETS,...CHEMICAL_LAB_SHEETS,...ETL_SHEETS].map(s=>[s,[]])),
-    departmentFiles:{},targets:[],ottSources:{},lockPlanDetails:{events:[],meta:{}},pmcUrgent:{rows:[],meta:{}},dailySummary:{rows:[],meta:{}},daysSetup:{rows:[],meta:{}},
+    departmentFiles:{},targets:[],ottSources:{},lockPlanDetails:{events:[],meta:{}},pmcUrgent:{rows:[],meta:{}},dailySummary:{rows:[],meta:{}},daysSetup:{rows:[],meta:{}},orderClosure:{rows:[],meta:{}},
     fileName:'No workbook uploaded',uploadedAt:null
   }
 }
@@ -9240,6 +9680,7 @@ function mergeDashboardSource(target,payload){
   if(payload.pmcUrgent)target.pmcUrgent=payload.pmcUrgent;
   if(payload.dailySummary)target.dailySummary=payload.dailySummary;
   if(payload.daysSetup)target.daysSetup=payload.daysSetup;
+  if(payload.orderClosure)target.orderClosure=payload.orderClosure;
   return target
 }
 
